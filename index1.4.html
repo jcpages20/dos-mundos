@@ -1,0 +1,671 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#243b55"><title>Dos Mundos · 1.4 Madrid rediseñado</title><style>
+*{box-sizing:border-box}body{margin:0;background:#162336;color:#f6efd9;font:15px system-ui,-apple-system,sans-serif}main{max-width:860px;margin:auto;padding:16px 12px 70px}h1{margin:4px 0;font-size:34px}h2{font-size:21px;margin:5px 0 10px}.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#cfe3a6}.panel{background:#253954;border:2px solid #5f7da0;box-shadow:0 5px 0 #0d1723;border-radius:14px;padding:14px;margin:12px 0}.hidden{display:none!important}p{line-height:1.45;color:#d9dfeb}label{display:block;margin:12px 0 5px}input,select{width:100%;padding:12px;border-radius:8px;border:1px solid #7894b7;background:#132036;color:#fff;font:inherit}button{border:0;border-bottom:3px solid #9c7a40;border-radius:9px;background:#e7be7e;color:#382915;padding:11px 12px;font:inherit;font-weight:800;touch-action:manipulation;cursor:pointer}button.alt{background:#4b6e99;border-bottom-color:#2d4d73;color:#fff}button.soft{background:#4b6b61;border-bottom-color:#29463d;color:#fff}button:disabled{opacity:.5}.full{width:100%;margin-top:12px}.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}.stat{background:#112033;border-radius:10px;padding:10px 4px;text-align:center;font-size:11px}.stat strong{display:block;font-size:17px}.tabs{display:flex;gap:8px;margin:12px 0}.tabs button{flex:1;padding:11px 6px;font-size:13px}.tabs button.active{background:#f6daa0}.avatarBox{display:grid;grid-template-columns:124px 1fr;gap:12px;align-items:center}#preview{width:120px;height:138px;border-radius:10px;background:#8ec7e0;image-rendering:pixelated}.swatches{display:flex;gap:8px;flex-wrap:wrap}.swatches button{padding:0;width:32px;height:32px;border-radius:8px;border:2px solid #fff;background:transparent}.swatches button.picked{outline:3px solid #f3e091}.worldWrap{border:3px solid #7190b0;border-radius:12px;overflow:hidden;background:#7ec2e0}.worldWrap canvas{display:block;width:100%;height:auto;image-rendering:pixelated;touch-action:manipulation}.status{background:#132237;padding:11px;min-height:46px;color:#f6dea8;font-size:13px}.controls{display:grid;grid-template-columns:repeat(3,64px);grid-template-rows:repeat(3,46px);gap:4px;justify-content:center;margin:12px auto}.controls button{font-size:23px;padding:4px}.controls .up{grid-area:1/2}.controls .left{grid-area:2/1}.controls .down{grid-area:2/2}.controls .right{grid-area:2/3}.controls .enter{grid-area:3/2;font-size:13px!important}.placeBtn{font-size:13px;padding:9px}.need{background:#18283d;border-radius:10px;padding:9px}.bar{height:10px;background:#0e1725;border-radius:999px;overflow:hidden;margin-top:5px}.fill{height:100%;background:#8cd0a9}.log{background:#132239;border-radius:10px;padding:12px;min-height:44px;margin-top:10px}.card{background:#18283d;border-radius:10px;padding:10px}.quest{background:#1b2e48;border-radius:10px;padding:10px;margin:6px 0}.quest.done{opacity:.55}.muted{font-size:12px;color:#cfd7e7}.mini{font-size:12px}.roomgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.roomtile{min-height:82px;border-radius:10px;background:#304a6d;border:2px solid #7f9dbb;padding:8px;text-align:center;font-size:12px}.roomtile span{display:block;font-size:30px}.tag{display:inline-block;padding:4px 8px;border-radius:999px;background:#132137;color:#f2dfa9;font-size:12px}.chips{display:flex;gap:6px;flex-wrap:wrap}.chips .tag{background:#314869;color:#fff}.hr{height:1px;background:#49617f;margin:12px 0}.sidePanel{display:grid;gap:12px}@media(min-width:720px){.worldCols{display:grid;grid-template-columns:1fr 250px;gap:12px}.worldCols .panel{margin:0}.sidePanel{position:sticky;top:10px}.controls{margin:12px auto 0}}
+
+/* 0.7.2: controles táctiles independientes y adaptados a iPhone */
+.controls{width:200px;max-width:100%;grid-template-columns:repeat(3,minmax(0,64px));grid-template-rows:repeat(3,48px);align-items:stretch;justify-content:center;margin:14px auto 10px}
+.controls button{width:100%;height:100%;min-width:0;min-height:0;line-height:1.2;white-space:nowrap;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.quick-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 0 16px}
+.quick-actions button{min-width:0;min-height:54px;white-space:normal;overflow-wrap:break-word;font-size:14px;padding:9px}
+@media(max-width:390px){.quick-actions{grid-template-columns:1fr}.quick-actions button{min-height:48px}}
+
+.interiorScene{border:3px solid #6f8dad;border-radius:12px;overflow:hidden;background:#8bb7cf;margin-bottom:12px}.interiorScene canvas{display:block;width:100%;height:auto;image-rendering:pixelated}.interiorMeta{display:grid;grid-template-columns:1fr;gap:10px}.npcList,.objectList{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.miniCard{background:#18283d;border-radius:10px;padding:10px;font-size:13px}.miniCard strong{display:block;margin-bottom:4px}.infoCols{display:grid;grid-template-columns:1fr;gap:10px}.roomActions button{white-space:normal}.roomActions{align-items:stretch}.roomActions button,.npcActionBtn{min-height:54px}.npcActionBtn{border:0;border-bottom:3px solid #35537c;border-radius:9px;background:#5579a7;color:#fff;padding:10px;font:inherit;font-weight:800;touch-action:manipulation;cursor:pointer}.npcActionBtn .small{display:block;font-weight:500;opacity:.9;font-size:12px}.sectionTitle{margin:10px 0 6px;font-size:17px}.interiorBadge{display:inline-block;padding:5px 9px;border-radius:999px;background:#4a6a93;color:#fff;font-size:12px;margin-right:6px}
+@media(min-width:720px){.interiorMeta{grid-template-columns:1.1fr .9fr}.infoCols{grid-template-columns:1fr 1fr}}
+
+
+.roomGuide{font-size:13px;line-height:1.45;background:#142943;padding:10px;border-radius:8px;color:#e5f1dd;margin:8px 0}.roomControls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:10px 0}.roomControls button{min-height:45px}.roomControls .miniBtn{font-size:19px;padding:8px 15px}.roomControls .roomExit{margin-left:auto}.roomCanvasWrap{position:relative}.roomCanvasWrap:after{content:'TOCA PARA MOVERTE O INTERACTUAR';position:absolute;right:9px;top:9px;background:#152942dd;color:#fff3d9;font-size:9px;padding:5px 7px;border-radius:4px;pointer-events:none}.roomHot{background:#314967;min-height:42px;border-radius:8px;padding:9px;font-size:13px;color:#fff1cb}.touchLead{display:flex;gap:8px;align-items:center;background:#10233c;border:1px solid #446182;color:#f7e6b8;padding:10px 12px;border-radius:10px;margin:10px 0}.touchLead strong{display:block;font-size:13px}.touchLead span{font-size:12px;color:#d5e3f1}.roomControls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0}.miniBtn{min-width:48px}.roomGuide{font-size:12px;color:#cdd9e7;background:#1c3049;padding:9px 10px;border-radius:8px}.ghostBtn{background:#304b6f;border-bottom-color:#223955;color:#fff}
+
+#interior .roomCanvasWrap{border:3px solid #8aafd0;box-shadow:0 8px 0 #14283b}
+#roomCanvas{image-rendering:pixelated;touch-action:manipulation}
+.gymNotice{font-size:12px;color:#c4d9e7;margin:7px 0}
+
+/* 1.3: compact mobile game presentation */
+main{max-width:860px;padding:8px 9px 40px}main>h1{font-size:22px;margin:1px 5px}main>.eyebrow{font-size:9px;margin:4px 5px}main>p{font-size:11px;margin:3px 5px 10px;line-height:1.25;color:#a8c2d6}.panel{padding:10px;margin:8px 0;border-radius:12px}#game>.panel:first-child{padding:8px;margin:6px 0 9px}#game>.panel:first-child .grid4 .stat{padding:6px 1px}#game>.panel:first-child .grid4 .stat strong{font-size:13px}#game>.panel:first-child #who{font-size:10px;margin:5px 0}.tabs{gap:5px;margin:5px 0}.tabs button{padding:7px 3px;font-size:11px}
+#interior{padding:9px;background:#1c2a40;border-color:#4d7794}.sceneBar{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:2px 0 8px}.sceneIdentity{flex:1;min-width:0}.sceneIdentity h2{margin:0;font-size:19px}.sceneIdentity span{display:block;font-size:10px;color:#b2c6d8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#exitTop{flex:0 0 auto;padding:9px 12px;font-size:13px;border-radius:8px}.roomCanvasWrap:after{content:'Toca objetos o personas';font-size:8px;right:5px;top:5px;padding:3px 5px}.roomGuide{padding:6px 9px;margin:5px 0;font-size:11px;line-height:1.2}.roomControls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr)) minmax(118px,1.4fr);gap:5px;margin:6px 0}.roomControls .miniBtn{font-size:17px;padding:8px 0;min-width:0;min-height:42px}.roomControls #roomInteract{font-size:12px;padding:8px 3px;min-width:0;min-height:42px}.roomHot{font-size:11px;line-height:1.25;padding:8px;min-height:0;margin:6px 0}.extras{background:#233652;border:1px solid #516b8c;border-radius:9px;margin-top:9px}.extras summary{cursor:pointer;list-style:none;padding:10px;font-size:13px;font-weight:800;color:#e9dab4}.extras summary::-webkit-details-marker{display:none}.extras[open] summary{border-bottom:1px solid #526985}.extras>.interiorMeta{padding:9px}.roomtile{min-height:65px}.roomtile span{font-size:22px}#roomCanvas{touch-action:manipulation}
+@media(min-width:720px){#interior{padding:14px}}
+</style></head><body><main>
+<div class="eyebrow">Una vida, dos historias · Versión 1.3 · personajes e interfaz</div>
+<h1>Dos Mundos 🏙️</h1>
+<p>Una ciudad, muchas vidas. Explora Madrid, conoce gente y crea tu historia.</p>
+
+<section id="setup" class="panel">
+  <h2>Crea tu personaje</h2>
+  <label for="name">Nombre</label>
+  <input id="name" maxlength="30" placeholder="Tu nombre" autocomplete="off">
+  <label for="district">Barrio inicial</label>
+  <select id="district"><option>Ciudad Lineal</option><option>Chamberí</option><option>Malasaña</option><option>Lavapiés</option><option>Retiro</option><option>Salamanca</option><option>La Latina</option><option>Carabanchel</option><option>Vallecas</option></select>
+  <label for="home">Vivienda inicial</label>
+  <select id="home"><option>Habitación compartida</option><option>Estudio pequeño</option><option>Piso compartido</option><option>Apartamento propio</option></select>
+  <div class="avatarBox">
+    <canvas id="preview" width="84" height="96"></canvas>
+    <div>
+      <label>Tono de piel</label><select id="skin"><option value="0">Claro</option><option value="1">Medio</option><option value="2">Moreno</option><option value="3">Oscuro</option></select>
+      <label>Peinado</label><select id="hair"><option value="0">Corto</option><option value="1">Largo</option><option value="2">Rizado</option><option value="3">Fade</option></select>
+      <label>Color de pelo</label><select id="hairColor"><option value="0">Negro</option><option value="1">Castaño</option><option value="2">Rubio</option><option value="3">Azulado</option></select>
+      <label>Ropa</label><select id="shirt"><option value="0">Verde</option><option value="1">Azul</option><option value="2">Roja</option><option value="3">Amarilla</option></select>
+      <label>Accesorio</label><select id="accessory"><option value="0">Sin accesorio</option><option value="1">Gafas</option><option value="2">Gorra</option><option value="3">Mochila</option></select>
+    </div>
+  </div>
+  <button id="start" class="full">Comenzar vida →</button>
+  <p id="setupError" class="log mini" aria-live="polite"></p>
+</section>
+
+<section id="game" class="hidden">
+  <div class="panel">
+    <div class="grid4">
+      <div class="stat">DÍA<strong id="day">1</strong></div>
+      <div class="stat">HORA<strong id="hour">08:00</strong></div>
+      <div class="stat">DINERO<strong id="money">350 €</strong></div>
+      <div class="stat">ZONA<strong id="zoneName">Barrio</strong></div>
+    </div>
+    <p id="who" class="muted"></p>
+    <div class="tabs">
+      <button class="active" data-tab="world">🗺️ Mundo</button>
+      <button data-tab="life">🧍 Mi vida</button>
+      <button data-tab="travel">🚉 Viajes</button>
+    </div>
+  </div>
+
+  <div id="world">
+    <div class="worldCols">
+      <div>
+        <h2 id="sceneTitle">Ciudad Lineal, Madrid</h2>
+        <div class="worldWrap"><canvas id="map" width="512" height="448"></canvas><div id="hint" class="status">Toca el suelo para moverte. Toca un edificio para entrar directamente.</div></div>
+        <div class="touchLead"><div>👆</div><div><strong>Control táctil recomendado</strong><span>Toca el mapa o el interior para moverte. Las flechas se quedan como apoyo.</span></div></div>
+        <div class="controls">
+          <button class="up" data-move="up" aria-label="Arriba">▲</button>
+          <button class="left" data-move="left" aria-label="Izquierda">◀</button>
+          <button class="down" data-move="down" aria-label="Abajo">▼</button>
+          <button class="right" data-move="right" aria-label="Derecha">▶</button>
+          <button class="enter" id="enter">Entrar</button>
+        </div>
+        <div class="quick-actions"><button id="goHome" class="soft">🏠 Ir a casa</button><button id="talkNearby" class="alt">💬 Hablar con vecino</button></div>
+      </div>
+      <div class="sidePanel">
+        <div class="panel">
+          <h2>Necesidades</h2>
+          <div id="needs"></div>
+        </div>
+        <div class="panel">
+          <h2>Lugares cercanos</h2>
+          <div id="places" class="grid2"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="interior" class="panel hidden">
+    <div class="sceneBar"><div class="sceneIdentity"><h2 id="roomTitle"></h2><span id="roomDesc"></span></div><button id="exitTop" class="alt" aria-label="Salir a la calle">↩ Calle</button></div>
+    <div class="hidden"><span id="roomTag"></span><span id="roomMood"></span></div>
+    <div class="interiorScene roomCanvasWrap"><canvas id="roomCanvas" width="512" height="320" aria-label="Interior explorable, toca un objeto o personaje"></canvas></div>
+    <div id="roomGuide" class="roomGuide">👆 Toca el suelo o selecciona un objeto para interactuar.</div>
+    <div class="roomControls"><button class="ghostBtn miniBtn" data-room-move="left" aria-label="Izquierda dentro">◀</button><button class="ghostBtn miniBtn" data-room-move="up" aria-label="Arriba dentro">▲</button><button class="ghostBtn miniBtn" data-room-move="down" aria-label="Abajo dentro">▼</button><button class="ghostBtn miniBtn" data-room-move="right" aria-label="Derecha dentro">▶</button><button id="roomInteract" class="soft">✨ Interactuar</button></div>
+    <div id="roomHot" class="roomHot" aria-live="polite">Toca el escenario para moverte. Interactúa con objetos o personajes cercanos.</div>
+    <details class="extras"><summary>📋 Actividades, personas y objetos</summary><div class="interiorMeta">
+      <div>
+        <h3 class="sectionTitle">Objetos y zonas</h3>
+        <div id="roomTiles" class="roomgrid"></div>
+        <div class="hr"></div>
+        <h3 class="sectionTitle">Opciones</h3>
+        <div id="roomActions" class="grid2"></div>
+      </div>
+      <div>
+        <div class="infoCols">
+          <div>
+            <h3 class="sectionTitle">Gente dentro</h3>
+            <div id="roomNPCs" class="npcList"></div>
+          </div>
+          <div>
+            <h3 class="sectionTitle">Ambiente</h3>
+            <div id="roomObjects" class="objectList"></div>
+          </div>
+        </div>
+      </div>
+    </div></details><button id="exit" class="alt full" style="display:none">← Salir a la calle</button>
+  </div>
+
+  <div id="life" class="panel hidden">
+    <h2>Mi vida</h2>
+    <div class="grid2">
+      <div class="card"><canvas id="lifeAvatar" width="96" height="112" style="width:96px;height:112px;image-rendering:pixelated;background:#89bde0;border-radius:10px"></canvas></div>
+      <div>
+        <p id="profile"></p>
+        <div class="chips" id="traits"></div>
+      </div>
+    </div>
+    <div class="hr"></div>
+    <h2>Actividades rápidas</h2>
+    <div class="grid2">
+      <button data-action="work">💼 Trabajar</button>
+      <button data-action="rest">🛏️ Dormir siesta</button>
+      <button data-action="eat">🍽️ Comer</button>
+      <button data-action="social">💬 Socializar</button>
+      <button data-action="fun">🎮 Divertirte</button>
+      <button data-action="clean">🚿 Ducharte</button>
+    </div>
+    <div class="hr"></div>
+    <h2>Inventario</h2>
+    <p id="inventory"></p>
+    <h2>Relaciones</h2>
+    <div id="friends"></div>
+    <h2>Misiones</h2>
+    <div id="quests"></div>
+    <button id="reset" class="soft full">Iniciar una nueva vida (borra esta partida)</button>
+  </div>
+
+  <div id="travel" class="panel hidden">
+    <h2>Madrid y destinos</h2>
+    <p>Puedes cambiar de barrio en Madrid por 20 € o viajar a otras ciudades por 35 €. Las demás ciudades son prototipos por ahora.</p>
+    <h2>Barrios de Madrid</h2>
+    <div id="districts" class="grid2"></div>
+    <h2>Otras ciudades</h2>
+    <div id="cities" class="grid2"></div>
+  </div>
+
+  <div id="notice" class="log" aria-live="polite">Bienvenido a Dos Mundos 0.7.</div>
+</section>
+</main>
+<script>
+(function(){'use strict';
+const $=id=>document.getElementById(id);
+const OLDKEY='dos-mundos-v06', LEGACY='dos-mundos-v1', KEY='dos-mundos-v09';
+const skins=['#f2c29a','#d79c72','#ad6b45','#6c412c'];
+const hairCols=['#1b1f2b','#6b4328','#d4b053','#355c9a'];
+const shirts=['#4fb486','#4b89d7','#d76b6b','#dabb62'];
+const districts=['Ciudad Lineal','Chamberí','Malasaña','Lavapiés','Retiro','Salamanca','La Latina','Carabanchel','Vallecas'];
+const cities=['Barcelona','Valencia','Sevilla','Bilbao','Málaga'];
+const neighborData=[
+{id:'alex',name:'Álex',where:'park',line:'Hoy el barrio tiene muy buena vibra.',gift:'🌳'} ,
+{id:'lucia',name:'Lucía',where:'cafe',line:'Un café arregla bastantes cosas.',gift:'☕'},
+{id:'dani',name:'Dani',where:'work',line:'Si curras mucho, luego salimos al cine.',gift:'💼'},
+{id:'noa',name:'Noa',where:'library',line:'Leer te abre nuevos caminos.',gift:'📚'},
+{id:'sam',name:'Sam',where:'gym',line:'El hábito hace al personaje.',gift:'🏋️'},
+{id:'ines',name:'Inés',where:'plaza',line:'La plaza siempre tiene algo que contar.',gift:'⛲'},
+{id:'marco',name:'Marco',where:'market',line:'Compra bien hoy y ahorras mañana.',gift:'🛒'},
+{id:'luna',name:'Luna',where:'shop',line:'Vestirte mejor también cambia el ánimo.',gift:'👕'}
+];
+const mapPlaces=[
+{id:'home',name:'Casa',icon:'🏠',x:34,y:42,w:90,h:76,action:'home',desc:'Tu hogar. Aquí puedes dormir, cocinar y ducharte.',tiles:['🛏️ Cama','🍳 Cocina','🚿 Ducha','📦 Armario'],tag:'Tu vivienda'},
+{id:'market',name:'Mercado',icon:'🛒',x:156,y:42,w:86,h:74,action:'market',desc:'Compra comida y productos diarios.',tiles:['🍎 Fruta','🥖 Pan','🥛 Lácteos','🛒 Caja'],tag:'Comida'},
+{id:'work',name:'Oficina',icon:'💼',x:272,y:42,w:86,h:74,action:'work',desc:'Trabaja para ganar dinero. Cansa, pero rinde.',tiles:['💻 Ordenador','📁 Archivo','☕ Café','🪟 Ventana'],tag:'Trabajo'},
+{id:'gym',name:'Gimnasio',icon:'🏋️',x:390,y:42,w:88,h:74,action:'gym',desc:'Entrena y mejora tu bienestar.',tiles:['🏋️ Pesas','🚴 Cardio','🧘 Esterilla','🚿 Vestuario'],tag:'Salud'},
+{id:'park',name:'Parque',icon:'🌳',x:36,y:172,w:88,h:78,action:'park',desc:'Un lugar para caminar, pensar y hablar.',tiles:['🌳 Árbol','🪑 Banco','🌼 Flores','🦋 Jardín'],tag:'Aire libre'},
+{id:'cafe',name:'Cafetería',icon:'☕',x:156,y:174,w:86,h:74,action:'cafe',desc:'Toma algo y socializa.',tiles:['☕ Barra','🥐 Bollería','🎵 Música','🪑 Mesas'],tag:'Social'},
+{id:'library',name:'Biblioteca',icon:'📚',x:272,y:174,w:86,h:74,action:'library',desc:'Estudia, lee y despeja la mente.',tiles:['📚 Estantería','🖥️ PC','🪑 Sillas','📰 Revistas'],tag:'Estudio'},
+{id:'cinema',name:'Cine',icon:'🎬',x:390,y:174,w:88,h:74,action:'cinema',desc:'Ve una peli y súbele a la diversión.',tiles:['🎟️ Tickets','🍿 Palomitas','🎞️ Pantalla','🪑 Butacas'],tag:'Diversión'},
+{id:'plaza',name:'Plaza',icon:'⛲',x:36,y:306,w:88,h:80,action:'plaza',desc:'La plaza del barrio, corazón de las charlas.',tiles:['⛲ Fuente','🧒 Gente','🐦 Palomas','🪴 Bancos'],tag:'Centro'},
+{id:'shop',name:'Tienda',icon:'👕',x:156,y:308,w:86,h:74,action:'shop',desc:'Compra ropa y accesorios.',tiles:['👕 Ropa','🧢 Gorras','🕶️ Gafas','🛍️ Caja'],tag:'Moda'},
+{id:'clinic',name:'Clínica',icon:'🩺',x:272,y:308,w:86,h:74,action:'clinic',desc:'Recupera energía y cuida tu salud.',tiles:['🩺 Consulta','💊 Botiquín','🛏️ Camilla','📝 Recepción'],tag:'Médico'},
+{id:'station',name:'Metro',icon:'🚇',x:390,y:308,w:88,h:74,action:'station',desc:'Conecta con otros barrios y ciudades.',tiles:['🚇 Andén','🗺️ Mapa','🎫 Ticket','🚪 Salida'],tag:'Transporte'}
+];
+
+const interiorData={
+ home:{bg:'#ceb89a',floor:'#d8c29e',wall:'#efe4cf',label:'Hogar',objects:[['🛏️ Cama','Descanso'],['🛋️ Sofá','Relax'],['🍳 Cocina','Comer'],['🚿 Ducha','Higiene'],['🪴 Planta','Decoración']],npcs:[{name:'Compañero de piso',role:'En casa',line:'Hoy toca ordenar un poco, ¿no?',gift:'🏠'}],zones:[{x:20,y:30,w:150,h:118,type:'bed'},{x:190,y:30,w:120,h:90,type:'sofa'},{x:338,y:26,w:150,h:110,type:'kitchen'},{x:346,y:168,w:126,h:118,type:'bath'},{x:26,y:190,w:110,h:90,type:'table'}]},
+ gym:{bg:'#b9cad8',floor:'#8a949e',wall:'#d6e2ea',label:'Entrenamiento',objects:[['🏋️ Pesas','Fuerza'],['🏃 Cinta','Cardio'],['🪞 Espejos','Postura'],['🧘 Esterilla','Movilidad'],['🚿 Vestuario','Ducha']],npcs:[{name:'Sam',role:'Entrenando',line:'Una serie más y salimos nuevos.',gift:'🏋️'},{name:'Entrenadora Vega',role:'Coach',line:'La técnica vale más que el ego.',gift:'🧢'},{name:'Chico de la cinta',role:'Cardio',line:'Llevo veinte minutos corriendo.',gift:'🏃'}],zones:[{x:20,y:38,w:108,h:94,type:'weights'},{x:152,y:32,w:92,h:110,type:'mirror'},{x:268,y:34,w:100,h:118,type:'treadmill'},{x:384,y:38,w:95,h:110,type:'yoga'},{x:338,y:182,w:136,h:96,type:'locker'}]},
+ work:{bg:'#c5d4df',floor:'#9caeb8',wall:'#ebf2f7',label:'Trabajo',objects:[['💻 Escritorio','Trabajo'],['🪑 Silla','Puesto'],['☕ Cafetera','Descanso'],['📊 Sala','Reuniones'],['📁 Archivo','Organización']],npcs:[{name:'Dani',role:'Compañero',line:'Tenemos que sacar esto hoy.',gift:'💼'},{name:'Laura',role:'Recepción',line:'Hay una reunión en media hora.',gift:'📞'},{name:'Jefe Nico',role:'Supervisor',line:'Buen ritmo, sigue así.',gift:'📈'}],zones:[{x:26,y:36,w:140,h:98,type:'desks'},{x:182,y:36,w:140,h:98,type:'desks'},{x:342,y:36,w:136,h:98,type:'meeting'},{x:38,y:176,w:90,h:98,type:'coffee'},{x:174,y:170,w:130,h:104,type:'desk2'}]},
+ cafe:{bg:'#d7c4aa',floor:'#b8885f',wall:'#f1e7d5',label:'Cafetería',objects:[['☕ Barra','Café'],['🪑 Mesas','Sentarse'],['🥐 Vitrina','Comer'],['🎵 Música','Ambiente']],npcs:[{name:'Lucía',role:'Barista',line:'¿Solo o doble?',gift:'☕'},{name:'Cliente 1',role:'Leyendo',line:'Aquí se está demasiado bien.',gift:'📖'},{name:'Cliente 2',role:'Esperando',line:'Estoy entre croissant y tostada.',gift:'🥐'}],zones:[{x:18,y:34,w:146,h:100,type:'bar'},{x:184,y:42,w:102,h:88,type:'table'},{x:310,y:40,w:92,h:84,type:'table'},{x:408,y:32,w:84,h:116,type:'counter'},{x:164,y:176,w:184,h:96,type:'tables'}]},
+ market:{bg:'#d7d0b4',floor:'#c2ba92',wall:'#f4f0dc',label:'Mercado',objects:[['🍎 Fruta','Compra'],['🥖 Pan','Compra'],['🥛 Nevera','Compra'],['🛒 Caja','Pagar']],npcs:[{name:'Marco',role:'Tendero',line:'Hoy la fruta llegó buenísima.',gift:'🍎'},{name:'Vecina Carmen',role:'Comprando',line:'Siempre termino llevando de más.',gift:'🛒'}],zones:[{x:18,y:30,w:108,h:100,type:'shelf1'},{x:144,y:30,w:108,h:100,type:'shelf2'},{x:274,y:30,w:108,h:100,type:'shelf3'},{x:404,y:36,w:78,h:118,type:'cash'}]},
+ library:{bg:'#cfc5a9',floor:'#a88f68',wall:'#efe7d2',label:'Biblioteca',objects:[['📚 Estanterías','Leer'],['🪑 Mesas','Estudiar'],['🖥️ Ordenador','Consultar'],['📰 Revistas','Leer']],npcs:[{name:'Noa',role:'Leyendo',line:'Encontré un libro buenísimo.',gift:'📚'},{name:'Bibliotecaria',role:'Mostrador',line:'En voz bajita, por favor.',gift:'🤫'}],zones:[{x:26,y:24,w:98,h:120,type:'books'},{x:146,y:24,w:98,h:120,type:'books'},{x:266,y:24,w:98,h:120,type:'books'},{x:390,y:34,w:90,h:100,type:'desk'},{x:150,y:182,w:180,h:82,type:'table'}]},
+ cinema:{bg:'#22263a',floor:'#642d2d',wall:'#31374f',label:'Cine',objects:[['🎟️ Taquilla','Entrada'],['🍿 Snacks','Comprar'],['🪑 Butacas','Ver'],['🎞️ Pantalla','Película']],npcs:[{name:'Acomodador',role:'Sala',line:'La función empieza en cinco.',gift:'🎬'},{name:'Pareja joven',role:'Esperando',line:'Ojalá esté buena la peli.',gift:'🍿'}],zones:[{x:18,y:24,w:120,h:100,type:'snacks'},{x:160,y:30,w:322,h:70,type:'screen'},{x:92,y:144,w:320,h:118,type:'seats'}]},
+ shop:{bg:'#e0d3bc',floor:'#bd9762',wall:'#f6edde',label:'Moda',objects:[['👕 Perchero','Ropa'],['🧢 Accesorios','Moda'],['🪞 Probador','Cambio'],['🛍️ Caja','Pagar']],npcs:[{name:'Luna',role:'Dependienta',line:'Te quedaría genial algo más atrevido.',gift:'👕'}],zones:[{x:24,y:30,w:126,h:110,type:'rack'},{x:176,y:34,w:126,h:110,type:'rack'},{x:332,y:34,w:150,h:100,type:'fitting'}]},
+ clinic:{bg:'#d4e5ea',floor:'#b5c9cf',wall:'#eef8fb',label:'Clínica',objects:[['🩺 Consulta','Salud'],['💊 Botiquín','Recuperar'],['🛏️ Camilla','Descansar'],['📝 Recepción','Atención']],npcs:[{name:'Inés',role:'Recepción',line:'Toma asiento y enseguida te llaman.',gift:'🩺'},{name:'Doctora Sol',role:'Médica',line:'Dormir mejor también es salud.',gift:'💊'}],zones:[{x:28,y:34,w:110,h:102,type:'reception'},{x:166,y:34,w:128,h:102,type:'check'},{x:324,y:34,w:148,h:102,type:'exam'}]},
+ park:{bg:'#89bf6c',floor:'#89bf6c',wall:'#89bf6c',label:'Parque',objects:[['🌳 Árboles','Paseo'],['🪑 Banco','Descanso'],['🌼 Flores','Ambiente'],['🐦 Pajaritos','Vida']],npcs:[{name:'Álex',role:'Paseando',line:'Salir un rato siempre ayuda.',gift:'🌳'},{name:'Paseador',role:'Con perro',line:'Mi perro conoce a todo el barrio.',gift:'🐕'}],zones:[{x:30,y:36,w:126,h:108,type:'trees'},{x:190,y:40,w:120,h:92,type:'bench'},{x:334,y:34,w:132,h:110,type:'pond'}]},
+ plaza:{bg:'#ceb78d',floor:'#ceb78d',wall:'#ceb78d',label:'Plaza',objects:[['⛲ Fuente','Centro'],['🪴 Bancos','Charla'],['🕊️ Palomas','Ambiente']],npcs:[{name:'Inés',role:'En la plaza',line:'Siempre termina apareciendo alguien aquí.',gift:'⛲'},{name:'Músico',role:'Tocando',line:'Hoy hay buena acústica.',gift:'🎵'}],zones:[{x:176,y:48,w:160,h:160,type:'fountain'},{x:60,y:210,w:100,h:54,type:'bench'},{x:352,y:210,w:100,h:54,type:'bench'}]},
+ station:{bg:'#c9cbd1',floor:'#93979f',wall:'#ebeef4',label:'Estación',objects:[['🚇 Andén','Viaje'],['🎫 Máquinas','Billetes'],['🗺️ Panel','Información']],npcs:[{name:'Revisor',role:'Transporte',line:'Próximo tren en dos minutos.',gift:'🚇'},{name:'Viajera',role:'Esperando',line:'Siempre voy con prisa.',gift:'🧳'}],zones:[{x:24,y:34,w:120,h:90,type:'ticket'},{x:168,y:34,w:310,h:100,type:'platform'},{x:100,y:176,w:312,h:80,type:'rails'}]}
+};
+function drawText(g,txt,x,y,color='#fff',size=11,align='left'){g.fillStyle=color;g.font='bold '+size+'px system-ui';g.textAlign=align;g.fillText(txt,x,y)}
+function drawNPC(g,x,y,name,shirt='#5f8bd6',skin='#d79c72'){
+ const i=(interiorData[indoor]?.npcs||[]).findIndex(n=>n.name===name), k=Math.max(0,i), sway=Math.round(Math.sin(roomTick*0.7+k)*2);
+ const skinTone=['#dfb48e','#ad7858','#bd906b','#6f4c3d'][k%4],hairTone=['#2b252b','#7a4e33','#d1a05d','#3c2937'][k%4];
+ const R=(a,b,w,h,c)=>{g.fillStyle=c;g.fillRect(Math.round(x+a),Math.round(y+b),w,h)};
+ R(1,36,27,3,'rgba(20,30,43,.27)');
+ R(7,26+sway,6,11,'#283953');R(17,26-sway,6,11,'#283953');R(6,36,8,3,'#202937');R(16,36,8,3,'#202937');
+ R(5,14,20,15,shirt);R(8,16,14,3,'rgba(255,255,255,.3)');R(4,17,4,12,skinTone);R(22,17,4,12,skinTone);
+ R(7,4,16,13,skinTone);R(5,3,20,6,hairTone);R(6,7,4,4,hairTone);R(20,7,4,4,hairTone);
+ if(k%3===1){R(4,1,22,5,hairTone);R(4,5,4,13,hairTone);R(22,5,4,13,hairTone)}
+ if(k%3===2){R(5,0,20,4,'#304c6b');R(10,-3,10,4,'#304c6b')}
+ R(11,10,2,2,'#29282a');R(18,10,2,2,'#29282a');R(13,15,4,1,'#985f5c');
+}
+function drawPlayer13(g,x,y){
+ const R=(a,b,w,h,c)=>{g.fillStyle=c;g.fillRect(Math.round(x+a),Math.round(y+b),w,h)};
+ const sk=skins[state.skin]||'#dca981', sh=shirts[state.shirt]||'#67a780', hair=hairCols[state.hairColor]||'#352a26';
+ R(-15,15,30,4,'rgba(0,0,0,.25)'); R(-11,-10,8,14,'#293a4b');R(3,-10,8,14,'#293a4b');
+ R(-11,3,8,4,'#182631');R(3,3,8,4,'#182631');R(-13,-30,26,22,sh);R(-17,-26,5,19,sk);R(12,-26,5,19,sk);
+ R(-11,-52,22,22,sk);R(-13,-55,26,9,hair);R(-12,-49,5,7,hair);R(7,-49,5,7,hair);
+ if(state.hair===1){R(-14,-52,6,24,hair);R(8,-52,6,24,hair)}
+ if(state.hair===2){R(-14,-56,9,7,hair);R(-3,-59,9,7,hair);R(8,-55,6,7,hair)}
+ if(state.accessory===1){R(-10,-42,9,3,'#202937');R(2,-42,9,3,'#202937')}
+ if(state.accessory===2){R(-14,-58,28,6,'#ad6864');R(4,-52,10,3,'#ad6864')}
+ R(-6,-43,3,3,'#25232a');R(4,-43,3,3,'#25232a');R(-2,-35,5,2,'#9f625d');
+}
+function drawFurniture(g,type,x,y,w,h){
+  const fill=(c)=>{g.fillStyle=c;g.fillRect(x,y,w,h)};
+  const border=(c='#54483a')=>{g.fillStyle=c;g.fillRect(x,y,w,2);g.fillRect(x,y+h-2,w,2);g.fillRect(x,y,2,h);g.fillRect(x+w-2,y,2,h)};
+  const rect=(dx,dy,dw,dh,c)=>{g.fillStyle=c;g.fillRect(x+dx,y+dy,dw,dh)};
+  const shadow=()=>{g.fillStyle='rgba(0,0,0,.08)';g.fillRect(x+3,y+3,w,h)};
+  shadow();
+  switch(type){
+    case 'bed': fill('#b7cee7'); border('#6b7c9f'); rect(10,12,w-20,h-20,'#f3efe7'); rect(12,12,34,22,'#dd7c7c'); rect(18,44,w-36,h-18,'#7fb4d4'); rect(6,h-10,w-12,6,'#8f613f'); break;
+    case 'sofa': fill('#6f95b6'); border('#476783'); rect(8,16,w-16,18,'#85a9c7'); rect(10,34,w-20,22,'#5e84a4'); rect(0,22,10,28,'#5e84a4'); rect(w-10,22,10,28,'#5e84a4'); break;
+    case 'kitchen': fill('#d4d4d4'); border('#7f8790'); rect(6,h-26,w-12,22,'#a87a52'); rect(10,8,28,18,'#8799ad'); rect(44,8,28,18,'#cfd7de'); rect(80,8,34,18,'#8799ad'); rect(118,8,20,18,'#5d738b'); break;
+    case 'bath': fill('#d5edf5'); border('#7aa0ae'); rect(12,16,50,24,'#ffffff'); rect(72,12,34,34,'#9fcfdf'); rect(68,54,40,48,'#b7dfea'); rect(12,54,40,20,'#ffffff'); break;
+    case 'table': fill('#b88656'); border('#6f4d2d'); rect(14,12,w-28,h-22,'#cb9a69'); rect(18,16,w-36,h-30,'#d6aa79'); break;
+    case 'weights': fill('#7f8d98'); border('#55626b'); for(let i=0;i<4;i++){rect(12+i*20,18,8,h-36,'#3b4650'); rect(8+i*20,20,16,10,'#232b31'); rect(8+i*20,h-30,16,10,'#232b31');} rect(10,h-18,w-20,8,'#374651'); break;
+    case 'mirror': fill('#b8dcef'); border('#6a88a1'); rect(10,10,w-20,h-20,'#d9f0fb'); rect(14,14,18,h-28,'rgba(255,255,255,.45)'); break;
+    case 'treadmill': fill('#9098a0'); border('#5d666e'); rect(14,h-24,w-28,10,'#2f353a'); rect(18,h-36,w-36,10,'#565e66'); rect(22,16,w-44,18,'#67717b'); rect(w-36,8,18,14,'#c9e4f2'); rect(18,18,4,h-34,'#40464d'); rect(w-22,18,4,h-34,'#40464d'); break;
+    case 'yoga': fill('#96cdbf'); border('#5f8e85'); rect(16,18,w-32,h-34,'#5c7f9b'); rect(24,28,18,12,'#7ea2bd'); break;
+    case 'locker': fill('#b39c79'); border('#6f5d41'); for(let i=0;i<3;i++){rect(10+i*32,10,26,h-20,'#c8b08a'); rect(30+i*32,26,2,2,'#6b5b4c');} break;
+    case 'desks': fill('#d2b387'); border('#74563a'); rect(10,14,42,26,'#caa57a'); rect(58,14,42,26,'#caa57a'); rect(14,18,34,18,'#2f4866'); rect(62,18,34,18,'#2f4866'); rect(18,42,24,10,'#6f7781'); rect(66,42,24,10,'#6f7781'); break;
+    case 'meeting': fill('#b98e63'); border('#6d5234'); rect(16,18,w-32,h-32,'#cca176'); rect(8,30,10,20,'#66717a'); rect(w-18,30,10,20,'#66717a'); break;
+    case 'coffee': fill('#d6c19e'); border('#7a5a38'); rect(12,16,w-24,30,'#9b6744'); rect(18,20,18,14,'#ece4d3'); rect(42,20,18,14,'#ece4d3'); rect(66,20,18,14,'#6b7e90'); break;
+    case 'desk2': fill('#cfaf84'); border('#74563a'); rect(14,14,w-28,24,'#c69d70'); rect(18,18,w-36,16,'#46617b'); rect(32,42,18,12,'#7b8288'); break;
+    case 'bar': fill('#a66f45'); border('#644126'); rect(8,18,w-16,26,'#8a5936'); rect(12,8,w-24,12,'#d9c39f'); rect(16,48,20,16,'#5e7f92'); rect(42,48,20,16,'#5e7f92'); break;
+    case 'counter': fill('#dbcab3'); border('#70553d'); rect(10,12,w-20,18,'#a16b44'); rect(12,36,w-24,30,'#f3d8b0'); rect(18,42,14,18,'#efefef'); rect(38,42,14,18,'#efefef'); break;
+    case 'books': fill('#8c6b4f'); border('#57402c'); for(let r=0;r<3;r++){rect(10,12+r*20,w-20,8,'#b98d5f'); for(let i=0;i<4;i++){rect(14+i*18,14+r*20,8,12,['#c45d5d','#5f8cc4','#d8b35e','#6db57c'][i%4]);}} break;
+    case 'screen': fill('#1d2437'); border('#4f586d'); rect(14,14,w-28,h-28,'#d9d2b6'); rect(22,22,w-44,h-44,'#272d43'); break;
+    case 'seats': fill('#7e4250'); border('#572730'); for(let ry=0;ry<3;ry++)for(let rx=0;rx<6;rx++){rect(16+rx*44,12+ry*28,24,16,'#ae6d7c'); rect(16+rx*44,26+ry*28,24,4,'#6d3a46')} break;
+    case 'rack': fill('#dac8a5'); border('#6f654e'); rect(14,20,w-28,6,'#596f8d'); for(let i=0;i<4;i++){rect(20+i*18,26,10,30,['#d76b6b','#4fb486','#dabb62','#5f8bd6'][i%4])} break;
+    case 'fitting': fill('#dfcfc6'); border('#7a6760'); rect(14,14,w-28,h-28,'#c07e72'); rect(w-42,18,20,40,'#a5d2ec'); rect(18,18,10,h-36,'#d7bfa8'); break;
+    case 'reception': fill('#dce6ed'); border('#6f8898'); rect(8,22,w-16,26,'#7ea9c3'); rect(16,12,28,10,'#f0f0f0'); break;
+    case 'check': fill('#e2edf2'); border('#839ca8'); rect(12,24,w-24,26,'#f8f8f8'); rect(20,58,26,20,'#a4bfd1'); rect(58,20,18,18,'#e16e6e'); break;
+    case 'exam': fill('#d8edf6'); border('#7ea4b1'); rect(18,26,w-36,26,'#ffffff'); rect(22,58,36,28,'#c1dbe6'); rect(70,24,14,14,'#95b8c8'); break;
+    case 'shelf1': case 'shelf2': case 'shelf3': fill('#ceb56f'); border('#77643b'); rect(10,12,w-20,18,'#e8ddb0'); rect(12,38,20,18,'#8bc06a'); rect(38,38,20,18,'#e67e54'); rect(64,38,20,18,'#7299c4'); rect(20,66,w-40,18,'#d2c27e'); break;
+    case 'cash': fill('#b89468'); border('#6c4c2a'); rect(10,16,w-20,22,'#4f6a84'); rect(18,44,24,16,'#d9dacd'); rect(12,12,18,6,'#f0d88f'); break;
+    case 'trees': fill('#84b966'); border('#6a9b51'); for(let i=0;i<3;i++){rect(16+i*28,54,8,16,'#6d4b31'); rect(8+i*28,28,24,24,'#3e9559'); rect(12+i*28,18,16,14,'#55b16d')} break;
+    case 'bench': fill('#8fc76c'); border('#6f9e55'); rect(12,18,w-24,12,'#8b643e'); rect(18,32,6,18,'#6f4c2c'); rect(w-24,32,6,18,'#6f4c2c'); break;
+    case 'pond': fill('#5da8d4'); border('#4c7ea3'); rect(14,14,w-28,h-28,'#87cdef'); rect(28,26,18,12,'rgba(255,255,255,.35)'); break;
+    case 'fountain': fill('#8ec5d7'); border('#61859b'); rect(26,26,w-52,h-52,'#bfe6f0'); rect(58,14,30,30,'#7fb0c0'); rect(68,8,10,12,'#e7faff'); break;
+    case 'ticket': fill('#d9e1e8'); border('#758799'); rect(14,14,30,42,'#6b89b3'); rect(54,14,30,42,'#6b89b3'); rect(18,18,22,16,'#b9d7f0'); rect(58,18,22,16,'#b9d7f0'); break;
+    case 'platform': fill('#b0b5bf'); border('#6e7380'); rect(12,16,w-24,10,'#d9be67'); rect(20,54,w-40,14,'#737b87'); rect(20,72,w-40,6,'#4e5560'); break;
+    case 'rails': fill('#757575'); border('#525252'); rect(8,18,w-16,8,'#434343'); rect(8,50,w-16,8,'#434343'); for(let i=0;i<6;i++){rect(20+i*42,14,8,48,'#8b6a4b')} break;
+    default: fill('#999'); border();
+  }
+}
+let roomX=260,roomY=270,roomSelection=null,roomTick=0,roomTimer=null;
+const roomObjectActions={
+ home:['rest','fun','cook','clean','fun'],gym:['gym','gym','gym','gym','clean'],work:['work','work','coffee','social','work'],cafe:['coffee','social','eat','fun'],
+ market:['buyfood','buyfood','buyfood','buyfood'],library:['study','study','study','study'],cinema:['cinema','cinema','cinema','cinema'],shop:['shop','shop','shop','shop'],clinic:['clinic','clinic','clinic','clinic'],park:['walk','rest','walk','walk'],plaza:['social','rest','social'],station:['travel','travel','travel']
+};
+function triggerRoomAction(i){
+  if(!indoor||!state)return;
+  const meta=interiorData[indoor]; if(!meta)return;
+  const action=(roomObjectActions[indoor]||[])[i]||'fun';
+  $('roomHot').textContent='Usando '+(meta.objects[i]&&meta.objects[i][0]||'objeto')+'…';
+  doAction(action);
+  if(indoor)renderInteriorScene(indoor);
+}
+function talkRoomNpc(i){
+  if(!state||!indoor)return;
+  const meta=interiorData[indoor],n=meta&&meta.npcs[i];if(!n)return;
+  state.friends[n.name]=(state.friends[n.name]||0)+1;
+  state.social=clamp(state.social+10);state.fun=clamp(state.fun+4);advance(15);completeQuest('friend');refreshUI();
+  const line=n.name+': «'+n.line+'» · Amistad +1';
+  notice(line);$('roomHot').textContent=line;
+  renderInteriorScene(indoor);
+}
+function roomNpcPosition(i){return {x:62+(i%3)*146+Math.round(Math.sin(roomTick/2+i)*12),y:212+Math.floor(i/3)*42+Math.round(Math.cos(roomTick/3+i)*7)}}
+
+// Dos Mundos 1.1: arte nativo en pixel art 32x32, sin archivos externos.
+// Los límites de interacción siguen viniendo de interiorData.gym.zones.
+function drawGym11(g){
+ const R=(x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h))};
+ const L=(x,y,X,Y,c,w=2)=>{g.strokeStyle=c;g.lineWidth=w;g.beginPath();g.moveTo(x,y);g.lineTo(X,Y);g.stroke()};
+ const E=(x,y,rx,ry,c)=>{g.beginPath();g.ellipse(x,y,rx,ry,0,0,Math.PI*2);g.fillStyle=c;g.fill()};
+ // 16 tiles x 10 tiles, 32px base grid. Wall at y=0..60, rubber floor below.
+ R(0,0,512,320,'#121c2b');R(8,8,496,304,'#8f9aaa');
+ R(16,16,480,58,'#253b52');R(16,74,480,224,'#53616c');
+ R(16,78,480,220,'#636f77');
+ for(let y=78;y<300;y+=32)for(let x=16;x<496;x+=32){R(x,y,31,31,(Math.floor(x/32)+Math.floor(y/32))%2?'#647078':'#6b7780');R(x+4,y+5,2,2,'#87939b');R(x+22,y+22,2,2,'#4b5c68')}
+ // vertical wall paneling, light bars and baseboard
+ for(let x=20;x<496;x+=60){R(x,20,2,47,'#364e66');R(x+8,22,43,3,'#506b82')}
+ R(18,62,476,12,'#15273a');R(18,72,476,5,'#b4c5cc');
+ R(180,12,150,20,'#172d43');R(184,16,142,12,'#31556a');
+ g.font='bold 10px monospace';g.textAlign='center';g.fillStyle='#d7ebdb';g.fillText('DOS MUNDOS  ·  FITNESS',256,25);
+ R(39,39,62,13,'#1e3447');R(43,43,54,5,'#8ad4ce');R(369,38,90,15,'#1e3447');R(375,43,78,5,'#85b4d2');
+ // elongated wall mirrors spanning between equipment; reflections and bevels
+ const mirror=(x,y,w,h)=>{R(x+3,y+4,w,h,'#253543');R(x,y,w,h,'#b9d4d9');R(x+5,y+5,w-10,h-10,'#8ba9b9');R(x+8,y+7,w-16,h-14,'#b5d3dc');R(x+11,y+11,9,h-23,'#d9eef1');R(x+w-19,y+13,5,h-28,'#7b9baa')};
+ mirror(151,37,92,102);
+ // sculpted squat rack at coordinates of first hotspot 20..128, y38..132
+ const x=28,y=84;
+ R(x+3,y+5,105,69,'#343f4a');R(x+11,y+4,87,67,'#596b79');
+ for(let i=0;i<2;i++){R(x+14+i*65,y+1,11,78,'#202c38');R(x+17+i*65,y+6,5,66,'#a1b4c3');for(let j=0;j<4;j++)R(x+15+i*65,y+17+j*12,7,2,'#cad7dd')}
+ R(x+11,y+25,89,5,'#111e2b');R(x+11,y+29,89,3,'#97b9cd');
+ for(let i=0;i<2;i++){R(x+5+i*88,y+16,10,25,'#171f27');R(x+8+i*88,y+10,4,35,'#394855')}
+ R(x+23,y+53,48,10,'#293b4d');R(x+29,y+49,36,7,'#bf4750');R(x+38,y+63,5,12,'#232c33');
+ // mirrors sit at zone x152 y32, ensure shiny / legible
+ R(160,48,66,70,'#d9eff3');R(171,48,8,63,'#fff9e1');R(215,55,4,49,'#85a9b9');
+ // treadmill frame in zone x268 y34: body console + belt + handrails
+ const tx=288,ty=87;
+ E(tx+32,ty+65,46,8,'rgba(20,29,35,.32)');
+ R(tx+9,ty+7,53,69,'#243039');R(tx+14,ty+11,42,56,'#17262f');
+ for(let i=0;i<6;i++)R(tx+18,ty+17+i*8,34,3,i%2?'#53636b':'#3f525c');
+ R(tx+7,ty+2,59,10,'#c1d0d2');R(tx+14,ty+4,44,5,'#475966');
+ R(tx+3,ty-5,9,68,'#a6b9be');R(tx+59,ty-5,9,68,'#a6b9be');
+ R(tx-4,ty-16,80,17,'#303b48');R(tx+5,ty-11,54,10,'#8ab8bf');
+ R(tx+10,ty-9,20,5,'#b3dbdc');R(tx+44,ty-9,5,5,'#6ee79a');
+ R(tx+17,ty+74,43,5,'#1c2934');
+ // blue mat + mobility equipment at x384..479
+ R(390,96,83,52,'#213647');R(397,101,70,42,'#339d98');R(404,105,56,33,'#56bdb1');
+ for(let i=0;i<3;i++){R(396+i*18,150,13,4,'#2a3544');R(401+i*18,147,3,3,'#f1cc72')}
+ // gym lockers x338..474 y182-278 (more recognizable door/hardware)
+ R(335,188,145,91,'rgba(0,0,0,.3)');R(338,183,141,90,'#253644');
+ for(let i=0;i<4;i++){let xx=342+i*33;R(xx,188,30,81,'#819ba9');R(xx+3,191,24,74,i%2?'#8098a5':'#91a8b5');R(xx+6,200,18,2,'#bacbd1');R(xx+6,205,18,2,'#bacbd1');R(xx+24,231,2,11,'#e3d3a7');R(xx+3,261,24,3,'#526d7e')}
+ // weight tree and blue fitness bottles below station
+ R(35,184,9,76,'#2b3c48');R(24,196,31,7,'#9bafba');
+ for(let i=0;i<3;i++){R(17,202+i*17,18,9,'#232d35');R(44,202+i*17,18,9,'#232d35');R(20,204+i*17,4,5,'#b7cbd0')}
+ R(70,241,9,21,'#65b8d1');R(70,237,9,5,'#d0e9ed');R(83,246,7,16,'#f0c16e');
+ // bench for dumbbell press on free floor
+ R(163,173,93,7,'#263644');R(185,171,48,17,'#a54151');R(190,187,5,33,'#1f2c36');R(225,187,5,33,'#1f2c36');
+ R(177,168,10,25,'#2f4352');R(237,167,10,25,'#2f4352');
+ R(171,163,81,5,'#a9c5d1');
+ // dumbbells near bench
+ for(let i=0;i<3;i++){R(151+i*13,221,10,6,'#1e2a37');R(154+i*13,217,4,14,'#8ca4b6')}
+ // front entrance and hints along bottom edge
+ R(211,289,91,13,'#182d42');R(217,291,79,8,'#97cdd1');
+ R(18,294,190,5,'#26394a');R(306,294,188,5,'#26394a');
+ // artful HUD-style tags in pixel font, not overlapping sprites
+ g.textAlign='left';g.fillStyle='#f4edd7';g.font='bold 10px monospace';g.fillText('FUERZA',31,91);g.fillText('CARDIO',284,75);g.fillText('MOVILIDAD',399,91);
+}
+
+function drawHome12(g){
+ const R=(x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h))};
+ // room shell
+ R(0,0,512,320,'#253246');R(8,8,496,304,'#9c7f67');R(16,16,480,52,'#d9c8b0');R(16,68,480,232,'#d1c0a9');
+ for(let y=68;y<300;y+=32)for(let x=16;x<496;x+=32){R(x,y,31,31,(Math.floor(x/32)+Math.floor(y/32))%2?'#d3c2ad':'#cfbca6')}
+ R(16,62,480,6,'#8a6a52');R(20,22,108,30,'#7e8f9f');R(24,26,100,22,'#d9eef8'); R(382,22,92,30,'#7e8f9f');R(386,26,84,22,'#d9eef8');
+ // bed zone
+ R(24,90,152,108,'#8f6d5d');R(32,98,136,92,'#f2ecdf');R(40,104,44,30,'#d26e75');R(88,104,44,30,'#d26e75');R(44,140,120,42,'#92b5d2');R(32,191,136,6,'#7b5d47');
+ // plant and side table
+ R(182,112,18,22,'#7a5b42');R(178,98,26,18,'#4ea36a');R(186,92,10,10,'#67bc7d'); R(184,166,28,24,'#8f6a4a');R(190,150,16,18,'#f4d27d');
+ // sofa area
+ R(210,96,112,80,'#4b6781');R(220,106,92,24,'#84a3bc');R(218,132,96,34,'#6889a7');R(210,120,12,38,'#6889a7');R(310,120,12,38,'#6889a7');
+ // rug and coffee table
+ R(202,198,128,52,'#7299b8');for(let i=0;i<5;i++)R(212+i*22,208,12,30,'#86adc9');R(244,208,44,24,'#b28154');R(252,214,28,12,'#d4aa7c');
+ // kitchen zone
+ R(334,88,148,96,'#bcc4ca');R(340,150,136,24,'#a47753');R(346,96,28,20,'#8799ad');R(378,96,30,20,'#d4d9dd');R(412,96,32,20,'#8799ad');R(448,96,20,20,'#586f86');R(350,118,26,26,'#e9ecef');R(381,118,24,26,'#91d0e8');R(414,118,28,26,'#dfe5ea');R(447,118,22,26,'#343f4c');
+ // dining nook
+ R(348,196,92,64,'#8b6848');R(358,206,72,40,'#bf9367');R(366,184,18,18,'#6b7783');R(408,184,18,18,'#6b7783');R(366,254,18,18,'#6b7783');R(408,254,18,18,'#6b7783');
+ // bathroom zone
+ R(24,214,152,74,'#cde3eb');R(34,224,58,28,'#ffffff');R(102,218,38,38,'#9fcedf');R(98,260,46,20,'#ffffff');R(30,260,34,18,'#d1edf3');
+ g.textAlign='left';g.fillStyle='#f8f1df';g.font='bold 10px monospace';g.fillText('DORMITORIO',31,84);g.fillText('SALON',212,84);g.fillText('COCINA',337,84);g.fillText('BAÑO',30,210);
+}
+function drawWork12(g){
+ const R=(x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h))};
+ R(0,0,512,320,'#1f2d3d');R(8,8,496,304,'#80909b');R(16,16,480,52,'#dbe4ea');R(16,68,480,232,'#a8b7c1');
+ for(let y=68;y<300;y+=32)for(let x=16;x<496;x+=32){R(x,y,31,31,(Math.floor(x/32)+Math.floor(y/32))%2?'#a7b5bf':'#9eadb8')}
+ R(18,62,476,6,'#62727d');
+ // windows/top
+ for(let x=40;x<470;x+=110){R(x,24,76,24,'#6d8294');R(x+4,28,68,16,'#d5edf9')}
+ // desks cluster left
+ const desk=(x,y)=>{R(x,y,84,46,'#b68a63');R(x+6,y+6,72,18,'#d8b287');R(x+18,y+10,36,14,'#36516b');R(x+24,y+30,22,10,'#727a80');R(x+56,y+30,14,10,'#727a80');};
+ desk(28,98); desk(28,162); desk(130,98); desk(130,162);
+ // reception/front desk
+ R(364,94,106,58,'#a9744e');R(372,102,90,18,'#c89b72');R(378,126,24,16,'#f3f6fa');R(410,124,26,18,'#5e748a');
+ // meeting table and chairs
+ R(302,176,150,70,'#9d7553');R(314,188,126,46,'#c59a73');
+ for(let i=0;i<3;i++){R(280,184+i*18,16,12,'#64727e');R(456,184+i*18,16,12,'#64727e');}
+ // coffee corner + archive
+ R(362,250,38,32,'#6a4d35');R(366,236,30,16,'#efefef');R(406,236,54,46,'#7c8a95'); for(let i=0;i<3;i++){R(410+i*16,242,12,32,'#9fb0bc')} R(365,241,12,8,'#222a32');R(381,241,8,8,'#6d98b8');
+ // plants and divider
+ R(242,92,12,56,'#7e8f96');R(238,84,20,12,'#57a86c'); R(244,236,12,42,'#7e8f96');R(240,228,20,12,'#57a86c');
+ g.textAlign='left';g.fillStyle='#f7f1df';g.font='bold 10px monospace';g.fillText('PUESTOS',30,90);g.fillText('RECEPCION',364,88);g.fillText('REUNIONES',304,170);g.fillText('COFFEE',362,229);
+}
+function drawCafe12(g){
+ const R=(x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h))};
+ R(0,0,512,320,'#392417');R(8,8,496,304,'#8d5f3f');R(16,16,480,52,'#f0dfc7');R(16,68,480,232,'#b87f57');
+ for(let y=68;y<300;y+=32)for(let x=16;x<496;x+=32){R(x,y,31,31,(Math.floor(x/32)+Math.floor(y/32))%2?'#b67c55':'#bf855d')}
+ R(18,62,476,6,'#7d5237');
+ // counter/bar
+ R(28,90,152,86,'#6d432a');R(34,96,140,20,'#d1b08b');R(34,120,140,50,'#925b39');R(46,128,22,30,'#efefef');R(74,128,28,30,'#cf8f58');R(110,128,22,30,'#5d7489');R(140,128,20,30,'#efefef');
+ // pastry vitrine
+ R(28,186,116,60,'#8d6745');R(34,192,104,18,'#d0ecf1'); R(40,214,20,10,'#e1b15d');R(66,214,20,10,'#db8a63');R(92,214,20,10,'#d7d27a');
+ // tables
+ const table=(x,y)=>{R(x,y,68,42,'#6f4a31');R(x+6,y+6,56,30,'#cfab7f');R(x+24,y+42,20,12,'#52443a');R(x+6,y+18,10,10,'#6b7783');R(x+52,y+18,10,10,'#6b7783');};
+ table(216,102); table(326,102); table(216,196); table(326,196);
+ // long couch wall
+ R(406,90,68,146,'#6f5460');R(412,96,56,134,'#af6d7c'); for(let i=0;i<4;i++)R(418,106+i*30,44,18,'#d18b97');
+ // decor shelves
+ R(196,82,12,164,'#4f3a2a'); for(let i=0;i<4;i++){R(184,96+i*34,36,6,'#d5b38e'); R(190,84+i*34,10,10,['#6bb58b','#d8b35e','#5f8bd6','#e17767'][i])}
+ g.textAlign='left';g.fillStyle='#fff0d7';g.font='bold 10px monospace';g.fillText('BARRA',31,84);g.fillText('MESAS',220,92);g.fillText('RINCON',408,84);g.fillText('VITRINA',30,180);
+}
+function drawMarket12(g){
+ const R=(x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h))};
+ R(0,0,512,320,'#2c3a2d');R(8,8,496,304,'#8c8d6a');R(16,16,480,52,'#eef0d8');R(16,68,480,232,'#c7c497');
+ for(let y=68;y<300;y+=32)for(let x=16;x<496;x+=32){R(x,y,31,31,(Math.floor(x/32)+Math.floor(y/32))%2?'#c7c396':'#cfcba2')}
+ R(18,62,476,6,'#807e56');
+ // aisle shelves
+ const shelf=(x,label,colors)=>{R(x,94,98,126,'#7f6540'); for(let i=0;i<4;i++){R(x+8,108+i*24,82,6,'#d8c394'); for(let j=0;j<4;j++)R(x+12+j*18,96+i*24,12,16,colors[(i+j)%colors.length]);} g.fillStyle='#f6f1dd';g.font='bold 10px monospace';g.fillText(label,x+10,88);};
+ shelf(34,'FRUTA',['#d86658','#7fbe69','#e5c861','#e38b5e']);
+ shelf(154,'PAN',['#cf9851','#d9c171','#b97842','#f1d19a']);
+ shelf(274,'FRESCO',['#6bb4d6','#e6706b','#78c48a','#f3f4ef']);
+ // fridge wall
+ R(390,92,90,128,'#93a3ad'); for(let i=0;i<2;i++){R(398+i*38,100,32,112,'#b9d5e2');R(404+i*38,108,20,92,'rgba(255,255,255,.18)');R(426+i*38,140,2,28,'#d9e3e9')}
+ // checkout
+ R(340,236,140,44,'#9b6f48');R(348,244,48,24,'#d5af83');R(404,244,32,20,'#41586e');R(442,244,18,20,'#ddd5bf');R(352,230,16,10,'#d84d5b');R(374,230,16,10,'#7ab96e');
+ // baskets and signage
+ R(38,238,30,20,'#c17d53');R(74,238,30,20,'#c17d53');R(110,238,30,20,'#c17d53');R(400,30,72,16,'#6a8758');g.fillStyle='#eef6df';g.font='bold 10px monospace';g.fillText('DOS MUNDOS MARKET',408,42);
+}
+function renderInteriorScene(id){
+  const meta=interiorData[id],c=$('roomCanvas'),g=c.getContext('2d');if(!meta)return;
+  g.imageSmoothingEnabled=false;g.clearRect(0,0,c.width,c.height);
+  if(id==='gym'){drawGym11(g)}
+  else if(id==='home'){drawHome12(g)}
+  else if(id==='work'){drawWork12(g)}
+  else if(id==='cafe'){drawCafe12(g)}
+  else if(id==='market'){drawMarket12(g)}
+  else{
+  g.fillStyle=meta.wall;g.fillRect(0,0,c.width,c.height);g.fillStyle=meta.floor;g.fillRect(12,12,c.width-24,c.height-24);g.fillStyle=meta.bg;g.fillRect(22,22,c.width-44,c.height-44);
+  for(let x=22;x<490;x+=32)for(let y=22;y<298;y+=32){g.fillStyle='rgba(255,255,255,.045)';g.fillRect(x,y,30,30)}
+  meta.zones.forEach((z)=>drawFurniture(g,z.type,z.x,z.y,z.w,z.h));
+  }
+  meta.zones.forEach((z,i)=>{if(roomSelection&&roomSelection.kind==='object'&&roomSelection.index===i){g.strokeStyle='#ffe785';g.lineWidth=3;g.strokeRect(z.x-2,z.y-2,z.w+4,z.h+4)}});
+  meta.npcs.forEach((n,i)=>{let pos=roomNpcPosition(i);drawNPC(g,pos.x,pos.y,n.name,['#5f8bd6','#4fb486','#d76b6b','#dabb62'][i%4]);if(roomSelection&&roomSelection.kind==='npc'&&roomSelection.index===i){g.strokeStyle='#fff2a7';g.lineWidth=3;g.strokeRect(pos.x-8,pos.y-10,40,65)}});
+  // player, kept separate from the outdoor coordinates
+  drawPlayer13(g,roomX,roomY);
+  drawText(g,'Tú',roomX,roomY+27,'#243347',11,'center');
+  drawText(g,meta.label,30,22,'#243347',12,'left');
+}
+function selectRoomTarget(kind,index){
+  if(!indoor)return;
+  const meta=interiorData[indoor];
+  roomSelection={kind,index};
+  if(kind==='object'){
+    const z=meta.zones[index];if(!z)return;
+    roomX=Math.min(480,Math.max(30,z.x+z.w/2));roomY=Math.min(288,Math.max(148,z.y+z.h+12));
+    $('roomHot').textContent='Objeto: '+(meta.objects[index]&&meta.objects[index][0]||'mueble')+'. Pulsa Interactuar para usarlo.';
+  }else{
+    let pos=roomNpcPosition(index);roomX=Math.min(480,Math.max(30,pos.x-23));roomY=Math.min(288,Math.max(154,pos.y+36));
+    $('roomHot').textContent='Persona: '+meta.npcs[index].name+'. Pulsa Interactuar para hablar.';
+  }
+  renderInteriorScene(indoor);
+}
+function roomInteract(){if(!indoor)return;
+ if(roomSelection){if(roomSelection.kind==='npc')talkRoomNpc(roomSelection.index);else triggerRoomAction(roomSelection.index);return}
+ $('roomHot').textContent='Toca una máquina, mueble o persona para interactuar.';
+}
+function roomMove(dx,dy){if(!indoor||!state)return;roomX=Math.max(25,Math.min(487,roomX+dx));roomY=Math.max(146,Math.min(290,roomY+dy));roomSelection=null;$('roomHot').textContent='Caminando por '+interiorData[indoor].label+'. Toca algo para interactuar.';renderInteriorScene(indoor)}
+function startRoomAnimation(){stopRoomAnimation();roomTimer=setInterval(()=>{if(indoor&&state){roomTick++;renderInteriorScene(indoor)}},850)}
+function stopRoomAnimation(){if(roomTimer){clearInterval(roomTimer);roomTimer=null}}
+
+let state=null, tab='world', indoor=null;
+const cv=$('map'), ctx=cv.getContext('2d');
+function clamp(n){return Math.max(0,Math.min(100,Math.round(n)))}
+function deep(v){return JSON.parse(JSON.stringify(v))}
+function defaultQuests(){return[
+{id:'home',name:'Visita tu casa',done:false},
+{id:'job',name:'Trabaja una vez',done:false},
+{id:'friend',name:'Habla con un vecino',done:false},
+{id:'self',name:'Satisface todas tus necesidades por encima de 60',done:false}
+]}
+function defaultState(name){return normalize({name,district:$('district').value,home:$('home').value,city:'Madrid',skin:+$('skin').value,hair:+$('hair').value,hairColor:+$('hairColor').value,shirt:+$('shirt').value,accessory:+$('accessory').value,day:1,time:8*60,money:350,energy:82,hunger:78,hygiene:76,social:62,fun:58,mood:72,inventory:[],friends:{},visited:[],quests:defaultQuests(),x:92,y:132,zone:'Barrio Central'})}
+function normalize(raw){if(!raw||typeof raw!=='object'||!raw.name)return null;const q=Array.isArray(raw.quests)&&raw.quests.length?raw.quests:defaultQuests();
+return {
+name:raw.name,district:raw.district||'Ciudad Lineal',home:raw.home||'Estudio pequeño',city:raw.city||'Madrid',
+skin:Number.isFinite(raw.skin)?raw.skin:0,hair:Number.isFinite(raw.hair)?raw.hair:0,hairColor:Number.isFinite(raw.hairColor)?raw.hairColor:(Number.isFinite(raw.hair)?raw.hair:0),shirt:Number.isFinite(raw.shirt)?raw.shirt:0,accessory:Number.isFinite(raw.accessory)?raw.accessory:0,
+day:raw.day||1,time:raw.time||480,money:raw.money??350,energy:clamp(raw.energy??80),hunger:clamp(raw.hunger??75),hygiene:clamp(raw.hygiene??70),social:clamp(raw.social??60),fun:clamp(raw.fun??55),mood:clamp(raw.mood??70),inventory:Array.isArray(raw.inventory)?raw.inventory:[],friends:raw.friends&&typeof raw.friends==='object'?raw.friends:{},visited:Array.isArray(raw.visited)?raw.visited:[],quests:q.map((v,i)=>({id:v.id||['home','job','friend','self'][i]||('q'+i),name:v.name||'Objetivo',done:!!v.done})),x:Math.max(12,Math.min(500,raw.x||92)),y:Math.max(22,Math.min(430,raw.y||132)),zone:raw.zone||'Barrio Central'} }
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+function notice(t){$('notice').textContent=t}
+function timeText(mins){let h=Math.floor(mins/60)%24,m=mins%60;return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')}
+function decay(base){state.hunger=clamp(state.hunger-base*1.6);state.hygiene=clamp(state.hygiene-base*1.1);state.fun=clamp(state.fun-base*0.9);state.social=clamp(state.social-base*0.7);state.energy=clamp(state.energy-base*1.2);recalcMood()}
+function advance(mins){state.time+=mins;while(state.time>=24*60){state.time-=24*60;state.day+=1}decay(Math.max(1,mins/40));completeQuestChecks()}
+function recalcMood(){state.mood=clamp((state.energy+state.hunger+state.hygiene+state.social+state.fun)/5)}
+function completeQuest(id){const q=state.quests.find(v=>v.id===id);if(q&&!q.done){q.done=true;notice('Misión completada: '+q.name+' ✅')}}
+function completeQuestChecks(){if(state.visited.includes('home'))completeQuest('home');if((state.friends&&Object.values(state.friends).some(v=>v>0)))completeQuest('friend');if([state.energy,state.hunger,state.hygiene,state.social,state.fun].every(v=>v>=60))completeQuest('self')}
+function drawRect(g,x,y,w,h,c){g.fillStyle=c;g.fillRect(x,y,w,h)}
+function drawOutline(g,x,y,w,h,c){g.fillStyle=c;g.fillRect(x,y,w,2);g.fillRect(x,y+h-2,w,2);g.fillRect(x,y,2,h);g.fillRect(x+w-2,y,2,h)}
+function drawShadow(g,x,y,w,h){g.fillStyle='rgba(0,0,0,.18)';g.fillRect(x+3,y+3,w,h)}
+function tree(g,x,y){drawRect(g,x+4,y+18,6,10,'#6d4b31');drawRect(g,x,y+6,14,14,'#2f8f5b');drawRect(g,x+2,y,10,10,'#47ad71')}
+function person(g,x,y,s,look,blink){g.save();g.translate(x,y);g.scale(s,s);drawRect(g,-5,-18,10,11,skins[look.skin]);drawRect(g,-6,-7,12,10,shirts[look.shirt]);drawRect(g,-4,3,3,8,'#6c5f59');drawRect(g,1,3,3,8,'#6c5f59');drawRect(g,-8,-18,16,4,hairCols[look.hairColor]);if(look.hair===0){drawRect(g,-8,-18,16,6,hairCols[look.hairColor])}if(look.hair===1){drawRect(g,-9,-18,18,6,hairCols[look.hairColor]);drawRect(g,-8,-13,4,7,hairCols[look.hairColor]);drawRect(g,4,-13,4,7,hairCols[look.hairColor])}if(look.hair===2){drawRect(g,-9,-18,5,6,hairCols[look.hairColor]);drawRect(g,-3,-20,5,6,hairCols[look.hairColor]);drawRect(g,3,-18,5,6,hairCols[look.hairColor])}if(look.hair===3){drawRect(g,-8,-18,16,4,hairCols[look.hairColor]);drawRect(g,-7,-14,14,2,hairCols[look.hairColor])}if(look.accessory===1){drawRect(g,-7,-14,5,2,'#1c2437');drawRect(g,2,-14,5,2,'#1c2437')}if(look.accessory===2){drawRect(g,-8,-23,16,4,'#ba5c55');drawRect(g,-2,-19,5,2,'#ba5c55')}if(look.accessory===3){drawRect(g,6,-6,5,7,'#84644f')}drawRect(g,-3,-13,2,2,blink?'#8a5b56':'#1f1b17');drawRect(g,1,-13,2,2,blink?'#8a5b56':'#1f1b17');g.restore()}
+function preview(){const c=$('preview'),g=c.getContext('2d');g.imageSmoothingEnabled=false;drawRect(g,0,0,c.width,c.height,'#85c2de');drawRect(g,0,72,c.width,24,'#78b172');drawRect(g,0,82,c.width,14,'#cab08f');person(g,42,58,2.2,{skin:+$('skin').value,hair:+$('hair').value,hairColor:+$('hairColor').value,shirt:+$('shirt').value,accessory:+$('accessory').value},false)}
+function renderNeed(name,val,emoji){let d=document.createElement('div');d.className='need';d.innerHTML='<strong>'+emoji+' '+name+' <span class="muted">'+val+'/100</span></strong><div class="bar"><div class="fill" style="width:'+val+'%;background:'+(val>60?'#8cd0a9':val>35?'#e3c679':'#dc826e')+'"></div></div>';return d}
+function currentNearby(){return mapPlaces.find(b=>state.x>=b.x-16&&state.x<=b.x+b.w+16&&state.y>=b.y-18&&state.y<=b.y+b.h+22)}
+function refreshUI(){if(!state)return;$('setup').classList.add('hidden');$('game').classList.remove('hidden');$('day').textContent=state.day;$('hour').textContent=timeText(state.time);$('money').textContent=state.money+' €';$('zoneName').textContent=state.zone;$('who').textContent=state.name+' · '+state.home+' · '+state.district+', '+state.city+' · Ánimo '+state.mood+'/100';$('sceneTitle').textContent=state.district+', '+state.city;$('profile').textContent='Vives en '+state.home.toLowerCase()+' en '+state.district+'. Tu día se organiza entre tus necesidades, tus relaciones y tus objetivos.';$('inventory').textContent='Inventario: '+(state.inventory.length?state.inventory.join(', '):'vacío');
+$('traits').innerHTML='';[['Barrio',state.district],['Ciudad',state.city],['Hogar',state.home],['Ánimo',state.mood+'/100']].forEach(([a,b])=>{let s=document.createElement('span');s.className='tag';s.textContent=a+': '+b;$('traits').append(s)});
+$('friends').innerHTML='';neighborData.forEach(n=>{let c=document.createElement('div');c.className='card';const fv=(state.friends[n.id]||state.friends[n.name]||0);c.textContent=n.gift+' '+n.name+' · amistad '+fv+' ♥';$('friends').append(c)});
+$('quests').innerHTML='';state.quests.forEach(q=>{let d=document.createElement('div');d.className='quest'+(q.done?' done':'');d.textContent=(q.done?'✅ ':'⬜ ')+q.name;$('quests').append(d)});
+$('needs').innerHTML='';[['Energía',state.energy,'⚡'],['Hambre',state.hunger,'🍔'],['Higiene',state.hygiene,'🛁'],['Social',state.social,'💬'],['Diversión',state.fun,'🎉']].forEach(v=>$('needs').append(renderNeed(...v)));
+const av=$('lifeAvatar').getContext('2d'); drawRect(av,0,0,96,112,'#89bde0');drawRect(av,0,82,96,30,'#78b172');person(av,48,70,2.3,state,false);
+drawMap();save()}
+function px14(g,x,y,w,h,c){g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h))}
+function foliage14(g,x,y,s=1){g.save();g.translate(x,y);g.scale(s,s);px14(g,9,18,7,14,'#785236');px14(g,2,7,24,18,'#236c4c');px14(g,6,1,16,24,'#33935e');px14(g,0,11,26,11,'#3caa6c');px14(g,5,5,10,7,'#65c680');px14(g,17,12,6,5,'#77cc85');g.restore()}
+function lamp14(g,x,y){px14(g,x+5,y+6,3,25,'#42546a');px14(g,x,y+3,13,5,'#4a5b70');px14(g,x+2,y,9,6,'#fff2bf');px14(g,x+4,y+2,5,3,'#e3c275');px14(g,x+2,y+29,10,3,'#455669')}
+function bench14(g,x,y){px14(g,x+2,y+2,23,7,'#a46e44');px14(g,x+3,y+10,21,5,'#ba8659');px14(g,x+5,y+15,4,6,'#3b4b54');px14(g,x+19,y+15,4,6,'#3b4b54')}
+function awning14(g,b,color){px14(g,b.x+5,b.y+22,b.w-10,7,'#ecdec8');for(let j=0;j<b.w-10;j+=12)px14(g,b.x+5+j,b.y+22,Math.min(7,b.w-10-j),7,color);px14(g,b.x+5,b.y+29,b.w-10,2,'#526072')}
+function streetLabel14(g,b){px14(g,b.x+3,b.y+b.h-13,b.w-6,12,'#23394c');g.font='bold 9px system-ui';g.textAlign='center';g.fillStyle='#fcf4e2';g.fillText(b.name,b.x+b.w/2,b.y+b.h-4)}
+function drawBuilding(g,b){
+ const x=b.x,y=b.y,w=b.w,h=b.h,id=b.id;
+ if(id==='park'){px14(g,x-2,y-2,w+4,h+4,'#b7cf94');px14(g,x+2,y+3,w-4,h-6,'#81b86b');px14(g,x+w/2-5,y+4,12,h-8,'#d2bd88');foliage14(g,x+7,y+6,.85);foliage14(g,x+w-39,y+12,.8);px14(g,x+7,y+h-25,32,15,'#6badd0');bench14(g,x+w-35,y+h-30);for(let i=0;i<6;i++)px14(g,x+4+i*13,y+h-8,3,3,i%2?'#fff0a0':'#fff');streetLabel14(g,b);return}
+ if(id==='plaza'){px14(g,x-2,y-2,w+4,h+4,'#b3aa8c');px14(g,x+2,y+2,w-4,h-5,'#dac69f');for(let i=0;i<6;i++)px14(g,x+3+i*14,y+3,1,h-10,'#c1ac85');px14(g,x+w/2-19,y+8,38,35,'#6e9ba3');px14(g,x+w/2-14,y+13,28,26,'#9bcbd4');px14(g,x+w/2-5,y+16,10,11,'#e2f4f6');bench14(g,x+6,y+47);bench14(g,x+w-32,y+47);foliage14(g,x+3,y+5,.6);streetLabel14(g,b);return}
+ const palette={home:['#d9bb99','#9d605b','#f1dcba'],market:['#e5cf94','#b5774d','#f7e0b9'],work:['#b5cbce','#587c93','#d7e4e8'],gym:['#b2bdc8','#415969','#d2dfe5'],cafe:['#ddab8b','#966951','#f5e0c2'],library:['#dccbaf','#796e8f','#f5e7cb'],cinema:['#a4a8c9','#514c74','#dcd2e9'],shop:['#d9b2cc','#9a618a','#f3d9e9'],clinic:['#dae7db','#68a4a4','#eff5e9'],station:['#b5c4ca','#4e728b','#d9e2e3']}[id]||['#ddc7ad','#966954','#f4dec8'];
+ px14(g,x+3,y+5,w,h-2,'#50606d');px14(g,x,y,w,h-3,palette[0]);px14(g,x,y,w,10,palette[1]);px14(g,x+3,y+9,w-6,4,palette[2]);
+ for(let i=0;i<4;i++)px14(g,x+2+i*(w/4),y+14,1,h-30,'rgba(83,66,57,.12)');
+ if(id==='home'){
+  px14(g,x+10,y+18,20,21,'#526a79');px14(g,x+12,y+20,16,17,'#afd7e2');px14(g,x+18,y+20,2,17,'#eee5d2');px14(g,x+w-30,y+18,20,21,'#526a79');px14(g,x+w-28,y+20,16,17,'#afd7e2');px14(g,x+w-22,y+20,2,17,'#eee5d2');px14(g,x+6,y+42,w-12,3,'#a78468');
+ }else if(id==='station'){
+  px14(g,x+8,y+15,w-16,31,'#314e67');px14(g,x+13,y+19,w-26,22,'#95bfce');px14(g,x+w/2-14,y+19,28,22,'#406987');px14(g,x+w/2-10,y+22,20,16,'#c7ebf0');px14(g,x+w/2-3,y+22,6,16,'#37647e');
+ }else{
+  px14(g,x+8,y+16,w-16,25,'#486275');px14(g,x+12,y+18,w-24,20,'#9dc9d6');px14(g,x+14,y+19,8,18,'#cde8e9');px14(g,x+w-25,y+20,7,17,'#cde8e9');awning14(g,b,palette[1]);
+ }
+ if(id==='clinic'){px14(g,x+w/2-8,y+2,16,3,'#edfbfa');px14(g,x+w/2-2,y-5,5,17,'#d65355');px14(g,x+w/2-8,y+1,17,5,'#d65355')}
+ if(id==='cafe'){px14(g,x+9,y+33,12,4,'#f2d4a5');px14(g,x+w-22,y+33,11,4,'#f2d4a5')}
+ if(id==='gym'){px14(g,x+9,y+15,23,5,'#c7d7e0');px14(g,x+w-33,y+15,24,5,'#c7d7e0')}
+ px14(g,x+w/2-12,y+h-27,24,18,'#6a4c3c');px14(g,x+w/2-9,y+h-25,18,16,'#947153');px14(g,x+w/2+4,y+h-18,2,2,'#f6dc84');px14(g,x+2,y+h-15,w-4,3,'#8b7057');
+ streetLabel14(g,b)
+}
+function drawMap(){
+ if(!state||indoor||tab!=='world')return;
+ ctx.imageSmoothingEnabled=false;
+ px14(ctx,0,0,512,448,'#93b981');
+ for(let y=0;y<448;y+=16)for(let x=0;x<512;x+=16){px14(ctx,x+3,y+4,2,2,(x+y)%3?'#96bc83':'#83ac70')}
+ // piedra y aceras, separadas de la calzada
+ const roadsV=[128,250,368],roadsH=[126,258,392];
+ roadsV.forEach(x=>{px14(ctx,x-5,0,52,448,'#d1c7b2');px14(ctx,x,0,42,448,'#7b878d');px14(ctx,x+3,0,1,448,'#94a0a3');px14(ctx,x+38,0,1,448,'#65747d');for(let y=10;y<448;y+=30)px14(ctx,x+20,y,2,14,'#eadcb3')});
+ roadsH.forEach(y=>{px14(ctx,0,y-5,512,52,'#d1c7b2');px14(ctx,0,y,512,42,'#7b878d');px14(ctx,0,y+3,512,1,'#99a6a7');px14(ctx,0,y+38,512,1,'#64737b');for(let x=11;x<512;x+=32)px14(ctx,x,y+20,16,2,'#e9ddb9')});
+ // marcajes de pasos de peatones en los cruces
+ roadsH.forEach(y=>roadsV.forEach(x=>{for(let i=0;i<4;i++){px14(ctx,x+7+i*8,y+4,5,12,'#e9e8da');px14(ctx,x+7+i*8,y+28,5,10,'#e9e8da')}}));
+ // zonas de acera alrededor de manzanas
+ for(let x of [20,143,264,382])for(let y of [26,156,290]){px14(ctx,x-5,y-5,105,106,'#b9c8a4');px14(ctx,x,y,96,94,'#a5c48f')}
+ // mobiliario urbano y vegetación al borde de las calles
+ [[7,12],[112,16],[240,16],[354,16],[488,16],[8,164],[488,168],[8,300],[485,306],[5,412],[103,418],[230,416],[352,418],[485,418]].forEach(([x,y],i)=>foliage14(ctx,x,y,i%3===0?.7:.55));
+ [[137,88],[258,220],[380,349],[137,347],[379,92]].forEach(([x,y])=>lamp14(ctx,x,y));
+ mapPlaces.forEach(b=>drawBuilding(ctx,b));
+ // NPCs visibles caminando en la calle sin tapar los rótulos
+ neighborData.forEach((n,idx)=>{const base=mapPlaces.find(v=>v.id===n.where)||mapPlaces[0];const px=Math.min(495,base.x+base.w+8+(idx%2)*6),py=Math.min(424,base.y+base.h+12+(idx%3)*5);person(ctx,px,py,1,{skin:(idx+1)%skins.length,hair:idx%4,hairColor:idx%hairCols.length,shirt:idx%shirts.length,accessory:0},idx%2===0)});
+ // sombra y avatar principal
+ px14(ctx,state.x-7,state.y+12,15,4,'rgba(20,28,32,.22)');person(ctx,state.x,state.y,1.35,state,state.day%2===0);
+}
+function move(dx,dy){if(!state||tab!=='world')return;if(indoor)closeInterior();state.x=Math.max(12,Math.min(500,Number(state.x)+dx));state.y=Math.max(18,Math.min(434,Number(state.y)+dy));advance(5);refreshUI();let nearby=currentNearby();$('hint').textContent=(nearby?nearby.icon+' '+nearby.name+' · Pulsa Entrar.':'Caminando por el barrio.')+' Posición: '+Math.round(state.x)+', '+Math.round(state.y);}
+function spend(v){if(state.money<v){notice('No tienes suficiente dinero.');return false}state.money-=v;return true}
+function doAction(type){let msg='';switch(type){case'work':if(state.energy<20||state.hunger<20){notice('Necesitas más energía y hambre controlada para trabajar.');return}state.money+=60;state.energy=clamp(state.energy-28);state.hunger=clamp(state.hunger-18);state.fun=clamp(state.fun-10);advance(120);completeQuest('job');msg='Trabajaste durante un turno y ganaste 60 €.';break;case'rest':state.energy=clamp(state.energy+40);state.hunger=clamp(state.hunger-10);advance(90);msg='Dormiste una siesta.';break;case'eat':if(!spend(8))return;state.hunger=clamp(state.hunger+34);state.energy=clamp(state.energy+8);advance(30);msg='Comiste algo rico.';break;case'social':state.social=clamp(state.social+22);state.fun=clamp(state.fun+10);advance(35);msg='Pasaste un rato socializando.';break;case'fun':if(!spend(6))return;state.fun=clamp(state.fun+26);state.social=clamp(state.social+8);advance(45);msg='Te divertiste un rato.';break;case'clean':state.hygiene=clamp(state.hygiene+35);advance(25);msg='Te duchaste y te arreglaste.';break;case'cook':if(!spend(10))return;state.hunger=clamp(state.hunger+38);state.fun=clamp(state.fun+4);advance(40);msg='Cocinaste en casa.';break;case'coffee':if(!spend(5))return;state.energy=clamp(state.energy+10);state.social=clamp(state.social+10);advance(25);msg='Tomaste café.';break;case'walk':state.fun=clamp(state.fun+10);state.hygiene=clamp(state.hygiene-6);state.energy=clamp(state.energy-8);advance(30);msg='Diste un paseo.';break;case'study':state.fun=clamp(state.fun-5);state.energy=clamp(state.energy-12);advance(50);msg='Estudiaste un rato.';break;case'cinema':if(!spend(12))return;state.fun=clamp(state.fun+28);state.social=clamp(state.social+6);advance(95);msg='Viste una película.';break;case'gym':if(!spend(8))return;state.energy=clamp(state.energy-18);state.hygiene=clamp(state.hygiene-12);state.fun=clamp(state.fun+6);advance(55);msg='Entrenaste duro.';break;case'shop':if(!spend(25))return;state.shirt=(state.shirt+1)%shirts.length;state.inventory.push('Ropa nueva');advance(35);msg='Compraste ropa nueva.';break;case'clinic':if(!spend(20))return;state.energy=clamp(state.energy+22);state.hygiene=clamp(state.hygiene+16);advance(40);msg='Te atendieron en la clínica.';break;case'buyfood':if(!spend(12))return;state.inventory.push('Comida');advance(20);msg='Compraste comida.';break;case'travel':tab='travel';tabs('travel');msg='Planeando tu siguiente viaje.';break;}recalcMood();completeQuestChecks();refreshUI();notice(msg)}
+function openPlace(id){
+const p=mapPlaces.find(v=>v.id===id); if(!p) return;
+indoor=id; state.visited=state.visited||[]; if(!state.visited.includes(id)) state.visited.push(id);
+$('world').classList.add('hidden'); $('interior').classList.remove('hidden');
+$('roomTag').textContent=p.tag; $('roomTitle').textContent=p.icon+' '+p.name; $('roomDesc').textContent=p.desc;
+const meta=interiorData[id]||{objects:[],npcs:[],label:'Interior',zones:[]};
+$('roomMood').textContent=meta.label||'Con ambiente';
+roomX=260;roomY=270;roomSelection=null;$('roomHot').textContent='Toca los objetos o a la gente en el dibujo. También puedes usar las flechas.';renderInteriorScene(id);startRoomAnimation();
+$('roomTiles').innerHTML='';
+meta.objects.forEach(o=>{ const parts=o[0].split(' '); const em=parts.shift()||'✨'; const name=parts.join(' ')||o[0]; let d=document.createElement('div'); d.className='roomtile'; d.innerHTML='<span>'+em+'</span>'+name+'<div class="mini muted">'+(o[1]||'')+'</div>'; $('roomTiles').append(d);});
+$('roomObjects').innerHTML='';
+meta.objects.forEach(o=>{ let d=document.createElement('div'); d.className='miniCard'; d.innerHTML='<strong>'+o[0]+'</strong><span class="muted">'+(o[1]||'')+'</span>'; $('roomObjects').append(d); });
+$('roomNPCs').innerHTML='';
+meta.npcs.forEach(n=>{ let b=document.createElement('button'); b.className='npcActionBtn'; b.innerHTML=n.gift+' '+n.name+'<span class="small">'+n.role+' · '+n.line+'</span>'; b.onclick=()=>{ state.friends[n.name]=(state.friends[n.name]||0)+1; state.social=clamp(state.social+10); state.fun=clamp(state.fun+4); advance(15); refreshUI(); notice(n.name+': «'+n.line+'» · Amistad +1'); openPlace(id); }; $('roomNPCs').append(b); });
+function shortAction(fn){ fn(); if(indoor) openPlace(id); }
+const actsByPlace = {
+  home:[
+    ['🛏️ Dormir', ()=>shortAction(()=>doAction('rest'))],
+    ['🍳 Cocinar (-10 €)', ()=>shortAction(()=>doAction('cook'))],
+    ['🚿 Ducharte', ()=>shortAction(()=>doAction('clean'))],
+    ['🛋️ Descansar', ()=>shortAction(()=>{ state.fun=clamp(state.fun+10); state.energy=clamp(state.energy+10); advance(25); refreshUI(); notice('Descansaste en casa.'); })]
+  ],
+  market:[
+    ['🛒 Comprar comida (-12 €)', ()=>shortAction(()=>doAction('buyfood'))],
+    ['🍎 Comprar fruta (-6 €)', ()=>shortAction(()=>{ if(!spend(6)) return; state.hunger=clamp(state.hunger+16); advance(10); refreshUI(); notice('Compraste y comiste fruta fresca.'); })]
+  ],
+  work:[
+    ['💼 Hacer turno (+60 €)', ()=>shortAction(()=>doAction('work'))],
+    ['☕ Tomar café', ()=>shortAction(()=>doAction('coffee'))],
+    ['📊 Reunión', ()=>shortAction(()=>{ state.social=clamp(state.social+6); state.energy=clamp(state.energy-6); advance(30); refreshUI(); notice('Asististe a una reunión.'); })]
+  ],
+  gym:[
+    ['🏋️ Entrenar fuerza (-8 €)', ()=>shortAction(()=>doAction('gym'))],
+    ['🏃 Cardio (-6 €)', ()=>shortAction(()=>{ if(!spend(6)) return; state.energy=clamp(state.energy-12); state.fun=clamp(state.fun+6); advance(35); refreshUI(); notice('Hiciste cardio en la cinta.'); })],
+    ['🧘 Estirar', ()=>shortAction(()=>{ state.energy=clamp(state.energy+4); state.hygiene=clamp(state.hygiene-4); advance(20); refreshUI(); notice('Hiciste movilidad y estiramientos.'); })]
+  ],
+  park:[
+    ['🚶 Pasear', ()=>shortAction(()=>doAction('walk'))],
+    ['🪑 Sentarte', ()=>shortAction(()=>{ state.energy=clamp(state.energy+6); state.fun=clamp(state.fun+4); advance(20); refreshUI(); notice('Te sentaste a respirar un poco.'); })]
+  ],
+  cafe:[
+    ['☕ Tomar café (-5 €)', ()=>shortAction(()=>doAction('coffee'))],
+    ['🥐 Comer algo (-9 €)', ()=>shortAction(()=>{ if(!spend(9)) return; state.hunger=clamp(state.hunger+22); state.fun=clamp(state.fun+6); advance(25); refreshUI(); notice('Te quedaste un rato en la cafetería.'); })]
+  ],
+  library:[
+    ['📚 Estudiar', ()=>shortAction(()=>doAction('study'))],
+    ['📖 Leer', ()=>shortAction(()=>{ state.fun=clamp(state.fun+8); state.social=clamp(state.social+2); advance(30); refreshUI(); notice('Leíste un buen rato.'); })]
+  ],
+  cinema:[
+    ['🎬 Ver película (-12 €)', ()=>shortAction(()=>doAction('cinema'))],
+    ['🍿 Comprar palomitas (-4 €)', ()=>shortAction(()=>{ if(!spend(4)) return; state.fun=clamp(state.fun+4); state.hunger=clamp(state.hunger+6); advance(10); refreshUI(); notice('Palomitas compradas.'); })]
+  ],
+  plaza:[
+    ['💬 Pasear y charlar', ()=>shortAction(()=>doAction('social'))],
+    ['🎵 Escuchar al músico', ()=>shortAction(()=>{ state.fun=clamp(state.fun+9); advance(20); refreshUI(); notice('Te quedaste un rato escuchando música.'); })]
+  ],
+  shop:[
+    ['👕 Comprar ropa (-25 €)', ()=>shortAction(()=>doAction('shop'))],
+    ['🧢 Probar accesorio', ()=>shortAction(()=>{ state.accessory=(state.accessory+1)%4; advance(10); refreshUI(); notice('Probaste un accesorio nuevo.'); })]
+  ],
+  clinic:[
+    ['🩺 Consulta (-20 €)', ()=>shortAction(()=>doAction('clinic'))],
+    ['💊 Tomar algo para recuperarte (-7 €)', ()=>shortAction(()=>{ if(!spend(7)) return; state.energy=clamp(state.energy+10); advance(10); refreshUI(); notice('Te recuperaste un poco.'); })]
+  ],
+  station:[
+    ['🚉 Ir a viajar', ()=>shortAction(()=>doAction('travel'))]
+  ]
+};
+$('roomActions').innerHTML='';
+(actsByPlace[id]||[]).forEach(([txt,fn])=>{ let b=document.createElement('button'); b.textContent=txt; b.onclick=fn; $('roomActions').append(b); });
+completeQuestChecks(); refreshUI();
+}
+function closeInterior(){stopRoomAnimation();indoor=null;$('interior').classList.add('hidden');if(tab==='world')$('world').classList.remove('hidden');drawMap()}
+function tabs(t){if(t!=='world'&&indoor){stopRoomAnimation();indoor=null;}tab=t;['world','life','travel'].forEach(v=>$(v).classList.toggle('hidden',v!==t));document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));if(t==='world'){if(!indoor)$('world').classList.remove('hidden');drawMap()}else{$('interior').classList.add('hidden')}}
+function travelTo(dest,isCity){const cost=isCity?35:20;if(!spend(cost))return;if(isCity){state.city=dest;state.district=dest}else{state.city='Madrid';state.district=dest}state.zone=isCity?'Centro urbano':'Barrio Central';state.x=92;state.y=132;advance(isCity?120:50);refreshUI();tabs('world');notice('Has llegado a '+dest+'.')}
+function buildLists(){ $('places').innerHTML=''; mapPlaces.forEach(p=>{let b=document.createElement('button');b.className='placeBtn alt';b.textContent=p.icon+' '+p.name;b.onclick=()=>openPlace(p.id);$('places').append(b)}); $('districts').innerHTML=''; districts.forEach(d=>{let b=document.createElement('button');b.className='soft';b.textContent=d;b.onclick=()=>travelTo(d,false);$('districts').append(b)}); $('cities').innerHTML=''; cities.forEach(c=>{let b=document.createElement('button');b.className='soft';b.textContent=c;b.onclick=()=>travelTo(c,true);$('cities').append(b)})}
+function loadState(){let saved=null;try{saved=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){} if(!saved){try{saved=JSON.parse(localStorage.getItem('dos-mundos-v071')||'null')}catch(e){} } if(!saved){try{saved=JSON.parse(localStorage.getItem('dos-mundos-v07')||'null')}catch(e){} if(!saved){try{saved=JSON.parse(localStorage.getItem(OLDKEY)||'null')}catch(e){}}} if(!saved){try{saved=JSON.parse(localStorage.getItem(LEGACY)||'null')}catch(e){}} state=normalize(saved); if(state){save();refreshUI();tabs('world')}}
+$('start').onclick=()=>{try{const n=$('name').value.trim();if(!n){$('setupError').textContent='Escribe tu nombre para comenzar.';return}state=defaultState(n);save();refreshUI();tabs('world');notice('Tu nueva vida ha comenzado.')}catch(e){$('setupError').textContent='Error al iniciar: '+(e.message||e)}};
+$('exit').onclick=closeInterior; $('exitTop').onclick=closeInterior; $('enter').onclick=()=>{if(!state)return;const p=currentNearby(); if(p)openPlace(p.id); else {$('hint').textContent='No hay ninguna puerta cerca. Pulsa «Ir a casa» para probar la entrada.';notice('Acércate a un edificio, o usa el acceso directo a casa.')}}; $('goHome').onclick=()=>{if(!state)return;state.x=80;state.y=126;refreshUI();openPlace('home')}; $('talkNearby').onclick=()=>{if(!state)return;const p=currentNearby(); if(p){const meta=interiorData[p.id]; if(meta&&meta.npcs&&meta.npcs[0]){state.friends[meta.npcs[0].name]=(state.friends[meta.npcs[0].name]||0)+1;state.social=clamp(state.social+8);advance(10);refreshUI();notice(meta.npcs[0].name+': «'+meta.npcs[0].line+'»')} else notice('No hay nadie cerca con quien hablar.')} else notice('Acércate a un sitio con gente para hablar con alguien.');}; document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>tabs(b.dataset.tab)); document.querySelectorAll('[data-move]').forEach(b=>b.onclick=()=>{const d=b.dataset.move;move(d==='left'?-32:d==='right'?32:0,d==='up'?-32:d==='down'?32:0)}); document.querySelectorAll('[data-action]').forEach(b=>b.onclick=()=>doAction(b.dataset.action)); $('reset').onclick=()=>{if(!confirm('¿Borrar la partida local de la versión 1.4?'))return; try{localStorage.removeItem(KEY)}catch(e){} location.reload()};
+cv.addEventListener('click',e=>{if(!state||tab!=='world'||indoor)return;const r=cv.getBoundingClientRect(),x=(e.clientX-r.left)*512/r.width,y=(e.clientY-r.top)*448/r.height;const p=mapPlaces.find(v=>x>=v.x&&x<=v.x+v.w&&y>=v.y&&y<=v.y+v.h); if(p){state.x=p.x+p.w/2;state.y=p.y+p.h+18;refreshUI();openPlace(p.id)} else {state.x=Math.max(12,Math.min(500,x)); state.y=Math.max(18,Math.min(434,y)); advance(5); refreshUI(); $('hint').textContent='Te moviste por el barrio. Toca un edificio para entrar.'}});
+
+$('roomCanvas').addEventListener('click',e=>{if(!indoor||!state)return;const c=$('roomCanvas'),r=c.getBoundingClientRect(),x=(e.clientX-r.left)*512/r.width,y=(e.clientY-r.top)*320/r.height,meta=interiorData[indoor];
+ for(let i=meta.npcs.length-1;i>=0;i--){const p=roomNpcPosition(i);if(Math.abs(x-(p.x+12))<32&&Math.abs(y-(p.y+16))<42){selectRoomTarget('npc',i);return}}
+ for(let i=meta.zones.length-1;i>=0;i--){const z=meta.zones[i];if(x>=z.x&&x<=z.x+z.w&&y>=z.y&&y<=z.y+z.h){selectRoomTarget('object',i);return}}
+ roomX=Math.max(25,Math.min(487,x));roomY=Math.max(146,Math.min(290,y));roomSelection=null;renderInteriorScene(indoor);$('roomHot').textContent='Te moviste dentro del establecimiento. Toca un objeto o persona para seleccionarlo.';
+});
+$('roomInteract').onclick=roomInteract;
+document.querySelectorAll('[data-room-move]').forEach(b=>b.onclick=()=>{const d=b.dataset.roomMove;roomMove(d==='left'?-24:d==='right'?24:0,d==='up'?-24:d==='down'?24:0)});
+window.addEventListener('keydown',e=>{const d={ArrowUp:[0,-32],ArrowDown:[0,32],ArrowLeft:[-32,0],ArrowRight:[32,0]}[e.key];if(d&&state&&tab==='world'){e.preventDefault();if(indoor)roomMove(...d);else move(...d)}});
+['skin','hair','hairColor','shirt','accessory'].forEach(id=>$(id).addEventListener('change',preview));
+preview(); buildLists(); loadState();
+})();
+</script></body></html>
