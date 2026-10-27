@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Dos Mundos v3.1 · Sala 1 Streaming</title><style>html,body{margin:0;width:100%;height:100%;background:#162336;overflow:hidden}#juego{display:block;width:100%;height:100%;border:0}#error{display:none;position:fixed;inset:0;background:#162336;color:white;padding:30px;font:16px system-ui;z-index:9}</style></head>
+<body><iframe id="juego" title="Dos Mundos" src="./index2.9.html" allow="fullscreen"></iframe><div id="error">No se pudo cargar Dos Mundos. Comprueba que <b>index2.9.html</b> esté en la misma carpeta de GitHub.</div>
+<script>
+const frame=document.getElementById('juego');
+frame.addEventListener('load',()=>{try{const doc=frame.contentDocument;if(!doc||!doc.body)throw new Error('No se puede acceder al juego');const script=doc.createElement('script');script.textContent=String.raw`/* Dos Mundos: selector de cine y plataformas externas.
+   Cargar justo antes de </body> en index2.9.html:
+   <script src="cine-dos-mundos.js"><\/script>
+*/
+(() => {
+  'use strict';
+  const services = [
+    {label:'Netflix', homepage:'https://www.netflix.com/browse', search:q=>'https://www.netflix.com/search?q='+encodeURIComponent(q)},
+    {label:'Max (HBO)', homepage:'https://www.max.com/es/es'},
+    {label:'Disney+', homepage:'https://www.disneyplus.com/es-es'}
+  ];
+  function openCinema() {
+    let overlay = document.getElementById('dm-streaming-cinema');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.id='dm-streaming-cinema';
+      overlay.style.cssText='position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(8,12,24,.94);overflow:auto';
+      const panel=document.createElement('section');
+      panel.setAttribute('role','dialog');panel.setAttribute('aria-modal','true');
+      panel.style.cssText='max-width:430px;width:100%;padding:22px;background:#253954;color:white;border:2px solid #8fabd2;border-radius:18px;font:16px system-ui';
+      panel.innerHTML='<h2 style="margin:0 0 10px">🎬 Cine Dos Mundos</h2><p>Elige una plataforma para ver tu película fuera del juego.</p><label for="dm-cine-title">Título (opcional)</label><input id="dm-cine-title" placeholder="¿Qué película quieres ver?" style="display:block;width:100%;margin:8px 0 14px;padding:12px;color:white;background:#142236;border:1px solid #9aafd0;border-radius:8px"><div id="dm-cine-platforms" style="display:grid;gap:10px"></div><p style="font-size:12px;opacity:.8">Necesitas una suscripción activa. Si la plataforma no permite enlazar búsquedas, tendrás que buscar el título allí. La disponibilidad depende del país y del catálogo.</p><button id="dm-cine-close" style="width:100%;padding:12px">Volver al juego</button>';
+      overlay.append(panel);document.body.append(overlay);
+      panel.querySelector('#dm-cine-close').onclick=()=>overlay.remove();
+      overlay.addEventListener('click',e=>{if(e.target===overlay)overlay.remove()});
+      services.forEach(s=>{
+        const button=document.createElement('button');button.textContent='▶ Abrir '+s.label;
+        button.style.cssText='width:100%;padding:13px;border-radius:9px;cursor:pointer';
+        button.onclick=()=>{
+          const title=panel.querySelector('#dm-cine-title').value.trim();
+          const url=title&&s.search?s.search(title):s.homepage;
+          window.open(url,'_blank','noopener,noreferrer');
+        };
+        panel.querySelector('#dm-cine-platforms').append(button);
+      });
+      panel.querySelector('#dm-cine-title').focus();
+    }
+  }
+  // Tocar el letrero SALA 1 en el canvas abre el selector.
+  // El canvas original mide 512 x 320 px; convertir las coordenadas de pantalla.
+  const roomCanvas=document.getElementById('roomCanvas');
+  if(roomCanvas){
+    roomCanvas.addEventListener('click',event=>{
+      const roomTitle=document.querySelector('#interior h2');
+      const inCinema=roomTitle && /cine/i.test(roomTitle.textContent);
+      if(!inCinema) return;
+      const bounds=roomCanvas.getBoundingClientRect();
+      const x=(event.clientX-bounds.left)*512/bounds.width;
+      const y=(event.clientY-bounds.top)*320/bounds.height;
+      if(x>=205&&x<=316&&y>=75&&y<=123){
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        openCinema();
+      }
+    },true);
+  }
+  // Acceso alternativo claro por si el toque sobre la ilustración falla.
+  const roomHot=document.getElementById('roomHot');
+  if(roomHot){
+    const directButton=document.createElement('button');
+    directButton.id='dm-open-cinema-direct';
+    directButton.textContent='🎬 Entrar a Sala 1 · Elegir película';
+    directButton.style.cssText='display:none;width:100%;padding:13px;margin:10px 0;background:#f0cb8e;color:#291f18;border:0;border-radius:10px;font-weight:800';
+    directButton.onclick=openCinema;
+    roomHot.insertAdjacentElement('afterend',directButton);
+    const sync=()=>{
+      const title=document.querySelector('#interior h2');
+      directButton.style.display=title&&/cine/i.test(title.textContent)&&!document.getElementById('interior').classList.contains('hidden')?'block':'none';
+    };
+    new MutationObserver(sync).observe(document.getElementById('interior'),{attributes:true,subtree:true,childList:true,characterData:true});
+    sync();
+  }
+  // Captura el botón del cine preexistente, sin cobrar entradas ficticias
+  // ni ejecutar la antigua acción automática de ver una película.
+  document.addEventListener('click',e=>{
+    const button=e.target.closest('button');
+    if(button && /Ver película\s*\(-12\s*€\)/i.test(button.textContent)){
+      e.preventDefault();e.stopImmediatePropagation();openCinema();
+    }
+  },true);
+})();
+`;doc.body.appendChild(script);doc.title='Dos Mundos v3.1 · Sala 1 Streaming';const originalVersion=doc.querySelector('.eyebrow');if(originalVersion)originalVersion.textContent='UNA VIDA, DOS HISTORIAS · VERSIÓN 3.1 · SALA 1';const main=doc.querySelector('main');if(main&&!doc.getElementById('dm-version-label')){const label=doc.createElement('div');label.id='dm-version-label';label.textContent='🎬 Versión 3.1 · Sala 1';label.style.cssText='font:700 12px system-ui;color:#ffe4a4;letter-spacing:.03em;margin:3px 0 10px';main.insertBefore(label,main.firstChild)}}catch(e){console.error(e);document.getElementById('error').style.display='block'}});
+</script></body></html>
