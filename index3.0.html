@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b1925">
+<title>Dos Mundos · Edición Visual 3.0</title>
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;width:100%;height:100%;background:#0b1925;overflow:hidden}
+  #game{position:fixed;inset:0;width:100%;height:100%;border:0;display:block;background:#0b1925}
+  #message{display:none;position:fixed;inset:0;background:#0b1925;color:#e9f4ff;
+    font:16px system-ui;padding:30px;z-index:100;align-items:center;justify-content:center;text-align:center}
+</style>
+</head>
+<body>
+<iframe id="game" src="./index2.9.html" title="Dos Mundos — Edición Visual 3.0" allow="fullscreen"></iframe>
+<div id="message" role="alert">No pude abrir el juego. Comprueba que <b>index2.9.html</b> siga en el mismo repositorio.</div>
+<script>
+/* DOS MUNDOS · EDICIÓN VISUAL 3.0
+ * Este archivo NO reemplaza la lógica original del juego.
+ * Carga index2.9.html desde el mismo origen e instala una capa de estilo.
+ * No modifica localStorage ni los datos guardados.
+ */
+(() => {
+  'use strict';
+
+  const frame = document.getElementById('game');
+  const message = document.getElementById('message');
+
+  const theme = `
+:root{
+  --dm-ink:#07131f;
+  --dm-night:#102238;
+  --dm-navy:#193650;
+  --dm-sky:#8dc9dd;
+  --dm-cream:#f2dfb1;
+  --dm-mint:#a4d4a9;
+  --dm-border:rgba(199,231,235,.19);
+}
+html{scroll-behavior:smooth}
+body.dm-visual-3{
+  color:#eff8ff!important;
+  background:
+    radial-gradient(ellipse at 6% 0%,rgba(133,206,229,.17),transparent 36%),
+    radial-gradient(ellipse at 94% 18%,rgba(235,189,115,.12),transparent 34%),
+    linear-gradient(155deg,#091521,#102238 55%,#0b1824)!important;
+}
+body.dm-visual-3 main{
+  max-width:990px!important;
+  padding:clamp(12px,3vw,25px) clamp(10px,2vw,18px) 92px!important;
+  position:relative;
+}
+body.dm-visual-3 h1{
+  font-size:clamp(30px,5.5vw,46px)!important;
+  line-height:1.08!important;
+  letter-spacing:-.045em;
+  color:#fff5d9!important;
+  text-shadow:0 3px 18px rgba(0,0,0,.32);
+}
+body.dm-visual-3 h2{color:#f2f8ff!important;letter-spacing:-.02em}
+body.dm-visual-3 p{color:#dceaf4}
+body.dm-visual-3 .eyebrow{
+  color:#c6edbd!important;
+  font-weight:800;letter-spacing:.2em!important;
+}
+body.dm-visual-3 .panel{
+  position:relative;
+  border:1px solid var(--dm-border)!important;
+  border-radius:21px!important;
+  background:
+    radial-gradient(ellipse at 6% 0%,rgba(114,187,217,.12),transparent 44%),
+    linear-gradient(155deg,#263f5b 0%,#182d45 55%,#132437 100%)!important;
+  box-shadow:
+    0 14px 30px rgba(0,6,14,.29),
+    inset 0 1px 0 rgba(255,255,255,.085),
+    0 1px 0 rgba(255,255,255,.04)!important;
+  padding:clamp(12px,2.5vw,18px)!important;
+}
+body.dm-visual-3 .panel::before{
+  content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+body.dm-visual-3 button{
+  border:1px solid rgba(255,248,213,.17)!important;
+  border-bottom:3px solid #87663c!important;
+  border-radius:12px!important;
+  background:linear-gradient(180deg,#f3d99f,#d9b476)!important;
+  color:#352611!important;
+  box-shadow:0 5px 12px rgba(0,0,0,.19),inset 0 1px rgba(255,255,255,.35)!important;
+  font-weight:800!important;
+  transition:filter .16s ease,transform .16s ease,box-shadow .16s ease;
+}
+body.dm-visual-3 button.alt{
+  background:linear-gradient(180deg,#688fb5,#436b91)!important;
+  color:#fff!important;
+  border-bottom-color:#294d70!important;
+}
+body.dm-visual-3 button.soft{
+  background:linear-gradient(180deg,#78ae91,#4c7c66)!important;
+  color:#fff!important;
+  border-bottom-color:#315b47!important;
+}
+body.dm-visual-3 button:hover:not(:disabled){filter:brightness(1.065);transform:translateY(-1px)}
+body.dm-visual-3 button:active:not(:disabled){transform:translateY(1px)}
+body.dm-visual-3 button:disabled{filter:grayscale(.15);opacity:.54}
+body.dm-visual-3 input,
+body.dm-visual-3 select,
+body.dm-visual-3 textarea{
+  background:linear-gradient(180deg,#0f2033,#172b40)!important;
+  border:1px solid #54748d!important;
+  color:#eef7ff!important;
+  border-radius:11px!important;
+  box-shadow:inset 0 2px 5px rgba(0,0,0,.15);
+}
+body.dm-visual-3 input:focus-visible,
+body.dm-visual-3 select:focus-visible,
+body.dm-visual-3 textarea:focus-visible,
+body.dm-visual-3 button:focus-visible{
+  outline:2px solid #bce9ff!important;outline-offset:2px;
+}
+body.dm-visual-3 .tabs{
+  gap:7px!important;padding:6px!important;
+  border:1px solid rgba(173,218,239,.15);
+  border-radius:17px!important;
+  background:rgba(8,20,34,.47);
+}
+body.dm-visual-3 .tabs button{
+  min-width:0;
+  border-bottom-color:#274157!important;
+  background:linear-gradient(180deg,#456584,#304964)!important;
+  color:#eaf7ff!important;
+  box-shadow:none!important;
+  font-size:clamp(11px,2vw,14px)!important;
+}
+body.dm-visual-3 .tabs button.active{
+  background:linear-gradient(180deg,#ffe5aa,#d6b47a)!important;
+  color:#35230c!important;
+  border-bottom-color:#795a32!important;
+}
+body.dm-visual-3 .stat{
+  background:linear-gradient(155deg,#11283c,#0e1c2c)!important;
+  border:1px solid rgba(172,216,234,.15);
+  border-radius:13px!important;
+  box-shadow:0 5px 12px rgba(0,0,0,.18),inset 0 1px rgba(255,255,255,.05);
+}
+body.dm-visual-3 .stat strong{color:#ffe3a7}
+body.dm-visual-3 .grid2,
+body.dm-visual-3 .grid3,
+body.dm-visual-3 .grid4{gap:10px!important}
+body.dm-visual-3 .worldWrap{
+  border-color:#7fa9b5!important;
+  border-radius:18px!important;
+  background:#112639;
+  box-shadow:0 14px 34px rgba(0,0,0,.3),0 0 0 4px rgba(133,196,218,.07);
+  overflow:hidden;
+}
+body.dm-visual-3 #map,
+body.dm-visual-3 #roomCanvas{
+  display:block;max-width:100%;
+  filter:saturate(1.17) contrast(1.065) brightness(1.035);
+}
+body.dm-visual-3 #preview,
+body.dm-visual-3 #lifeAvatar,
+body.dm-visual-3 #editAvatar{
+  filter:saturate(1.13) contrast(1.055);
+  border:2px solid rgba(200,237,248,.6)!important;
+  border-radius:12px!important;
+  box-shadow:0 8px 20px rgba(0,0,0,.27),0 0 0 4px rgba(134,196,212,.07);
+}
+body.dm-visual-3 .avatarStage26{
+  background:linear-gradient(150deg,#29465f,#172b40)!important;
+  border:1px solid #779cb1!important;
+  border-radius:16px!important;
+  box-shadow:0 10px 28px rgba(0,0,0,.24);
+}
+body.dm-visual-3 .editor26Options details,
+body.dm-visual-3 details{
+  border-radius:13px!important;
+  border-color:rgba(158,206,227,.3)!important;
+  background:linear-gradient(165deg,#233d56,#1b2e44)!important;
+}
+body.dm-visual-3 summary{color:#fff0d1!important}
+body.dm-visual-3 .swatches button{border-radius:9px!important}
+body.dm-visual-3 .swatches button.picked{outline-color:#ffe39b!important}
+body.dm-visual-3 .dm-v3-scene{
+  position:relative;
+  margin:10px 0;
+  padding:9px;
+  border:1px solid rgba(167,218,235,.27);
+  border-radius:17px;
+  background:linear-gradient(165deg,#213d55,#0c1c2b);
+  box-shadow:0 14px 30px rgba(0,0,0,.23);
+  isolation:isolate;
+}
+body.dm-visual-3 .dm-v3-scene::after{
+  content:"";position:absolute;inset:8px;z-index:2;pointer-events:none;
+  border-radius:11px;
+  box-shadow:inset 0 0 0 1px rgba(244,250,250,.12),
+             inset 0 16px 26px rgba(255,255,255,.065),
+             inset 0 -22px 38px rgba(6,17,24,.15);
+}
+body.dm-visual-3 .dm-v3-scene canvas{position:relative;z-index:1;border-radius:9px}
+body.dm-visual-3 .dm-v3-scene-label{
+  position:absolute;top:14px;left:15px;z-index:3;
+  padding:5px 9px;border:1px solid rgba(229,244,247,.24);
+  border-radius:8px;background:rgba(9,24,35,.78);
+  color:#f8e8bd;font:700 10px system-ui;letter-spacing:.12em;
+  text-transform:uppercase;pointer-events:none;
+}
+body.dm-visual-3 .dm-v3-toolbar{
+  position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom));z-index:9900;
+  display:flex;gap:7px;align-items:center;
+}
+body.dm-visual-3 .dm-v3-toolbar button{
+  border-radius:30px!important;background:#173650!important;color:#e8f7ff!important;
+  border:1px solid #6d9bad!important;min-height:41px;padding:9px 13px;
+  box-shadow:0 6px 19px rgba(0,0,0,.3)!important;
+}
+body.dm-visual-3 .dm-v3-toast{
+  position:fixed;bottom:calc(65px + env(safe-area-inset-bottom));right:14px;
+  z-index:9999;padding:10px 14px;border-radius:12px;
+  background:#142d40;color:#fff3ce;font:13px system-ui;
+  border:1px solid #7aa6b5;box-shadow:0 10px 25px #0006;
+}
+@media(max-width:540px){
+ body.dm-visual-3 main{padding:10px 9px 88px!important}
+ body.dm-visual-3 .panel{border-radius:17px!important}
+ body.dm-visual-3 .dm-v3-toolbar{right:9px;bottom:calc(8px + env(safe-area-inset-bottom))}
+ body.dm-visual-3 .dm-v3-toolbar button{min-height:38px;font-size:12px;padding:7px 10px}
+}
+@media(prefers-reduced-motion:reduce){
+ body.dm-visual-3 *,body.dm-visual-3 *::before,body.dm-visual-3 *::after{
+  animation-duration:.01ms!important;transition-duration:.01ms!important
+ }
+}
+`;
+
+  function installVisual(doc) {
+    if (!doc || !doc.head || !doc.body) return;
+    if (doc.getElementById('dm-visual-v3-css')) return;
+
+    const style = doc.createElement('style');
+    style.id = 'dm-visual-v3-css';
+    style.textContent = theme;
+    doc.head.appendChild(style);
+    doc.body.classList.add('dm-visual-3');
+
+    // Only attach decorative wrappers to canvases if this does not disrupt
+    // the existing world container or the game's resize/hit-testing logic.
+    const canvas = doc.getElementById('roomCanvas');
+    if (canvas && !canvas.closest('.dm-v3-scene')) {
+      const outer = doc.createElement('div');
+      outer.className = 'dm-v3-scene';
+      const label = doc.createElement('span');
+      label.className = 'dm-v3-scene-label';
+      label.textContent = 'TU MUNDO';
+      // Keep the canvas in its original parent to preserve coordinate calculations.
+      // The room is styled using the canvas itself instead of reparenting it.
+      canvas.classList.add('dm-v3-room');
+      void outer; void label;
+    }
+
+    const toolbar = doc.createElement('div');
+    toolbar.className = 'dm-v3-toolbar';
+    const toggle = doc.createElement('button');
+    toggle.type = 'button';
+    toggle.textContent = '✦ Visual 3.0';
+    toggle.setAttribute('aria-label', 'Activar o desactivar el tema visual 3.0');
+    toggle.addEventListener('click', () => {
+      const on = doc.body.classList.toggle('dm-visual-3');
+      toggle.textContent = on ? '✦ Visual 3.0' : '○ Original';
+      toast(doc, on ? 'Nuevo estilo visual activado' : 'Vista original activada');
+    });
+    toolbar.appendChild(toggle);
+    doc.body.appendChild(toolbar);
+
+    installCinema(doc);
+  }
+
+  function toast(doc, msg) {
+    const prev = doc.querySelector('.dm-v3-toast');
+    if (prev) prev.remove();
+    const notice = doc.createElement('div');
+    notice.className = 'dm-v3-toast';
+    notice.textContent = msg;
+    doc.body.appendChild(notice);
+    setTimeout(() => notice.remove(), 2200);
+  }
+
+  function installCinema(doc) {
+    if (doc.getElementById('dm-cine-v3-marker')) return;
+    const marker = doc.createElement('span');
+    marker.id = 'dm-cine-v3-marker';
+    marker.hidden = true;
+    doc.body.appendChild(marker);
+
+    const platforms = [
+      {name:'Netflix', url:'https://www.netflix.com/browse'},
+      {name:'Max',url:'https://www.max.com/es/es'},
+      {name:'Disney+',url:'https://www.disneyplus.com/es-es'}
+    ];
+    function openCinema() {
+      if (doc.getElementById('dm-cine-dialog')) return;
+      const overlay=doc.createElement('div');
+      overlay.id='dm-cine-dialog';
+      overlay.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(4,14,25,.94);display:flex;align-items:center;justify-content:center;padding:14px;overflow:auto';
+      const card=doc.createElement('section');
+      card.style.cssText='width:min(430px,100%);padding:23px;background:linear-gradient(145deg,#29455c,#15293c);border:1px solid #a5c9d2;border-radius:20px;color:#edf6ff;font:15px system-ui;box-shadow:0 25px 60px #0008';
+      const heading=doc.createElement('h2');
+      heading.textContent='🎬 Cine Dos Mundos';
+      const description=doc.createElement('p');
+      description.textContent='Elige una plataforma para continuar fuera del juego. Necesitas una suscripción activa.';
+      card.append(heading,description);
+      platforms.forEach(p=>{
+        const btn=doc.createElement('button');
+        btn.textContent='▶ Abrir '+p.name;
+        btn.style.cssText='display:block;width:100%;margin:8px 0;padding:13px';
+        btn.addEventListener('click',()=>window.open(p.url,'_blank','noopener,noreferrer'));
+        card.appendChild(btn);
+      });
+      const close=doc.createElement('button');
+      close.textContent='Volver al juego';
+      close.className='alt';
+      close.style.cssText='width:100%;margin-top:10px;padding:13px';
+      close.onclick=()=>overlay.remove();
+      card.appendChild(close);overlay.appendChild(card);
+      overlay.addEventListener('click',e=>{if(e.target===overlay)overlay.remove()});
+      doc.body.appendChild(overlay);
+    }
+    doc.addEventListener('click', e => {
+      const btn=e.target.closest?.('button');
+      if(btn && /Ver película\s*\(-12\s*€\)/i.test(btn.textContent||'')){
+        e.preventDefault();e.stopImmediatePropagation();openCinema();
+      }
+    },true);
+  }
+
+  frame.addEventListener('load', () => {
+    try {
+      const doc=frame.contentDocument;
+      if(!doc || !doc.body || doc.location.href==='about:blank') throw new Error('frame not accessible');
+      installVisual(doc);
+    } catch(e) {
+      console.error('[Dos Mundos 3.0]',e);
+      message.style.display='flex';
+    }
+  });
+})();
+</script>
+</body>
+</html>
