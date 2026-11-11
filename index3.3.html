@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a1825"><title>Dos Mundos 3.3 · Edición Aurora</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#08141f;color:#f1e9d7;font-family:system-ui,-apple-system,sans-serif}
+#world{position:fixed;inset:0;border:0;width:100%;height:100%;background:#101f2b}
+#boot{position:fixed;inset:0;z-index:10;display:grid;place-content:center;justify-items:center;gap:12px;text-align:center;background:radial-gradient(ellipse at 50% 25%,#31536b,#14283a 50%,#091522);padding:25px;transition:opacity .3s}
+#boot h1{font-family:Georgia,serif;font-weight:400;font-size:clamp(39px,9vw,76px);letter-spacing:-.05em;margin:0;color:#f3deb2}#boot p{margin:0;opacity:.7;max-width:300px;font-size:13px;line-height:1.5}
+#boot .sun{width:80px;height:80px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#fff4c3,#e6ac72 60%,#ba7c6b);box-shadow:0 0 65px #edbe8366;margin-bottom:15px}
+#controls{position:fixed;z-index:20;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));display:flex;gap:7px;align-items:center}
+#controls button{border:1px solid #8badb3aa;background:#18384cdd;color:#f9ebca;border-radius:999px;box-shadow:0 5px 17px #0006;padding:9px 14px;font-size:12px;font-weight:800;backdrop-filter:blur(8px);cursor:pointer}
+#controls button:focus-visible{outline:3px solid #ffe2a2}#notice{position:fixed;z-index:21;bottom:67px;right:12px;max-width:300px;background:#173649;color:#fff2ce;padding:12px 14px;border-radius:13px;border:1px solid #8eb6bb;box-shadow:0 9px 27px #0005;font-size:12px;display:none}
+</style>
+</head>
+<body>
+<div id="boot" role="status"><div class="sun"></div><h1>Dos Mundos</h1><p>EDICIÓN AURORA · 3.3</p><p>Preparando calles, interiores y personajes…</p></div>
+<iframe id="world" title="Dos Mundos, edición Aurora 3.3" allow="fullscreen"></iframe>
+<div id="controls"><button id="switch" type="button">✦ Original</button></div><div id="notice" role="status"></div>
+<script>
+(()=>{'use strict';
+const iframe=document.getElementById('world'),boot=document.getElementById('boot'),btn=document.getElementById('switch'),notice=document.getElementById('notice');
+let enhanced=true,booted=false;
+const original='./index2.9.html';
+function alertUser(text){notice.textContent=text;notice.style.display='block';clearTimeout(alertUser.t);alertUser.t=setTimeout(()=>notice.style.display='none',3600)}
+function done(){if(booted)return;booted=true;boot.style.opacity='0';setTimeout(()=>boot.remove(),350)}
+const css=String.raw`
+:root{--bg:#0c1823;--ink:#edf2ef;--sand:#e9d2a4;--sea:#96c3d0;--sage:#a1cbac;--edge:rgba(189,221,226,.22);--surface:#1c3648}
+html{scroll-behavior:smooth}
+body{background:radial-gradient(ellipse at 0 0,#28495a 0,transparent 39%),radial-gradient(ellipse at 100% 20%,#334239 0,transparent 40%),linear-gradient(150deg,#0a1924,#102435 63%,#091521)!important;color:var(--ink)!important}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.1;background-image:radial-gradient(#c6d9d0 1px,transparent 1px);background-size:23px 23px}
+main{position:relative;z-index:1;max-width:1040px!important;padding:20px 14px 96px!important}
+h1{font-family:Georgia,serif!important;font-weight:400!important;font-size:clamp(35px,6vw,53px)!important;letter-spacing:-.055em;color:#f6e6bd!important;text-shadow:0 7px 25px #07131b99;margin-bottom:12px!important}
+h2{font-family:Georgia,serif!important;color:#fff2d6!important;font-size:clamp(22px,3vw,29px)!important;letter-spacing:-.025em}
+p{color:#dfebea!important;line-height:1.55!important}.eyebrow{color:#c3dcae!important;font-weight:800;letter-spacing:.22em!important}
+.panel{position:relative;background:radial-gradient(circle at 7% 0%,#405d6b55,transparent 40%),linear-gradient(145deg,#233f51 0%,#1b3447 60%,#142938 100%)!important;border:1px solid var(--edge)!important;border-radius:23px!important;padding:clamp(13px,2.5vw,21px)!important;box-shadow:0 18px 36px #0004,inset 0 1px #ffffff19,inset 0 -2px #0002!important;overflow:visible}
+.panel::before{content:'';position:absolute;inset:0;border-radius:inherit;border-top:1px solid #ffffff19;pointer-events:none}
+button{cursor:pointer;transition:filter .16s,transform .16s,box-shadow .16s;border-radius:13px!important;border:1px solid #ffe5ab44!important;border-bottom:3px solid #835b39!important;background:linear-gradient(#f7dea8,#d8b47a)!important;color:#3a2a18!important;font-weight:800!important;box-shadow:0 6px 15px #0003,inset 0 1px #fff7!important}
+button:hover:not(:disabled){filter:brightness(1.06);transform:translateY(-1px)}button:active:not(:disabled){transform:translateY(1px)}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #a7e3f3!important;outline-offset:2px}
+button.alt{background:linear-gradient(#7498ad,#476b89)!important;color:#fff!important;border-bottom-color:#294b66!important}button.soft{background:linear-gradient(#83b49a,#527e6b)!important;color:#fff!important;border-bottom-color:#315a47!important}
+button:disabled{filter:grayscale(.25);opacity:.58;cursor:not-allowed}
+input,select,textarea{background:linear-gradient(#13283a,#1b3446)!important;border:1px solid #85a5ab7d!important;border-radius:12px!important;color:#f7f4ea!important;box-shadow:inset 0 2px 8px #0003}
+label{color:#f0e9d8!important;font-weight:700!important}
+.tabs{gap:7px!important;padding:6px!important;border:1px solid #a6ced02e;background:#0a1b2b77;border-radius:18px!important}
+.tabs button{min-width:0;flex:1;font-size:clamp(11px,2.5vw,14px)!important;background:linear-gradient(#43677a,#27485d)!important;color:#e7f5f4!important;border-bottom-color:#163244!important;box-shadow:none!important}
+.tabs button.active{background:linear-gradient(#f7e6b9,#e0c28a)!important;color:#332516!important;border-bottom-color:#886941!important;box-shadow:0 4px 10px #0004!important}
+.stat,.need{background:linear-gradient(145deg,#152c3b,#0f2330)!important;border:1px solid #a3caca30;border-radius:15px!important;box-shadow:inset 0 1px #ffffff09,0 6px 12px #0002;padding:11px!important}
+.stat strong{color:#f9dfa9!important;font-size:19px!important}.bar{border-radius:50px!important;overflow:hidden;background:#091722!important}.fill{border-radius:50px!important;box-shadow:inset 0 1px #fff5}
+.grid2,.grid3,.grid4{gap:10px!important}details,.editor26Options details{background:#1d3748!important;border:1px solid #b2d0d644!important;border-radius:14px!important}summary{color:#f9e4b5!important}
+.worldWrap{background:#102838!important;border:3px solid #8eacb2!important;border-radius:18px!important;box-shadow:0 0 0 5px #92d4e610,0 18px 38px #0006!important;overflow:hidden}
+#map,#roomCanvas{display:block;max-width:100%;filter:saturate(1.19) contrast(1.055) brightness(1.02);background:#8dadab}
+#preview,#lifeAvatar,#editAvatar{border:2px solid #c8e1dc!important;border-radius:14px!important;filter:saturate(1.12) contrast(1.07);box-shadow:0 10px 22px #0005,0 0 0 4px #95ccd710}
+.avatarStage26{background:linear-gradient(#2e5361,#183244)!important;border:1px solid #a0c5c7!important;border-radius:17px!important;box-shadow:0 10px 20px #0003}
+.swatches button{border-radius:11px!important}.swatches button.picked{outline-color:#ffda91!important}
+#sceneTitle{color:#f7dea8!important}.econNotice{color:#ffe3a4!important}
+.dm33-banner{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;padding:11px 14px;margin-bottom:13px;border:1px solid #a2c5c73d;border-radius:15px;background:linear-gradient(110deg,#2c5262bb,#142d3ebb);box-shadow:0 9px 19px #0002;color:#f1e0b8;font-size:12px;letter-spacing:.04em}
+.dm33-banner strong{font-size:12px;letter-spacing:.14em}.dm33-banner span{color:#b3d7d7}
+.dm33-scene-frame{padding:7px!important;border:2px solid #afd1cb44!important;border-radius:16px!important;box-shadow:0 12px 28px #0005!important;position:relative;isolation:isolate}
+.dm33-scene-frame::after{content:'';position:absolute;inset:5px;border-radius:9px;pointer-events:none;box-shadow:inset 0 0 0 1px #ffffff28,inset 0 25px 35px #e8eec414,inset 0 -30px 35px #172f3a33}
+@media(max-width:540px){main{padding:11px 9px 90px!important}.panel{padding:13px!important;border-radius:18px!important}.tabs{gap:5px!important;padding:5px!important}.tabs button{padding:10px 5px!important}.dm33-banner{font-size:10px;padding:9px 11px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:0s!important;animation-duration:0s!important}}
+`;
+// Artistic additions are inserted into the EXISTING draw sequence, in the same canvas
+// coordinates. No collision bounds, controls or save/load code is changed.
+const art=String.raw`
+// DOS MUNDOS 3.3 — hand-crafted supplemental pixel art
+function dm33R(g,x,y,w,h,c){g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y),Math.max(1,Math.round(w)),Math.max(1,Math.round(h)))}
+function dm33Hash(x,y){const v=Math.sin(x*127.1+y*311.7)*43758.5453;return v-Math.floor(v)}
+function dm33Pavement(g){
+  // Staggered stone grout and tiny mineral flecks; view-relative culling is intentional.
+  const cam=viewOffset();
+  for(let y=Math.floor(cam.y/20)*20;y<cam.y+VIEW_H+20;y+=20){
+    for(let x=Math.floor(cam.x/26)*26;x<cam.x+VIEW_W+26;x+=26){
+      if(dm33Hash(x,y)>.45)dm33R(g,x+4,y+11,3,1,'rgba(105,96,87,.20)');
+      if(dm33Hash(y,x)>.68)dm33R(g,x+19,y+4,2,2,'rgba(250,241,217,.35)');
+      if(dm33Hash(x+7,y+7)>.86)dm33R(g,x+11,y+18,4,1,'rgba(117,109,99,.16)');
+    }
+  }
+}
+function dm33Flower(g,x,y,c){dm33R(g,x,y+2,1,4,'#527d59');dm33R(g,x-2,y,5,3,c);dm33R(g,x,y+1,1,1,'#ffe6a6')}
+function dm33Crown(g,x,y,r=12){
+  dm33R(g,x-3,y+r-1,6,9,'#7a614c');dm33R(g,x-15,y+r+7,30,3,'rgba(41,62,51,.16)');
+  dm33R(g,x-r,y-6,r*2,18,'#2c6651');dm33R(g,x-r+3,y-12,r*2-6,19,'#387f62');
+  dm33R(g,x-r+6,y-15,r*2-12,10,'#5a9c6d');
+  for(let i=0;i<10;i++){let a=dm33Hash(x+i,y)*Math.PI*2,rr=dm33Hash(y,i+x)*r*.85;dm33R(g,x+Math.cos(a)*rr,y+Math.sin(a)*rr-5,3,2,i%3?'#71aa7a':'#9cc58a')}
+}
+function dm33Street(g){
+  // Street character: paving seams, balconies, garden beds, and storefront lights.
+  for(let y=0;y<WORLD_H;y+=63){for(let x=0;x<WORLD_W;x+=83){
+    if(dm33Hash(x+2,y+4)>.75){dm33R(g,x+7,y+16,6,1,'rgba(90,103,99,.23)');dm33R(g,x+13,y+17,2,1,'rgba(90,103,99,.23)')}
+  }}
+  mapPlaces.forEach((b,i)=>{
+    const x=b.x,y=b.y,w=b.w,h=b.h;
+    if(b.id==='park'||b.id==='plaza'){
+      for(let k=0;k<14;k++){
+        const fx=x+8+(dm33Hash(i,k)*Math.max(1,w-16));
+        const fy=y+8+(dm33Hash(k,i+5)*Math.max(1,h-17));
+        dm33Flower(g,fx,fy,k%3===0?'#f3d17e':k%2?'#f1b9b9':'#d9d5f6');
+      }
+      dm33R(g,x+9,y+h-14,w-18,2,'rgba(244,226,187,.4)');
+    }else{
+      // A raised stone lip, rooftop gutters and lightly glazed windows.
+      dm33R(g,x-2,y-2,w+4,2,'#f0e0bc');
+      dm33R(g,x+4,y+4,w-8,2,'rgba(255,255,245,.28)');
+      dm33R(g,x+5,y+h-7,w-10,2,'rgba(61,49,42,.28)');
+      for(let k=0;k<3;k++){
+        let wx=x+8+k*(w-20)/3;
+        dm33R(g,wx,y+21,2,11,'rgba(250,250,237,.46)');
+        dm33R(g,wx+1,y+34,17,2,'rgba(74,67,62,.25)');
+      }
+      // Warm door sconces with tiny gold halo pixels.
+      for(const s of [-1,1]){
+        const sx=x+w/2+s*17;
+        dm33R(g,sx,y+h-29,3,6,'#665445');
+        dm33R(g,sx-1,y+h-31,5,4,'#f7d89a');
+        dm33R(g,sx,y+h-30,2,2,'#fff4c7');
+      }
+      if(i%3===0){dm33R(g,x+w-14,y+12,8,3,'#4b765a');dm33R(g,x+w-12,y+9,5,5,'#62a075');dm33R(g,x+w-10,y+7,3,4,'#9ec58c')}
+    }
+  });
+  // Decorative rooftop plants and flowers outside street crossings.
+  [[83,148],[210,153],[341,152],[451,152],[86,417],[211,413],[340,414],[453,415]].forEach(([x,y],i)=>{
+    dm33R(g,x-12,y+3,24,4,'rgba(32,64,55,.17)');
+    dm33R(g,x-11,y-4,22,9,'#9d7455');dm33R(g,x-9,y-5,18,6,'#4f8062');
+    for(let k=0;k<3;k++)dm33Flower(g,x-6+k*6,y-10,i%2?'#ffd48f':'#e9b7c8');
+  });
+}
+function dm33Interiors(g,id){
+  const R=(x,y,w,h,c)=>dm33R(g,x,y,w,h,c);
+  // Gentle patchwork textiles, picture frames and window light in all rooms.
+  R(16,67,480,2,'rgba(255,245,219,.19)');
+  for(let x=35;x<492;x+=67){
+    R(x,70,13,1,'rgba(255,247,227,.16)');
+    R(x+8,280,10,1,'rgba(79,68,59,.14)');
+  }
+  const art=(x,y,c)=>{R(x,y,34,24,'#654f47');R(x+3,y+3,28,18,'#f0e0c3');R(x+6,y+6,22,12,c);R(x+9,y+9,8,4,'rgba(255,255,255,.3)')};
+  const plant=(x,y)=>{
+    R(x+6,y+17,13,10,'#9c785f');R(x+4,y+14,17,4,'#c39972');
+    R(x+11,y,3,17,'#447755');R(x+5,y+7,8,10,'#438c61');R(x+13,y+3,8,12,'#65a677');
+    R(x+2,y+10,5,5,'#9acc97');R(x+18,y+5,5,5,'#96c990');
+  };
+  const lamp=(x,y)=>{R(x,y,2,13,'#857259');R(x-8,y+11,18,5,'#e2c589');R(x-6,y+16,14,3,'#f7e6ac');R(x-14,y+19,30,2,'rgba(255,229,176,.17)')};
+  if(id==='home'){
+    art(265,36,'#88a9a3');plant(468,246);lamp(305,71);
+    R(206,198,122,2,'rgba(234,244,230,.2)');
+    for(let i=0;i<7;i++)R(212+i*17,235,6,2,'#c0d8d0');
+    R(48,142,92,3,'rgba(255,255,255,.28)');
+    R(353,166,106,2,'#d3b18a');
+    for(let i=0;i<4;i++)R(356+i*22,167,14,2,'#8c6953');
+  }else if(id==='cafe'){
+    lamp(229,20);lamp(370,20);plant(475,226);
+    R(174,68,111,2,'#f5d1a8');R(313,65,96,2,'#f5d1a8');
+    R(18,274,474,2,'rgba(95,49,25,.2)');
+  }else if(id==='gym'){
+    art(395,25,'#7bc3ad');R(25,282,466,3,'rgba(25,42,50,.22)');
+    for(let x=50;x<490;x+=84)R(x,292,35,3,'rgba(183,220,215,.23)');
+  }else if(id==='work'){art(422,19,'#8daab6');plant(469,240);lamp(306,18)}
+  else if(id==='market'){
+    R(16,69,478,2,'rgba(255,255,255,.32)');
+    for(let i=0;i<5;i++)R(27+i*95,290,40,2,'#e5d9a9');
+  }else if(id==='library'){art(415,29,'#9aa780');lamp(260,25);plant(472,241)}
+  else if(id==='cinema'){R(25,18,463,3,'#ccac88');R(25,23,463,1,'rgba(255,255,255,.2)')}
+  else{art(405,22,'#8fb0a6');plant(468,246)}
+  // Ambient top-light: overlays the scenery but characters render afterwards.
+  const light=g.createLinearGradient(0,0,0,170);
+  light.addColorStop(0,'rgba(255,237,192,.085)');light.addColorStop(1,'rgba(255,237,192,0)');
+  g.fillStyle=light;g.fillRect(16,16,480,190);
+}
+`;
+function inject(originalHTML){
+  // Exact hooks from the stable index2.9.html; fail closed if original changes.
+  const a='function drawMap(){';
+  const b=' mapPlaces.forEach((b,i)=>urbanBlock27(ctx,b,i));';
+  const c=' drawCitizens(ctx);';
+  const d='  interiorDetail28(g,id);';
+  if(![a,b,c,d].every(k=>originalHTML.includes(k)))throw Error('No se reconoce la versión base 2.9');
+  let html=originalHTML;
+  html=html.replace(a,art+'\n'+a);
+  html=html.replace(b,' dm33Pavement(ctx);\n'+b);
+  html=html.replace(c,' dm33Street(ctx);\n'+c);
+  html=html.replace(d,d+'\n  dm33Interiors(g,id);');
+  // All CSS is injected into the original document, no overlay hitboxes.
+  const badge='<div class="dm33-banner"><strong>✦ EDICIÓN AURORA 3.3</strong><span>Madrid · una vida entre dos mundos</span></div>';
+  const runtime=`<script>document.addEventListener('DOMContentLoaded',()=>{const main=document.querySelector('main');if(main&&!main.querySelector('.dm33-banner'))main.insertAdjacentHTML('afterbegin',${JSON.stringify(badge)});document.querySelectorAll('.worldWrap').forEach(el=>el.classList.add('dm33-scene-frame'));});<\/script>`;
+  html=html.replace('</head>','<base href="'+new URL('./',location.href).href+'"><style id="dm33-style">'+css+'</style></head>');
+  html=html.replace('</body>',runtime+'</body>');
+  return html;
+}
+function showOriginal(){enhanced=false;iframe.removeAttribute('srcdoc');iframe.src=original;btn.textContent='✦ Volver a 3.3';alertUser('Vista original 2.9 activada. Tus datos no se han cambiado.');}
+async function showEnhanced(){enhanced=true;btn.textContent='◌ Vista original';booted=false;try{
+  const res=await fetch(original,{cache:'no-cache'});if(!res.ok)throw Error('No se pudo leer index2.9.html');
+  const html=await res.text();
+  iframe.srcdoc=inject(html);
+}catch(err){console.error('[Dos Mundos 3.3]',err);showOriginal();alertUser('No se pudo aplicar la actualización. Abrí el juego original por seguridad.');}}
+iframe.addEventListener('load',()=>{done();if(enhanced){try{const d=iframe.contentDocument;if(!d||!d.getElementById('dm33-style')){alertUser('No se detecta la versión 3.3; puedes volver al original.')}}catch(e){alertUser('No se pudo confirmar la mejora visual.')}}});
+btn.addEventListener('click',()=>enhanced?showOriginal():showEnhanced());
+showEnhanced();
+setTimeout(()=>{if(!booted){done();alertUser('Si no aparece el juego, pulsa Vista original.')}},12000);
+})();
+</script>
+</body></html>
