@@ -1,0 +1,622 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#193e43"><title>Dos Mundos 3.4 · Barrio Vivo</title><style>*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:#142c35;color:#fff3d2;font-family:system-ui}#dm-frame{position:fixed;inset:0;width:100%;height:100%;border:0}#dm-status{position:fixed;inset:0;z-index:2;display:grid;place-content:center;text-align:center;padding:24px;background:radial-gradient(circle at 50% 30%,#355d59,#122834);font-size:17px}#dm-status strong{font-size:22px}#dm-status p{max-width:430px}</style></head><body><div id="dm-status"><strong>✦ Dos Mundos 3.4 — Barrio Vivo</strong><p>Cargando nuevas fachadas, vegetación y detalles interiores...</p></div><iframe id="dm-frame" title="Dos Mundos 3.3 Aurora" allow="fullscreen"></iframe><script id="dm-art-source" type="text/plain">
+/* DOS MUNDOS 3.3 - ART ENGINE: all functions live in the game's original closure. */
+const DM33={mode:'aurora',particles:true,quality:1};
+
+/* Cinema 3.3 FIX: launch external services from a real user click. */
+function dm33OpenCinema(){
+ const existing=document.getElementById('dm33-cinema-overlay');
+ if(existing){existing.remove();return}
+ const outer=document.createElement('div');
+ outer.id='dm33-cinema-overlay';
+ Object.assign(outer.style,{position:'fixed',inset:'0',zIndex:'100000',background:'rgba(5,12,23,.94)',display:'flex',justifyContent:'center',alignItems:'center',padding:'18px',overflow:'auto'});
+ const panel=document.createElement('section');
+ Object.assign(panel.style,{width:'min(430px,100%)',background:'linear-gradient(155deg,#243b53,#112337)',color:'#f5f7fa',border:'1px solid #aac6d3',borderRadius:'20px',padding:'22px',boxShadow:'0 20px 70px #000a',fontFamily:'system-ui,sans-serif'});
+ const heading=document.createElement('h2');
+ heading.textContent='🎬 Cine Dos Mundos';
+ heading.style.margin='0 0 8px';
+ const copy=document.createElement('p');
+ copy.textContent='Elige dónde ver tu película. La plataforma se abrirá en otra pestaña.';
+ panel.append(heading,copy);
+ const options=[
+  {name:'Netflix',url:'https://www.netflix.com/browse'},
+  {name:'Max',url:'https://www.max.com/es/es'},
+  {name:'Disney+',url:'https://www.disneyplus.com/es-es'}
+ ];
+ for(const option of options){
+  const a=document.createElement('a');
+  a.href=option.url;a.target='_blank';a.rel='noopener noreferrer';
+  a.textContent='▶ Abrir '+option.name;
+  Object.assign(a.style,{display:'block',margin:'10px 0',padding:'14px',borderRadius:'12px',background:'#e6c38b',color:'#243040',fontWeight:'800',textDecoration:'none',textAlign:'center',boxShadow:'0 3px 10px #0003'});
+  panel.append(a);
+ }
+ const note=document.createElement('p');
+ note.textContent='Necesitas una suscripción activa. La disponibilidad depende del catálogo de cada plataforma.';
+ note.style.fontSize='12px';
+ const close=document.createElement('button');
+ close.type='button';close.textContent='Volver al juego';
+ close.style.cssText='display:block;width:100%;padding:13px;border-radius:12px';
+ close.addEventListener('click',()=>outer.remove());
+ panel.append(note,close);
+ outer.append(panel);
+ outer.addEventListener('click',e=>{if(e.target===outer)outer.remove()});
+ document.body.append(outer);
+}
+
+function dm33rect(g,x,y,w,h,c){g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y),Math.ceil(w),Math.ceil(h))}
+function dm33seed(a,b){const n=Math.sin(a*127.1+b*311.7)*43758.5453123;return n-Math.floor(n)}
+function dm33poly(g,pts,fill){g.fillStyle=fill;g.beginPath();pts.forEach(([x,y],i)=>i?g.lineTo(x,y):g.moveTo(x,y));g.closePath();g.fill()}
+function dm33shadow(g,x,y,w,h){dm33rect(g,x+7,y+9,w,h,'rgba(29,45,42,.29)');dm33rect(g,x+4,y+5,w,h,'rgba(23,36,40,.15)')}
+function dm33tree(g,x,y,r=15,k=0){
+ dm33rect(g,x-4,y+2,9,18,'#76513d');dm33rect(g,x-1,y+6,3,10,'#b18b57');
+ dm33rect(g,x-r+4,y+11,r*2-7,5,'rgba(12,62,46,.17)');
+ const greens=['#285943','#326c4d','#407e52','#4e9564','#66a76c'];
+ for(const [dx,dy,rad,col] of [[-8,-3,r*.72,0],[7,-4,r*.66,1],[-1,-11,r*.84,2],[-3,-7,r*.69,3],[5,-11,r*.52,4]]){
+  g.fillStyle=greens[col];g.beginPath();g.arc(x+dx,y+dy,rad,0,Math.PI*2);g.fill();
+ }
+ for(let j=0;j<13;j++){
+  const px=x+(dm33seed(j*19+k,11+k)-.5)*r*1.9;
+  const py=y-8+(dm33seed(j*31+k,71)-.5)*r*1.45;
+  dm33rect(g,px,py,j%3?3:5,j%3?2:3,j%4===0?'#a4c881':'#74b878');
+ }
+}
+function dm33pavement(g){
+ dm33rect(g,0,0,WORLD_W,WORLD_H,'#c9c3aa');
+ for(let y=0;y<WORLD_H;y+=20){
+  for(let x=0;x<WORLD_W;x+=32){
+   dm33rect(g,x,y,31,19,(Math.floor(x/32)+Math.floor(y/20))%3===0?'#d6cbb5':'#cec5b1');
+   dm33rect(g,x+2,y+18,28,1,'#b5a992');
+   if(dm33seed(x,y)>.78)dm33rect(g,x+9,y+6,3,2,'#b9ac95');
+  }
+ }
+}
+function dm33road(g){
+ const vs=[256,528,800,1072],hs=[236,504,772];
+ vs.forEach(x=>{
+  dm33rect(g,x-24,0,97,WORLD_H,'#f0dfc2');
+  dm33rect(g,x-15,0,4,WORLD_H,'#b7a789');
+  dm33rect(g,x,0,50,WORLD_H,'#586b70');
+  dm33rect(g,x+50,0,4,WORLD_H,'#f0ebd9');
+  dm33rect(g,x+2,0,2,WORLD_H,'#859898');
+  for(let y=8;y<WORLD_H;y+=48)dm33rect(g,x+24,y,2,23,'#eddaa8');
+ });
+ hs.forEach(y=>{
+  dm33rect(g,0,y-24,WORLD_W,100,'#eadac2');
+  dm33rect(g,0,y-16,WORLD_W,4,'#b8a98e');
+  dm33rect(g,0,y,WORLD_W,50,'#58696f');
+  dm33rect(g,0,y+50,WORLD_W,4,'#f0ebd9');
+  for(let x=8;x<WORLD_W;x+=48)dm33rect(g,x,y+24,23,2,'#f3dda8');
+ });
+ for(const vx of vs)for(const hy of hs){
+  dm33rect(g,vx,hy,50,50,'#58696f');
+  for(let i=0;i<5;i++){
+   dm33rect(g,vx+3+i*10,hy+6,7,14,'#eee8d5');
+   dm33rect(g,vx+3+i*10,hy+30,7,14,'#eee8d5');
+  }
+  dm33rect(g,vx-14,hy-15,13,13,'#d3c6af');
+  dm33rect(g,vx+51,hy-15,12,13,'#d3c6af');
+ }
+}
+const DM33PALETTES={
+ home:['#b98b72','#e9c8a4','#b86f64','#f7e4bb'],market:['#b67c61','#ecd2a6','#b8794d','#d8ecce'],
+ work:['#668a95','#c8dee0','#546f83','#c8eef2'],gym:['#556d7e','#b3c6cc','#3b556c','#d5e6e9'],
+ cafe:['#a96651','#e6ad82','#a24d56','#ffdab0'],library:['#8e788d','#e0d0b9','#75617d','#f1dbc8'],
+ cinema:['#74678c','#bdafd2','#4b3c68','#f3d3db'],shop:['#a4688c','#efc3d4','#ac618e','#f5dee7'],
+ clinic:['#75a9a0','#d5ebdc','#548e8f','#e1f4e8'],station:['#617b8a','#bfcdd3','#3e6071','#cde4eb']};
+function dm33building(g,b,i){
+ const {x,y,w,h,id}=b;
+ if(id==='park'){dm33park(g,b);return}
+ if(id==='plaza'){dm33plaza(g,b);return}
+ const p=DM33PALETTES[id]||DM33PALETTES.home;
+ // Landscape block with sandstone paving and neighboring greenery.
+ dm33rect(g,x-27,y-30,w+54,h+55,'#c6bfa8');
+ for(let t=0;t<5;t++)dm33rect(g,x-22+t*27,y+h+7,w>95?20:17,2,'#aea38e');
+ dm33shadow(g,x,y,w,h);
+ dm33rect(g,x-2,y-5,w+4,h+5,'#544f52');
+ dm33rect(g,x,y,w,h,p[1]);
+ // Side face and roof layers: conspicuous isometric volume.
+ dm33rect(g,x+w-11,y+7,11,h-8,'rgba(39,43,49,.19)');
+ dm33rect(g,x+2,y+30,w-15,3,'rgba(85,61,54,.25)');
+ dm33rect(g,x+2,y+58,w-15,3,'rgba(85,61,54,.17)');
+ dm33poly(g,[[x-6,y+7],[x+6,y-13],[x+w-3,y-13],[x+w+8,y+7]],p[2]);
+ dm33rect(g,x-6,y+5,w+14,10,p[2]);
+ dm33rect(g,x-6,y+14,w+14,3,'#5c4d4e');
+ dm33rect(g,x-3,y+7,w+8,3,'rgba(255,244,211,.30)');
+ for(let j=0;j<5;j++)dm33rect(g,x+7+j*(w-12)/5,y+2,12,2,'rgba(255,224,190,.32)');
+ // Decorative upper facade and reflective lit windows.
+ for(let k=0;k<3;k++){
+  const xx=x+8+k*(w-16)/3;
+  dm33rect(g,xx-2,y+22,Math.min(22,(w-16)/3-2),24,'#866c62');
+  dm33rect(g,xx,y+23,Math.min(18,(w-16)/3-5),20,k===1?'#eac58d':'#75b5c6');
+  dm33rect(g,xx+3,y+25,4,15,k===1?'#ffedba':'#a8e2e3');
+  dm33rect(g,xx+9,y+25,2,18,'#e6d8b9');
+  dm33rect(g,xx-3,y+45,Math.min(24,(w-16)/3),3,'#d8c6a5');
+  dm33rect(g,xx-1,y+48,Math.min(20,(w-16)/3-3),2,'#8a786d');
+ }
+ // Ground floor storefront, shop identity, actual entrance preserved.
+ const doorx=x+w/2-11;
+ dm33rect(g,x+4,y+h-26,w-8,23,p[0]);
+ dm33rect(g,x+8,y+h-23,w-16,16,'#496c72');
+ dm33rect(g,x+10,y+h-21,w-20,12,p[3]);
+ dm33rect(g,x+12,y+h-19,10,8,'rgba(255,255,255,.37)');
+ dm33rect(g,x+w-26,y+h-19,12,8,'rgba(255,255,255,.28)');
+ dm33rect(g,doorx-2,y+h-29,26,29,'#4e4f56');
+ dm33rect(g,doorx,y+h-27,22,27,'#6f5146');
+ dm33rect(g,doorx+3,y+h-23,15,19,'#a77d62');
+ dm33rect(g,doorx+15,y+h-15,2,2,'#f5d991');
+ // Awnings of different color bands.
+ if(['market','cafe','shop','cinema'].includes(id)){
+  for(let j=0;j<7;j++)dm33rect(g,x+3+j*(w-6)/7,y+h-32,Math.ceil((w-6)/7),7,j%2?p[2]:'#f2dbbc');
+  dm33rect(g,x+3,y+h-26,w-6,2,'#7e6251');
+ }
+ // Roof props to make facades individually recognizable.
+ if(id==='gym'){dm33rect(g,x+15,y-20,w-30,8,'#334e62');dm33rect(g,x+21,y-18,w-42,4,'#a4c8d0')}
+ if(id==='cinema'){dm33rect(g,x+18,y-21,w-36,12,'#433a59');dm33rect(g,x+23,y-18,w-46,5,'#f6d0ae')}
+ if(id==='clinic'){dm33rect(g,x+w/2-4,y-20,8,14,'#e9f5eb');dm33rect(g,x+w/2-10,y-16,20,6,'#c85c63')}
+ if(id==='cafe'){dm33rect(g,x+10,y-18,13,10,'#5a3e39');dm33rect(g,x+13,y-21,7,4,'#e6bc99')}
+ if(id==='home'){dm33rect(g,x+16,y-16,14,6,'#e6dbc6');dm33rect(g,x+w-26,y-16,12,6,'#e6dbc6')}
+ if(id==='market'){dm33rect(g,x+6,y-17,w-12,7,'#608c76')}
+ // Plant boxes, flower beds, warmly lit doorway.
+ dm33rect(g,x+4,y+h-5,14,8,'#987352');dm33rect(g,x+5,y+h-11,12,9,'#3e8b5d');
+ dm33rect(g,x+7,y+h-13,8,6,'#78bf79');
+ dm33rect(g,x+w-18,y+h-5,14,8,'#987352');dm33rect(g,x+w-17,y+h-11,12,9,'#4b9966');
+ dm33rect(g,x+w-15,y+h-13,8,6,'#72bb71');
+ dm33rect(g,x-4,y+h+2,w+8,3,'rgba(37,56,50,.19)');
+ // Signage as a clear label above entrances.
+ g.fillStyle='#263b47';g.font='bold 9px system-ui';g.textAlign='center';
+ g.fillText(({home:'CASA',market:'MERCADO',work:'OFICINA',gym:'GYM',cafe:'CAFÉ',library:'LIBROS',cinema:'CINE',shop:'MODA',clinic:'CLÍNICA',station:'METRO'})[id]||id.toUpperCase(),x+w/2,y+h-35);
+}
+function dm33park(g,b){
+ const {x,y,w,h}=b;dm33rect(g,x-14,y-16,w+28,h+29,'#78956b');
+ dm33rect(g,x-10,y-12,w+20,h+22,'#47815a');
+ for(let t=0;t<12;t++){
+  const rx=x-7+dm33seed(t,17)*w,ry=y-7+dm33seed(t,27)*h;
+  dm33rect(g,rx,ry,5,3,t%3===0?'#f4d8a5':'#8bc479');
+ }
+ dm33rect(g,x+w/2-8,y-11,16,h+20,'#e5c99b');
+ dm33rect(g,x-9,y+h/2-6,w+18,12,'#e5c99b');
+ dm33rect(g,x+2,y+3,25,18,'#4d98a8');dm33rect(g,x+5,y+5,19,14,'#83cfdb');
+ for(const [ax,ay] of [[-5,-7],[w-4,-5],[2,h-7],[w-5,h-8]])dm33tree(g,x+ax,y+ay,12,ax+ay);
+ dm33rect(g,x+w-27,y+h-20,24,5,'#986c48');dm33rect(g,x+w-25,y+h-15,3,7,'#634b3b');
+}
+function dm33plaza(g,b){
+ const {x,y,w,h}=b;dm33rect(g,x-14,y-17,w+28,h+34,'#cbb99a');
+ for(let i=0;i<5;i++)dm33rect(g,x-11+i*24,y-15,1,h+27,'#ae9a7d');
+ dm33rect(g,x+w/2-25,y+8,50,42,'#6c969c');
+ dm33rect(g,x+w/2-20,y+12,40,34,'#94d1d9');
+ dm33rect(g,x+w/2-12,y+18,24,22,'#bde5e3');
+ dm33rect(g,x+w/2-4,y+5,8,14,'#dee6da');
+ dm33rect(g,x+w/2-1,y,3,10,'#e6f8ef');
+ dm33tree(g,x-6,y+5,10,31);dm33tree(g,x+w+7,y+h-2,10,33);
+}
+function dm33streetDecor(g){
+ // Distinctive neighborhood detail: flowers, street lanterns, bicycles, street planters.
+ const lights=[[202,205],[476,205],[748,205],[1019,205],[202,470],[475,470],[748,470],[1019,470],[202,739],[475,739],[748,739],[1019,739]];
+ for(const [x,y] of lights){
+  dm33rect(g,x+2,y+5,4,27,'rgba(12,37,41,.2)');
+  dm33rect(g,x,y,3,21,'#35545c');dm33rect(g,x-5,y-2,13,7,'#425963');
+  dm33rect(g,x-3,y,9,4,'#ffe4a1');
+  const grad=g.createRadialGradient(x+1,y+1,2,x+1,y+1,30);
+  grad.addColorStop(0,'rgba(255,229,162,.16)');grad.addColorStop(1,'rgba(255,229,162,0)');
+  g.fillStyle=grad;g.fillRect(x-30,y-29,65,60);
+ }
+ for(const [x,y] of [[65,270],[338,271],[608,273],[884,272],[66,542],[340,545],[613,547],[886,543],[65,813],[337,814],[607,811],[880,813]]){
+   dm33tree(g,x,y,12,x);
+   dm33rect(g,x-9,y+13,19,5,'#ae8067');
+ }
+ for(const [x,y] of [[190,158],[462,158],[730,158],[1002,158],[190,423],[462,423],[730,423],[1002,423]]){
+  dm33rect(g,x,y,28,4,'#97674c');dm33rect(g,x+2,y+4,3,8,'#65513d');dm33rect(g,x+22,y+4,3,8,'#65513d');
+  dm33rect(g,x+2,y-4,24,3,'#c59365');
+ }
+ for(const [x,y] of [[301,390],[566,653],[839,105],[1101,394]]){
+  dm33rect(g,x-12,y-5,27,14,'rgba(28,39,44,.27)');
+  dm33rect(g,x-12,y-10,24,13,'#557d88');dm33rect(g,x-9,y-8,18,9,'#90b5b9');
+  dm33rect(g,x-15,y-6,4,6,'#222f33');dm33rect(g,x+12,y-6,4,6,'#222f33');
+  dm33rect(g,x-7,y+3,11,3,'#f5d49c');
+ }
+}
+function dm33atmosphere(g){
+ const grad=g.createLinearGradient(0,0,0,VIEW_H);
+ grad.addColorStop(0,'rgba(250,218,172,.07)');grad.addColorStop(.52,'rgba(235,231,193,0)');
+ grad.addColorStop(1,'rgba(36,81,90,.11)');
+ g.fillStyle=grad;g.fillRect(0,0,VIEW_W,VIEW_H);
+ const vig=g.createRadialGradient(VIEW_W/2,VIEW_H/2,90,VIEW_W/2,VIEW_H/2,380);
+ vig.addColorStop(0,'rgba(8,22,26,0)');vig.addColorStop(1,'rgba(8,22,26,.17)');
+ g.fillStyle=vig;g.fillRect(0,0,VIEW_W,VIEW_H);
+}
+
+/* 3.4 · ATELIER: real additional geometry, sprites, materials & environments.
+   Pure rendering functions: no storage, economy or collision mutation. */
+function dm34R(g,x,y,w,h,c){
+ g.fillStyle=c;g.fillRect(Math.round(x),Math.round(y),Math.max(0,Math.round(w)),Math.max(0,Math.round(h)));
+}
+function dm34Line(g,x1,y1,x2,y2,color,width=1){
+ g.strokeStyle=color;g.lineWidth=width;g.beginPath();g.moveTo(x1,y1);g.lineTo(x2,y2);g.stroke();
+}
+function dm34Seed(x,y){const v=Math.sin(x*12.9898+y*78.233)*43758.5453;return v-Math.floor(v)}
+function dm34Flower(g,x,y,k){
+ const colors=['#fff2dc','#f3b6ac','#edcc77','#c4b7e9'];
+ dm34R(g,x,y,2,6,'#4d8960');dm34R(g,x-2,y-2,6,4,colors[k%4]);dm34R(g,x,y-1,2,2,'#e4a15b');
+}
+function dm34Tree(g,x,y,r=13,k=0){
+ // Distinct outer silhouettes, crown shade, highlights and blossom fragments.
+ const c=['#2d6547','#3d7950','#4b925b','#6ca970'];
+ dm34R(g,x-8,y+14,17,4,'rgba(24,49,36,.19)');
+ dm34R(g,x-3,y-1,7,22,'#684e39');dm34R(g,x-1,y+1,3,16,'#ac8053');
+ for(let j=0;j<7;j++){
+  const a=j*Math.PI*2/7+0.2,dx=Math.round(Math.cos(a)*r*.55),dy=Math.round(Math.sin(a)*r*.42)-9;
+  g.fillStyle=c[(j+1)%4];g.beginPath();g.arc(x+dx,y+dy,r*.64,0,Math.PI*2);g.fill();
+ }
+ g.fillStyle='#39794e';g.beginPath();g.arc(x,y-12,r*.73,0,Math.PI*2);g.fill();
+ for(let j=0;j<18;j++){
+  const xx=x+(dm34Seed(j+2,k+11)-.5)*r*1.7;
+  const yy=y-10+(dm34Seed(j+51,k+8)-.5)*r*1.5;
+  dm34R(g,xx,yy,j%5===0?4:2,j%4===0?3:2,j%3===0?'#a4cf80':'#6eae67');
+ }
+}
+function dm34Facade(g,b,i){
+ if(['park','plaza'].includes(b.id))return;
+ const {x,y,w,h}=b;
+ const roofColors=['#725765','#54726f','#835c52','#596876','#806a56'];
+ const roof=roofColors[i%roofColors.length];
+ // Roof edges and ledges; extra floor with pitched roof and roof tile lines.
+ dm34R(g,x-7,y-16,w+15,5,'#4e5357');
+ dm34R(g,x-5,y-21,w+10,6,roof);
+ dm34R(g,x-2,y-24,w+5,4,'#9c8170');
+ for(let xx=x;xx<x+w-3;xx+=12){
+  dm34R(g,xx,y-20,7,2,'rgba(255,225,181,.22)');
+  dm34R(g,xx+4,y-15,2,2,'rgba(24,36,43,.22)');
+ }
+ dm34R(g,x+3,y+12,w-6,2,'rgba(255,243,208,.35)');
+ dm34R(g,x+3,y+48,w-6,2,'rgba(46,52,54,.15)');
+ // A stepped cornice and micro-balconies below upper windows.
+ for(let k=0;k<3;k++){
+  const xx=x+7+k*(w-15)/3;
+  dm34R(g,xx,y+43,Math.min(23,(w-15)/3-2),4,'#735c54');
+  dm34R(g,xx-1,y+47,Math.min(25,(w-15)/3),2,'#394b4e');
+  dm34R(g,xx+1,y+48,2,5,'#394b4e');
+  dm34R(g,xx+19,y+48,2,5,'#394b4e');
+  dm34R(g,xx+4,y+25,2,10,'rgba(255,255,255,.33)');
+ }
+ // Distinctive building sign plates and entrance lighting.
+ const labels={home:'HOGAR',market:'LA HUERTA',work:'ESTUDIO',gym:'FIT CLUB',cafe:'CAFÉ LUNA',
+ library:'LIBRERÍA',cinema:'CINE CLUB',shop:'ATELIER',clinic:'SALUD',station:'METRO'};
+ dm34R(g,x+8,y+h-39,w-16,10,'#263d46');
+ dm34R(g,x+9,y+h-38,w-18,1,'#e6c492');
+ g.save();g.textAlign='center';g.font='bold 7px system-ui';g.fillStyle='#fff1c9';
+ g.fillText(labels[b.id]||'DOS MUNDOS',x+w/2,y+h-31);g.restore();
+ dm34R(g,x+w/2-19,y+h-24,3,6,'#ffdda3');
+ dm34R(g,x+w/2+16,y+h-24,3,6,'#ffdda3');
+ // A believable shadow below the awning and warm reflected ground color.
+ dm34R(g,x+3,y+h-8,w-6,2,'rgba(45,47,41,.28)');
+ dm34R(g,x+4,y+h+5,w-8,2,'rgba(62,54,41,.12)');
+ // Small planters with separate flowers for scale.
+ for(const xx of [x+6,x+w-15]){
+  dm34R(g,xx,y+h-2,10,6,'#8f6554');dm34R(g,xx+1,y+h-5,8,4,'#397a50');
+  dm34Flower(g,xx+4,y+h-9,i);dm34Flower(g,xx+8,y+h-7,i+2);
+ }
+ if(b.id==='cafe'){
+  for(let j=0;j<2;j++){
+   const tx=x+12+j*43,ty=y+h+14;
+   dm34R(g,tx,ty,23,4,'#9e7351');
+   dm34R(g,tx+10,ty+4,3,10,'#624d42');
+   dm34R(g,tx-6,ty+1,7,9,'#507b77');
+   dm34R(g,tx+23,ty+1,7,9,'#507b77');
+   dm34R(g,tx+6,ty-5,10,5,'#f2dec1');
+  }
+ }
+ if(b.id==='cinema'){
+  dm34R(g,x+13,y-31,w-26,8,'#3c304d');
+  g.fillStyle='#f4c897';g.font='bold 7px system-ui';g.textAlign='center';g.fillText('CINE',x+w/2,y-25);
+ }
+ if(b.id==='market'){
+  for(let j=0;j<4;j++){
+   const xx=x+9+j*15;dm34R(g,xx,y+h+8,13,10,'#b78252');
+   dm34R(g,xx+2,y+h+5,9,7,j%2?'#d7ad62':'#6fa96d');
+  }
+ }
+}
+function dm34Street(g){
+ // Underground greenery, curb texture and street drains.
+ for(let y=5;y<WORLD_H;y+=27)for(let x=5;x<WORLD_W;x+=34){
+  const f=dm34Seed(x,y);
+  if(f>.86){
+   dm34R(g,x,y,4,1,'#8a9e7c');dm34R(g,x+2,y+1,2,2,'#8ea781');
+  }
+ }
+ // Sidewalk seams, traffic signs, planters and benches.
+ for(const y of [225,493,761]){
+  for(let x=16;x<WORLD_W;x+=52){
+   dm34R(g,x,y-10,28,2,'#e4d6b8');
+   if((x/52|0)%3===0)dm34R(g,x+11,y-9,2,3,'#b09e82');
+  }
+ }
+ for(const x of [251,523,795,1067]){
+  for(let y=12;y<WORLD_H;y+=72){
+   dm34R(g,x-13,y,2,33,'#e1d4bd');
+  }
+ }
+ const trees=[[140,135],[258,125],[517,127],[782,128],[1053,128],
+ [140,396],[258,391],[518,397],[785,394],[1052,394],
+ [142,663],[259,655],[518,659],[784,656],[1053,654]];
+ trees.forEach(([x,y],i)=>dm34Tree(g,x,y,10+(i%3)*2,i));
+ for(let i=0;i<16;i++){
+  const col=i%4,row=Math.floor(i/4),x=40+col*270,y=156+row*263;
+  for(let j=0;j<5;j++)dm34Flower(g,x+j*7,y+dm34Seed(i,j)*6,i+j);
+ }
+ // Bicycles on the pavement; strictly decorative.
+ for(const [x,y] of [[218,141],[494,410],[764,687],[1033,146]]){
+  g.strokeStyle='#344d56';g.lineWidth=2;
+  g.beginPath();g.arc(x,y,6,0,7);g.arc(x+19,y,6,0,7);g.stroke();
+  dm34Line(g,x,y,x+9,y-9,'#ca8361',2);dm34Line(g,x+9,y-9,x+19,y,'#ca8361',2);
+  dm34Line(g,x,y,x+12,y,'#ca8361',2);dm34Line(g,x+12,y,x+9,y-9,'#ca8361',2);
+  dm34Line(g,x+9,y-9,x+11,y-12,'#3c5560',2);
+  dm34Line(g,x+15,y-12,x+19,y,'#3c5560',2);
+ }
+}
+function dm34Interior(g,id){
+ const R=(x,y,w,h,c)=>dm34R(g,x,y,w,h,c);
+ // Real surface detail, drawn after base room geometry and before actors.
+ const light=g.createLinearGradient(0,0,512,320);
+ light.addColorStop(0,'rgba(255,231,177,.10)');light.addColorStop(.55,'rgba(255,238,204,0)');
+ light.addColorStop(1,'rgba(23,40,60,.085)');
+ g.fillStyle=light;g.fillRect(16,16,480,290);
+ // Warm floorboard texture and different wall/baseboard joins.
+ for(let y=83;y<306;y+=25){
+  R(19,y,474,1,'rgba(78,65,58,.12)');
+  for(let x=(y%2?21:43);x<480;x+=61)R(x,y+1,1,23,'rgba(64,58,49,.09)');
+ }
+ for(const x of [50,470]){
+  R(x,28,12,4,'#795b48');R(x+4,33,4,12,'#f7dda8');
+  const glow=g.createRadialGradient(x+6,39,3,x+6,39,60);
+  glow.addColorStop(0,'rgba(255,232,171,.18)');glow.addColorStop(1,'rgba(255,232,171,0)');
+  g.fillStyle=glow;g.fillRect(x-55,0,122,112);
+ }
+ function pot(x,y){
+  R(x+4,y+14,17,14,'#a66e54');R(x+5,y+16,15,5,'#d99f78');
+  for(let i=0;i<5;i++){
+   const xx=x+5+i*4,yy=y+9-(i%2)*8;
+   R(xx,yy,5,11,i%2?'#448d5f':'#69a46a');
+  }
+  R(x+9,y-3,6,7,'#92c17d');
+ }
+ if(id==='home'){
+  // Bed fabric, patterned rug, books, framed poster and kitchen equipment.
+  for(let i=0;i<4;i++)R(46,150+i*7,103,2,i%2?'#d7eff0':'#7cabc2');
+  for(let i=0;i<5;i++)R(213+i*24,214,10,25,i%2?'#b1d1cd':'#d9e0d0');
+  R(244,210,48,28,'#946a4d');R(249,214,38,20,'#ceaa7a');
+  R(221,34,72,41,'#655a4c');R(225,38,64,33,'#efe0be');
+  R(231,47,48,4,'#78a2ad');R(239,53,29,3,'#b4a38c');
+  R(370,117,3,18,'#708c91');R(374,124,14,3,'#d4e6e3');
+  R(435,125,21,15,'#4d5360');R(439,129,13,6,'#a3b9b1');
+  for(let i=0;i<4;i++)R(345+i*17,176,11,4,['#e8bea1','#93b6b2','#e4cf8f','#e8bea1'][i]);
+  pot(466,250);
+ }else if(id==='cafe'){
+  // Actual cups on the counter and tableware, pastries, tiled bar.
+  for(let i=0;i<4;i++){
+   R(24+i*24,121,15,6,'#faebd5');R(29+i*24,116,6,5,'#fcf3e3');
+   R(35+i*24,117,4,2,'#bf8d61');
+  }
+  for(let i=0;i<7;i++)R(25+i*18,56,8,4,i%2?'#f0b57c':'#f1d6a2');
+  pot(454,249);
+  R(181,28,125,19,'#7e5d49');R(185,32,117,11,'#d6b78e');
+  R(193,35,100,2,'#f7e7ce');
+ }else if(id==='gym'){
+  // Subtle industrial concrete, floor mats and bench hardware.
+  for(let i=0;i<5;i++)R(20+i*102,290,80,2,'rgba(36,52,63,.25)');
+  R(48,175,115,12,'#3d5159');R(53,179,105,5,'#6f8790');
+  for(let i=0;i<4;i++)R(56+i*16,185,7,10,'#1f323b');
+  R(375,28,110,20,'#2b5260');R(383,34,91,4,'#94d5d0');
+  pot(464,251);
+ }else if(id==='market'){
+  for(let i=0;i<6;i++){
+   R(28+i*16,235,12,9,i%2?'#ecbd71':'#8bb772');
+   R(26+i*16,231,14,5,'#806946');
+  }
+  R(391,33,90,21,'#5d846d');R(397,39,78,4,'#e6f3c9');
+ }else if(id==='work'){
+  for(let i=0;i<3;i++){
+   R(28+i*137,27,90,4,'#9ab5bf');
+   R(45+i*137,34,37,3,'#f1ead8');
+  }
+  pot(467,247);
+ }else if(id==='library'){
+  for(let j=0;j<8;j++)R(32+j*27,75,11,25,['#b96a67','#67939b','#d2b674','#8c88ab'][j%4]);
+  pot(460,250);
+ }else if(id==='cinema'){
+  // Theater aisle lighting and dimensional seat backs.
+  for(let i=0;i<7;i++){
+   R(24+i*68,277,32,3,'#ead39c');
+   R(32+i*68,280,4,4,'#6e697b');
+  }
+ }else{
+  pot(468,246);
+ }
+ // Top-right window reflection to unify all scenes.
+ const sheen=g.createLinearGradient(300,0,490,250);
+ sheen.addColorStop(0,'rgba(255,255,255,.065)');sheen.addColorStop(1,'rgba(255,255,255,0)');
+ g.fillStyle=sheen;g.fillRect(300,25,178,210);
+}
+function dm34SpriteFinish(g,x,y,s,look,frame,facing){
+ // Non-destructive additional clothing / hair detail on existing customizable sprites.
+ g.save();g.translate(Math.round(x),Math.round(y));g.scale(s,s);
+ const h=Number(look&&look.hair)||0,top=Number(look&&look.top)||0;
+ dm34R(g,-6,-43,12,1,'rgba(255,255,255,.20)');
+ if(h===1||h===5){dm34R(g,-9,-38,2,12,'rgba(255,255,255,.13)');dm34R(g,7,-39,2,10,'rgba(0,0,0,.15)')}
+ if(h===2||h===4){dm34R(g,-4,-45,7,2,'rgba(255,255,255,.13)')}
+ if(top===1||top===3){dm34R(g,-4,-25,8,2,'rgba(255,255,255,.15)');dm34R(g,-8,-13,16,2,'rgba(0,0,0,.16)')}
+ else {dm34R(g,-7,-24,5,2,'rgba(255,255,255,.14)');dm34R(g,-2,-14,4,2,'rgba(0,0,0,.09)')}
+ dm34R(g,-6,-10,5,1,'rgba(255,255,255,.09)');
+ dm34R(g,2,-10,4,1,'rgba(255,255,255,.07)');
+ g.restore();
+}
+
+function dm33drawMap(){
+ if(!state||indoor||tab!=='world')return;
+ const cam=viewOffset();ctx.imageSmoothingEnabled=false;
+ ctx.save();ctx.clearRect(0,0,VIEW_W,VIEW_H);ctx.translate(-cam.x,-cam.y);
+ dm33pavement(ctx);
+ // Plot gardens and building footprints. No changes to positions or collision boxes.
+ mapPlaces.forEach((b,i)=>{
+  dm33rect(ctx,b.x-28,b.y-29,b.w+56,b.h+58,'#c1b7a1');
+  if(i%3===0)dm33rect(ctx,b.x-26,b.y-26,12,b.h+49,'#76a77b');
+ });
+ dm33road(ctx);
+ mapPlaces.forEach((b,i)=>{dm33building(ctx,b,i);dm34Facade(ctx,b,i)});
+ for(let i=0;i<4;i++){
+  const b={x:60+i*272,y:833,w:178,h:76,id:['home','market','work','library'][i]};
+  dm33building(ctx,b,i);
+ }
+ dm33streetDecor(ctx);
+ dm34Street(ctx);
+ drawCitizens(ctx);
+ dm33rect(ctx,state.x-9,state.y+12,19,4,'rgba(20,31,29,.22)');
+ sprite25(ctx,state.x,state.y,1.3,state,walkRAF?Math.floor(performance.now()/130):0,streetFacing26);
+ ctx.restore();dm33atmosphere(ctx);
+}
+function dm33RoomDetails(g,id){
+ // Material reflections, tactile detail and ambient decoration (visual only).
+ const R=(x,y,w,h,c)=>dm33rect(g,x,y,w,h,c);
+ // Light across the upper wall and wood / tile seams.
+ const line=g.createLinearGradient(0,15,0,310);
+ line.addColorStop(0,'rgba(255,244,217,.12)');line.addColorStop(.3,'rgba(255,244,217,0)');line.addColorStop(1,'rgba(36,37,51,.09)');
+ g.fillStyle=line;g.fillRect(14,15,484,286);
+ for(let y=76;y<294;y+=32){R(20,y,474,1,'rgba(68,65,52,.13)');for(let x=(y%64?42:20);x<495;x+=64)R(x,y,1,31,'rgba(68,65,52,.10)')}
+ // Two wall lamps, with radial lighting.
+ for(const x of [157,332]){
+  R(x,22,14,4,'#6d6258');R(x+2,26,10,9,'#f4dfaf');R(x+3,28,8,3,'#fff2c9');
+  const halo=g.createRadialGradient(x+7,31,4,x+7,31,65);
+  halo.addColorStop(0,'rgba(255,230,164,.2)');halo.addColorStop(1,'rgba(255,230,164,0)');
+  g.fillStyle=halo;g.fillRect(x-60,0,132,103);
+ }
+ const plant=(x,y)=>{
+  R(x+7,y+18,20,16,'#b37c5b');R(x+10,y+20,14,12,'#d39c74');
+  R(x+8,y+5,5,18,'#43805a');R(x+17,y,6,24,'#518c65');R(x+24,y+7,5,17,'#4b9c64');
+  R(x+4,y+5,11,10,'#72b87e');R(x+16,y-3,11,12,'#83c786');R(x+25,y+6,7,9,'#9ad28a');
+ };
+ plant(460,246);
+ if(id==='home'){
+  // Layered rugs, textured bedding, flowers, kitchen appliances and wall paintings.
+  R(218,201,92,4,'rgba(255,241,211,.19)');
+  for(let j=0;j<7;j++)R(211+j*16,242,9,2,'#d2c4a0');
+  R(38,108,48,7,'#fff8ea');R(93,108,49,7,'#fff8ea');
+  R(44,147,104,3,'#d5eef4');R(44,166,104,3,'#79a5b8');
+  for(let k=0;k<5;k++)R(353+k*22,175,12,4,k%2?'#ceae7d':'#9ab8a8');
+  R(218,36,42,29,'#6d635b');R(222,40,34,21,'#89aab4');R(227,44,22,12,'#e8bb87');
+  R(276,39,32,26,'#8e7965');R(280,43,24,18,'#a5b99d');R(284,47,12,10,'#e8dbc1');
+  R(247,217,26,10,'#b48057');R(252,219,16,6,'#e6cf9c');
+  R(350,146,18,4,'#eee6d3');R(382,145,18,5,'#92b7bc');
+ } else if(id==='cafe'){
+  R(20,20,120,31,'#624d4b');R(26,26,108,20,'#b88763');
+  R(28,29,104,2,'#fff2d2');R(28,37,66,2,'#f3e0bc');
+  for(let k=0;k<4;k++)R(45+k*24,109,14,5,'#f1c487');
+  R(408,92,70,9,'#744c39');R(416,100,53,5,'#ddc19c');
+  for(let i=0;i<6;i++)R(422+i*9,106,5,8,i%2?'#f4e0ae':'#e4a07f');
+ } else if(id==='gym'){
+  R(12,10,488,6,'#293f50');R(20,14,104,26,'#496d79');
+  for(let i=0;i<6;i++)R(27+i*13,29,9,3,i%2?'#d8efec':'#76c3c0');
+  R(289,66,67,4,'#d1e7e8');R(307,73,44,2,'#e2eff1');
+  for(let i=0;i<4;i++)R(75+i*13,179,8,4,'#475963');
+ } else if(id==='market'){
+  R(24,20,120,30,'#638477');R(31,26,105,4,'#dbf1cc');
+  R(32,36,68,3,'#e6d2a3');
+  for(let i=0;i<7;i++)R(36+i*14,236,9,9,i%2?'#da9864':'#b4c578');
+ } else if(id==='work'){
+  R(18,19,87,29,'#577989');R(24,24,76,5,'#e1eff1');
+  R(25,34,48,3,'#c4dbe2');
+  R(342,18,130,17,'#658d9f');R(349,24,80,3,'#f2f4e4');
+ }
+ // Interior vignette makes spaces feel dimensional, instead of flat maps.
+ const v=g.createRadialGradient(252,128,90,256,164,330);
+ v.addColorStop(0,'rgba(18,32,40,0)');v.addColorStop(1,'rgba(11,26,34,.18)');
+ g.fillStyle=v;g.fillRect(0,0,512,320);
+}
+function dm33EditorBackdrop(g){
+ const bg=g.createLinearGradient(0,0,0,200);
+ bg.addColorStop(0,'#f1d7ae');bg.addColorStop(.55,'#a1cbbf');bg.addColorStop(1,'#527d76');
+ g.fillStyle=bg;g.fillRect(0,0,160,200);
+ dm33rect(g,0,157,160,43,'#7baf8f');
+ for(let y=157;y<200;y+=10)dm33rect(g,0,y,160,1,'rgba(26,85,73,.2)');
+ dm33rect(g,9,19,34,91,'#c7ab93');dm33rect(g,12,13,30,8,'#b8806d');
+ for(let i=0;i<3;i++)dm33rect(g,15,32+i*21,20,14,'#89bac1');
+ dm33tree(g,131,106,21,7);
+ dm33rect(g,40,149,86,5,'rgba(24,57,46,.16)');
+}
+</script><script id="dm-style-source" type="text/plain">
+/* Dos Mundos 3.3 Aurora — complete interface refresh */
+:root{--dm33-ink:#192e37;--dm33-paper:#f4e6c9;--dm33-cream:#ffefcf;--dm33-coral:#d68074;--dm33-green:#68977e;--dm33-sky:#8bbac2}
+html{scroll-behavior:smooth}
+body{background:radial-gradient(ellipse at 15% -5%,#44675f 0,transparent 48%),linear-gradient(155deg,#132e36,#183344 64%,#0b202a)!important;color:#f4eddb!important}
+main{max-width:1000px!important;padding:18px 14px 94px!important}
+h1{font:800 clamp(31px,5vw,47px)/1.08 system-ui,sans-serif!important;letter-spacing:-.055em!important;color:#fff1cf!important;text-shadow:0 5px 20px #091b2866}
+h2{color:#fdf0d6!important;letter-spacing:-.025em}
+.eyebrow{color:#bce3b4!important;letter-spacing:.23em!important;font-weight:800}
+p{color:#e2e5d8!important}
+.panel{border:1px solid #a5beb249!important;border-radius:23px!important;background:linear-gradient(157deg,#385762,#233f4e 47%,#1d3441)!important;box-shadow:0 19px 35px #061a2880,inset 0 1px #ffffff25,0 2px #f5dca414!important;padding:18px!important;position:relative}
+.panel::before{content:'';position:absolute;inset:0;border:1px solid #e4dfaa1c;border-radius:inherit;pointer-events:none}
+button{background:linear-gradient(180deg,#f8dfa5,#cfa36d)!important;border:1px solid #ffeed381!important;border-bottom:3px solid #896744!important;color:#31271d!important;border-radius:13px!important;font-weight:800!important;box-shadow:0 5px 10px #06172166,inset 0 1px #fff9d1a3!important;transition:transform .18s,filter .18s}
+button:hover:not(:disabled){filter:brightness(1.08);transform:translateY(-1px)}button:active{transform:translateY(1px)}
+button.alt{background:linear-gradient(180deg,#83bac3,#4e869b)!important;color:#102c38!important;border-bottom-color:#315c66!important}
+button.soft{background:linear-gradient(180deg,#9fc9a2,#6f9d88)!important;color:#17382d!important;border-bottom-color:#416850!important}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #ffe3a3!important;outline-offset:2px}
+.tabs{padding:6px!important;gap:7px!important;background:#122b36aa;border-radius:17px!important;border:1px solid #a9c6bf2d}
+.tabs button{background:linear-gradient(180deg,#456a73,#294956)!important;color:#edebde!important;border-color:#8fb6ba50!important;min-width:0;font-size:clamp(11px,2vw,14px)!important}
+.tabs button.active{background:linear-gradient(180deg,#ffe7b2,#d8b47c)!important;color:#37291b!important;border-color:#e8cba7!important}
+.stat{background:linear-gradient(160deg,#1b3e46,#152d3a)!important;border:1px solid #b2c9b238;border-radius:15px!important;box-shadow:0 8px 16px #06192355}
+.stat strong{color:#ffdfaa!important}
+input,select,textarea{background:#122d3b!important;color:#faf3de!important;border:1px solid #7da8a383!important;border-radius:11px!important}
+.worldWrap{border:4px solid #9eb9a3!important;border-radius:19px!important;overflow:hidden;box-shadow:0 13px 36px #08182299,0 0 0 5px #cfdea619!important}
+#map,#roomCanvas{image-rendering:pixelated;filter:saturate(1.13) contrast(1.04)}
+#preview,#editAvatar,#lifeAvatar{border:3px solid #f0d4a4!important;border-radius:14px!important;box-shadow:0 10px 22px #08192366!important;image-rendering:pixelated}
+.avatarStage26{background:linear-gradient(150deg,#42645d,#223d45)!important;border:1px solid #94b5a3!important;border-radius:19px!important}
+.editor26Options details,details{background:#24424dbb!important;border:1px solid #9bb9aa55!important;border-radius:13px!important}
+summary{color:#ffe4b9!important}
+.swatches button{border-radius:9px!important}.swatches button.picked{outline-color:#ffedae!important}
+.grid2,.grid3,.grid4{gap:10px!important}
+#dm33Bar{position:fixed;bottom:calc(13px + env(safe-area-inset-bottom));right:13px;z-index:9999;display:flex;gap:7px}
+#dm33Bar button{font-size:12px!important;padding:10px 13px!important;background:#1a444a!important;color:#fbe5b2!important;border:1px solid #c3d5bc!important;border-bottom:2px solid #6c8d80!important;border-radius:30px!important}
+#dm33Badge{position:fixed;left:12px;bottom:calc(13px + env(safe-area-inset-bottom));z-index:9999;font:800 10px system-ui;color:#ffe4b1;background:#214144e8;border:1px solid #a7c2a188;border-radius:25px;padding:12px 10px;pointer-events:none}
+@media(max-width:540px){main{padding:12px 8px 82px!important}.panel{padding:13px!important;border-radius:18px!important}#dm33Badge{display:none}#dm33Bar{right:8px;bottom:calc(9px + env(safe-area-inset-bottom))}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}}
+</script><script>
+(async () => {
+ const status = document.getElementById('dm-status');
+ const frame = document.getElementById('dm-frame');
+ try {
+  const res = await fetch('./index2.9.html',{cache:'no-cache'});
+  if(!res.ok)throw new Error('No se encuentra index2.9.html ('+res.status+')');
+  let game = await res.text();
+  if(!game.includes('function drawMap(){') || !game.includes('function renderInteriorScene(id)') || !game.includes('function drawEditor23()')){
+    throw new Error('La base 2.9 cambió; no se aplicará un parche incompatible.');
+  }
+  // Inject into the original JavaScript closure. The replacement is deliberately
+  // constrained to exact markers, so game logic, saves, hotspots and routing remain intact.
+  const injected = document.getElementById('dm-art-source').textContent;
+  game = game.replace('function drawMap(){', injected+'\nfunction drawMap(){dm33drawMap();return;');
+  game = game.replace('function drawCitizens(g){', 'const dm34SpriteBase=sprite25; sprite25=function(g,x,y,scale,look={},frame=0,facing="down"){dm34SpriteBase(g,x,y,scale,look,frame,facing);dm34SpriteFinish(g,x,y,scale,look,frame,facing)};\nfunction drawCitizens(g){');
+  // Original 2.9 charges 12€ for an in-game cinema action.
+  // Replace only that action with the external streaming chooser,
+  // covering cinema buttons AND interior objects.
+  const cinemaMarker = "case'cinema':if(!spend(12))";
+  if (!game.includes(cinemaMarker)) throw new Error('No se encontró la acción del cine en la base 2.9.');
+  game = game.replace(cinemaMarker, "case'cinema':dm33OpenCinema();return;case'cinema-original':if(!spend(12))");
+  game = game.replace('  interiorDetail28(g,id);', '  dm33RoomDetails(g,id);\n  interiorDetail28(g,id);');
+  game = game.replace(" drawRect(g,0,0,160,200,'#94bfd2');",' dm33EditorBackdrop(g);');
+  // Keep a reversible switch: update only the 3.4 render path. No save writes.
+  const css = document.getElementById('dm-style-source').textContent;
+  game = game.replace('</head>','<style id="dm33style">'+css+'</style></head>');
+  game = game.replace('</body>','<div id="dm33Badge">✦ DOS MUNDOS · BARRIO VIVO 3.4</div><div id="dm33Bar"><button type="button" id="dm33Toggle">◐ Diseño: 3.4</button></div></body>');
+  game = game.replace('preview(); buildLists(); loadState();', `preview(); buildLists(); loadState();
+  (()=>{let active=true;const btn=document.getElementById('dm33Toggle');if(!btn)return;
+   btn.addEventListener('click',()=>{active=!active;const style=document.getElementById('dm33style');style.disabled=!active;
+    if(active){drawMap=dm33drawMap;btn.textContent='◐ Diseño: 3.4';}
+    else {btn.textContent='◐ Diseño: 3.4 (pulsa para activar)';}
+   });
+  })();`);
+  // Avoid srcdoc accidentally closing at HTML parse boundaries inside this launcher.
+  frame.srcdoc = game;
+  frame.addEventListener('load',()=>status.style.display='none',{once:true});
+ }catch(err){
+  status.innerHTML='<strong>No se pudo cargar Barrio Vivo 3.4.</strong><p>'+String(err.message).replace(/[<>&]/g,'')+'</p><p>La versión 2.9 no ha sido modificada.</p>';
+ }
+})();
+</script></body></html>
