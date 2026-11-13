@@ -2,8 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {CITY,createTraffic,stepTraffic} from '../src/world/city-layout.mjs';
 
-test('traffic stays in both asphalt lanes, with fourteen independent cars',()=>{
-  const cars=createTraffic();assert.equal(cars.length,14);
+test('traffic stays in both asphalt lanes, including the new southern avenue',()=>{
+  const cars=createTraffic();assert.equal(cars.length,16);
   for(let now=0;now<60000;now+=100){
     stepTraffic(cars,.1,now);
     for(const car of cars){
