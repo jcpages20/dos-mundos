@@ -1,0 +1,153 @@
+{
+  "image": "house-atlas.png",
+  "width": 1536,
+  "height": 1024,
+  "sha256": "39703e7ea5d0f477ea6502f2bcd6c9483ad5e59a96e5c5a4be3e5c86627a8ea3",
+  "provenance": "Original furniture sprites generated for Dos Mundos, 2026-11-13. No Nintendo or third-party game assets. PNG unchanged; frames describe source rectangles only.",
+  "frames": {
+    "sofa": [
+      8,
+      57,
+      255,
+      186
+    ],
+    "tv": [
+      284,
+      47,
+      224,
+      196
+    ],
+    "coffee-table": [
+      533,
+      85,
+      226,
+      140
+    ],
+    "bookcase": [
+      803,
+      14,
+      189,
+      247
+    ],
+    "plant": [
+      1046,
+      28,
+      213,
+      233
+    ],
+    "floor-lamp": [
+      1350,
+      24,
+      117,
+      232
+    ],
+    "double-bed": [
+      16,
+      281,
+      234,
+      240
+    ],
+    "nightstand": [
+      329,
+      295,
+      132,
+      220
+    ],
+    "wardrobe": [
+      545,
+      270,
+      196,
+      254
+    ],
+    "dresser": [
+      794,
+      275,
+      204,
+      250
+    ],
+    "window": [
+      1034,
+      297,
+      232,
+      194
+    ],
+    "paintings": [
+      1284,
+      318,
+      242,
+      137
+    ],
+    "fridge": [
+      58,
+      536,
+      154,
+      231
+    ],
+    "stove": [
+      301,
+      546,
+      176,
+      222
+    ],
+    "kitchen-sink": [
+      524,
+      547,
+      232,
+      230
+    ],
+    "counter": [
+      780,
+      557,
+      230,
+      206
+    ],
+    "dining-table": [
+      1026,
+      546,
+      254,
+      217
+    ],
+    "chair": [
+      1344,
+      544,
+      129,
+      222
+    ],
+    "shower": [
+      26,
+      781,
+      246,
+      234
+    ],
+    "bathtub": [
+      272,
+      815,
+      230,
+      186
+    ],
+    "bathroom-sink": [
+      555,
+      777,
+      169,
+      238
+    ],
+    "toilet": [
+      824,
+      798,
+      138,
+      218
+    ],
+    "towels": [
+      1034,
+      790,
+      230,
+      223
+    ],
+    "wall-cabinets": [
+      1284,
+      792,
+      240,
+      217
+    ]
+  }
+}
