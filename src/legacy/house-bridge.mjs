@@ -6,6 +6,7 @@ import {cafeBridgeSource} from './cafe-bridge.mjs';
 import {cityBridgeSource} from './city-bridge.mjs?huerto=6';
 import {farmBridgeSource} from './farm-bridge.mjs';
 import {outdoorBridgeSource} from './outdoor-bridge.mjs';
+import {lifeBridgeSource} from './life-bridge.mjs';
 
 // This function is serialized into the existing game's closure, before boot.
 // It adapts existing actions instead of introducing another economy or save.
@@ -79,7 +80,7 @@ export function extendLegacyBuilder(builder, {stylesURL, installerURL}) {
   const marker = 'frame.srcdoc = game;';
   if (builder.split(marker).length !== 2) throw new Error('El lanzador histórico cambió; se conserva la versión anterior.');
   const boot = 'preview(); buildLists(); loadState();';
-  const bridge = `(${installLegacyHouseBridge.toString()})();\n` + cinemaBridgeSource() + gymBridgeSource() + venueNavigationSource() + cafeBridgeSource() + gymWorldBridgeSource() + farmBridgeSource() + cityBridgeSource() + outdoorBridgeSource();
+  const bridge = `(${installLegacyHouseBridge.toString()})();\n` + cinemaBridgeSource() + gymBridgeSource() + venueNavigationSource() + cafeBridgeSource() + gymWorldBridgeSource() + farmBridgeSource() + cityBridgeSource() + outdoorBridgeSource() + lifeBridgeSource();
   const cinemaStylesURL = new URL('../../styles/cinema.css', import.meta.url).href;
   const venueStylesURL = new URL('../../styles/venues.css', import.meta.url).href;
   const gymStylesURL = new URL('../../styles/gym.css', import.meta.url).href;
@@ -90,6 +91,8 @@ export function extendLegacyBuilder(builder, {stylesURL, installerURL}) {
   const farmStylesURL = new URL('../../styles/farm.css', import.meta.url).href;
   const outdoorStylesURL = new URL('../../styles/outdoors.css', import.meta.url).href;
   const outdoorInstallerURL = new URL('../outdoors/install-outdoors.mjs', import.meta.url).href;
+  const lifeStylesURL = new URL('../../styles/life.css', import.meta.url).href;
+  const lifeInstallerURL = new URL('../life/install-life.mjs', import.meta.url).href;
   const worldMarker = 'const WORLD_W=1180,WORLD_H=922, VIEW_W=512,VIEW_H=448;';
   const expandedWorld = 'const WORLD_W=1180,WORLD_H=1180, VIEW_W=512,VIEW_H=448;';
   const literal = value => JSON.stringify(value).replace(/</g, '\\u003c');
@@ -109,11 +112,13 @@ export function extendLegacyBuilder(builder, {stylesURL, installerURL}) {
     game = game.replace('</head>', '<link rel="stylesheet" href="' + ${literal(cityStylesURL)} + '"></head>');
     game = game.replace('</head>', '<link rel="stylesheet" href="' + ${literal(farmStylesURL)} + '"></head>');
     game = game.replace('</head>', '<link rel="stylesheet" href="' + ${literal(outdoorStylesURL)} + '"></head>');
+    game = game.replace('</head>', '<link rel="stylesheet" href="' + ${literal(lifeStylesURL)} + '"></head>');
     game = game.replace('</body>', '<script type="module" src="' + ${literal(installerURL)} + '"><' + '/script></body>');
     game = game.replace('</body>', '<script type="module" src="' + ${literal(gymInstallerURL)} + '"><' + '/script></body>');
     game = game.replace('</body>', '<script type="module" src="' + ${literal(cityInstallerURL)} + '"><' + '/script></body>');
     game = game.replace('</body>', '<script type="module" src="' + ${literal(farmInstallerURL)} + '"><' + '/script></body>');
     game = game.replace('</body>', '<script type="module" src="' + ${literal(outdoorInstallerURL)} + '"><' + '/script></body>');
+    game = game.replace('</body>', '<script type="module" src="' + ${literal(lifeInstallerURL)} + '"><' + '/script></body>');
     ${marker}
   `;
   return builder.replace(marker, extension);

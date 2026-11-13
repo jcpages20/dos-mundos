@@ -1,0 +1,16 @@
+import {LifeController} from './life-controller.mjs';
+import {LifeUI} from './life-ui.mjs';
+const api=window.DosMundosLifeLegacy;let ui=null;
+const controller=new LifeController(api,()=>{ui?.render();});ui=new LifeUI(controller);
+window.addEventListener('dos-mundos:life-activity',event=>controller.activity(event.detail));
+window.addEventListener('dos-mundos:life-phone',()=>ui.refreshLaunchers());
+window.addEventListener('keydown',event=>ui.key(event),true);
+window.addEventListener('keyup',event=>{if(ui.root&&['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(event.key))event.stopImmediatePropagation();},true);
+const observer=new MutationObserver(()=>ui.refreshLaunchers());observer.observe(document.body,{childList:true});
+setInterval(()=>{controller.tick();ui.refreshLaunchers();ui.render();},1200);
+window.addEventListener('online',()=>controller.sync?.retry());
+window.addEventListener('storage',event=>{if(event.key===controller.sync?.key){controller.sync.retry();}if(event.key===controller.store?.key){controller.owner=null;controller.ensure();ui.render(true);}});
+window.addEventListener('pagehide',()=>{controller.sync?.destroy();observer.disconnect();});
+window.addEventListener('pageshow',()=>{if(controller.sync?.disposed){controller.owner=null;controller.ensure();observer.observe(document.body,{childList:true});controller.tick();ui.refreshLaunchers();}});
+window.DosMundosLife=Object.freeze({getSnapshot:()=>controller.snapshot(),open:tab=>ui.open(tab),mountAlbum:parent=>ui.mountAlbum(parent)});
+ui.refreshLaunchers();
