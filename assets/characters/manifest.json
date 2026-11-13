@@ -1,0 +1,63 @@
+{
+  "source": "index6.3.html / DM51_ART",
+  "method": "Verbatim base64 decoding of the original working sprites; no pixel edits.",
+  "sourceSha256": "0e757e440f5bb5593765c70d7a644332c595607d05c53e01894524e4489d4d5a",
+  "sprites": [
+    {
+      "file": "jc_down.png",
+      "role": "jc",
+      "face": "down",
+      "sourceKey": "jc_down",
+      "sha256": "0abd76ebcb737d6af7d915074e2cc2f826ca45acaf23e115325efc198e0798af"
+    },
+    {
+      "file": "jc_up.png",
+      "role": "jc",
+      "face": "up",
+      "sourceKey": "jc_up",
+      "sha256": "786761042ed2a6dbb3c50c24d2eabe74a601081279bebde4d80c5192d74c20f4"
+    },
+    {
+      "file": "jc_left.png",
+      "role": "jc",
+      "face": "left",
+      "sourceKey": "jc_left",
+      "sha256": "7f1074e0eb3e70ff20a5ecd484973b17c0fc690ad2f7a058dd1150210b4610c4"
+    },
+    {
+      "file": "jc_right.png",
+      "role": "jc",
+      "face": "right",
+      "sourceKey": "jc_right",
+      "sha256": "56b9433b8f379f857310b96af4d8df5bcdcc2233343ba114ad787c1c43a812ed"
+    },
+    {
+      "file": "gabi_down.png",
+      "role": "gabi",
+      "face": "down",
+      "sourceKey": "gabi_down",
+      "sha256": "8983763c5c24c635588518ffdddd3d7d04785a1ff756d6924c9d7675a922c221"
+    },
+    {
+      "file": "gabi_up.png",
+      "role": "gabi",
+      "face": "up",
+      "sourceKey": "gabi_up",
+      "sha256": "03df52413d056390191da31d269260e6f1a7191ad21943caa58514eb3fdf80d8"
+    },
+    {
+      "file": "gabi_left.png",
+      "role": "gabi",
+      "face": "left",
+      "sourceKey": "gabi_left",
+      "sha256": "3c4990210c1fe557d9d158757ce1038de1e2300f4f71ae5e34e508e6164b634d"
+    },
+    {
+      "file": "gabi_right.png",
+      "role": "gabi",
+      "face": "right",
+      "sourceKey": "gabi_right",
+      "sha256": "4a9c7442066b752165de9aa02e7c753df4bf073343f0522267af14057277cfb8"
+    }
+  ]
+}

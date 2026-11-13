@@ -1,13 +1,17 @@
 # dos-mundos
 Juego de simulación de vida para dos jugadores.
 
-Desarrollo 6.3+ en la rama `feature/casa-pokemon`: fase 1 de auditoría y protección de partidas. La casa RPG todavía no está implementada.
+Dos Mundos conserva sus versiones anteriores y añade una primera casa RPG jugable con habitaciones, colisiones, personajes originales y acciones contextuales. Es una entrada de prueba; el multijugador del nuevo interior y la colocación de muebles siguen en desarrollo.
+
+- [Abrir la casa RPG de prueba](casa-rpg.html).
+- [Abrir la versión 6.1 anterior](index6.1.html).
+- [Casa RPG: implementación, pruebas y pendientes](docs/CASA_RPG_FASE_2.md).
 
 - [Auditoría y comparación con el kit](docs/AUDITORIA_FASE_1.md).
 - [Plan de siete fases y arquitectura propuesta](docs/PLAN_TECNICO.md).
 - [Copias, uso local, despliegue y rollback](docs/COPIAS_Y_ROLLBACK.md).
 - [Pruebas y límites de verificación](docs/PRUEBAS_FASE_1.md).
 
-Servir esta carpeta con `python -m http.server 8765 --bind 127.0.0.1` y abrir `http://127.0.0.1:8765/desarrollo.html`. `tools/partidas.html` permite descargar y recuperar el progreso local y las fotos del museo.
+Servir esta carpeta con `python -m http.server 8765 --bind 127.0.0.1` y abrir `http://127.0.0.1:8765/casa-rpg.html`. La entrada anterior de la fase 1 sigue en `desarrollo.html`. `tools/partidas.html` permite descargar y recuperar el progreso local y las fotos del museo.
 
 `index.html` mantiene el lanzador anterior. `index6.3.html` coincide con la referencia del kit y no se ha modificado. Todos los archivos históricos se conservan.

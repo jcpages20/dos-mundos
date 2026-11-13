@@ -1,0 +1,49 @@
+:root { --house-ink: #283a39; --house-cream: #f4e5c7; --house-gold: #d9ae69; }
+body.dm-house-active { overflow: hidden; overscroll-behavior: none; }
+.dm-house-scene, .dm-house-scene * { box-sizing: border-box; }
+.dm-house-scene { position: fixed; inset: 0; z-index: 9000; height: 100vh; height: 100dvh; display: grid; grid-template-rows: auto minmax(0, 1fr) auto auto; color: var(--house-cream); background: #273b39; font: 14px/1.4 system-ui, sans-serif; isolation: isolate; }
+.dm-house-scene[hidden] { display: none !important; }
+.dm-house-header { display: flex; gap: 10px; align-items: center; padding: max(8px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) 8px max(12px, env(safe-area-inset-left)); border-bottom: 2px solid #b99765; background: #273b39; }
+.dm-house-identity { flex: 1; min-width: 0; }
+.dm-house-eyebrow { display: block; font-size: 8px; letter-spacing: .14em; color: #d9bd8d; }
+.dm-house-header h2 { margin: 1px 0; font: 700 24px/1.1 Georgia, serif; color: #f6e2b7; }
+.dm-house-stats { margin: 4px 0 0; font-size: 10px; color: #e4d6bd; }
+.dm-house-scene button, .dm-house-return { font: 650 13px/1.2 system-ui, sans-serif; min-height: 44px; padding: 10px 13px; border: 1px solid #c2a278; border-radius: 10px; color: #f3e3c4; background: #3c5553; cursor: pointer; touch-action: manipulation; box-shadow: 0 3px 0 #162c2e; }
+.dm-house-scene button:focus-visible, .dm-house-scene canvas:focus-visible { outline: 3px solid #ffe5a5; outline-offset: 2px; }
+.dm-house-scene button:disabled { opacity: .6; cursor: default; }
+.dm-house-stage { position: relative; min-height: 0; overflow: hidden; background: #213431; }
+#dm-house-canvas { display: block; width: 100%; height: 100%; image-rendering: pixelated; touch-action: none; }
+.dm-house-message { margin: 0; padding: 7px max(12px, env(safe-area-inset-right)) 7px max(12px, env(safe-area-inset-left)); min-height: 34px; font-size: 11px; color: #ecdfc8; border-top: 1px solid #a68559; background: #273d3c; }
+.dm-house-controls { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px max(12px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left)); background: #203433; }
+.dm-house-pad { display: grid; grid-template-columns: repeat(3, 44px); grid-template-rows: repeat(2, 44px); gap: 5px; flex-shrink: 0; }
+.dm-house-pad button { padding: 0; font-size: 18px; user-select: none; -webkit-user-select: none; }
+.dm-house-pad [data-direction=up] { grid-column: 2; grid-row: 1; }
+.dm-house-pad [data-direction=left] { grid-column: 1; grid-row: 2; }
+.dm-house-pad [data-direction=down] { grid-column: 2; grid-row: 2; }
+.dm-house-pad [data-direction=right] { grid-column: 3; grid-row: 2; }
+.dm-house-context { display: grid; gap: 8px; width: 230px; max-width: 54%; }
+.dm-house-context strong { font-size: 12px; text-align: center; color: #efdab1; }
+.dm-house-scene button.dm-house-primary { min-height: 48px; color: #2c3834; background: #eac788; border-color: #f4ddab; }
+.dm-house-menu { position: absolute; z-index: 2; top: max(12px, env(safe-area-inset-top)); right: max(12px, env(safe-area-inset-right)); bottom: max(12px, env(safe-area-inset-bottom)); width: min(330px, calc(100% - 24px)); overflow: auto; display: grid; gap: 10px; align-content: start; padding: 18px; background: #243c3cf7; border: 2px solid #c0a170; border-radius: 16px; box-shadow: 0 20px 60px #071c1dcc; }
+.dm-house-menu h2 { margin: 0 0 8px; font: 700 23px Georgia, serif; color: #f4dfb9; }
+.dm-house-return { position: fixed; top: max(8px, env(safe-area-inset-top)); left: 8px; right: 8px; z-index: 300000; background: #eac788; color: #293f3a; }
+body.dm-house-active #dm33Badge, body.dm-house-active #dm33Bar, body.dm-house-active #dm51-identity,
+body.dm-house-active #dm39-arcade-launcher, body.dm-house-active #dm381-radio-launcher,
+body.dm-house-active #dm40-house-launcher, body.dm-house-active #dm41-trigger,
+body.dm-house-active #dm42-phone-launcher, body.dm-house-active #dm42-restaurant-launcher,
+body.dm-house-active #dm52-trigger, body.dm-house-active #dm54-trigger,
+body.dm-house-active #dm55-trigger, body.dm-house-active #dm61-open { visibility: hidden !important; }
+body.dm-house-active #dm50-label, body.dm-house-active #dm40-weather-btn,
+body.dm-house-active #dm40-home-btn, body.dm-house-active #dm41-online-button,
+body.dm-house-active #dm42-phone-btn, body.dm-house-active #dm42-dinner-btn,
+body.dm-house-active #dm53-trigger, body.dm-house-active #dm43-explore-wrap { visibility: hidden !important; }
+#dm-city-actions { position: fixed; right: max(12px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); z-index: 290000; font: 14px/1.4 system-ui, sans-serif; }
+#dm-city-actions > summary { list-style: none; min-height: 48px; display: flex; align-items: center; justify-content: center; padding: 10px 20px; border: 2px solid #bda476; border-radius: 28px; background: #294b4d; color: #ffedc8; cursor: pointer; box-shadow: 0 4px 14px #142a2966; }
+#dm-city-actions > summary::-webkit-details-marker { display: none; }
+#dm-city-actions > summary:focus-visible { outline: 3px solid #f1d393; outline-offset: 3px; }
+#dm-city-actions .dm-city-panel { position: absolute; right: 0; bottom: 60px; width: min(300px, calc(100vw - 28px)); max-height: min(65dvh, 600px); overflow-y: auto; display: grid; gap: 9px; padding: 14px; background: #243e42f5; border: 2px solid #bda476; border-radius: 15px; box-shadow: 0 10px 30px #15282d99; }
+#dm-city-actions:not([open]) .dm-city-panel { display: none; }
+#dm-city-actions .dm-city-panel button { position: static !important; inset: auto !important; width: 100% !important; min-height: 44px !important; margin: 0 !important; transform: none !important; z-index: auto !important; border-radius: 10px !important; text-align: left; }
+body.dm-house-active #dm-city-actions, #dm43-explore-wrap:empty, #dm33Bar:empty { display: none !important; }
+@media (min-width: 900px) { .dm-house-header { padding: 14px 24px; } .dm-house-controls { padding: 12px 24px 18px; } .dm-house-context { max-width: 360px; width: 360px; } .dm-house-stats { font-size: 12px; } }
+@media (max-height: 500px) { .dm-house-header h2 { font-size: 19px; } .dm-house-header { padding-top: 4px; padding-bottom: 4px; } .dm-house-message { min-height: 25px; padding-top: 4px; padding-bottom: 4px; } .dm-house-controls { padding-top: 5px; } .dm-house-pad { grid-template-columns: repeat(4, 44px); grid-template-rows: 44px; } .dm-house-pad [data-direction] { grid-row: 1; grid-column: auto; } }
