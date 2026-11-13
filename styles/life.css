@@ -1,5 +1,6 @@
 .dm-life-modal,.dm-life-modal *{box-sizing:border-box}
 #dm42-phone{z-index:1200000}
+#dm61-overlay{z-index:1220000}#dm58-overlay{z-index:1240000}#dm41-panel{z-index:1250000}
 .dm-life-modal{position:fixed;inset:0;z-index:1400000;display:flex;justify-content:center;align-items:center;padding:max(10px,env(safe-area-inset-top)) max(10px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left));background:#132b34dc;font:14px/1.45 system-ui;color:#f6e6c7;overscroll-behavior:contain}
 .dm-life-panel{display:flex;flex-direction:column;gap:10px;width:min(720px,100%);max-height:100%;padding:18px;border:2px solid #c4a47a;border-radius:18px;background:#294744;box-shadow:0 20px 80px #101e2b88;overflow:hidden}
 .dm-life-head{display:flex;justify-content:space-between;align-items:center;gap:14px}.dm-life-head small{color:#dec398;font-size:9px;letter-spacing:.12em}.dm-life-head h2{margin:3px 0!important;font:700 29px/1.1 Georgia,serif!important;color:#f6e5be!important}

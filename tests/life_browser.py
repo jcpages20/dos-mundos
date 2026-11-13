@@ -105,6 +105,12 @@ class LifeTests(CityTests):
         frame.evaluate('window.dispatchEvent(new PageTransitionEvent("pagehide",{persisted:true}));window.dispatchEvent(new PageTransitionEvent("pageshow",{persisted:true}));')
         game.locator('#places').get_by_role('button',name='Gimnasio',exact=False).click();frame.wait_for_function('window.DosMundosGym?.getSnapshot()?.ready',timeout=22000);frame.evaluate('window.DosMundosGymLegacy.act("silks")')
         self.assertIn('aerial',self.snap(frame)['plans']['active']['members']['jc']['progress']);self.assertEqual(self.snap(frame)['pending'],2);self.assertEqual(self.errors,[])
+    def test_online_and_existing_album_open_above_large_interiors(self):
+        game,frame,_=self.open_life();self.close(game);game.locator('#places').get_by_role('button',name='Gimnasio',exact=False).click();frame.wait_for_function('window.DosMundosGym?.getSnapshot()?.ready',timeout=22000);self.reopen(frame)
+        game.get_by_role('button',name='Conectar mi cuenta',exact=True).click();panel=game.locator('#dm41-panel');expect(panel).to_be_visible();box=panel.bounding_box()
+        self.assertTrue(frame.evaluate('p=>!!document.elementFromPoint(p.x,p.y)?.closest("#dm41-panel")',{'x':box['x']+box['width']/2,'y':box['y']+box['height']/2}));panel.get_by_role('button',name='Ocultar ajustes',exact=True).click()
+        self.reopen(frame,'memories');game.get_by_role('button',name='Abrir nuestro álbum completo',exact=True).click();album=game.locator('#dm61-overlay');expect(album).to_be_visible();album.get_by_role('button',name='Ver museo de recuerdos',exact=False).click();expect(game.locator('#dm58-overlay')).to_be_visible()
+        game.locator('#dm58-overlay').get_by_role('button',name='Cerrar',exact=True).click();expect(game.locator('#dm-gym-scene')).to_be_visible();self.assertEqual(self.errors,[])
 
 if __name__=='__main__':
     suite=unittest.TestSuite(LifeTests(n) for n in LifeTests.__dict__ if n.startswith('test_'))
