@@ -1,0 +1,9027 @@
+{
+  "method": "Static inventory; dynamic expressions require the written audit.",
+  "files": [
+    {
+      "file": "index.html",
+      "sha256": "01a679c650549a29c0fd873c723dc3373c7c72de4d13889c50aad56386f43295",
+      "bytes": 4195,
+      "lines": 53,
+      "ids": [
+        "error",
+        "juego"
+      ],
+      "dynamicIds": [
+        "dm-streaming-cinema"
+      ],
+      "selectorIds": [
+        "dm-streaming-cinema",
+        "error",
+        "juego"
+      ],
+      "functions": [
+        {
+          "name": "openCinema",
+          "line": 17
+        }
+      ],
+      "frames": [
+        {
+          "id": "juego",
+          "title": "Dos Mundos",
+          "src": "./index2.9.html",
+          "allow": "fullscreen"
+        }
+      ],
+      "scripts": [
+        {
+          "bytes": 3497,
+          "sha256": "c393656d5d2090e333e3498e55729e8dd054ee0ab0a287547af269f700411615"
+        }
+      ],
+      "storageLiterals": [],
+      "firebasePaths": [],
+      "externalOrigins": [
+        "https://www.disneyplus.com",
+        "https://www.max.com",
+        "https://www.netflix.com"
+      ],
+      "eventListeners": [
+        "click",
+        "load"
+      ],
+      "eventProperties": [
+        "onclick"
+      ],
+      "dataImages": 0
+    },
+    {
+      "file": "index2.9.html",
+      "sha256": "05ae997b574a27371110aaf8d1e388b0341743f671b6edbf6c2e423bed5572e0",
+      "bytes": 176442,
+      "lines": 1734,
+      "ids": [
+        "accessory",
+        "activityDetails",
+        "activityFeedback",
+        "activityHistory",
+        "activityMenu",
+        "appearanceEditor",
+        "appearanceFeedback",
+        "avatarOrientation26",
+        "beard",
+        "careerLabel",
+        "careerList",
+        "cities",
+        "dailyGoals",
+        "day",
+        "district",
+        "districts",
+        "dynamicIntro",
+        "dynamicPanel",
+        "economyNotice",
+        "economyPanel",
+        "economyShop",
+        "editAccessory",
+        "editAvatar",
+        "editBeard",
+        "editHair",
+        "editHairColor",
+        "editPants",
+        "editShirt",
+        "editShoes",
+        "editSkin",
+        "editTop",
+        "enter",
+        "exit",
+        "exitTop",
+        "friends",
+        "game",
+        "goHome",
+        "hair",
+        "hairColor",
+        "hint",
+        "home",
+        "homeLevel",
+        "homeUpgrades",
+        "hour",
+        "householdStatus",
+        "householdSummary",
+        "housingChoices",
+        "interior",
+        "inventory",
+        "life",
+        "lifeAvatar",
+        "livingCity",
+        "map",
+        "meetingAlert",
+        "money",
+        "name",
+        "needs",
+        "notice",
+        "pants",
+        "places",
+        "poseAvatar26",
+        "preview",
+        "profile",
+        "quests",
+        "relationshipBox",
+        "relationshipsHeading",
+        "rentLabel",
+        "reset",
+        "roomActions",
+        "roomCanvas",
+        "roomDesc",
+        "roomGuide",
+        "roomHot",
+        "roomInteract",
+        "roomMood",
+        "roomNPCs",
+        "roomObjects",
+        "roomTag",
+        "roomTiles",
+        "roomTitle",
+        "saveAppearance",
+        "sceneTitle",
+        "setup",
+        "setupError",
+        "shirt",
+        "shoes",
+        "skillsHeading",
+        "skillsPanel",
+        "skin",
+        "socialJournal",
+        "socialPlans",
+        "start",
+        "talkNearby",
+        "top",
+        "traits",
+        "travel",
+        "turnAvatar26",
+        "usefulInventory",
+        "who",
+        "world",
+        "zoneName"
+      ],
+      "dynamicIds": [
+        "streetRelation"
+      ],
+      "selectorIds": [
+        "accessory",
+        "activityDetails",
+        "activityFeedback",
+        "activityHistory",
+        "activityMenu",
+        "appearanceEditor",
+        "appearanceFeedback",
+        "avatarOrientation26",
+        "beard",
+        "careerLabel",
+        "careerList",
+        "cities",
+        "dailyGoals",
+        "day",
+        "district",
+        "districts",
+        "dynamicIntro",
+        "economyNotice",
+        "economyPanel",
+        "economyShop",
+        "editAccessory",
+        "editAvatar",
+        "editBeard",
+        "editHair",
+        "editHairColor",
+        "editPants",
+        "editShirt",
+        "editShoes",
+        "editSkin",
+        "editTop",
+        "enter",
+        "exit",
+        "exitTop",
+        "friends",
+        "game",
+        "goHome",
+        "hair",
+        "hairColor",
+        "hint",
+        "home",
+        "homeLevel",
+        "homeUpgrades",
+        "hour",
+        "householdStatus",
+        "householdSummary",
+        "housingChoices",
+        "interior",
+        "inventory",
+        "lifeAvatar",
+        "livingCity",
+        "map",
+        "meetingAlert",
+        "money",
+        "name",
+        "needs",
+        "notice",
+        "pants",
+        "places",
+        "poseAvatar26",
+        "preview",
+        "profile",
+        "quests",
+        "relationshipBox",
+        "rentLabel",
+        "reset",
+        "roomActions",
+        "roomCanvas",
+        "roomDesc",
+        "roomHot",
+        "roomInteract",
+        "roomMood",
+        "roomNPCs",
+        "roomObjects",
+        "roomTag",
+        "roomTiles",
+        "roomTitle",
+        "saveAppearance",
+        "sceneTitle",
+        "setup",
+        "setupError",
+        "shirt",
+        "shoes",
+        "skillsPanel",
+        "skin",
+        "socialJournal",
+        "socialPlans",
+        "start",
+        "streetRelation",
+        "talkNearby",
+        "top",
+        "traits",
+        "turnAvatar26",
+        "usefulInventory",
+        "who",
+        "world",
+        "zoneName"
+      ],
+      "functions": [
+        {
+          "name": "inferHousingType",
+          "line": 250
+        },
+        {
+          "name": "pickRoommateIndex",
+          "line": 251
+        },
+        {
+          "name": "relationEntries",
+          "line": 252
+        },
+        {
+          "name": "bestPartnerCandidate",
+          "line": 253
+        },
+        {
+          "name": "ensureHousingState",
+          "line": 254
+        },
+        {
+          "name": "householdResidents",
+          "line": 266
+        },
+        {
+          "name": "housingSummaryText",
+          "line": 276
+        },
+        {
+          "name": "homeResidentLabel",
+          "line": 284
+        },
+        {
+          "name": "homeScene29",
+          "line": 289
+        },
+        {
+          "name": "rentForHome",
+          "line": 336
+        },
+        {
+          "name": "switchHousingMode",
+          "line": 337
+        },
+        {
+          "name": "lookForPersonByName",
+          "line": 353
+        },
+        {
+          "name": "cancelWalk",
+          "line": 399
+        },
+        {
+          "name": "viewOffset",
+          "line": 400
+        },
+        {
+          "name": "blockedPoint",
+          "line": 401
+        },
+        {
+          "name": "cellFree",
+          "line": 406
+        },
+        {
+          "name": "findFree",
+          "line": 407
+        },
+        {
+          "name": "ensureWalkablePosition",
+          "line": 421
+        },
+        {
+          "name": "routeTo",
+          "line": 422
+        },
+        {
+          "name": "walkToward",
+          "line": 443
+        },
+        {
+          "name": "walkStep",
+          "line": 450
+        },
+        {
+          "name": "routeToEntrance",
+          "line": 467
+        },
+        {
+          "name": "activeVisitors",
+          "line": 488
+        },
+        {
+          "name": "updateRoomPopulation",
+          "line": 493
+        },
+        {
+          "name": "ensureSocial",
+          "line": 508
+        },
+        {
+          "name": "socialEvent",
+          "line": 509
+        },
+        {
+          "name": "currentTimeDescription",
+          "line": 516
+        },
+        {
+          "name": "showLifeSummary",
+          "line": 517
+        },
+        {
+          "name": "citizenDoor",
+          "line": 525
+        },
+        {
+          "name": "citizenSchedule",
+          "line": 526
+        },
+        {
+          "name": "citizenLocation",
+          "line": 527
+        },
+        {
+          "name": "drawCitizens",
+          "line": 544
+        },
+        {
+          "name": "meetCitizen",
+          "line": 553
+        },
+        {
+          "name": "startStreetAnimation",
+          "line": 554
+        },
+        {
+          "name": "stopStreetAnimation",
+          "line": 555
+        },
+        {
+          "name": "drawText",
+          "line": 572
+        },
+        {
+          "name": "sprite25",
+          "line": 576
+        },
+        {
+          "name": "setPose26",
+          "line": 621
+        },
+        {
+          "name": "currentPose26",
+          "line": 622
+        },
+        {
+          "name": "drawAction26",
+          "line": 623
+        },
+        {
+          "name": "activityPose26",
+          "line": 649
+        },
+        {
+          "name": "drawNPC",
+          "line": 651
+        },
+        {
+          "name": "drawPlayer13",
+          "line": 658
+        },
+        {
+          "name": "drawFurniture",
+          "line": 659
+        },
+        {
+          "name": "triggerRoomAction",
+          "line": 710
+        },
+        {
+          "name": "talkRoomNpc",
+          "line": 718
+        },
+        {
+          "name": "roomNpcPosition",
+          "line": 719
+        },
+        {
+          "name": "drawGym11",
+          "line": 730
+        },
+        {
+          "name": "drawHome12",
+          "line": 790
+        },
+        {
+          "name": "drawWork12",
+          "line": 837
+        },
+        {
+          "name": "drawCafe12",
+          "line": 858
+        },
+        {
+          "name": "drawMarket12",
+          "line": 876
+        },
+        {
+          "name": "pixelArt24",
+          "line": 895
+        },
+        {
+          "name": "decorHome24",
+          "line": 896
+        },
+        {
+          "name": "decorGym24",
+          "line": 916
+        },
+        {
+          "name": "decorMarket24",
+          "line": 933
+        },
+        {
+          "name": "decorCafe24",
+          "line": 949
+        },
+        {
+          "name": "decorBuilding24",
+          "line": 966
+        },
+        {
+          "name": "interiorDetail28",
+          "line": 993
+        },
+        {
+          "name": "renderInteriorScene",
+          "line": 1092
+        },
+        {
+          "name": "selectRoomTarget",
+          "line": 1113
+        },
+        {
+          "name": "roomInteract",
+          "line": 1127
+        },
+        {
+          "name": "roomMove",
+          "line": 1131
+        },
+        {
+          "name": "startRoomAnimation",
+          "line": 1132
+        },
+        {
+          "name": "stopRoomAnimation",
+          "line": 1133
+        },
+        {
+          "name": "relation",
+          "line": 1150
+        },
+        {
+          "name": "socialName",
+          "line": 1151
+        },
+        {
+          "name": "relationGrade",
+          "line": 1152
+        },
+        {
+          "name": "closeRelationship",
+          "line": 1153
+        },
+        {
+          "name": "startRelationship",
+          "line": 1154
+        },
+        {
+          "name": "renderRelationship",
+          "line": 1159
+        },
+        {
+          "name": "relationshipChoice",
+          "line": 1171
+        },
+        {
+          "name": "renderRelationshipCards",
+          "line": 1188
+        },
+        {
+          "name": "ensureDailyProgress",
+          "line": 1199
+        },
+        {
+          "name": "todaysGoals",
+          "line": 1203
+        },
+        {
+          "name": "completeDailyGoal",
+          "line": 1204
+        },
+        {
+          "name": "renderDailyGoals",
+          "line": 1217
+        },
+        {
+          "name": "scheduleSocialPlan",
+          "line": 1225
+        },
+        {
+          "name": "completeSocialPlan",
+          "line": 1233
+        },
+        {
+          "name": "renderSocialPlans",
+          "line": 1246
+        },
+        {
+          "name": "renderMeetingAlert",
+          "line": 1251
+        },
+        {
+          "name": "clamp",
+          "line": 1260
+        },
+        {
+          "name": "deep",
+          "line": 1261
+        },
+        {
+          "name": "defaultQuests",
+          "line": 1262
+        },
+        {
+          "name": "defaultState",
+          "line": 1268
+        },
+        {
+          "name": "normalize",
+          "line": 1269
+        },
+        {
+          "name": "save",
+          "line": 1274
+        },
+        {
+          "name": "notice",
+          "line": 1275
+        },
+        {
+          "name": "timeText",
+          "line": 1276
+        },
+        {
+          "name": "decay",
+          "line": 1277
+        },
+        {
+          "name": "advance",
+          "line": 1278
+        },
+        {
+          "name": "recalcMood",
+          "line": 1279
+        },
+        {
+          "name": "completeQuest",
+          "line": 1280
+        },
+        {
+          "name": "completeQuestChecks",
+          "line": 1281
+        },
+        {
+          "name": "drawRect",
+          "line": 1282
+        },
+        {
+          "name": "drawOutline",
+          "line": 1283
+        },
+        {
+          "name": "drawShadow",
+          "line": 1284
+        },
+        {
+          "name": "tree",
+          "line": 1285
+        },
+        {
+          "name": "person",
+          "line": 1286
+        },
+        {
+          "name": "preview",
+          "line": 1287
+        },
+        {
+          "name": "showEditor23",
+          "line": 1288
+        },
+        {
+          "name": "drawEditor23",
+          "line": 1294
+        },
+        {
+          "name": "saveEditor23",
+          "line": 1304
+        },
+        {
+          "name": "renderNeed",
+          "line": 1310
+        },
+        {
+          "name": "currentNearby",
+          "line": 1311
+        },
+        {
+          "name": "refreshUI",
+          "line": 1312
+        },
+        {
+          "name": "px14",
+          "line": 1332
+        },
+        {
+          "name": "foliage14",
+          "line": 1333
+        },
+        {
+          "name": "lamp14",
+          "line": 1334
+        },
+        {
+          "name": "bench14",
+          "line": 1335
+        },
+        {
+          "name": "awning14",
+          "line": 1336
+        },
+        {
+          "name": "streetLabel14",
+          "line": 1337
+        },
+        {
+          "name": "drawBuilding",
+          "line": 1338
+        },
+        {
+          "name": "urbanRect",
+          "line": 1360
+        },
+        {
+          "name": "seedUrban",
+          "line": 1361
+        },
+        {
+          "name": "facadeWindow27",
+          "line": 1362
+        },
+        {
+          "name": "apartment27",
+          "line": 1367
+        },
+        {
+          "name": "storeStrip27",
+          "line": 1381
+        },
+        {
+          "name": "treeMadrid27",
+          "line": 1387
+        },
+        {
+          "name": "parkedCar27",
+          "line": 1393
+        },
+        {
+          "name": "urbanBlock27",
+          "line": 1399
+        },
+        {
+          "name": "storefrontDecor27",
+          "line": 1428
+        },
+        {
+          "name": "roadMadrid27",
+          "line": 1453
+        },
+        {
+          "name": "streetProps27",
+          "line": 1475
+        },
+        {
+          "name": "drawMap",
+          "line": 1486
+        },
+        {
+          "name": "move",
+          "line": 1512
+        },
+        {
+          "name": "spend",
+          "line": 1524
+        },
+        {
+          "name": "doAction",
+          "line": 1525
+        },
+        {
+          "name": "skillScore",
+          "line": 1563
+        },
+        {
+          "name": "skillLevel",
+          "line": 1564
+        },
+        {
+          "name": "renderSkills",
+          "line": 1565
+        },
+        {
+          "name": "showDetailedChoice",
+          "line": 1566
+        },
+        {
+          "name": "performDetailed",
+          "line": 1567
+        },
+        {
+          "name": "renderDetailedPlace",
+          "line": 1568
+        },
+        {
+          "name": "openPlace",
+          "line": 1570
+        },
+        {
+          "name": "shortAction",
+          "line": 1586
+        },
+        {
+          "name": "closeInterior",
+          "line": 1646
+        },
+        {
+          "name": "tabs",
+          "line": 1647
+        },
+        {
+          "name": "travelTo",
+          "line": 1648
+        },
+        {
+          "name": "buildLists",
+          "line": 1649
+        },
+        {
+          "name": "loadState",
+          "line": 1650
+        },
+        {
+          "name": "careerInfo",
+          "line": 1655
+        },
+        {
+          "name": "processComfortRent",
+          "line": 1656
+        },
+        {
+          "name": "pushEconomyRecord",
+          "line": 1664
+        },
+        {
+          "name": "showEconMessage",
+          "line": 1665
+        },
+        {
+          "name": "startCareer",
+          "line": 1666
+        },
+        {
+          "name": "doShift22",
+          "line": 1667
+        },
+        {
+          "name": "buyUseful22",
+          "line": 1670
+        },
+        {
+          "name": "useUseful22",
+          "line": 1673
+        },
+        {
+          "name": "upgradeHome22",
+          "line": 1680
+        },
+        {
+          "name": "renderEconomy",
+          "line": 1682
+        },
+        {
+          "name": "showLifeSection",
+          "line": 1695
+        }
+      ],
+      "frames": [],
+      "scripts": [
+        {
+          "bytes": 145213,
+          "sha256": "d61dd6f1a0d568495776bc4f1731c8cb80a76a1753cde30ac176b144e6568783"
+        }
+      ],
+      "storageLiterals": [
+        "dos-mundos-v06",
+        "dos-mundos-v07",
+        "dos-mundos-v071",
+        "dos-mundos-v09",
+        "dos-mundos-v1",
+        "dos-mundos-v16",
+        "dos-mundos-v17",
+        "dos-mundos-v18",
+        "dos-mundos-v19",
+        "dos-mundos-v20",
+        "dos-mundos-v201",
+        "dos-mundos-v21",
+        "dos-mundos-v22",
+        "dos-mundos-v23",
+        "dos-mundos-v25",
+        "dos-mundos-v26",
+        "dos-mundos-v27",
+        "dos-mundos-v28",
+        "dos-mundos-v29"
+      ],
+      "firebasePaths": [],
+      "externalOrigins": [],
+      "eventListeners": [
+        "change",
+        "click",
+        "keydown",
+        "toggle",
+        "visibilitychange"
+      ],
+      "eventProperties": [
+        "onclick"
+      ],
+      "dataImages": 0
+    },
+    {
+      "file": "index5.9.1.html",
+      "sha256": "6a66e1546c680721ceeea02d6147d7e0d3d89cf03c43353fe95dd95da20e92ea",
+      "bytes": 463646,
+      "lines": 4295,
+      "ids": [
+        "dm-art-source",
+        "dm-frame",
+        "dm-status",
+        "dm-style-source"
+      ],
+      "dynamicIds": [
+        "dm33-cinema-overlay",
+        "dm37-cafe-modal",
+        "dm37-title",
+        "dm38-root",
+        "dm38-title",
+        "dm381-radio-launcher",
+        "dm381-radio-panel",
+        "dm39-arcade-launcher",
+        "dm39-pool-root",
+        "dm39-title",
+        "dm40-feedback",
+        "dm40-home-btn",
+        "dm40-modal",
+        "dm40-modal-title",
+        "dm40-weather-btn",
+        "dm41-online-button",
+        "dm41-panel",
+        "dm41-presence",
+        "dm42-date-online",
+        "dm42-dinner-btn",
+        "dm42-orders",
+        "dm42-phone-body",
+        "dm42-phone-btn",
+        "dm42-phone-feedback",
+        "dm42-phone-info",
+        "dm43-explore",
+        "dm43-explore-list",
+        "dm43-explore-wrap",
+        "dm43-interact-modal",
+        "dm43-nearby",
+        "dm50-label",
+        "dm51-identity",
+        "dm52-feedback",
+        "dm52-near",
+        "dm52-overlay",
+        "dm52-requests",
+        "dm52-title",
+        "dm52-trigger",
+        "dm53-heading",
+        "dm53-overlay",
+        "dm53-trigger",
+        "dm54-overlay",
+        "dm54-trigger",
+        "dm55-message",
+        "dm55-overlay",
+        "dm55-trigger",
+        "dm56-message",
+        "dm56-overlay",
+        "dm56-room-entry",
+        "dm58-note",
+        "dm58-overlay",
+        "dm58-ready",
+        "dm59-installed",
+        "dm59-overlay"
+      ],
+      "selectorIds": [
+        "dm-art-source",
+        "dm-frame",
+        "dm-status",
+        "dm-style-source",
+        "dm33-cinema-overlay",
+        "dm33Badge",
+        "dm33Toggle",
+        "dm33style",
+        "dm37-cafe-modal",
+        "dm38-root",
+        "dm381-radio-launcher",
+        "dm39-arcade-launcher",
+        "dm39-pool-root",
+        "dm40-feedback",
+        "dm40-home-btn",
+        "dm40-modal",
+        "dm40-weather-btn",
+        "dm41-online-button",
+        "dm41-presence",
+        "dm42-date-online",
+        "dm42-orders",
+        "dm42-phone",
+        "dm42-phone-body",
+        "dm42-phone-btn",
+        "dm42-phone-feedback",
+        "dm42-phone-info",
+        "dm42-restaurant",
+        "dm43-explore",
+        "dm43-interact-modal",
+        "dm43-nearby",
+        "dm50-label",
+        "dm51-identity",
+        "dm52-feedback",
+        "dm52-near",
+        "dm52-requests",
+        "dm52-trigger",
+        "dm53-overlay",
+        "dm53-trigger",
+        "dm54-overlay",
+        "dm54-trigger",
+        "dm55-message",
+        "dm55-overlay",
+        "dm55-trigger",
+        "dm56-message",
+        "dm56-room-entry",
+        "dm58-note",
+        "dm58-overlay",
+        "dm58-ready",
+        "dm59-installed",
+        "interior",
+        "map"
+      ],
+      "functions": [
+        {
+          "name": "dm33OpenCinema",
+          "line": 6
+        },
+        {
+          "name": "dm33rect",
+          "line": 45
+        },
+        {
+          "name": "dm33seed",
+          "line": 46
+        },
+        {
+          "name": "dm33poly",
+          "line": 47
+        },
+        {
+          "name": "dm33shadow",
+          "line": 48
+        },
+        {
+          "name": "dm33tree",
+          "line": 49
+        },
+        {
+          "name": "dm33pavement",
+          "line": 62
+        },
+        {
+          "name": "dm33road",
+          "line": 72
+        },
+        {
+          "name": "dm33building",
+          "line": 105
+        },
+        {
+          "name": "dm33park",
+          "line": 168
+        },
+        {
+          "name": "dm33plaza",
+          "line": 181
+        },
+        {
+          "name": "dm33streetDecor",
+          "line": 191
+        },
+        {
+          "name": "dm33atmosphere",
+          "line": 217
+        },
+        {
+          "name": "dm34R",
+          "line": 229
+        },
+        {
+          "name": "dm34Line",
+          "line": 232
+        },
+        {
+          "name": "dm34Seed",
+          "line": 235
+        },
+        {
+          "name": "dm34Flower",
+          "line": 236
+        },
+        {
+          "name": "dm34Tree",
+          "line": 240
+        },
+        {
+          "name": "dm34Facade",
+          "line": 256
+        },
+        {
+          "name": "dm34Street",
+          "line": 318
+        },
+        {
+          "name": "dm34Interior",
+          "line": 356
+        },
+        {
+          "name": "pot",
+          "line": 374
+        },
+        {
+          "name": "dm34SpriteFinish",
+          "line": 439
+        },
+        {
+          "name": "dm35R",
+          "line": 455
+        },
+        {
+          "name": "dm35Lamp",
+          "line": 456
+        },
+        {
+          "name": "dm35Bench",
+          "line": 461
+        },
+        {
+          "name": "dm35Canopy",
+          "line": 464
+        },
+        {
+          "name": "dm35StreetLife",
+          "line": 468
+        },
+        {
+          "name": "dm35InteriorBoost",
+          "line": 482
+        },
+        {
+          "name": "dm35EditorBoost",
+          "line": 516
+        },
+        {
+          "name": "dm35Atmosphere",
+          "line": 523
+        },
+        {
+          "name": "dm36R",
+          "line": 530
+        },
+        {
+          "name": "dm36Dot",
+          "line": 531
+        },
+        {
+          "name": "dm36WindowBox",
+          "line": 532
+        },
+        {
+          "name": "dm36FacadePlus",
+          "line": 536
+        },
+        {
+          "name": "dm36ParkPlaza",
+          "line": 569
+        },
+        {
+          "name": "dm36SouthHomes",
+          "line": 587
+        },
+        {
+          "name": "dm36InteriorBoost",
+          "line": 595
+        },
+        {
+          "name": "dm36SpriteFinish",
+          "line": 630
+        },
+        {
+          "name": "dm36EditorBoost",
+          "line": 644
+        },
+        {
+          "name": "dm37CafeArt",
+          "line": 652
+        },
+        {
+          "name": "dm37CafeCanvas",
+          "line": 680
+        },
+        {
+          "name": "dm37OpenCafe",
+          "line": 736
+        },
+        {
+          "name": "showCategory",
+          "line": 778
+        },
+        {
+          "name": "doChoice",
+          "line": 797
+        },
+        {
+          "name": "dm38CanvasArt",
+          "line": 858
+        },
+        {
+          "name": "dm38OpenMetro",
+          "line": 935
+        },
+        {
+          "name": "close",
+          "line": 972
+        },
+        {
+          "name": "begin",
+          "line": 979
+        },
+        {
+          "name": "renderRoutes",
+          "line": 989
+        },
+        {
+          "name": "draw",
+          "line": 998
+        },
+        {
+          "name": "move",
+          "line": 1005
+        },
+        {
+          "name": "renderActivities",
+          "line": 1022
+        },
+        {
+          "name": "runActivity",
+          "line": 1050
+        },
+        {
+          "name": "dm381InstallMusic",
+          "line": 1083
+        },
+        {
+          "name": "ensurePlayer",
+          "line": 1124
+        },
+        {
+          "name": "show",
+          "line": 1137
+        },
+        {
+          "name": "hide",
+          "line": 1141
+        },
+        {
+          "name": "stopPlayer",
+          "line": 1145
+        },
+        {
+          "name": "dm39InstallArcade",
+          "line": 1160
+        },
+        {
+          "name": "dm39OpenPool",
+          "line": 1169
+        },
+        {
+          "name": "addBall",
+          "line": 1212
+        },
+        {
+          "name": "cue",
+          "line": 1213
+        },
+        {
+          "name": "resetGame",
+          "line": 1214
+        },
+        {
+          "name": "remainingLabels",
+          "line": 1230
+        },
+        {
+          "name": "updateScore",
+          "line": 1233
+        },
+        {
+          "name": "renderBall",
+          "line": 1244
+        },
+        {
+          "name": "draw",
+          "line": 1259
+        },
+        {
+          "name": "isInPocket",
+          "line": 1305
+        },
+        {
+          "name": "initialShot",
+          "line": 1308
+        },
+        {
+          "name": "shotBalls",
+          "line": 1317
+        },
+        {
+          "name": "respotWhite",
+          "line": 1348
+        },
+        {
+          "name": "shotDone",
+          "line": 1356
+        },
+        {
+          "name": "tick",
+          "line": 1386
+        },
+        {
+          "name": "shootBall",
+          "line": 1398
+        },
+        {
+          "name": "pointerPos",
+          "line": 1406
+        },
+        {
+          "name": "setAim",
+          "line": 1410
+        },
+        {
+          "name": "dm40GetSave",
+          "line": 1446
+        },
+        {
+          "name": "dm40Save",
+          "line": 1457
+        },
+        {
+          "name": "dm40Weather",
+          "line": 1462
+        },
+        {
+          "name": "dm40Comfort",
+          "line": 1480
+        },
+        {
+          "name": "dm40Rect",
+          "line": 1487
+        },
+        {
+          "name": "dm40Furniture",
+          "line": 1488
+        },
+        {
+          "name": "dm40RoomDecor",
+          "line": 1508
+        },
+        {
+          "name": "dm40WeatherLayer",
+          "line": 1526
+        },
+        {
+          "name": "dm40EffectsAfterTime",
+          "line": 1548
+        },
+        {
+          "name": "dm40UpdateButtons",
+          "line": 1562
+        },
+        {
+          "name": "dm40ShowWeather",
+          "line": 1570
+        },
+        {
+          "name": "dm40Modal",
+          "line": 1593
+        },
+        {
+          "name": "dm40ShowHouse",
+          "line": 1609
+        },
+        {
+          "name": "stats",
+          "line": 1627
+        },
+        {
+          "name": "notify",
+          "line": 1630
+        },
+        {
+          "name": "drawPreview",
+          "line": 1631
+        },
+        {
+          "name": "redrawThemes",
+          "line": 1655
+        },
+        {
+          "name": "renderCatalogue",
+          "line": 1666
+        },
+        {
+          "name": "renderOwned",
+          "line": 1705
+        },
+        {
+          "name": "activity",
+          "line": 1717
+        },
+        {
+          "name": "dm40Install",
+          "line": 1733
+        },
+        {
+          "name": "dm41SafeText",
+          "line": 1750
+        },
+        {
+          "name": "dm41SetStatus",
+          "line": 1751
+        },
+        {
+          "name": "dm41ReadURL",
+          "line": 1752
+        },
+        {
+          "name": "dm41Modal",
+          "line": 1753
+        },
+        {
+          "name": "dm41Install",
+          "line": 1779
+        },
+        {
+          "name": "dm41Connect",
+          "line": 1784
+        },
+        {
+          "name": "dm41Snapshot",
+          "line": 1844
+        },
+        {
+          "name": "dm41Publish",
+          "line": 1851
+        },
+        {
+          "name": "dm41Disconnect",
+          "line": 1861
+        },
+        {
+          "name": "dm41DrawOther",
+          "line": 1876
+        },
+        {
+          "name": "dm41DrawRoom",
+          "line": 1893
+        },
+        {
+          "name": "dm42Node",
+          "line": 1922
+        },
+        {
+          "name": "dm42Connected",
+          "line": 1923
+        },
+        {
+          "name": "dm42RemoteName",
+          "line": 1924
+        },
+        {
+          "name": "dm42Escape",
+          "line": 1925
+        },
+        {
+          "name": "dm42Remote",
+          "line": 1926
+        },
+        {
+          "name": "dm42Db",
+          "line": 1927
+        },
+        {
+          "name": "dm42UpdateInfo",
+          "line": 1928
+        },
+        {
+          "name": "dm42Time",
+          "line": 1929
+        },
+        {
+          "name": "dm42OnlineStop",
+          "line": 1930
+        },
+        {
+          "name": "dm42OnlineStart",
+          "line": 1931
+        },
+        {
+          "name": "dm42SendMessage",
+          "line": 1948
+        },
+        {
+          "name": "dm42SendInvite",
+          "line": 1955
+        },
+        {
+          "name": "dm42Reply",
+          "line": 1960
+        },
+        {
+          "name": "dm42Install",
+          "line": 1966
+        },
+        {
+          "name": "dm42MakeModal",
+          "line": 1972
+        },
+        {
+          "name": "close",
+          "line": 1980
+        },
+        {
+          "name": "dm42OpenPhone",
+          "line": 1985
+        },
+        {
+          "name": "choose",
+          "line": 1999
+        },
+        {
+          "name": "dm42PhoneRender",
+          "line": 2002
+        },
+        {
+          "name": "dm42DrawRestaurant",
+          "line": 2040
+        },
+        {
+          "name": "dm42DateRefresh",
+          "line": 2060
+        },
+        {
+          "name": "dm42OrderSummary",
+          "line": 2068
+        },
+        {
+          "name": "dm42RenderOrders",
+          "line": 2078
+        },
+        {
+          "name": "dm42OpenRestaurant",
+          "line": 2079
+        },
+        {
+          "name": "dm43Anchor",
+          "line": 2146
+        },
+        {
+          "name": "dm43Spots",
+          "line": 2152
+        },
+        {
+          "name": "dm43Distance",
+          "line": 2153
+        },
+        {
+          "name": "dm43Nearest",
+          "line": 2154
+        },
+        {
+          "name": "dm43Rect",
+          "line": 2155
+        },
+        {
+          "name": "dm43Random",
+          "line": 2156
+        },
+        {
+          "name": "dm43StreetTiles",
+          "line": 2157
+        },
+        {
+          "name": "dm43Crosswalks",
+          "line": 2171
+        },
+        {
+          "name": "dm43DrawStreetVendors",
+          "line": 2191
+        },
+        {
+          "name": "dm43Pedestrians",
+          "line": 2243
+        },
+        {
+          "name": "dm43Traffic",
+          "line": 2259
+        },
+        {
+          "name": "dm43NightBuildings",
+          "line": 2285
+        },
+        {
+          "name": "dm43UrbanLayer",
+          "line": 2296
+        },
+        {
+          "name": "dm43NearbyNotice",
+          "line": 2301
+        },
+        {
+          "name": "dm43Interact",
+          "line": 2307
+        },
+        {
+          "name": "dm43ShowList",
+          "line": 2337
+        },
+        {
+          "name": "dm43Install",
+          "line": 2355
+        },
+        {
+          "name": "dm50Poly",
+          "line": 2399
+        },
+        {
+          "name": "dm50Line",
+          "line": 2403
+        },
+        {
+          "name": "dm50Rect",
+          "line": 2406
+        },
+        {
+          "name": "dm50Seed",
+          "line": 2407
+        },
+        {
+          "name": "dm50Roads",
+          "line": 2408
+        },
+        {
+          "name": "dm50Window",
+          "line": 2455
+        },
+        {
+          "name": "dm50Balcony",
+          "line": 2469
+        },
+        {
+          "name": "dm50Building",
+          "line": 2478
+        },
+        {
+          "name": "dm50Greenery",
+          "line": 2568
+        },
+        {
+          "name": "dm50Hud",
+          "line": 2585
+        },
+        {
+          "name": "dm51LocalIdentity",
+          "line": 2603
+        },
+        {
+          "name": "dm51RemoteIdentity",
+          "line": 2611
+        },
+        {
+          "name": "dm51DrawActor",
+          "line": 2612
+        },
+        {
+          "name": "dm51Install",
+          "line": 2634
+        },
+        {
+          "name": "render",
+          "line": 2640
+        },
+        {
+          "name": "dm51EnhancePhone",
+          "line": 2648
+        },
+        {
+          "name": "dm52DetailRect",
+          "line": 2665
+        },
+        {
+          "name": "dm52Near",
+          "line": 2666
+        },
+        {
+          "name": "dm52PoseFor",
+          "line": 2674
+        },
+        {
+          "name": "dm52DrawActor",
+          "line": 2678
+        },
+        {
+          "name": "dm52DecorateInterior",
+          "line": 2713
+        },
+        {
+          "name": "dm52SyncStart",
+          "line": 2764
+        },
+        {
+          "name": "dm52SyncStop",
+          "line": 2781
+        },
+        {
+          "name": "dm52RefreshScene",
+          "line": 2785
+        },
+        {
+          "name": "dm52Feedback",
+          "line": 2786
+        },
+        {
+          "name": "dm52Request",
+          "line": 2787
+        },
+        {
+          "name": "dm52Respond",
+          "line": 2796
+        },
+        {
+          "name": "dm52PanelRender",
+          "line": 2806
+        },
+        {
+          "name": "dm52Install",
+          "line": 2821
+        },
+        {
+          "name": "dm50DrawMap",
+          "line": 2849
+        },
+        {
+          "name": "dm53ActivePose",
+          "line": 2903
+        },
+        {
+          "name": "dm53SetPose",
+          "line": 2904
+        },
+        {
+          "name": "dm53DrawRoom",
+          "line": 2905
+        },
+        {
+          "name": "dm53Open",
+          "line": 2945
+        },
+        {
+          "name": "dm53Install",
+          "line": 2989
+        },
+        {
+          "name": "dm33drawMap",
+          "line": 3001
+        },
+        {
+          "name": "dm33RoomDetails",
+          "line": 3028
+        },
+        {
+          "name": "dm33EditorBackdrop",
+          "line": 3085
+        },
+        {
+          "name": "dm54Key",
+          "line": 3115
+        },
+        {
+          "name": "dm54Load",
+          "line": 3116
+        },
+        {
+          "name": "dm54Save",
+          "line": 3117
+        },
+        {
+          "name": "dm54Hour",
+          "line": 3118
+        },
+        {
+          "name": "dm54Anchor",
+          "line": 3119
+        },
+        {
+          "name": "dm54PersonPos",
+          "line": 3120
+        },
+        {
+          "name": "dm54DrawWorld",
+          "line": 3127
+        },
+        {
+          "name": "dm54Nearby",
+          "line": 3146
+        },
+        {
+          "name": "dm54AddLog",
+          "line": 3151
+        },
+        {
+          "name": "dm54Dialog",
+          "line": 3152
+        },
+        {
+          "name": "dm54Button",
+          "line": 3160
+        },
+        {
+          "name": "dm54Speak",
+          "line": 3161
+        },
+        {
+          "name": "dm54Shop",
+          "line": 3171
+        },
+        {
+          "name": "dm54Inventory",
+          "line": 3181
+        },
+        {
+          "name": "dm54Journal",
+          "line": 3191
+        },
+        {
+          "name": "dm54Open",
+          "line": 3196
+        },
+        {
+          "name": "dm54Install",
+          "line": 3208
+        },
+        {
+          "name": "dm55Key",
+          "line": 3253
+        },
+        {
+          "name": "dm55Default",
+          "line": 3254
+        },
+        {
+          "name": "dm55Load",
+          "line": 3255
+        },
+        {
+          "name": "dm55Save",
+          "line": 3256
+        },
+        {
+          "name": "dm55RollDay",
+          "line": 3257
+        },
+        {
+          "name": "dm55CoreSave",
+          "line": 3258
+        },
+        {
+          "name": "dm55Note",
+          "line": 3259
+        },
+        {
+          "name": "dm55Record",
+          "line": 3260
+        },
+        {
+          "name": "dm55XP",
+          "line": 3261
+        },
+        {
+          "name": "dm55Level",
+          "line": 3262
+        },
+        {
+          "name": "dm55GainMoney",
+          "line": 3263
+        },
+        {
+          "name": "dm55SpendMoney",
+          "line": 3264
+        },
+        {
+          "name": "dm55Ingredients",
+          "line": 3265
+        },
+        {
+          "name": "dm55ConsumeIngredients",
+          "line": 3269
+        },
+        {
+          "name": "dm55CanWork",
+          "line": 3280
+        },
+        {
+          "name": "dm55Button",
+          "line": 3281
+        },
+        {
+          "name": "dm55Text",
+          "line": 3282
+        },
+        {
+          "name": "dm55Title",
+          "line": 3283
+        },
+        {
+          "name": "dm55Show",
+          "line": 3284
+        },
+        {
+          "name": "rerender",
+          "line": 3296
+        },
+        {
+          "name": "dm55Install",
+          "line": 3358
+        },
+        {
+          "name": "dm56Key",
+          "line": 3396
+        },
+        {
+          "name": "dm56Progress",
+          "line": 3397
+        },
+        {
+          "name": "dm56SaveProgress",
+          "line": 3398
+        },
+        {
+          "name": "dm56ActivityLog",
+          "line": 3399
+        },
+        {
+          "name": "dm56Effect",
+          "line": 3400
+        },
+        {
+          "name": "dm56Say",
+          "line": 3409
+        },
+        {
+          "name": "dm56Act",
+          "line": 3410
+        },
+        {
+          "name": "dm56R",
+          "line": 3435
+        },
+        {
+          "name": "dm56P",
+          "line": 3436
+        },
+        {
+          "name": "dm56Line",
+          "line": 3437
+        },
+        {
+          "name": "dm56Text",
+          "line": 3438
+        },
+        {
+          "name": "dm56Block",
+          "line": 3439
+        },
+        {
+          "name": "dm56Plant",
+          "line": 3445
+        },
+        {
+          "name": "dm56Lamp",
+          "line": 3446
+        },
+        {
+          "name": "dm56Backdrop",
+          "line": 3447
+        },
+        {
+          "name": "dm56Shelf",
+          "line": 3462
+        },
+        {
+          "name": "dm56Market",
+          "line": 3463
+        },
+        {
+          "name": "dm56Library",
+          "line": 3472
+        },
+        {
+          "name": "dm56Gym",
+          "line": 3479
+        },
+        {
+          "name": "dm56Cinema",
+          "line": 3491
+        },
+        {
+          "name": "dm56Draw",
+          "line": 3503
+        },
+        {
+          "name": "dm56Close",
+          "line": 3514
+        },
+        {
+          "name": "dm56OpenVenue",
+          "line": 3515
+        },
+        {
+          "name": "dm56Install",
+          "line": 3534
+        },
+        {
+          "name": "dm57Role",
+          "line": 3553
+        },
+        {
+          "name": "dm57Key",
+          "line": 3554
+        },
+        {
+          "name": "dm57Load",
+          "line": 3555
+        },
+        {
+          "name": "dm57Save",
+          "line": 3556
+        },
+        {
+          "name": "dm57Hour",
+          "line": 3557
+        },
+        {
+          "name": "dm57Phase",
+          "line": 3558
+        },
+        {
+          "name": "dm57W",
+          "line": 3559
+        },
+        {
+          "name": "dm57Schedule",
+          "line": 3560
+        },
+        {
+          "name": "dm57Anchor",
+          "line": 3569
+        },
+        {
+          "name": "dm57Position",
+          "line": 3570
+        },
+        {
+          "name": "dm57RenderPeople",
+          "line": 3583
+        },
+        {
+          "name": "dm57DrawAtmosphere",
+          "line": 3600
+        },
+        {
+          "name": "dm57Friend",
+          "line": 3618
+        },
+        {
+          "name": "dm57Rank",
+          "line": 3619
+        },
+        {
+          "name": "dm57Remember",
+          "line": 3620
+        },
+        {
+          "name": "dm57Friendship",
+          "line": 3621
+        },
+        {
+          "name": "dm57EnhanceTalk",
+          "line": 3629
+        },
+        {
+          "name": "dm57OpenAgenda",
+          "line": 3654
+        },
+        {
+          "name": "dm57Install",
+          "line": 3670
+        },
+        {
+          "name": "dm58Key",
+          "line": 3680
+        },
+        {
+          "name": "dm58Load",
+          "line": 3681
+        },
+        {
+          "name": "dm58Save",
+          "line": 3682
+        },
+        {
+          "name": "dm58Pay",
+          "line": 3683
+        },
+        {
+          "name": "dm58AddMoney",
+          "line": 3684
+        },
+        {
+          "name": "dm58Message",
+          "line": 3685
+        },
+        {
+          "name": "dm58Time",
+          "line": 3686
+        },
+        {
+          "name": "dm58Canvas",
+          "line": 3687
+        },
+        {
+          "name": "dm58Rect",
+          "line": 3688
+        },
+        {
+          "name": "dm58Txt",
+          "line": 3689
+        },
+        {
+          "name": "dm58Frame",
+          "line": 3690
+        },
+        {
+          "name": "dm58Scene",
+          "line": 3691
+        },
+        {
+          "name": "dm58Button",
+          "line": 3702
+        },
+        {
+          "name": "dm58Show",
+          "line": 3703
+        },
+        {
+          "name": "dm58Museum",
+          "line": 3706
+        },
+        {
+          "name": "dm58PhotoOpen",
+          "line": 3712
+        },
+        {
+          "name": "dm58PhotoRead",
+          "line": 3713
+        },
+        {
+          "name": "dm58PhotoWrite",
+          "line": 3714
+        },
+        {
+          "name": "dm58PhotoDelete",
+          "line": 3715
+        },
+        {
+          "name": "dm58Compress",
+          "line": 3716
+        },
+        {
+          "name": "dm58Bar",
+          "line": 3717
+        },
+        {
+          "name": "draw",
+          "line": 3720
+        },
+        {
+          "name": "dm58Tick",
+          "line": 3725
+        },
+        {
+          "name": "dm58Garden",
+          "line": 3730
+        },
+        {
+          "name": "dm58Sites",
+          "line": 3736
+        },
+        {
+          "name": "dm58DrawMapMarkers",
+          "line": 3737
+        },
+        {
+          "name": "dm58Install",
+          "line": 3738
+        },
+        {
+          "name": "dm59DrawGates",
+          "line": 3753
+        },
+        {
+          "name": "dm59Return",
+          "line": 3757
+        },
+        {
+          "name": "dm59Block",
+          "line": 3758
+        },
+        {
+          "name": "dm59Flower",
+          "line": 3769
+        },
+        {
+          "name": "dm59Background",
+          "line": 3770
+        },
+        {
+          "name": "dm59Draw",
+          "line": 3786
+        },
+        {
+          "name": "dm59Open",
+          "line": 3799
+        },
+        {
+          "name": "dm59Enter",
+          "line": 3806
+        },
+        {
+          "name": "dm59TravelGate",
+          "line": 3807
+        },
+        {
+          "name": "dm59Install",
+          "line": 3815
+        },
+        {
+          "name": "drawMap",
+          "line": 4234
+        },
+        {
+          "name": "renderInteriorScene",
+          "line": 4234
+        },
+        {
+          "name": "drawEditor23",
+          "line": 4234
+        },
+        {
+          "name": "drawMap",
+          "line": 4240
+        },
+        {
+          "name": "drawCitizens",
+          "line": 4242
+        },
+        {
+          "name": "openPlace",
+          "line": 4244
+        },
+        {
+          "name": "openPlace",
+          "line": 4244
+        },
+        {
+          "name": "triggerRoomAction",
+          "line": 4245
+        },
+        {
+          "name": "triggerRoomAction",
+          "line": 4245
+        },
+        {
+          "name": "openPlace",
+          "line": 4255
+        },
+        {
+          "name": "openPlace",
+          "line": 4255
+        },
+        {
+          "name": "openPlace",
+          "line": 4256
+        },
+        {
+          "name": "openPlace",
+          "line": 4256
+        },
+        {
+          "name": "triggerRoomAction",
+          "line": 4257
+        },
+        {
+          "name": "triggerRoomAction",
+          "line": 4257
+        },
+        {
+          "name": "recalcMood",
+          "line": 4260
+        }
+      ],
+      "frames": [
+        {
+          "id": "dm-frame",
+          "title": "Dos Mundos 4.0 Casa y Clima",
+          "allow": "fullscreen; autoplay; encrypted-media; clipboard-write"
+        }
+      ],
+      "scripts": [
+        {
+          "id": "dm-art-source",
+          "type": "text/plain",
+          "bytes": 400459,
+          "sha256": "4e6a761cd7fd0f4bd5951c884d380b1b26bce77d611a1bd66620cb1b0f808162"
+        },
+        {
+          "id": "dm-style-source",
+          "type": "text/plain",
+          "bytes": 55749,
+          "sha256": "69d0b2e4e5d6f868b2a2a0ee96cd946daeea0e3aab25e1a64755ec6573b27237"
+        },
+        {
+          "bytes": 6318,
+          "sha256": "676f8de86b3a44a392fad22d4fcd9af96571d74af274f0b10e60464e5cf4718f"
+        }
+      ],
+      "storageLiterals": [
+        "dm58-life-",
+        "dos-mundos-40-hogar:",
+        "dos-mundos-54-barrio-",
+        "dos-mundos-55-progreso:",
+        "dos-mundos-56-visitas:",
+        "dos-mundos-57-ciudad-",
+        "dos-mundos-7e33f",
+        "dos-mundos-7e33f.firebaseapp.com",
+        "dos-mundos-private-museum",
+        "dos-mundos-v41-database-url",
+        "dos-mundos-v51-role"
+      ],
+      "firebasePaths": [
+        "dosMundos/duo/presence/",
+        "dosMundos/duo/social",
+        "dosMundos/duo/social/gestures",
+        "dosMundos/duo/social/gestures/"
+      ],
+      "externalOrigins": [
+        "https://dos-mundos-7e33f-default-rtdb.europe-west1.firebasedatabase.app",
+        "https://open.spotify.com",
+        "https://www.disneyplus.com",
+        "https://www.gstatic.com",
+        "https://www.max.com",
+        "https://www.netflix.com"
+      ],
+      "eventListeners": [
+        "click",
+        "input",
+        "keydown",
+        "load",
+        "pointercancel",
+        "pointerdown",
+        "pointerleave",
+        "pointermove",
+        "pointerup",
+        "submit"
+      ],
+      "eventProperties": [
+        "onchange",
+        "onclick",
+        "oncomplete",
+        "onerror",
+        "online",
+        "onload",
+        "onsuccess",
+        "onupgradeneeded"
+      ],
+      "dataImages": 10
+    },
+    {
+      "file": "index6.0.1.html",
+      "sha256": "ac65d47811496f818c29f6cab5da8e62bb8ed6a85714b77c4fe77cf13cf3f0a4",
+      "bytes": 472643,
+      "lines": 4353,
+      "ids": [
+        "dm-art-source",
+        "dm-frame",
+        "dm-status",
+        "dm-style-source",
+        "dm60-choices",
+        "dm60-close-note",
+        "dm60-controller",
+        "dm60-controls",
+        "dm60-css",
+        "dm60-enter",
+        "dm60-envelope",
+        "dm60-fallback",
+        "dm60-gate",
+        "dm60-letter",
+        "dm60-night",
+        "dm60-note",
+        "dm60-notice",
+        "dm60-skip"
+      ],
+      "dynamicIds": [
+        "dm33-cinema-overlay",
+        "dm37-cafe-modal",
+        "dm37-title",
+        "dm38-root",
+        "dm38-title",
+        "dm381-radio-launcher",
+        "dm381-radio-panel",
+        "dm39-arcade-launcher",
+        "dm39-pool-root",
+        "dm39-title",
+        "dm40-feedback",
+        "dm40-home-btn",
+        "dm40-modal",
+        "dm40-modal-title",
+        "dm40-weather-btn",
+        "dm41-online-button",
+        "dm41-panel",
+        "dm41-presence",
+        "dm42-date-online",
+        "dm42-dinner-btn",
+        "dm42-orders",
+        "dm42-phone-body",
+        "dm42-phone-btn",
+        "dm42-phone-feedback",
+        "dm42-phone-info",
+        "dm43-explore",
+        "dm43-explore-list",
+        "dm43-explore-wrap",
+        "dm43-interact-modal",
+        "dm43-nearby",
+        "dm50-label",
+        "dm51-identity",
+        "dm52-feedback",
+        "dm52-near",
+        "dm52-overlay",
+        "dm52-requests",
+        "dm52-title",
+        "dm52-trigger",
+        "dm53-heading",
+        "dm53-overlay",
+        "dm53-trigger",
+        "dm54-overlay",
+        "dm54-trigger",
+        "dm55-message",
+        "dm55-overlay",
+        "dm55-trigger",
+        "dm56-message",
+        "dm56-overlay",
+        "dm56-room-entry",
+        "dm58-note",
+        "dm58-overlay",
+        "dm58-ready",
+        "dm59-installed",
+        "dm59-overlay"
+      ],
+      "selectorIds": [
+        "dm-art-source",
+        "dm-frame",
+        "dm-status",
+        "dm-style-source",
+        "dm33-cinema-overlay",
+        "dm33Badge",
+        "dm33Toggle",
+        "dm33style",
+        "dm37-cafe-modal",
+        "dm38-root",
+        "dm381-radio-launcher",
+        "dm39-arcade-launcher",
+        "dm39-pool-root",
+        "dm40-feedback",
+        "dm40-home-btn",
+        "dm40-modal",
+        "dm40-weather-btn",
+        "dm41-online-button",
+        "dm41-presence",
+        "dm42-date-online",
+        "dm42-orders",
+        "dm42-phone",
+        "dm42-phone-body",
+        "dm42-phone-btn",
+        "dm42-phone-feedback",
+        "dm42-phone-info",
+        "dm42-restaurant",
+        "dm43-explore",
+        "dm43-interact-modal",
+        "dm43-nearby",
+        "dm50-label",
+        "dm51-identity",
+        "dm52-feedback",
+        "dm52-near",
+        "dm52-requests",
+        "dm52-trigger",
+        "dm53-overlay",
+        "dm53-trigger",
+        "dm54-overlay",
+        "dm54-trigger",
+        "dm55-message",
+        "dm55-overlay",
+        "dm55-trigger",
+        "dm56-message",
+        "dm56-room-entry",
+        "dm58-note",
+        "dm58-overlay",
+        "dm58-ready",
+        "dm59-installed",
+        "dm60-choices",
+        "dm60-close-note",
+        "dm60-controls",
+        "dm60-enter",
+        "dm60-envelope",
+        "dm60-fallback",
+        "dm60-gate",
+        "dm60-letter",
+        "dm60-night",
+        "dm60-note",
+        "dm60-notice",
+        "dm60-skip",
+        "end",
+        "interior",
+        "map"
+      ],
+      "functions": [
+        {
+          "name": "dm33OpenCinema",
+          "line": 35
+        },
+        {
+          "name": "dm33rect",
+          "line": 74
+        },
+        {
+          "name": "dm33seed",
+          "line": 75
+        },
+        {
+          "name": "dm33poly",
+          "line": 76
+        },
+        {
+          "name": "dm33shadow",
+          "line": 77
+        },
+        {
+          "name": "dm33tree",
+          "line": 78
+        },
+        {
+          "name": "dm33pavement",
+          "line": 91
+        },
+        {
+          "name": "dm33road",
+          "line": 101
+        },
+        {
+          "name": "dm33building",
+          "line": 134
+        },
+        {
+          "name": "dm33park",
+          "line": 197
+        },
+        {
+          "name": "dm33plaza",
+          "line": 210
+        },
+        {
+          "name": "dm33streetDecor",
+          "line": 220
+        },
+        {
+          "name": "dm33atmosphere",
+          "line": 246
+        },
+        {
+          "name": "dm34R",
+          "line": 258
+        },
+        {
+          "name": "dm34Line",
+          "line": 261
+        },
+        {
+          "name": "dm34Seed",
+          "line": 264
+        },
+        {
+          "name": "dm34Flower",
+          "line": 265
+        },
+        {
+          "name": "dm34Tree",
+          "line": 269
+        },
+        {
+          "name": "dm34Facade",
+          "line": 285
+        },
+        {
+          "name": "dm34Street",
+          "line": 347
+        },
+        {
+          "name": "dm34Interior",
+          "line": 385
+        },
+        {
+          "name": "pot",
+          "line": 403
+        },
+        {
+          "name": "dm34SpriteFinish",
+          "line": 468
+        },
+        {
+          "name": "dm35R",
+          "line": 484
+        },
+        {
+          "name": "dm35Lamp",
+          "line": 485
+        },
+        {
+          "name": "dm35Bench",
+          "line": 490
+        },
+        {
+          "name": "dm35Canopy",
+          "line": 493
+        },
+        {
+          "name": "dm35StreetLife",
+          "line": 497
+        },
+        {
+          "name": "dm35InteriorBoost",
+          "line": 511
+        },
+        {
+          "name": "dm35EditorBoost",
+          "line": 545
+        },
+        {
+          "name": "dm35Atmosphere",
+          "line": 552
+        },
+        {
+          "name": "dm36R",
+          "line": 559
+        },
+        {
+          "name": "dm36Dot",
+          "line": 560
+        },
+        {
+          "name": "dm36WindowBox",
+          "line": 561
+        },
+        {
+          "name": "dm36FacadePlus",
+          "line": 565
+        },
+        {
+          "name": "dm36ParkPlaza",
+          "line": 598
+        },
+        {
+          "name": "dm36SouthHomes",
+          "line": 616
+        },
+        {
+          "name": "dm36InteriorBoost",
+          "line": 624
+        },
+        {
+          "name": "dm36SpriteFinish",
+          "line": 659
+        },
+        {
+          "name": "dm36EditorBoost",
+          "line": 673
+        },
+        {
+          "name": "dm37CafeArt",
+          "line": 681
+        },
+        {
+          "name": "dm37CafeCanvas",
+          "line": 709
+        },
+        {
+          "name": "dm37OpenCafe",
+          "line": 765
+        },
+        {
+          "name": "showCategory",
+          "line": 807
+        },
+        {
+          "name": "doChoice",
+          "line": 826
+        },
+        {
+          "name": "dm38CanvasArt",
+          "line": 887
+        },
+        {
+          "name": "dm38OpenMetro",
+          "line": 964
+        },
+        {
+          "name": "close",
+          "line": 1001
+        },
+        {
+          "name": "begin",
+          "line": 1008
+        },
+        {
+          "name": "renderRoutes",
+          "line": 1018
+        },
+        {
+          "name": "draw",
+          "line": 1027
+        },
+        {
+          "name": "move",
+          "line": 1034
+        },
+        {
+          "name": "renderActivities",
+          "line": 1051
+        },
+        {
+          "name": "runActivity",
+          "line": 1079
+        },
+        {
+          "name": "dm381InstallMusic",
+          "line": 1112
+        },
+        {
+          "name": "ensurePlayer",
+          "line": 1153
+        },
+        {
+          "name": "show",
+          "line": 1166
+        },
+        {
+          "name": "hide",
+          "line": 1170
+        },
+        {
+          "name": "stopPlayer",
+          "line": 1174
+        },
+        {
+          "name": "dm39InstallArcade",
+          "line": 1189
+        },
+        {
+          "name": "dm39OpenPool",
+          "line": 1198
+        },
+        {
+          "name": "addBall",
+          "line": 1241
+        },
+        {
+          "name": "cue",
+          "line": 1242
+        },
+        {
+          "name": "resetGame",
+          "line": 1243
+        },
+        {
+          "name": "remainingLabels",
+          "line": 1259
+        },
+        {
+          "name": "updateScore",
+          "line": 1262
+        },
+        {
+          "name": "renderBall",
+          "line": 1273
+        },
+        {
+          "name": "draw",
+          "line": 1288
+        },
+        {
+          "name": "isInPocket",
+          "line": 1334
+        },
+        {
+          "name": "initialShot",
+          "line": 1337
+        },
+        {
+          "name": "shotBalls",
+          "line": 1346
+        },
+        {
+          "name": "respotWhite",
+          "line": 1377
+        },
+        {
+          "name": "shotDone",
+          "line": 1385
+        },
+        {
+          "name": "tick",
+          "line": 1415
+        },
+        {
+          "name": "shootBall",
+          "line": 1427
+        },
+        {
+          "name": "pointerPos",
+          "line": 1435
+        },
+        {
+          "name": "setAim",
+          "line": 1439
+        },
+        {
+          "name": "dm40GetSave",
+          "line": 1475
+        },
+        {
+          "name": "dm40Save",
+          "line": 1486
+        },
+        {
+          "name": "dm40Weather",
+          "line": 1491
+        },
+        {
+          "name": "dm40Comfort",
+          "line": 1509
+        },
+        {
+          "name": "dm40Rect",
+          "line": 1516
+        },
+        {
+          "name": "dm40Furniture",
+          "line": 1517
+        },
+        {
+          "name": "dm40RoomDecor",
+          "line": 1537
+        },
+        {
+          "name": "dm40WeatherLayer",
+          "line": 1555
+        },
+        {
+          "name": "dm40EffectsAfterTime",
+          "line": 1577
+        },
+        {
+          "name": "dm40UpdateButtons",
+          "line": 1591
+        },
+        {
+          "name": "dm40ShowWeather",
+          "line": 1599
+        },
+        {
+          "name": "dm40Modal",
+          "line": 1622
+        },
+        {
+          "name": "dm40ShowHouse",
+          "line": 1638
+        },
+        {
+          "name": "stats",
+          "line": 1656
+        },
+        {
+          "name": "notify",
+          "line": 1659
+        },
+        {
+          "name": "drawPreview",
+          "line": 1660
+        },
+        {
+          "name": "redrawThemes",
+          "line": 1684
+        },
+        {
+          "name": "renderCatalogue",
+          "line": 1695
+        },
+        {
+          "name": "renderOwned",
+          "line": 1734
+        },
+        {
+          "name": "activity",
+          "line": 1746
+        },
+        {
+          "name": "dm40Install",
+          "line": 1762
+        },
+        {
+          "name": "dm41SafeText",
+          "line": 1779
+        },
+        {
+          "name": "dm41SetStatus",
+          "line": 1780
+        },
+        {
+          "name": "dm41ReadURL",
+          "line": 1781
+        },
+        {
+          "name": "dm41Modal",
+          "line": 1782
+        },
+        {
+          "name": "dm41Install",
+          "line": 1808
+        },
+        {
+          "name": "dm41Connect",
+          "line": 1813
+        },
+        {
+          "name": "dm41Snapshot",
+          "line": 1873
+        },
+        {
+          "name": "dm41Publish",
+          "line": 1880
+        },
+        {
+          "name": "dm41Disconnect",
+          "line": 1890
+        },
+        {
+          "name": "dm41DrawOther",
+          "line": 1905
+        },
+        {
+          "name": "dm41DrawRoom",
+          "line": 1922
+        },
+        {
+          "name": "dm42Node",
+          "line": 1951
+        },
+        {
+          "name": "dm42Connected",
+          "line": 1952
+        },
+        {
+          "name": "dm42RemoteName",
+          "line": 1953
+        },
+        {
+          "name": "dm42Escape",
+          "line": 1954
+        },
+        {
+          "name": "dm42Remote",
+          "line": 1955
+        },
+        {
+          "name": "dm42Db",
+          "line": 1956
+        },
+        {
+          "name": "dm42UpdateInfo",
+          "line": 1957
+        },
+        {
+          "name": "dm42Time",
+          "line": 1958
+        },
+        {
+          "name": "dm42OnlineStop",
+          "line": 1959
+        },
+        {
+          "name": "dm42OnlineStart",
+          "line": 1960
+        },
+        {
+          "name": "dm42SendMessage",
+          "line": 1977
+        },
+        {
+          "name": "dm42SendInvite",
+          "line": 1984
+        },
+        {
+          "name": "dm42Reply",
+          "line": 1989
+        },
+        {
+          "name": "dm42Install",
+          "line": 1995
+        },
+        {
+          "name": "dm42MakeModal",
+          "line": 2001
+        },
+        {
+          "name": "close",
+          "line": 2009
+        },
+        {
+          "name": "dm42OpenPhone",
+          "line": 2014
+        },
+        {
+          "name": "choose",
+          "line": 2028
+        },
+        {
+          "name": "dm42PhoneRender",
+          "line": 2031
+        },
+        {
+          "name": "dm42DrawRestaurant",
+          "line": 2069
+        },
+        {
+          "name": "dm42DateRefresh",
+          "line": 2089
+        },
+        {
+          "name": "dm42OrderSummary",
+          "line": 2097
+        },
+        {
+          "name": "dm42RenderOrders",
+          "line": 2107
+        },
+        {
+          "name": "dm42OpenRestaurant",
+          "line": 2108
+        },
+        {
+          "name": "dm43Anchor",
+          "line": 2175
+        },
+        {
+          "name": "dm43Spots",
+          "line": 2181
+        },
+        {
+          "name": "dm43Distance",
+          "line": 2182
+        },
+        {
+          "name": "dm43Nearest",
+          "line": 2183
+        },
+        {
+          "name": "dm43Rect",
+          "line": 2184
+        },
+        {
+          "name": "dm43Random",
+          "line": 2185
+        },
+        {
+          "name": "dm43StreetTiles",
+          "line": 2186
+        },
+        {
+          "name": "dm43Crosswalks",
+          "line": 2200
+        },
+        {
+          "name": "dm43DrawStreetVendors",
+          "line": 2220
+        },
+        {
+          "name": "dm43Pedestrians",
+          "line": 2272
+        },
+        {
+          "name": "dm43Traffic",
+          "line": 2288
+        },
+        {
+          "name": "dm43NightBuildings",
+          "line": 2314
+        },
+        {
+          "name": "dm43UrbanLayer",
+          "line": 2325
+        },
+        {
+          "name": "dm43NearbyNotice",
+          "line": 2330
+        },
+        {
+          "name": "dm43Interact",
+          "line": 2336
+        },
+        {
+          "name": "dm43ShowList",
+          "line": 2366
+        },
+        {
+          "name": "dm43Install",
+          "line": 2384
+        },
+        {
+          "name": "dm50Poly",
+          "line": 2428
+        },
+        {
+          "name": "dm50Line",
+          "line": 2432
+        },
+        {
+          "name": "dm50Rect",
+          "line": 2435
+        },
+        {
+          "name": "dm50Seed",
+          "line": 2436
+        },
+        {
+          "name": "dm50Roads",
+          "line": 2437
+        },
+        {
+          "name": "dm50Window",
+          "line": 2484
+        },
+        {
+          "name": "dm50Balcony",
+          "line": 2498
+        },
+        {
+          "name": "dm50Building",
+          "line": 2507
+        },
+        {
+          "name": "dm50Greenery",
+          "line": 2597
+        },
+        {
+          "name": "dm50Hud",
+          "line": 2614
+        },
+        {
+          "name": "dm51LocalIdentity",
+          "line": 2632
+        },
+        {
+          "name": "dm51RemoteIdentity",
+          "line": 2640
+        },
+        {
+          "name": "dm51DrawActor",
+          "line": 2641
+        },
+        {
+          "name": "dm51Install",
+          "line": 2663
+        },
+        {
+          "name": "render",
+          "line": 2669
+        },
+        {
+          "name": "dm51EnhancePhone",
+          "line": 2677
+        },
+        {
+          "name": "dm52DetailRect",
+          "line": 2694
+        },
+        {
+          "name": "dm52Near",
+          "line": 2695
+        },
+        {
+          "name": "dm52PoseFor",
+          "line": 2703
+        },
+        {
+          "name": "dm52DrawActor",
+          "line": 2707
+        },
+        {
+          "name": "dm52DecorateInterior",
+          "line": 2742
+        },
+        {
+          "name": "dm52SyncStart",
+          "line": 2793
+        },
+        {
+          "name": "dm52SyncStop",
+          "line": 2810
+        },
+        {
+          "name": "dm52RefreshScene",
+          "line": 2814
+        },
+        {
+          "name": "dm52Feedback",
+          "line": 2815
+        },
+        {
+          "name": "dm52Request",
+          "line": 2816
+        },
+        {
+          "name": "dm52Respond",
+          "line": 2825
+        },
+        {
+          "name": "dm52PanelRender",
+          "line": 2835
+        },
+        {
+          "name": "dm52Install",
+          "line": 2850
+        },
+        {
+          "name": "dm50DrawMap",
+          "line": 2878
+        },
+        {
+          "name": "dm53ActivePose",
+          "line": 2932
+        },
+        {
+          "name": "dm53SetPose",
+          "line": 2933
+        },
+        {
+          "name": "dm53DrawRoom",
+          "line": 2934
+        },
+        {
+          "name": "dm53Open",
+          "line": 2974
+        },
+        {
+          "name": "dm53Install",
+          "line": 3018
+        },
+        {
+          "name": "dm33drawMap",
+          "line": 3030
+        },
+        {
+          "name": "dm33RoomDetails",
+          "line": 3057
+        },
+        {
+          "name": "dm33EditorBackdrop",
+          "line": 3114
+        },
+        {
+          "name": "dm54Key",
+          "line": 3144
+        },
+        {
+          "name": "dm54Load",
+          "line": 3145
+        },
+        {
+          "name": "dm54Save",
+          "line": 3146
+        },
+        {
+          "name": "dm54Hour",
+          "line": 3147
+        },
+        {
+          "name": "dm54Anchor",
+          "line": 3148
+        },
+        {
+          "name": "dm54PersonPos",
+          "line": 3149
+        },
+        {
+          "name": "dm54DrawWorld",
+          "line": 3156
+        },
+        {
+          "name": "dm54Nearby",
+          "line": 3175
+        },
+        {
+          "name": "dm54AddLog",
+          "line": 3180
+        },
+        {
+          "name": "dm54Dialog",
+          "line": 3181
+        },
+        {
+          "name": "dm54Button",
+          "line": 3189
+        },
+        {
+          "name": "dm54Speak",
+          "line": 3190
+        },
+        {
+          "name": "dm54Shop",
+          "line": 3200
+        },
+        {
+          "name": "dm54Inventory",
+          "line": 3210
+        },
+        {
+          "name": "dm54Journal",
+          "line": 3220
+        },
+        {
+          "name": "dm54Open",
+          "line": 3225
+        },
+        {
+          "name": "dm54Install",
+          "line": 3237
+        },
+        {
+          "name": "dm55Key",
+          "line": 3282
+        },
+        {
+          "name": "dm55Default",
+          "line": 3283
+        },
+        {
+          "name": "dm55Load",
+          "line": 3284
+        },
+        {
+          "name": "dm55Save",
+          "line": 3285
+        },
+        {
+          "name": "dm55RollDay",
+          "line": 3286
+        },
+        {
+          "name": "dm55CoreSave",
+          "line": 3287
+        },
+        {
+          "name": "dm55Note",
+          "line": 3288
+        },
+        {
+          "name": "dm55Record",
+          "line": 3289
+        },
+        {
+          "name": "dm55XP",
+          "line": 3290
+        },
+        {
+          "name": "dm55Level",
+          "line": 3291
+        },
+        {
+          "name": "dm55GainMoney",
+          "line": 3292
+        },
+        {
+          "name": "dm55SpendMoney",
+          "line": 3293
+        },
+        {
+          "name": "dm55Ingredients",
+          "line": 3294
+        },
+        {
+          "name": "dm55ConsumeIngredients",
+          "line": 3298
+        },
+        {
+          "name": "dm55CanWork",
+          "line": 3309
+        },
+        {
+          "name": "dm55Button",
+          "line": 3310
+        },
+        {
+          "name": "dm55Text",
+          "line": 3311
+        },
+        {
+          "name": "dm55Title",
+          "line": 3312
+        },
+        {
+          "name": "dm55Show",
+          "line": 3313
+        },
+        {
+          "name": "rerender",
+          "line": 3325
+        },
+        {
+          "name": "dm55Install",
+          "line": 3387
+        },
+        {
+          "name": "dm56Key",
+          "line": 3425
+        },
+        {
+          "name": "dm56Progress",
+          "line": 3426
+        },
+        {
+          "name": "dm56SaveProgress",
+          "line": 3427
+        },
+        {
+          "name": "dm56ActivityLog",
+          "line": 3428
+        },
+        {
+          "name": "dm56Effect",
+          "line": 3429
+        },
+        {
+          "name": "dm56Say",
+          "line": 3438
+        },
+        {
+          "name": "dm56Act",
+          "line": 3439
+        },
+        {
+          "name": "dm56R",
+          "line": 3464
+        },
+        {
+          "name": "dm56P",
+          "line": 3465
+        },
+        {
+          "name": "dm56Line",
+          "line": 3466
+        },
+        {
+          "name": "dm56Text",
+          "line": 3467
+        },
+        {
+          "name": "dm56Block",
+          "line": 3468
+        },
+        {
+          "name": "dm56Plant",
+          "line": 3474
+        },
+        {
+          "name": "dm56Lamp",
+          "line": 3475
+        },
+        {
+          "name": "dm56Backdrop",
+          "line": 3476
+        },
+        {
+          "name": "dm56Shelf",
+          "line": 3491
+        },
+        {
+          "name": "dm56Market",
+          "line": 3492
+        },
+        {
+          "name": "dm56Library",
+          "line": 3501
+        },
+        {
+          "name": "dm56Gym",
+          "line": 3508
+        },
+        {
+          "name": "dm56Cinema",
+          "line": 3520
+        },
+        {
+          "name": "dm56Draw",
+          "line": 3532
+        },
+        {
+          "name": "dm56Close",
+          "line": 3543
+        },
+        {
+          "name": "dm56OpenVenue",
+          "line": 3544
+        },
+        {
+          "name": "dm56Install",
+          "line": 3563
+        },
+        {
+          "name": "dm57Role",
+          "line": 3582
+        },
+        {
+          "name": "dm57Key",
+          "line": 3583
+        },
+        {
+          "name": "dm57Load",
+          "line": 3584
+        },
+        {
+          "name": "dm57Save",
+          "line": 3585
+        },
+        {
+          "name": "dm57Hour",
+          "line": 3586
+        },
+        {
+          "name": "dm57Phase",
+          "line": 3587
+        },
+        {
+          "name": "dm57W",
+          "line": 3588
+        },
+        {
+          "name": "dm57Schedule",
+          "line": 3589
+        },
+        {
+          "name": "dm57Anchor",
+          "line": 3598
+        },
+        {
+          "name": "dm57Position",
+          "line": 3599
+        },
+        {
+          "name": "dm57RenderPeople",
+          "line": 3612
+        },
+        {
+          "name": "dm57DrawAtmosphere",
+          "line": 3629
+        },
+        {
+          "name": "dm57Friend",
+          "line": 3647
+        },
+        {
+          "name": "dm57Rank",
+          "line": 3648
+        },
+        {
+          "name": "dm57Remember",
+          "line": 3649
+        },
+        {
+          "name": "dm57Friendship",
+          "line": 3650
+        },
+        {
+          "name": "dm57EnhanceTalk",
+          "line": 3658
+        },
+        {
+          "name": "dm57OpenAgenda",
+          "line": 3683
+        },
+        {
+          "name": "dm57Install",
+          "line": 3699
+        },
+        {
+          "name": "dm58Key",
+          "line": 3709
+        },
+        {
+          "name": "dm58Load",
+          "line": 3710
+        },
+        {
+          "name": "dm58Save",
+          "line": 3711
+        },
+        {
+          "name": "dm58Pay",
+          "line": 3712
+        },
+        {
+          "name": "dm58AddMoney",
+          "line": 3713
+        },
+        {
+          "name": "dm58Message",
+          "line": 3714
+        },
+        {
+          "name": "dm58Time",
+          "line": 3715
+        },
+        {
+          "name": "dm58Canvas",
+          "line": 3716
+        },
+        {
+          "name": "dm58Rect",
+          "line": 3717
+        },
+        {
+          "name": "dm58Txt",
+          "line": 3718
+        },
+        {
+          "name": "dm58Frame",
+          "line": 3719
+        },
+        {
+          "name": "dm58Scene",
+          "line": 3720
+        },
+        {
+          "name": "dm58Button",
+          "line": 3731
+        },
+        {
+          "name": "dm58Show",
+          "line": 3732
+        },
+        {
+          "name": "dm58Museum",
+          "line": 3735
+        },
+        {
+          "name": "dm58PhotoOpen",
+          "line": 3741
+        },
+        {
+          "name": "dm58PhotoRead",
+          "line": 3742
+        },
+        {
+          "name": "dm58PhotoWrite",
+          "line": 3743
+        },
+        {
+          "name": "dm58PhotoDelete",
+          "line": 3744
+        },
+        {
+          "name": "dm58Compress",
+          "line": 3745
+        },
+        {
+          "name": "dm58Bar",
+          "line": 3746
+        },
+        {
+          "name": "draw",
+          "line": 3749
+        },
+        {
+          "name": "dm58Tick",
+          "line": 3754
+        },
+        {
+          "name": "dm58Garden",
+          "line": 3759
+        },
+        {
+          "name": "dm58Sites",
+          "line": 3765
+        },
+        {
+          "name": "dm58DrawMapMarkers",
+          "line": 3766
+        },
+        {
+          "name": "dm58Install",
+          "line": 3767
+        },
+        {
+          "name": "dm59DrawGates",
+          "line": 3782
+        },
+        {
+          "name": "dm59Return",
+          "line": 3786
+        },
+        {
+          "name": "dm59Block",
+          "line": 3787
+        },
+        {
+          "name": "dm59Flower",
+          "line": 3798
+        },
+        {
+          "name": "dm59Background",
+          "line": 3799
+        },
+        {
+          "name": "dm59Draw",
+          "line": 3815
+        },
+        {
+          "name": "dm59Open",
+          "line": 3828
+        },
+        {
+          "name": "dm59Enter",
+          "line": 3835
+        },
+        {
+          "name": "dm59TravelGate",
+          "line": 3836
+        },
+        {
+          "name": "dm59Install",
+          "line": 3844
+        },
+        {
+          "name": "drawMap",
+          "line": 4263
+        },
+        {
+          "name": "renderInteriorScene",
+          "line": 4263
+        },
+        {
+          "name": "drawEditor23",
+          "line": 4263
+        },
+        {
+          "name": "drawMap",
+          "line": 4269
+        },
+        {
+          "name": "drawCitizens",
+          "line": 4271
+        },
+        {
+          "name": "openPlace",
+          "line": 4273
+        },
+        {
+          "name": "openPlace",
+          "line": 4273
+        },
+        {
+          "name": "triggerRoomAction",
+          "line": 4274
+        },
+        {
+          "name": "triggerRoomAction",
+          "line": 4274
+        },
+        {
+          "name": "openPlace",
+          "line": 4284
+        },
+        {
+          "name": "openPlace",
+          "line": 4284
+        },
+        {
+          "name": "openPlace",
+          "line": 4285
+        },
+        {
+          "name": "openPlace",
+          "line": 4285
+        },
+        {
+          "name": "triggerRoomAction",
+          "line": 4286
+        },
+        {
+          "name": "triggerRoomAction",
+          "line": 4286
+        },
+        {
+          "name": "recalcMood",
+          "line": 4289
+        },
+        {
+          "name": "storageGet",
+          "line": 4333
+        },
+        {
+          "name": "storageSet",
+          "line": 4334
+        },
+        {
+          "name": "show",
+          "line": 4335
+        },
+        {
+          "name": "finish",
+          "line": 4336
+        },
+        {
+          "name": "ready",
+          "line": 4337
+        },
+        {
+          "name": "playFallback",
+          "line": 4338
+        },
+        {
+          "name": "playOriginal",
+          "line": 4339
+        }
+      ],
+      "frames": [
+        {
+          "id": "dm60-letter",
+          "title": "Una carta para Gabi",
+          "allow": "autoplay"
+        },
+        {
+          "id": "dm-frame",
+          "title": "Dos Mundos 4.0 Casa y Clima",
+          "allow": "fullscreen; autoplay; encrypted-media; clipboard-write"
+        }
+      ],
+      "scripts": [
+        {
+          "id": "dm-art-source",
+          "type": "text/plain",
+          "bytes": 400459,
+          "sha256": "4e6a761cd7fd0f4bd5951c884d380b1b26bce77d611a1bd66620cb1b0f808162"
+        },
+        {
+          "id": "dm-style-source",
+          "type": "text/plain",
+          "bytes": 55749,
+          "sha256": "69d0b2e4e5d6f868b2a2a0ee96cd946daeea0e3aab25e1a64755ec6573b27237"
+        },
+        {
+          "bytes": 6318,
+          "sha256": "676f8de86b3a44a392fad22d4fcd9af96571d74af274f0b10e60464e5cf4718f"
+        },
+        {
+          "id": "dm60-controller",
+          "bytes": 4469,
+          "sha256": "fbe68132eb6b6b38922591036e92ac87751f28f257f242d0ffa4a941071af8c2"
+        }
+      ],
+      "storageLiterals": [
+        "dm58-life-",
+        "dos-mundos-40-hogar:",
+        "dos-mundos-54-barrio-",
+        "dos-mundos-55-progreso:",
+        "dos-mundos-56-visitas:",
+        "dos-mundos-57-ciudad-",
+        "dos-mundos-7e33f",
+        "dos-mundos-7e33f.firebaseapp.com",
+        "dos-mundos-private-museum",
+        "dos-mundos-v41-database-url",
+        "dos-mundos-v51-role",
+        "dos-mundos-v60-prologue-seen-gabi"
+      ],
+      "firebasePaths": [
+        "dosMundos/duo/presence/",
+        "dosMundos/duo/social",
+        "dosMundos/duo/social/gestures",
+        "dosMundos/duo/social/gestures/"
+      ],
+      "externalOrigins": [
+        "https://dos-mundos-7e33f-default-rtdb.europe-west1.firebasedatabase.app",
+        "https://open.spotify.com",
+        "https://raw.githubusercontent.com",
+        "https://www.disneyplus.com",
+        "https://www.gstatic.com",
+        "https://www.max.com",
+        "https://www.netflix.com"
+      ],
+      "eventListeners": [
+        "click",
+        "input",
+        "keydown",
+        "load",
+        "message",
+        "pointercancel",
+        "pointerdown",
+        "pointerleave",
+        "pointermove",
+        "pointerup",
+        "submit"
+      ],
+      "eventProperties": [
+        "onchange",
+        "onclick",
+        "oncomplete",
+        "onerror",
+        "online",
+        "onload",
+        "onsuccess",
+        "onupgradeneeded"
+      ],
+      "dataImages": 10
+    },
+    {
+      "file": "index6.1.html",
+      "sha256": "86413466bcb4d383d79926057e51021b06a3bb9e5dbcaf4cfffb302874a7ed32",
+      "bytes": 485771,
+      "lines": 4520,
+      "ids": [
+        "dm-art-source",
+        "dm-frame",
+        "dm-status",
+        "dm-style-source",
+        "dm60-choices",
+        "dm60-close-note",
+        "dm60-controller",
+        "dm60-controls",
+        "dm60-css",
+        "dm60-enter",
+        "dm60-envelope",
+        "dm60-fallback",
+        "dm60-gate",
+        "dm60-letter",
+        "dm60-night",
+        "dm60-note",
+        "dm60-notice",
+        "dm60-skip"
+      ],
+      "dynamicIds": [
+        "dm33-cinema-overlay",
+        "dm37-cafe-modal",
+        "dm37-title",
+        "dm38-root",
+        "dm38-title",
+        "dm381-radio-launcher",
+        "dm381-radio-panel",
+        "dm39-arcade-launcher",
+        "dm39-pool-root",
+        "dm39-title",
+        "dm40-feedback",
+        "dm40-home-btn",
+        "dm40-modal",
+        "dm40-modal-title",
+        "dm40-weather-btn",
+        "dm41-online-button",
+        "dm41-panel",
+        "dm41-presence",
+        "dm42-date-online",
+        "dm42-dinner-btn",
+        "dm42-orders",
+        "dm42-phone-body",
+        "dm42-phone-btn",
+        "dm42-phone-feedback",
+        "dm42-phone-info",
+        "dm43-explore",
+        "dm43-explore-list",
+        "dm43-explore-wrap",
+        "dm43-interact-modal",
+        "dm43-nearby",
+        "dm50-label",
+        "dm51-identity",
+        "dm52-feedback",
+        "dm52-near",
+        "dm52-overlay",
+        "dm52-requests",
+        "dm52-title",
+        "dm52-trigger",
+        "dm53-heading",
+        "dm53-overlay",
+        "dm53-trigger",
+        "dm54-overlay",
+        "dm54-trigger",
+        "dm55-message",
+        "dm55-overlay",
+        "dm55-trigger",
+        "dm56-message",
+        "dm56-overlay",
+        "dm56-room-entry",
+        "dm58-note",
+        "dm58-overlay",
+        "dm58-ready",
+        "dm59-installed",
+        "dm59-overlay",
+        "dm61-content",
+        "dm61-open",
+        "dm61-overlay",
+        "dm61-status"
+      ],
+      "selectorIds": [
+        "dm-art-source",
+        "dm-frame",
+        "dm-status",
+        "dm-style-source",
+        "dm33-cinema-overlay",
+        "dm33Badge",
+        "dm33Toggle",
+        "dm33style",
+        "dm37-cafe-modal",
+        "dm38-root",
+        "dm381-radio-launcher",
+        "dm39-arcade-launcher",
+        "dm39-pool-root",
+        "dm40-feedback",
+        "dm40-home-btn",
+        "dm40-modal",
+        "dm40-weather-btn",
+        "dm41-online-button",
+        "dm41-presence",
+        "dm42-date-online",
+        "dm42-orders",
+        "dm42-phone",
+        "dm42-phone-body",
+        "dm42-phone-btn",
+        "dm42-phone-feedback",
+        "dm42-phone-info",
+        "dm42-restaurant",
+        "dm43-explore",
+        "dm43-interact-modal",
+        "dm43-nearby",
+        "dm50-label",
+        "dm51-identity",
+        "dm52-feedback",
+        "dm52-near",
+        "dm52-requests",
+        "dm52-trigger",
+        "dm53-overlay",
+        "dm53-trigger",
+        "dm54-overlay",
+        "dm54-trigger",
+        "dm55-message",
+        "dm55-overlay",
+        "dm55-trigger",
+        "dm56-message",
+        "dm56-room-entry",
+        "dm58-note",
+        "dm58-overlay",
+        "dm58-ready",
+        "dm59-installed",
+        "dm60-choices",
+        "dm60-close-note",
+        "dm60-controls",
+        "dm60-enter",
+        "dm60-envelope",
+        "dm60-fallback",
+        "dm60-gate",
+        "dm60-letter",
+        "dm60-night",
+        "dm60-note",
+        "dm60-notice",
+        "dm60-skip",
+        "dm61-content",
+        "dm61-open",
+        "dm61-overlay",
+        "dm61-status",
+        "end",
+        "interior",
+        "map"
+      ],
+      "functions": [
+        {
+          "name": "dm33OpenCinema",
+          "line": 35
+        },
+        {
+          "name": "dm33rect",
+          "line": 74
+        },
+        {
+          "name": "dm33seed",
+          "line": 75
+        },
+        {
+          "name": "dm33poly",
+          "line": 76
+        },
+        {
+          "name": "dm33shadow",
+          "line": 77
+        },
+        {
+          "name": "dm33tree",
+          "line": 78
+        },
+        {
+          "name": "dm33pavement",
+          "line": 91
+        },
+        {
+          "name": "dm33road",
+          "line": 101
+        },
+        {
+          "name": "dm33building",
+          "line": 134
+        },
+        {
+          "name": "dm33park",
+          "line": 197
+        },
+        {
+          "name": "dm33plaza",
+          "line": 210
+        },
+        {
+          "name": "dm33streetDecor",
+          "line": 220
+        },
+        {
+          "name": "dm33atmosphere",
+          "line": 246
+        },
+        {
+          "name": "dm34R",
+          "line": 258
+        },
+        {
+          "name": "dm34Line",
+          "line": 261
+        },
+        {
+          "name": "dm34Seed",
+          "line": 264
+        },
+        {
+          "name": "dm34Flower",
+          "line": 265
+        },
+        {
+          "name": "dm34Tree",
+          "line": 269
+        },
+        {
+          "name": "dm34Facade",
+          "line": 285
+        },
+        {
+          "name": "dm34Street",
+          "line": 347
+        },
+        {
+          "name": "dm34Interior",
+          "line": 385
+        },
+        {
+          "name": "pot",
+          "line": 403
+        },
+        {
+          "name": "dm34SpriteFinish",
+          "line": 468
+        },
+        {
+          "name": "dm35R",
+          "line": 484
+        },
+        {
+          "name": "dm35Lamp",
+          "line": 485
+        },
+        {
+          "name": "dm35Bench",
+          "line": 490
+        },
+        {
+          "name": "dm35Canopy",
+          "line": 493
+        },
+        {
+          "name": "dm35StreetLife",
+          "line": 497
+        },
+        {
+          "name": "dm35InteriorBoost",
+          "line": 511
+        },
+        {
+          "name": "dm35EditorBoost",
+          "line": 545
+        },
+        {
+          "name": "dm35Atmosphere",
+          "line": 552
+        },
+        {
+          "name": "dm36R",
+          "line": 559
+        },
+        {
+          "name": "dm36Dot",
+          "line": 560
+        },
+        {
+          "name": "dm36WindowBox",
+          "line": 561
+        },
+        {
+          "name": "dm36FacadePlus",
+          "line": 565
+        },
+        {
+          "name": "dm36ParkPlaza",
+          "line": 598
+        },
+        {
+          "name": "dm36SouthHomes",
+          "line": 616
+        },
+        {
+          "name": "dm36InteriorBoost",
+          "line": 624
+        },
+        {
+          "name": "dm36SpriteFinish",
+          "line": 659
+        },
+        {
+          "name": "dm36EditorBoost",
+          "line": 673
+        },
+        {
+          "name": "dm37CafeArt",
+          "line": 681
+        },
+        {
+          "name": "dm37CafeCanvas",
+          "line": 709
+        },
+        {
+          "name": "dm37OpenCafe",
+          "line": 765
+        },
+        {
+          "name": "showCategory",
+          "line": 807
+        },
+        {
+          "name": "doChoice",
+          "line": 826
+        },
+        {
+          "name": "dm38CanvasArt",
+          "line": 887
+        },
+        {
+          "name": "dm38OpenMetro",
+          "line": 964
+        },
+        {
+          "name": "close",
+          "line": 1001
+        },
+        {
+          "name": "begin",
+          "line": 1008
+        },
+        {
+          "name": "renderRoutes",
+          "line": 1018
+        },
+        {
+          "name": "draw",
+          "line": 1027
+        },
+        {
+          "name": "move",
+          "line": 1034
+        },
+        {
+          "name": "renderActivities",
+          "line": 1051
+        },
+        {
+          "name": "runActivity",
+          "line": 1079
+        },
+        {
+          "name": "dm381InstallMusic",
+          "line": 1112
+        },
+        {
+          "name": "ensurePlayer",
+          "line": 1153
+        },
+        {
+          "name": "show",
+          "line": 1166
+        },
+        {
+          "name": "hide",
+          "line": 1170
+        },
+        {
+          "name": "stopPlayer",
+          "line": 1174
+        },
+        {
+          "name": "dm39InstallArcade",
+          "line": 1189
+        },
+        {
+          "name": "dm39OpenPool",
+          "line": 1198
+        },
+        {
+          "name": "addBall",
+          "line": 1241
+        },
+        {
+          "name": "cue",
+          "line": 1242
+        },
+        {
+          "name": "resetGame",
+          "line": 1243
+        },
+        {
+          "name": "remainingLabels",
+          "line": 1259
+        },
+        {
+          "name": "updateScore",
+          "line": 1262
+        },
+        {
+          "name": "renderBall",
+          "line": 1273
+        },
+        {
+          "name": "draw",
+          "line": 1288
+        },
+        {
+          "name": "isInPocket",
+          "line": 1334
+        },
+        {
+          "name": "initialShot",
+          "line": 1337
+        },
+        {
+          "name": "shotBalls",
+          "line": 1346
+        },
+        {
+          "name": "respotWhite",
+          "line": 1377
+        },
+        {
+          "name": "shotDone",
+          "line": 1385
+        },
+        {
+          "name": "tick",
+          "line": 1415
+        },
+        {
+          "name": "shootBall",
+          "line": 1427
+        },
+        {
+          "name": "pointerPos",
+          "line": 1435
+        },
+        {
+          "name": "setAim",
+          "line": 1439
+        },
+        {
+          "name": "dm40GetSave",
+          "line": 1475
+        },
+        {
+          "name": "dm40Save",
+          "line": 1486
+        },
+        {
+          "name": "dm40Weather",
+          "line": 1491
+        },
+        {
+          "name": "dm40Comfort",
+          "line": 1509
+        },
+        {
+          "name": "dm40Rect",
+          "line": 1516
+        },
+        {
+          "name": "dm40Furniture",
+          "line": 1517
+        },
+        {
+          "name": "dm40RoomDecor",
+          "line": 1537
+        },
+        {
+          "name": "dm40WeatherLayer",
+          "line": 1555
+        },
+        {
+          "name": "dm40EffectsAfterTime",
+          "line": 1577
+        },
+        {
+          "name": "dm40UpdateButtons",
+          "line": 1591
+        },
+        {
+          "name": "dm40ShowWeather",
+          "line": 1599
+        },
+        {
+          "name": "dm40Modal",
+          "line": 1622
+        },
+        {
+          "name": "dm40ShowHouse",
+          "line": 1638
+        },
+        {
+          "name": "stats",
+          "line": 1656
+        },
+        {
+          "name": "notify",
+          "line": 1659
+        },
+        {
+          "name": "drawPreview",
+          "line": 1660
+        },
+        {
+          "name": "redrawThemes",
+          "line": 1684
+        },
+        {
+          "name": "renderCatalogue",
+          "line": 1695
+        },
+        {
+          "name": "renderOwned",
+          "line": 1734
+        },
+        {
+          "name": "activity",
+          "line": 1746
+        },
+        {
+          "name": "dm40Install",
+          "line": 1762
+        },
+        {
+          "name": "dm41SafeText",
+          "line": 1779
+        },
+        {
+          "name": "dm41SetStatus",
+          "line": 1780
+        },
+        {
+          "name": "dm41ReadURL",
+          "line": 1781
+        },
+        {
+          "name": "dm41Modal",
+          "line": 1782
+        },
+        {
+          "name": "dm41Install",
+          "line": 1808
+        },
+        {
+          "name": "dm41Connect",
+          "line": 1813
+        },
+        {
+          "name": "dm41Snapshot",
+          "line": 1873
+        },
+        {
+          "name": "dm41Publish",
+          "line": 1880
+        },
+        {
+          "name": "dm41Disconnect",
+          "line": 1890
+        },
+        {
+          "name": "dm41DrawOther",
+          "line": 1905
+        },
+        {
+          "name": "dm41DrawRoom",
+          "line": 1922
+        },
+        {
+          "name": "dm42Node",
+          "line": 1951
+        },
+        {
+          "name": "dm42Connected",
+          "line": 1952
+        },
+        {
+          "name": "dm42RemoteName",
+          "line": 1953
+        },
+        {
+          "name": "dm42Escape",
+          "line": 1954
+        },
+        {
+          "name": "dm42Remote",
+          "line": 1955
+        },
+        {
+          "name": "dm42Db",
+          "line": 1956
+        },
+        {
+          "name": "dm42UpdateInfo",
+          "line": 1957
+        },
+        {
+          "name": "dm42Time",
+          "line": 1958
+        },
+        {
+          "name": "dm42OnlineStop",
+          "line": 1959
+        },
+        {
+          "name": "dm42OnlineStart",
+          "line": 1960
+        },
+        {
+          "name": "dm42SendMessage",
+          "line": 1977
+        },
+        {
+          "name": "dm42SendInvite",
+          "line": 1984
+        },
+        {
+          "name": "dm42Reply",
+          "line": 1989
+        },
+        {
+          "name": "dm42Install",
+          "line": 1995
+        },
+        {
+          "name": "dm42MakeModal",
+          "line": 2001
+        },
+        {
+          "name": "close",
+          "line": 2009
+        },
+        {
+          "name": "dm42OpenPhone",
+          "line": 2014
+        },
+        {
+          "name": "choose",
+          "line": 2028
+        },
+        {
+          "name": "dm42PhoneRender",
+          "line": 2031
+        },
+        {
+          "name": "dm42DrawRestaurant",
+          "line": 2069
+        },
+        {
+          "name": "dm42DateRefresh",
+          "line": 2089
+        },
+        {
+          "name": "dm42OrderSummary",
+          "line": 2097
+        },
+        {
+          "name": "dm42RenderOrders",
+          "line": 2107
+        },
+        {
+          "name": "dm42OpenRestaurant",
+          "line": 2108
+        },
+        {
+          "name": "dm43Anchor",
+          "line": 2175
+        },
+        {
+          "name": "dm43Spots",
+          "line": 2181
+        },
+        {
+          "name": "dm43Distance",
+          "line": 2182
+        },
+        {
+          "name": "dm43Nearest",
+          "line": 2183
+        },
+        {
+          "name": "dm43Rect",
+          "line": 2184
+        },
+        {
+          "name": "dm43Random",
+          "line": 2185
+        },
+        {
+          "name": "dm43StreetTiles",
+          "line": 2186
+        },
+        {
+          "name": "dm43Crosswalks",
+          "line": 2200
+        },
+        {
+          "name": "dm43DrawStreetVendors",
+          "line": 2220
+        },
+        {
+          "name": "dm43Pedestrians",
+          "line": 2272
+        },
+        {
+          "name": "dm43Traffic",
+          "line": 2288
+        },
+        {
+          "name": "dm43NightBuildings",
+          "line": 2314
+        },
+        {
+          "name": "dm43UrbanLayer",
+          "line": 2325
+        },
+        {
+          "name": "dm43NearbyNotice",
+          "line": 2330
+        },
+        {
+          "name": "dm43Interact",
+          "line": 2336
+        },
+        {
+          "name": "dm43ShowList",
+          "line": 2366
+        },
+        {
+          "name": "dm43Install",
+          "line": 2384
+        },
+        {
+          "name": "dm50Poly",
+          "line": 2428
+        },
+        {
+          "name": "dm50Line",
+          "line": 2432
+        },
+        {
+          "name": "dm50Rect",
+          "line": 2435
+        },
+        {
+          "name": "dm50Seed",
+          "line": 2436
+        },
+        {
+          "name": "dm50Roads",
+          "line": 2437
+        },
+        {
+          "name": "dm50Window",
+          "line": 2484
+        },
+        {
+          "name": "dm50Balcony",
+          "line": 2498
+        },
+        {
+          "name": "dm50Building",
+          "line": 2507
+        },
+        {
+          "name": "dm50Greenery",
+          "line": 2597
+        },
+        {
+          "name": "dm50Hud",
+          "line": 2614
+        },
+        {
+          "name": "dm51LocalIdentity",
+          "line": 2632
+        },
+        {
+          "name": "dm51RemoteIdentity",
+          "line": 2640
+        },
+        {
+          "name": "dm51DrawActor",
+          "line": 2641
+        },
+        {
+          "name": "dm51Install",
+          "line": 2663
+        },
+        {
+          "name": "render",
+          "line": 2669
+        },
+        {
+          "name": "dm51EnhancePhone",
+          "line": 2677
+        },
+        {
+          "name": "dm52DetailRect",
+          "line": 2694
+        },
+        {
+          "name": "dm52Near",
+          "line": 2695
+        },
+        {
+          "name": "dm52PoseFor",
+          "line": 2703
+        },
+        {
+          "name": "dm52DrawActor",
+          "line": 2707
+        },
+        {
+          "name": "dm52DecorateInterior",
+          "line": 2742
+        },
+        {
+          "name": "dm52SyncStart",
+          "line": 2793
+        },
+        {
+          "name": "dm52SyncStop",
+          "line": 2810
+        },
+        {
+          "name": "dm52RefreshScene",
+          "line": 2814
+        },
+        {
+          "name": "dm52Feedback",
+          "line": 2815
+        },
+        {
+          "name": "dm52Request",
+          "line": 2816
+        },
+        {
+          "name": "dm52Respond",
+          "line": 2825
+        },
+        {
+          "name": "dm52PanelRender",
+          "line": 2835
+        },
+        {
+          "name": "dm52Install",
+          "line": 2850
+        },
+        {
+          "name": "dm50DrawMap",
+          "line": 2878
+        },
+        {
+          "name": "dm53ActivePose",
+          "line": 2932
+        },
+        {
+          "name": "dm53SetPose",
+          "line": 2933
+        },
+        {
+          "name": "dm53DrawRoom",
+          "line": 2934
+        },
+        {
+          "name": "dm53Open",
+          "line": 2974
+        },
+        {
+          "name": "dm53Install",
+          "line": 3018
+        },
+        {
+          "name": "dm33drawMap",
+          "line": 3030
+        },
+        {
+          "name": "dm33RoomDetails",
+          "line": 3057
+        },
+        {
+          "name": "dm33EditorBackdrop",
+          "line": 3114
+        },
+        {
+          "name": "dm54Key",
+          "line": 3144
+        },
+        {
+          "name": "dm54Load",
+          "line": 3145
+        },
+        {
+          "name": "dm54Save",
+          "line": 3146
+        },
+        {
+          "name": "dm54Hour",
+          "line": 3147
+        },
+        {
+          "name": "dm54Anchor",
+          "line": 3148
+        },
+        {
+          "name": "dm54PersonPos",
+          "line": 3149
+        },
+        {
+          "name": "dm54DrawWorld",
+          "line": 3156
+        },
+        {
+          "name": "dm54Nearby",
+          "line": 3175
+        },
+        {
+          "name": "dm54AddLog",
+          "line": 3180
+        },
+        {
+          "name": "dm54Dialog",
+          "line": 3181
+        },
+        {
+          "name": "dm54Button",
+          "line": 3189
+        },
+        {
+          "name": "dm54Speak",
+          "line": 3190
+        },
+        {
+          "name": "dm54Shop",
+          "line": 3200
+        },
+        {
+          "name": "dm54Inventory",
+          "line": 3210
+        },
+        {
+          "name": "dm54Journal",
+          "line": 3220
+        },
+        {
+          "name": "dm54Open",
+          "line": 3225
+        },
+        {
+          "name": "dm54Install",
+          "line": 3237
+        },
+        {
+          "name": "dm55Key",
+          "line": 3282
+        },
+        {
+          "name": "dm55Default",
+          "line": 3283
+        },
+        {
+          "name": "dm55Load",
+          "line": 3284
+        },
+        {
+          "name": "dm55Save",
+          "line": 3285
+        },
+        {
+          "name": "dm55RollDay",
+          "line": 3286
+        },
+        {
+          "name": "dm55CoreSave",
+          "line": 3287
+        },
+        {
+          "name": "dm55Note",
+          "line": 3288
+        },
+        {
+          "name": "dm55Record",
+          "line": 3289
+        },
+        {
+          "name": "dm55XP",
+          "line": 3290
+        },
+        {
+          "name": "dm55Level",
+          "line": 3291
+        },
+        {
+          "name": "dm55GainMoney",
+          "line": 3292
+        },
+        {
+          "name": "dm55SpendMoney",
+          "line": 3293
+        },
+        {
+          "name": "dm55Ingredients",
+          "line": 3294
+        },
+        {
+          "name": "dm55ConsumeIngredients",
+          "line": 3298
+        },
+        {
+          "name": "dm55CanWork",
+          "line": 3309
+        },
+        {
+          "name": "dm55Button",
+          "line": 3310
+        },
+        {
+          "name": "dm55Text",
+          "line": 3311
+        },
+        {
+          "name": "dm55Title",
+          "line": 3312
+        },
+        {
+          "name": "dm55Show",
+          "line": 3313
+        },
+        {
+          "name": "rerender",
+          "line": 3325
+        },
+        {
+          "name": "dm55Install",
+          "line": 3387
+        },
+        {
+          "name": "dm56Key",
+          "line": 3425
+        },
+        {
+          "name": "dm56Progress",
+          "line": 3426
+        },
+        {
+          "name": "dm56SaveProgress",
+          "line": 3427
+        },
+        {
+          "name": "dm56ActivityLog",
+          "line": 3428
+        },
+        {
+          "name": "dm56Effect",
+          "line": 3429
+        },
+        {
+          "name": "dm56Say",
+          "line": 3438
+        },
+        {
+          "name": "dm56Act",
+          "line": 3439
+        },
+        {
+          "name": "dm56R",
+          "line": 3464
+        },
+        {
+          "name": "dm56P",
+          "line": 3465
+        },
+        {
+          "name": "dm56Line",
+          "line": 3466
+        },
+        {
+          "name": "dm56Text",
+          "line": 3467
+        },
+        {
+          "name": "dm56Block",
+          "line": 3468
+        },
+        {
+          "name": "dm56Plant",
+          "line": 3474
+        },
+        {
+          "name": "dm56Lamp",
+          "line": 3475
+        },
+        {
+          "name": "dm56Backdrop",
+          "line": 3476
+        },
+        {
+          "name": "dm56Shelf",
+          "line": 3491
+        },
+        {
+          "name": "dm56Market",
+          "line": 3492
+        },
+        {
+          "name": "dm56Library",
+          "line": 3501
+        },
+        {
+          "name": "dm56Gym",
+          "line": 3508
+        },
+        {
+          "name": "dm56Cinema",
+          "line": 3520
+        },
+        {
+          "name": "dm56Draw",
+          "line": 3532
+        },
+        {
+          "name": "dm56Close",
+          "line": 3543
+        },
+        {
+          "name": "dm56OpenVenue",
+          "line": 3544
+        },
+        {
+          "name": "dm56Install",
+          "line": 3563
+        },
+        {
+          "name": "dm57Role",
+          "line": 3582
+        },
+        {
+          "name": "dm57Key",
+          "line": 3583
+        },
+        {
+          "name": "dm57Load",
+          "line": 3584
+        },
+        {
+          "name": "dm57Save",
+          "line": 3585
+        },
+        {
+          "name": "dm57Hour",
+          "line": 3586
+        },
+        {
+          "name": "dm57Phase",
+          "line": 3587
+        },
+        {
+          "name": "dm57W",
+          "line": 3588
+        },
+        {
+          "name": "dm57Schedule",
+          "line": 3589
+        },
+        {
+          "name": "dm57Anchor",
+          "line": 3598
+        },
+        {
+          "name": "dm57Position",
+          "line": 3599
+        },
+        {
+          "name": "dm57RenderPeople",
+          "line": 3612
+        },
+        {
+          "name": "dm57DrawAtmosphere",
+          "line": 3629
+        },
+        {
+          "name": "dm57Friend",
+          "line": 3647
+        },
+        {
+          "name": "dm57Rank",
+          "line": 3648
+        },
+        {
+          "name": "dm57Remember",
+          "line": 3649
+        },
+        {
+          "name": "dm57Friendship",
+          "line": 3650
+        },
+        {
+          "name": "dm57EnhanceTalk",
+          "line": 3658
+        },
+        {
+          "name": "dm57OpenAgenda",
+          "line": 3683
+        },
+        {
+          "name": "dm57Install",
+          "line": 3699
+        },
+        {
+          "name": "dm58Key",
+          "line": 3709
+        },
+        {
+          "name": "dm58Load",
+          "line": 3710
+        },
+        {
+          "name": "dm58Save",
+          "line": 3711
+        },
+        {
+          "name": "dm58Pay",
+          "line": 3712
+        },
+        {
+          "name": "dm58AddMoney",
+          "line": 3713
+        },
+        {
+          "name": "dm58Message",
+          "line": 3714
+        },
+        {
+          "name": "dm58Time",
+          "line": 3715
+        },
+        {
+          "name": "dm58Canvas",
+          "line": 3716
+        },
+        {
+          "name": "dm58Rect",
+          "line": 3717
+        },
+        {
+          "name": "dm58Txt",
+          "line": 3718
+        },
+        {
+          "name": "dm58Frame",
+          "line": 3719
+        },
+        {
+          "name": "dm58Scene",
+          "line": 3720
+        },
+        {
+          "name": "dm58Button",
+          "line": 3731
+        },
+        {
+          "name": "dm58Show",
+          "line": 3732
+        },
+        {
+          "name": "dm58Museum",
+          "line": 3735
+        },
+        {
+          "name": "dm58PhotoOpen",
+          "line": 3741
+        },
+        {
+          "name": "dm58PhotoRead",
+          "line": 3742
+        },
+        {
+          "name": "dm58PhotoWrite",
+          "line": 3743
+        },
+        {
+          "name": "dm58PhotoDelete",
+          "line": 3744
+        },
+        {
+          "name": "dm58Compress",
+          "line": 3745
+        },
+        {
+          "name": "dm58Bar",
+          "line": 3746
+        },
+        {
+          "name": "draw",
+          "line": 3749
+        },
+        {
+          "name": "dm58Tick",
+          "line": 3754
+        },
+        {
+          "name": "dm58Garden",
+          "line": 3759
+        },
+        {
+          "name": "dm58Sites",
+          "line": 3765
+        },
+        {
+          "name": "dm58DrawMapMarkers",
+          "line": 3766
+        },
+        {
+          "name": "dm58Install",
+          "line": 3767
+        },
+        {
+          "name": "dm59DrawGates",
+          "line": 3782
+        },
+        {
+          "name": "dm59Return",
+          "line": 3786
+        },
+        {
+          "name": "dm59Block",
+          "line": 3787
+        },
+        {
+          "name": "dm59Flower",
+          "line": 3798
+        },
+        {
+          "name": "dm59Background",
+          "line": 3799
+        },
+        {
+          "name": "dm59Draw",
+          "line": 3815
+        },
+        {
+          "name": "dm59Open",
+          "line": 3828
+        },
+        {
+          "name": "dm59Enter",
+          "line": 3835
+        },
+        {
+          "name": "dm59TravelGate",
+          "line": 3836
+        },
+        {
+          "name": "dm59Install",
+          "line": 3844
+        },
+        {
+          "name": "dm61Load",
+          "line": 3871
+        },
+        {
+          "name": "dm61Clean",
+          "line": 3872
+        },
+        {
+          "name": "dm61LocalSave",
+          "line": 3878
+        },
+        {
+          "name": "dm61Role",
+          "line": 3879
+        },
+        {
+          "name": "dm61Connected",
+          "line": 3880
+        },
+        {
+          "name": "dm61Ref",
+          "line": 3881
+        },
+        {
+          "name": "dm61Sync",
+          "line": 3882
+        },
+        {
+          "name": "dm61Observe",
+          "line": 3887
+        },
+        {
+          "name": "dm61El",
+          "line": 3900
+        },
+        {
+          "name": "dm61Message",
+          "line": 3901
+        },
+        {
+          "name": "dm61Button",
+          "line": 3902
+        },
+        {
+          "name": "dm61Modal",
+          "line": 3903
+        },
+        {
+          "name": "dm61Render",
+          "line": 3916
+        },
+        {
+          "name": "dm61Home",
+          "line": 3927
+        },
+        {
+          "name": "dm61CreateInvite",
+          "line": 3954
+        },
+        {
+          "name": "dm61Answer",
+          "line": 3960
+        },
+        {
+          "name": "dm61Complete",
+          "line": 3965
+        },
+        {
+          "name": "dm61Dates",
+          "line": 3976
+        },
+        {
+          "name": "dm61Album",
+          "line": 3992
+        },
+        {
+          "name": "dm61Install",
+          "line": 3999
+        },
+        {
+          "name": "drawMap",
+          "line": 4430
+        },
+        {
+          "name": "renderInteriorScene",
+          "line": 4430
+        },
+        {
+          "name": "drawEditor23",
+          "line": 4430
+        },
+        {
+          "name": "drawMap",
+          "line": 4436
+        },
+        {
+          "name": "drawCitizens",
+          "line": 4438
+        },
+        {
+          "name": "openPlace",
+          "line": 4440
+        },
+        {
+          "name": "openPlace",
+          "line": 4440
+        },
+        {
+          "name": "triggerRoomAction",
+          "line": 4441
+        },
+        {
+          "name": "triggerRoomAction",
+          "line": 4441
+        },
+        {
+          "name": "openPlace",
+          "line": 4451
+        },
+        {
+          "name": "openPlace",
+          "line": 4451
+        },
+        {
+          "name": "openPlace",
+          "line": 4452
+        },
+        {
+          "name": "openPlace",
+          "line": 4452
+        },
+        {
+          "name": "triggerRoomAction",
+          "line": 4453
+        },
+        {
+          "name": "triggerRoomAction",
+          "line": 4453
+        },
+        {
+          "name": "recalcMood",
+          "line": 4456
+        },
+        {
+          "name": "storageGet",
+          "line": 4500
+        },
+        {
+          "name": "storageSet",
+          "line": 4501
+        },
+        {
+          "name": "show",
+          "line": 4502
+        },
+        {
+          "name": "finish",
+          "line": 4503
+        },
+        {
+          "name": "ready",
+          "line": 4504
+        },
+        {
+          "name": "playFallback",
+          "line": 4505
+        },
+        {
+          "name": "playOriginal",
+          "line": 4506
+        }
+      ],
+      "frames": [
+        {
+          "id": "dm60-letter",
+          "title": "Una carta para Gabi",
+          "allow": "autoplay"
+        },
+        {
+          "id": "dm-frame",
+          "title": "Dos Mundos 4.0 Casa y Clima",
+          "allow": "fullscreen; autoplay; encrypted-media; clipboard-write"
+        }
+      ],
+      "scripts": [
+        {
+          "id": "dm-art-source",
+          "type": "text/plain",
+          "bytes": 411116,
+          "sha256": "e052cce359703c7f11f416d92d68fe4aeed9445b1fc3f342a4a4a16fdb5adb1e"
+        },
+        {
+          "id": "dm-style-source",
+          "type": "text/plain",
+          "bytes": 58222,
+          "sha256": "0fc430689d4580da4fac19d1bb92d17965642ed319706344cf9dfbe2efd5673b"
+        },
+        {
+          "bytes": 6318,
+          "sha256": "676f8de86b3a44a392fad22d4fcd9af96571d74af274f0b10e60464e5cf4718f"
+        },
+        {
+          "id": "dm60-controller",
+          "bytes": 4469,
+          "sha256": "fbe68132eb6b6b38922591036e92ac87751f28f257f242d0ffa4a941071af8c2"
+        }
+      ],
+      "storageLiterals": [
+        "dm58-life-",
+        "dos-mundos-40-hogar:",
+        "dos-mundos-54-barrio-",
+        "dos-mundos-55-progreso:",
+        "dos-mundos-56-visitas:",
+        "dos-mundos-57-ciudad-",
+        "dos-mundos-61-duo-v1",
+        "dos-mundos-7e33f",
+        "dos-mundos-7e33f.firebaseapp.com",
+        "dos-mundos-private-museum",
+        "dos-mundos-v41-database-url",
+        "dos-mundos-v51-role",
+        "dos-mundos-v60-prologue-seen-gabi"
+      ],
+      "firebasePaths": [
+        "dosMundos/duo/presence/",
+        "dosMundos/duo/social",
+        "dosMundos/duo/social/gestures",
+        "dosMundos/duo/social/gestures/",
+        "dosMundos/duo/v61"
+      ],
+      "externalOrigins": [
+        "https://dos-mundos-7e33f-default-rtdb.europe-west1.firebasedatabase.app",
+        "https://open.spotify.com",
+        "https://raw.githubusercontent.com",
+        "https://www.disneyplus.com",
+        "https://www.gstatic.com",
+        "https://www.max.com",
+        "https://www.netflix.com"
+      ],
+      "eventListeners": [
+        "click",
+        "input",
+        "keydown",
+        "load",
+        "message",
+        "pointercancel",
+        "pointerdown",
+        "pointerleave",
+        "pointermove",
+        "pointerup",
+        "submit"
+      ],
+      "eventProperties": [
+        "onchange",
+        "onclick",
+        "oncomplete",
+        "onerror",
+        "online",
+        "onload",
+        "onsuccess",
+        "onupgradeneeded"
+      ],
+      "dataImages": 10
+    },
+    {
+      "file": "index6.2.html",
+      "sha256": "8c4eba704294b1a15a93599166ba778859218b8d18280838be99bc7894e00e33",
+      "bytes": 489311,
+      "lines": 4562,
+      "ids": [
+        "dm-art-source",
+        "dm-frame",
+        "dm-status",
+        "dm-style-source",
+        "dm60-choices",
+        "dm60-close-note",
+        "dm60-controller",
+        "dm60-controls",
+        "dm60-css",
+        "dm60-enter",
+        "dm60-envelope",
+        "dm60-fallback",
+        "dm60-gate",
+        "dm60-letter",
+        "dm60-night",
+        "dm60-note",
+        "dm60-notice",
+        "dm60-skip"
+      ],
+      "dynamicIds": [
+        "dm33-cinema-overlay",
+        "dm37-cafe-modal",
+        "dm37-title",
+        "dm38-root",
+        "dm38-title",
+        "dm381-radio-launcher",
+        "dm381-radio-panel",
+        "dm39-arcade-launcher",
+        "dm39-pool-root",
+        "dm39-title",
+        "dm40-feedback",
+        "dm40-home-btn",
+        "dm40-modal",
+        "dm40-modal-title",
+        "dm40-weather-btn",
+        "dm41-online-button",
+        "dm41-panel",
+        "dm41-presence",
+        "dm42-date-online",
+        "dm42-dinner-btn",
+        "dm42-orders",
+        "dm42-phone-body",
+        "dm42-phone-btn",
+        "dm42-phone-feedback",
+        "dm42-phone-info",
+        "dm43-explore",
+        "dm43-explore-list",
+        "dm43-explore-wrap",
+        "dm43-interact-modal",
+        "dm43-nearby",
+        "dm50-label",
+        "dm51-identity",
+        "dm52-feedback",
+        "dm52-near",
+        "dm52-overlay",
+        "dm52-requests",
+        "dm52-title",
+        "dm52-trigger",
+        "dm53-heading",
+        "dm53-overlay",
+        "dm53-trigger",
+        "dm54-overlay",
+        "dm54-trigger",
+        "dm55-message",
+        "dm55-overlay",
+        "dm55-trigger",
+        "dm56-message",
+        "dm56-overlay",
+        "dm56-room-entry",
+        "dm58-note",
+        "dm58-overlay",
+        "dm58-ready",
+        "dm59-installed",
+        "dm59-overlay",
+        "dm61-content",
+        "dm61-open",
+        "dm61-overlay",
+        "dm61-status"
+      ],
+      "selectorIds": [
+        "dm-art-source",
+        "dm-frame",
+        "dm-status",
+        "dm-style-source",
+        "dm33-cinema-overlay",
+        "dm33Badge",
+        "dm33Toggle",
+        "dm33style",
+        "dm37-cafe-modal",
+        "dm38-root",
+        "dm381-radio-launcher",
+        "dm39-arcade-launcher",
+        "dm39-pool-root",
+        "dm40-feedback",
+        "dm40-home-btn",
+        "dm40-modal",
+        "dm40-weather-btn",
+        "dm41-online-button",
+        "dm41-presence",
+        "dm42-date-online",
+        "dm42-orders",
+        "dm42-phone",
+        "dm42-phone-body",
+        "dm42-phone-btn",
+        "dm42-phone-feedback",
+        "dm42-phone-info",
+        "dm42-restaurant",
+        "dm43-explore",
+        "dm43-interact-modal",
+        "dm43-nearby",
+        "dm50-label",
+        "dm51-identity",
+        "dm52-feedback",
+        "dm52-near",
+        "dm52-requests",
+        "dm52-trigger",
+        "dm53-overlay",
+        "dm53-trigger",
+        "dm54-overlay",
+        "dm54-trigger",
+        "dm55-message",
+        "dm55-overlay",
+        "dm55-trigger",
+        "dm56-message",
+        "dm56-room-entry",
+        "dm58-note",
+        "dm58-overlay",
+        "dm58-ready",
+        "dm59-installed",
+        "dm60-choices",
+        "dm60-close-note",
+        "dm60-controls",
+        "dm60-enter",
+        "dm60-envelope",
+        "dm60-fallback",
+        "dm60-gate",
+        "dm60-letter",
+        "dm60-night",
+        "dm60-note",
+        "dm60-notice",
+        "dm60-skip",
+        "dm61-content",
+        "dm61-open",
+        "dm61-overlay",
+        "dm61-status",
+        "end",
+        "interior",
+        "map"
+      ],
+      "functions": [
+        {
+          "name": "dm33OpenCinema",
+          "line": 35
+        },
+        {
+          "name": "dm33rect",
+          "line": 74
+        },
+        {
+          "name": "dm33seed",
+          "line": 75
+        },
+        {
+          "name": "dm33poly",
+          "line": 76
+        },
+        {
+          "name": "dm33shadow",
+          "line": 77
+        },
+        {
+          "name": "dm33tree",
+          "line": 78
+        },
+        {
+          "name": "dm33pavement",
+          "line": 91
+        },
+        {
+          "name": "dm33road",
+          "line": 101
+        },
+        {
+          "name": "dm33building",
+          "line": 134
+        },
+        {
+          "name": "dm33park",
+          "line": 197
+        },
+        {
+          "name": "dm33plaza",
+          "line": 210
+        },
+        {
+          "name": "dm33streetDecor",
+          "line": 220
+        },
+        {
+          "name": "dm33atmosphere",
+          "line": 246
+        },
+        {
+          "name": "dm34R",
+          "line": 258
+        },
+        {
+          "name": "dm34Line",
+          "line": 261
+        },
+        {
+          "name": "dm34Seed",
+          "line": 264
+        },
+        {
+          "name": "dm34Flower",
+          "line": 265
+        },
+        {
+          "name": "dm34Tree",
+          "line": 269
+        },
+        {
+          "name": "dm34Facade",
+          "line": 285
+        },
+        {
+          "name": "dm34Street",
+          "line": 347
+        },
+        {
+          "name": "dm34Interior",
+          "line": 385
+        },
+        {
+          "name": "pot",
+          "line": 403
+        },
+        {
+          "name": "dm34SpriteFinish",
+          "line": 468
+        },
+        {
+          "name": "dm35R",
+          "line": 484
+        },
+        {
+          "name": "dm35Lamp",
+          "line": 485
+        },
+        {
+          "name": "dm35Bench",
+          "line": 490
+        },
+        {
+          "name": "dm35Canopy",
+          "line": 493
+        },
+        {
+          "name": "dm35StreetLife",
+          "line": 497
+        },
+        {
+          "name": "dm35InteriorBoost",
+          "line": 511
+        },
+        {
+          "name": "dm35EditorBoost",
+          "line": 545
+        },
+        {
+          "name": "dm35Atmosphere",
+          "line": 552
+        },
+        {
+          "name": "dm36R",
+          "line": 559
+        },
+        {
+          "name": "dm36Dot",
+          "line": 560
+        },
+        {
+          "name": "dm36WindowBox",
+          "line": 561
+        },
+        {
+          "name": "dm36FacadePlus",
+          "line": 565
+        },
+        {
+          "name": "dm36ParkPlaza",
+          "line": 598
+        },
+        {
+          "name": "dm36SouthHomes",
+          "line": 616
+        },
+        {
+          "name": "dm36InteriorBoost",
+          "line": 624
+        },
+        {
+          "name": "dm36SpriteFinish",
+          "line": 659
+        },
+        {
+          "name": "dm36EditorBoost",
+          "line": 673
+        },
+        {
+          "name": "dm37CafeArt",
+          "line": 681
+        },
+        {
+          "name": "dm37CafeCanvas",
+          "line": 709
+        },
+        {
+          "name": "dm37OpenCafe",
+          "line": 765
+        },
+        {
+          "name": "showCategory",
+          "line": 807
+        },
+        {
+          "name": "doChoice",
+          "line": 826
+        },
+        {
+          "name": "dm38CanvasArt",
+          "line": 887
+        },
+        {
+          "name": "dm38OpenMetro",
+          "line": 964
+        },
+        {
+          "name": "close",
+          "line": 1001
+        },
+        {
+          "name": "begin",
+          "line": 1008
+        },
+        {
+          "name": "renderRoutes",
+          "line": 1018
+        },
+        {
+          "name": "draw",
+          "line": 1027
+        },
+        {
+          "name": "move",
+          "line": 1034
+        },
+        {
+          "name": "renderActivities",
+          "line": 1051
+        },
+        {
+          "name": "runActivity",
+          "line": 1079
+        },
+        {
+          "name": "dm381InstallMusic",
+          "line": 1112
+        },
+        {
+          "name": "ensurePlayer",
+          "line": 1153
+        },
+        {
+          "name": "show",
+          "line": 1166
+        },
+        {
+          "name": "hide",
+          "line": 1170
+        },
+        {
+          "name": "stopPlayer",
+          "line": 1174
+        },
+        {
+          "name": "dm39InstallArcade",
+          "line": 1189
+        },
+        {
+          "name": "dm39OpenPool",
+          "line": 1198
+        },
+        {
+          "name": "addBall",
+          "line": 1241
+        },
+        {
+          "name": "cue",
+          "line": 1242
+        },
+        {
+          "name": "resetGame",
+          "line": 1243
+        },
+        {
+          "name": "remainingLabels",
+          "line": 1259
+        },
+        {
+          "name": "updateScore",
+          "line": 1262
+        },
+        {
+          "name": "renderBall",
+          "line": 1273
+        },
+        {
+          "name": "draw",
+          "line": 1288
+        },
+        {
+          "name": "isInPocket",
+          "line": 1334
+        },
+        {
+          "name": "initialShot",
+          "line": 1337
+        },
+        {
+          "name": "shotBalls",
+          "line": 1346
+        },
+        {
+          "name": "respotWhite",
+          "line": 1377
+        },
+        {
+          "name": "shotDone",
+          "line": 1385
+        },
+        {
+          "name": "tick",
+          "line": 1415
+        },
+        {
+          "name": "shootBall",
+          "line": 1427
+        },
+        {
+          "name": "pointerPos",
+          "line": 1435
+        },
+        {
+          "name": "setAim",
+          "line": 1439
+        },
+        {
+          "name": "dm40GetSave",
+          "line": 1475
+        },
+        {
+          "name": "dm40Save",
+          "line": 1486
+        },
+        {
+          "name": "dm40Weather",
+          "line": 1491
+        },
+        {
+          "name": "dm40Comfort",
+          "line": 1509
+        },
+        {
+          "name": "dm40Rect",
+          "line": 1516
+        },
+        {
+          "name": "dm40Furniture",
+          "line": 1517
+        },
+        {
+          "name": "dm40RoomDecor",
+          "line": 1537
+        },
+        {
+          "name": "dm40WeatherLayer",
+          "line": 1555
+        },
+        {
+          "name": "dm40EffectsAfterTime",
+          "line": 1577
+        },
+        {
+          "name": "dm40UpdateButtons",
+          "line": 1591
+        },
+        {
+          "name": "dm40ShowWeather",
+          "line": 1599
+        },
+        {
+          "name": "dm40Modal",
+          "line": 1622
+        },
+        {
+          "name": "dm40ShowHouse",
+          "line": 1638
+        },
+        {
+          "name": "stats",
+          "line": 1656
+        },
+        {
+          "name": "notify",
+          "line": 1659
+        },
+        {
+          "name": "drawPreview",
+          "line": 1660
+        },
+        {
+          "name": "redrawThemes",
+          "line": 1684
+        },
+        {
+          "name": "renderCatalogue",
+          "line": 1695
+        },
+        {
+          "name": "renderOwned",
+          "line": 1734
+        },
+        {
+          "name": "activity",
+          "line": 1746
+        },
+        {
+          "name": "dm40Install",
+          "line": 1762
+        },
+        {
+          "name": "dm41SafeText",
+          "line": 1779
+        },
+        {
+          "name": "dm41SetStatus",
+          "line": 1780
+        },
+        {
+          "name": "dm41ReadURL",
+          "line": 1781
+        },
+        {
+          "name": "dm41Modal",
+          "line": 1782
+        },
+        {
+          "name": "dm41Install",
+          "line": 1808
+        },
+        {
+          "name": "dm41Connect",
+          "line": 1813
+        },
+        {
+          "name": "dm41Snapshot",
+          "line": 1873
+        },
+        {
+          "name": "dm41Publish",
+          "line": 1880
+        },
+        {
+          "name": "dm41Disconnect",
+          "line": 1890
+        },
+        {
+          "name": "dm41DrawOther",
+          "line": 1905
+        },
+        {
+          "name": "dm41DrawRoom",
+          "line": 1922
+        },
+        {
+          "name": "dm42Node",
+          "line": 1951
+        },
+        {
+          "name": "dm42Connected",
+          "line": 1952
+        },
+        {
+          "name": "dm42RemoteName",
+          "line": 1953
+        },
+        {
+          "name": "dm42Escape",
+          "line": 1954
+        },
+        {
+          "name": "dm42Remote",
+          "line": 1955
+        },
+        {
+          "name": "dm42Db",
+          "line": 1956
+        },
+        {
+          "name": "dm42UpdateInfo",
+          "line": 1957
+        },
+        {
+          "name": "dm42Time",
+          "line": 1958
+        },
+        {
+          "name": "dm42OnlineStop",
+          "line": 1959
+        },
+        {
+          "name": "dm42OnlineStart",
+          "line": 1960
+        },
+        {
+          "name": "dm42SendMessage",
+          "line": 1977
+        },
+        {
+          "name": "dm42SendInvite",
+          "line": 1984
+        },
+        {
+          "name": "dm42Reply",
+          "line": 1989
+        },
+        {
+          "name": "dm42Install",
+          "line": 1995
+        },
+        {
+          "name": "dm42MakeModal",
+          "line": 2001
+        },
+        {
+          "name": "close",
+          "line": 2009
+        },
+        {
+          "name": "dm42OpenPhone",
+          "line": 2014
+        },
+        {
+          "name": "choose",
+          "line": 2028
+        },
+        {
+          "name": "dm42PhoneRender",
+          "line": 2031
+        },
+        {
+          "name": "dm42DrawRestaurant",
+          "line": 2069
+        },
+        {
+          "name": "dm42DateRefresh",
+          "line": 2089
+        },
+        {
+          "name": "dm42OrderSummary",
+          "line": 2097
+        },
+        {
+          "name": "dm42RenderOrders",
+          "line": 2107
+        },
+        {
+          "name": "dm42OpenRestaurant",
+          "line": 2108
+        },
+        {
+          "name": "dm43Anchor",
+          "line": 2175
+        },
+        {
+          "name": "dm43Spots",
+          "line": 2181
+        },
+        {
+          "name": "dm43Distance",
+          "line": 2182
+        },
+        {
+          "name": "dm43Nearest",
+          "line": 2183
+        },
+        {
+          "name": "dm43Rect",
+          "line": 2184
+        },
+        {
+          "name": "dm43Random",
+          "line": 2185
+        },
+        {
+          "name": "dm43StreetTiles",
+          "line": 2186
+        },
+        {
+          "name": "dm43Crosswalks",
+          "line": 2200
+        },
+        {
+          "name": "dm43DrawStreetVendors",
+          "line": 2220
+        },
+        {
+          "name": "dm43Pedestrians",
+          "line": 2272
+        },
+        {
+          "name": "dm43Traffic",
+          "line": 2288
+        },
+        {
+          "name": "dm43NightBuildings",
+          "line": 2314
+        },
+        {
+          "name": "dm43UrbanLayer",
+          "line": 2325
+        },
+        {
+          "name": "dm43NearbyNotice",
+          "line": 2330
+        },
+        {
+          "name": "dm43Interact",
+          "line": 2336
+        },
+        {
+          "name": "dm43ShowList",
+          "line": 2366
+        },
+        {
+          "name": "dm43Install",
+          "line": 2384
+        },
+        {
+          "name": "dm50Poly",
+          "line": 2428
+        },
+        {
+          "name": "dm50Line",
+          "line": 2432
+        },
+        {
+          "name": "dm50Rect",
+          "line": 2435
+        },
+        {
+          "name": "dm50Seed",
+          "line": 2436
+        },
+        {
+          "name": "dm50Roads",
+          "line": 2437
+        },
+        {
+          "name": "dm50Window",
+          "line": 2484
+        },
+        {
+          "name": "dm50Balcony",
+          "line": 2498
+        },
+        {
+          "name": "dm50Building",
+          "line": 2507
+        },
+        {
+          "name": "dm50Greenery",
+          "line": 2597
+        },
+        {
+          "name": "dm50Hud",
+          "line": 2614
+        },
+        {
+          "name": "dm51LocalIdentity",
+          "line": 2632
+        },
+        {
+          "name": "dm51RemoteIdentity",
+          "line": 2640
+        },
+        {
+          "name": "dm51DrawActor",
+          "line": 2641
+        },
+        {
+          "name": "dm51Install",
+          "line": 2663
+        },
+        {
+          "name": "render",
+          "line": 2669
+        },
+        {
+          "name": "dm51EnhancePhone",
+          "line": 2677
+        },
+        {
+          "name": "dm52DetailRect",
+          "line": 2694
+        },
+        {
+          "name": "dm52Near",
+          "line": 2695
+        },
+        {
+          "name": "dm52PoseFor",
+          "line": 2703
+        },
+        {
+          "name": "dm52DrawActor",
+          "line": 2707
+        },
+        {
+          "name": "dm52DecorateInterior",
+          "line": 2742
+        },
+        {
+          "name": "dm52SyncStart",
+          "line": 2793
+        },
+        {
+          "name": "dm52SyncStop",
+          "line": 2810
+        },
+        {
+          "name": "dm52RefreshScene",
+          "line": 2814
+        },
+        {
+          "name": "dm52Feedback",
+          "line": 2815
+        },
+        {
+          "name": "dm52Request",
+          "line": 2816
+        },
+        {
+          "name": "dm52Respond",
+          "line": 2825
+        },
+        {
+          "name": "dm52PanelRender",
+          "line": 2835
+        },
+        {
+          "name": "dm52Install",
+          "line": 2850
+        },
+        {
+          "name": "dm50DrawMap",
+          "line": 2878
+        },
+        {
+          "name": "dm53ActivePose",
+          "line": 2932
+        },
+        {
+          "name": "dm53SetPose",
+          "line": 2933
+        },
+        {
+          "name": "dm53DrawRoom",
+          "line": 2934
+        },
+        {
+          "name": "dm53Open",
+          "line": 2974
+        },
+        {
+          "name": "dm53Install",
+          "line": 3018
+        },
+        {
+          "name": "dm33drawMap",
+          "line": 3030
+        },
+        {
+          "name": "dm33RoomDetails",
+          "line": 3057
+        },
+        {
+          "name": "dm33EditorBackdrop",
+          "line": 3114
+        },
+        {
+          "name": "dm54Key",
+          "line": 3144
+        },
+        {
+          "name": "dm54Load",
+          "line": 3145
+        },
+        {
+          "name": "dm54Save",
+          "line": 3146
+        },
+        {
+          "name": "dm54Hour",
+          "line": 3147
+        },
+        {
+          "name": "dm54Anchor",
+          "line": 3148
+        },
+        {
+          "name": "dm54PersonPos",
+          "line": 3149
+        },
+        {
+          "name": "dm54DrawWorld",
+          "line": 3156
+        },
+        {
+          "name": "dm54Nearby",
+          "line": 3175
+        },
+        {
+          "name": "dm54AddLog",
+          "line": 3180
+        },
+        {
+          "name": "dm54Dialog",
+          "line": 3181
+        },
+        {
+          "name": "dm54Button",
+          "line": 3189
+        },
+        {
+          "name": "dm54Speak",
+          "line": 3190
+        },
+        {
+          "name": "dm54Shop",
+          "line": 3200
+        },
+        {
+          "name": "dm54Inventory",
+          "line": 3210
+        },
+        {
+          "name": "dm54Journal",
+          "line": 3220
+        },
+        {
+          "name": "dm54Open",
+          "line": 3225
+        },
+        {
+          "name": "dm54Install",
+          "line": 3237
+        },
+        {
+          "name": "dm55Key",
+          "line": 3282
+        },
+        {
+          "name": "dm55Default",
+          "line": 3283
+        },
+        {
+          "name": "dm55Load",
+          "line": 3284
+        },
+        {
+          "name": "dm55Save",
+          "line": 3285
+        },
+        {
+          "name": "dm55RollDay",
+          "line": 3286
+        },
+        {
+          "name": "dm55CoreSave",
+          "line": 3287
+        },
+        {
+          "name": "dm55Note",
+          "line": 3288
+        },
+        {
+          "name": "dm55Record",
+          "line": 3289
+        },
+        {
+          "name": "dm55XP",
+          "line": 3290
+        },
+        {
+          "name": "dm55Level",
+          "line": 3291
+        },
+        {
+          "name": "dm55GainMoney",
+          "line": 3292
+        },
+        {
+          "name": "dm55SpendMoney",
+          "line": 3293
+        },
+        {
+          "name": "dm55Ingredients",
+          "line": 3294
+        },
+        {
+          "name": "dm55ConsumeIngredients",
+          "line": 3298
+        },
+        {
+          "name": "dm55CanWork",
+          "line": 3309
+        },
+        {
+          "name": "dm55Button",
+          "line": 3310
+        },
+        {
+          "name": "dm55Text",
+          "line": 3311
+        },
+        {
+          "name": "dm55Title",
+          "line": 3312
+        },
+        {
+          "name": "dm55Show",
+          "line": 3313
+        },
+        {
+          "name": "rerender",
+          "line": 3325
+        },
+        {
+          "name": "dm55Install",
+          "line": 3387
+        },
+        {
+          "name": "dm56Key",
+          "line": 3425
+        },
+        {
+          "name": "dm56Progress",
+          "line": 3426
+        },
+        {
+          "name": "dm56SaveProgress",
+          "line": 3427
+        },
+        {
+          "name": "dm56ActivityLog",
+          "line": 3428
+        },
+        {
+          "name": "dm56Effect",
+          "line": 3429
+        },
+        {
+          "name": "dm56Say",
+          "line": 3438
+        },
+        {
+          "name": "dm56Act",
+          "line": 3439
+        },
+        {
+          "name": "dm56R",
+          "line": 3464
+        },
+        {
+          "name": "dm56P",
+          "line": 3465
+        },
+        {
+          "name": "dm56Line",
+          "line": 3466
+        },
+        {
+          "name": "dm56Text",
+          "line": 3467
+        },
+        {
+          "name": "dm56Block",
+          "line": 3468
+        },
+        {
+          "name": "dm56Plant",
+          "line": 3474
+        },
+        {
+          "name": "dm56Lamp",
+          "line": 3475
+        },
+        {
+          "name": "dm56Backdrop",
+          "line": 3476
+        },
+        {
+          "name": "dm56Shelf",
+          "line": 3491
+        },
+        {
+          "name": "dm56Market",
+          "line": 3492
+        },
+        {
+          "name": "dm56Library",
+          "line": 3501
+        },
+        {
+          "name": "dm56Gym",
+          "line": 3508
+        },
+        {
+          "name": "dm56Cinema",
+          "line": 3520
+        },
+        {
+          "name": "dm56Draw",
+          "line": 3532
+        },
+        {
+          "name": "dm56Close",
+          "line": 3543
+        },
+        {
+          "name": "dm56OpenVenue",
+          "line": 3544
+        },
+        {
+          "name": "dm56Install",
+          "line": 3563
+        },
+        {
+          "name": "dm57Role",
+          "line": 3582
+        },
+        {
+          "name": "dm57Key",
+          "line": 3583
+        },
+        {
+          "name": "dm57Load",
+          "line": 3584
+        },
+        {
+          "name": "dm57Save",
+          "line": 3585
+        },
+        {
+          "name": "dm57Hour",
+          "line": 3586
+        },
+        {
+          "name": "dm57Phase",
+          "line": 3587
+        },
+        {
+          "name": "dm57W",
+          "line": 3588
+        },
+        {
+          "name": "dm57Schedule",
+          "line": 3589
+        },
+        {
+          "name": "dm57Anchor",
+          "line": 3598
+        },
+        {
+          "name": "dm57Position",
+          "line": 3599
+        },
+        {
+          "name": "dm57RenderPeople",
+          "line": 3612
+        },
+        {
+          "name": "dm57DrawAtmosphere",
+          "line": 3629
+        },
+        {
+          "name": "dm57Friend",
+          "line": 3647
+        },
+        {
+          "name": "dm57Rank",
+          "line": 3648
+        },
+        {
+          "name": "dm57Remember",
+          "line": 3649
+        },
+        {
+          "name": "dm57Friendship",
+          "line": 3650
+        },
+        {
+          "name": "dm57EnhanceTalk",
+          "line": 3658
+        },
+        {
+          "name": "dm57OpenAgenda",
+          "line": 3683
+        },
+        {
+          "name": "dm57Install",
+          "line": 3699
+        },
+        {
+          "name": "dm58Key",
+          "line": 3709
+        },
+        {
+          "name": "dm58Load",
+          "line": 3710
+        },
+        {
+          "name": "dm58Save",
+          "line": 3711
+        },
+        {
+          "name": "dm58Pay",
+          "line": 3712
+        },
+        {
+          "name": "dm58AddMoney",
+          "line": 3713
+        },
+        {
+          "name": "dm58Message",
+          "line": 3714
+        },
+        {
+          "name": "dm58Time",
+          "line": 3715
+        },
+        {
+          "name": "dm58Canvas",
+          "line": 3716
+        },
+        {
+          "name": "dm58Rect",
+          "line": 3717
+        },
+        {
+          "name": "dm58Txt",
+          "line": 3718
+        },
+        {
+          "name": "dm58Frame",
+          "line": 3719
+        },
+        {
+          "name": "dm58Scene",
+          "line": 3720
+        },
+        {
+          "name": "dm58Button",
+          "line": 3731
+        },
+        {
+          "name": "dm58Show",
+          "line": 3732
+        },
+        {
+          "name": "dm58Museum",
+          "line": 3735
+        },
+        {
+          "name": "dm58PhotoOpen",
+          "line": 3741
+        },
+        {
+          "name": "dm58PhotoRead",
+          "line": 3742
+        },
+        {
+          "name": "dm58PhotoWrite",
+          "line": 3743
+        },
+        {
+          "name": "dm58PhotoDelete",
+          "line": 3744
+        },
+        {
+          "name": "dm58Compress",
+          "line": 3745
+        },
+        {
+          "name": "dm58Bar",
+          "line": 3746
+        },
+        {
+          "name": "draw",
+          "line": 3749
+        },
+        {
+          "name": "dm58Tick",
+          "line": 3754
+        },
+        {
+          "name": "dm58Garden",
+          "line": 3759
+        },
+        {
+          "name": "dm58Sites",
+          "line": 3765
+        },
+        {
+          "name": "dm58DrawMapMarkers",
+          "line": 3766
+        },
+        {
+          "name": "dm58Install",
+          "line": 3767
+        },
+        {
+          "name": "dm59DrawGates",
+          "line": 3782
+        },
+        {
+          "name": "dm59Return",
+          "line": 3786
+        },
+        {
+          "name": "dm59Block",
+          "line": 3787
+        },
+        {
+          "name": "dm59Flower",
+          "line": 3798
+        },
+        {
+          "name": "dm59Background",
+          "line": 3799
+        },
+        {
+          "name": "dm59Draw",
+          "line": 3815
+        },
+        {
+          "name": "dm59Open",
+          "line": 3828
+        },
+        {
+          "name": "dm59Enter",
+          "line": 3835
+        },
+        {
+          "name": "dm59TravelGate",
+          "line": 3836
+        },
+        {
+          "name": "dm59Install",
+          "line": 3844
+        },
+        {
+          "name": "dm61Load",
+          "line": 3871
+        },
+        {
+          "name": "dm61Clean",
+          "line": 3872
+        },
+        {
+          "name": "dm61LocalSave",
+          "line": 3878
+        },
+        {
+          "name": "dm61Role",
+          "line": 3879
+        },
+        {
+          "name": "dm61Connected",
+          "line": 3880
+        },
+        {
+          "name": "dm61Ref",
+          "line": 3881
+        },
+        {
+          "name": "dm61Sync",
+          "line": 3882
+        },
+        {
+          "name": "dm61Observe",
+          "line": 3887
+        },
+        {
+          "name": "dm61El",
+          "line": 3900
+        },
+        {
+          "name": "dm61Message",
+          "line": 3901
+        },
+        {
+          "name": "dm61Button",
+          "line": 3902
+        },
+        {
+          "name": "dm61Modal",
+          "line": 3903
+        },
+        {
+          "name": "dm61Render",
+          "line": 3916
+        },
+        {
+          "name": "dm61Walk",
+          "line": 3929
+        },
+        {
+          "name": "dm61PaintRoom",
+          "line": 3930
+        },
+        {
+          "name": "dm61Home",
+          "line": 3958
+        },
+        {
+          "name": "dm61CreateInvite",
+          "line": 3991
+        },
+        {
+          "name": "dm61Answer",
+          "line": 3997
+        },
+        {
+          "name": "dm61Complete",
+          "line": 4002
+        },
+        {
+          "name": "dm61Dates",
+          "line": 4013
+        },
+        {
+          "name": "dm61Album",
+          "line": 4029
+        },
+        {
+          "name": "dm61Install",
+          "line": 4036
+        },
+        {
+          "name": "drawMap",
+          "line": 4472
+        },
+        {
+          "name": "renderInteriorScene",
+          "line": 4472
+        },
+        {
+          "name": "drawEditor23",
+          "line": 4472
+        },
+        {
+          "name": "drawMap",
+          "line": 4478
+        },
+        {
+          "name": "drawCitizens",
+          "line": 4480
+        },
+        {
+          "name": "openPlace",
+          "line": 4482
+        },
+        {
+          "name": "openPlace",
+          "line": 4482
+        },
+        {
+          "name": "triggerRoomAction",
+          "line": 4483
+        },
+        {
+          "name": "triggerRoomAction",
+          "line": 4483
+        },
+        {
+          "name": "openPlace",
+          "line": 4493
+        },
+        {
+          "name": "openPlace",
+          "line": 4493
+        },
+        {
+          "name": "openPlace",
+          "line": 4494
+        },
+        {
+          "name": "openPlace",
+          "line": 4494
+        },
+        {
+          "name": "triggerRoomAction",
+          "line": 4495
+        },
+        {
+          "name": "triggerRoomAction",
+          "line": 4495
+        },
+        {
+          "name": "recalcMood",
+          "line": 4498
+        },
+        {
+          "name": "storageGet",
+          "line": 4542
+        },
+        {
+          "name": "storageSet",
+          "line": 4543
+        },
+        {
+          "name": "show",
+          "line": 4544
+        },
+        {
+          "name": "finish",
+          "line": 4545
+        },
+        {
+          "name": "ready",
+          "line": 4546
+        },
+        {
+          "name": "playFallback",
+          "line": 4547
+        },
+        {
+          "name": "playOriginal",
+          "line": 4548
+        }
+      ],
+      "frames": [
+        {
+          "id": "dm60-letter",
+          "title": "Una carta para Gabi",
+          "allow": "autoplay"
+        },
+        {
+          "id": "dm-frame",
+          "title": "Dos Mundos 4.0 Casa y Clima",
+          "allow": "fullscreen; autoplay; encrypted-media; clipboard-write"
+        }
+      ],
+      "scripts": [
+        {
+          "id": "dm-art-source",
+          "type": "text/plain",
+          "bytes": 414192,
+          "sha256": "113c87b4b9510393ee53657f1923925958a34f9fa35e5e472bc0714f9c92fb72"
+        },
+        {
+          "id": "dm-style-source",
+          "type": "text/plain",
+          "bytes": 58686,
+          "sha256": "535eb415adfc71b4d27fb2e9d4654665144c95d48db043636a22a343ae0c2043"
+        },
+        {
+          "bytes": 6318,
+          "sha256": "676f8de86b3a44a392fad22d4fcd9af96571d74af274f0b10e60464e5cf4718f"
+        },
+        {
+          "id": "dm60-controller",
+          "bytes": 4469,
+          "sha256": "fbe68132eb6b6b38922591036e92ac87751f28f257f242d0ffa4a941071af8c2"
+        }
+      ],
+      "storageLiterals": [
+        "dm58-life-",
+        "dos-mundos-40-hogar:",
+        "dos-mundos-54-barrio-",
+        "dos-mundos-55-progreso:",
+        "dos-mundos-56-visitas:",
+        "dos-mundos-57-ciudad-",
+        "dos-mundos-61-duo-v1",
+        "dos-mundos-7e33f",
+        "dos-mundos-7e33f.firebaseapp.com",
+        "dos-mundos-private-museum",
+        "dos-mundos-v41-database-url",
+        "dos-mundos-v51-role",
+        "dos-mundos-v60-prologue-seen-gabi"
+      ],
+      "firebasePaths": [
+        "dosMundos/duo/presence/",
+        "dosMundos/duo/social",
+        "dosMundos/duo/social/gestures",
+        "dosMundos/duo/social/gestures/",
+        "dosMundos/duo/v61"
+      ],
+      "externalOrigins": [
+        "https://dos-mundos-7e33f-default-rtdb.europe-west1.firebasedatabase.app",
+        "https://open.spotify.com",
+        "https://raw.githubusercontent.com",
+        "https://www.disneyplus.com",
+        "https://www.gstatic.com",
+        "https://www.max.com",
+        "https://www.netflix.com"
+      ],
+      "eventListeners": [
+        "click",
+        "input",
+        "keydown",
+        "load",
+        "message",
+        "pointercancel",
+        "pointerdown",
+        "pointerleave",
+        "pointermove",
+        "pointerup",
+        "submit"
+      ],
+      "eventProperties": [
+        "onchange",
+        "onclick",
+        "oncomplete",
+        "onerror",
+        "online",
+        "onload",
+        "onsuccess",
+        "onupgradeneeded"
+      ],
+      "dataImages": 10
+    },
+    {
+      "file": "index6.3.html",
+      "sha256": "0e757e440f5bb5593765c70d7a644332c595607d05c53e01894524e4489d4d5a",
+      "bytes": 491488,
+      "lines": 4596,
+      "ids": [
+        "dm-art-source",
+        "dm-frame",
+        "dm-status",
+        "dm-style-source",
+        "dm60-choices",
+        "dm60-close-note",
+        "dm60-controller",
+        "dm60-controls",
+        "dm60-css",
+        "dm60-enter",
+        "dm60-envelope",
+        "dm60-fallback",
+        "dm60-gate",
+        "dm60-letter",
+        "dm60-night",
+        "dm60-note",
+        "dm60-notice",
+        "dm60-skip"
+      ],
+      "dynamicIds": [
+        "dm33-cinema-overlay",
+        "dm37-cafe-modal",
+        "dm37-title",
+        "dm38-root",
+        "dm38-title",
+        "dm381-radio-launcher",
+        "dm381-radio-panel",
+        "dm39-arcade-launcher",
+        "dm39-pool-root",
+        "dm39-title",
+        "dm40-feedback",
+        "dm40-home-btn",
+        "dm40-modal",
+        "dm40-modal-title",
+        "dm40-weather-btn",
+        "dm41-online-button",
+        "dm41-panel",
+        "dm41-presence",
+        "dm42-date-online",
+        "dm42-dinner-btn",
+        "dm42-orders",
+        "dm42-phone-body",
+        "dm42-phone-btn",
+        "dm42-phone-feedback",
+        "dm42-phone-info",
+        "dm43-explore",
+        "dm43-explore-list",
+        "dm43-explore-wrap",
+        "dm43-interact-modal",
+        "dm43-nearby",
+        "dm50-label",
+        "dm51-identity",
+        "dm52-feedback",
+        "dm52-near",
+        "dm52-overlay",
+        "dm52-requests",
+        "dm52-title",
+        "dm52-trigger",
+        "dm53-heading",
+        "dm53-overlay",
+        "dm53-trigger",
+        "dm54-overlay",
+        "dm54-trigger",
+        "dm55-message",
+        "dm55-overlay",
+        "dm55-trigger",
+        "dm56-message",
+        "dm56-overlay",
+        "dm56-room-entry",
+        "dm58-note",
+        "dm58-overlay",
+        "dm58-ready",
+        "dm59-installed",
+        "dm59-overlay",
+        "dm61-content",
+        "dm61-open",
+        "dm61-overlay",
+        "dm61-status"
+      ],
+      "selectorIds": [
+        "dm-art-source",
+        "dm-frame",
+        "dm-status",
+        "dm-style-source",
+        "dm33-cinema-overlay",
+        "dm33Badge",
+        "dm33Toggle",
+        "dm33style",
+        "dm37-cafe-modal",
+        "dm38-root",
+        "dm381-radio-launcher",
+        "dm39-arcade-launcher",
+        "dm39-pool-root",
+        "dm40-feedback",
+        "dm40-home-btn",
+        "dm40-modal",
+        "dm40-weather-btn",
+        "dm41-online-button",
+        "dm41-presence",
+        "dm42-date-online",
+        "dm42-orders",
+        "dm42-phone",
+        "dm42-phone-body",
+        "dm42-phone-btn",
+        "dm42-phone-feedback",
+        "dm42-phone-info",
+        "dm42-restaurant",
+        "dm43-explore",
+        "dm43-interact-modal",
+        "dm43-nearby",
+        "dm50-label",
+        "dm51-identity",
+        "dm52-feedback",
+        "dm52-near",
+        "dm52-requests",
+        "dm52-trigger",
+        "dm53-overlay",
+        "dm53-trigger",
+        "dm54-overlay",
+        "dm54-trigger",
+        "dm55-message",
+        "dm55-overlay",
+        "dm55-trigger",
+        "dm56-message",
+        "dm56-room-entry",
+        "dm58-note",
+        "dm58-overlay",
+        "dm58-ready",
+        "dm59-installed",
+        "dm60-choices",
+        "dm60-close-note",
+        "dm60-controls",
+        "dm60-enter",
+        "dm60-envelope",
+        "dm60-fallback",
+        "dm60-gate",
+        "dm60-letter",
+        "dm60-night",
+        "dm60-note",
+        "dm60-notice",
+        "dm60-skip",
+        "dm61-content",
+        "dm61-open",
+        "dm61-overlay",
+        "dm61-status",
+        "end",
+        "interior",
+        "map"
+      ],
+      "functions": [
+        {
+          "name": "dm33OpenCinema",
+          "line": 35
+        },
+        {
+          "name": "dm33rect",
+          "line": 74
+        },
+        {
+          "name": "dm33seed",
+          "line": 75
+        },
+        {
+          "name": "dm33poly",
+          "line": 76
+        },
+        {
+          "name": "dm33shadow",
+          "line": 77
+        },
+        {
+          "name": "dm33tree",
+          "line": 78
+        },
+        {
+          "name": "dm33pavement",
+          "line": 91
+        },
+        {
+          "name": "dm33road",
+          "line": 101
+        },
+        {
+          "name": "dm33building",
+          "line": 134
+        },
+        {
+          "name": "dm33park",
+          "line": 197
+        },
+        {
+          "name": "dm33plaza",
+          "line": 210
+        },
+        {
+          "name": "dm33streetDecor",
+          "line": 220
+        },
+        {
+          "name": "dm33atmosphere",
+          "line": 246
+        },
+        {
+          "name": "dm34R",
+          "line": 258
+        },
+        {
+          "name": "dm34Line",
+          "line": 261
+        },
+        {
+          "name": "dm34Seed",
+          "line": 264
+        },
+        {
+          "name": "dm34Flower",
+          "line": 265
+        },
+        {
+          "name": "dm34Tree",
+          "line": 269
+        },
+        {
+          "name": "dm34Facade",
+          "line": 285
+        },
+        {
+          "name": "dm34Street",
+          "line": 347
+        },
+        {
+          "name": "dm34Interior",
+          "line": 385
+        },
+        {
+          "name": "pot",
+          "line": 403
+        },
+        {
+          "name": "dm34SpriteFinish",
+          "line": 468
+        },
+        {
+          "name": "dm35R",
+          "line": 484
+        },
+        {
+          "name": "dm35Lamp",
+          "line": 485
+        },
+        {
+          "name": "dm35Bench",
+          "line": 490
+        },
+        {
+          "name": "dm35Canopy",
+          "line": 493
+        },
+        {
+          "name": "dm35StreetLife",
+          "line": 497
+        },
+        {
+          "name": "dm35InteriorBoost",
+          "line": 511
+        },
+        {
+          "name": "dm35EditorBoost",
+          "line": 545
+        },
+        {
+          "name": "dm35Atmosphere",
+          "line": 552
+        },
+        {
+          "name": "dm36R",
+          "line": 559
+        },
+        {
+          "name": "dm36Dot",
+          "line": 560
+        },
+        {
+          "name": "dm36WindowBox",
+          "line": 561
+        },
+        {
+          "name": "dm36FacadePlus",
+          "line": 565
+        },
+        {
+          "name": "dm36ParkPlaza",
+          "line": 598
+        },
+        {
+          "name": "dm36SouthHomes",
+          "line": 616
+        },
+        {
+          "name": "dm36InteriorBoost",
+          "line": 624
+        },
+        {
+          "name": "dm36SpriteFinish",
+          "line": 659
+        },
+        {
+          "name": "dm36EditorBoost",
+          "line": 673
+        },
+        {
+          "name": "dm37CafeArt",
+          "line": 681
+        },
+        {
+          "name": "dm37CafeCanvas",
+          "line": 709
+        },
+        {
+          "name": "dm37OpenCafe",
+          "line": 765
+        },
+        {
+          "name": "showCategory",
+          "line": 807
+        },
+        {
+          "name": "doChoice",
+          "line": 826
+        },
+        {
+          "name": "dm38CanvasArt",
+          "line": 887
+        },
+        {
+          "name": "dm38OpenMetro",
+          "line": 964
+        },
+        {
+          "name": "close",
+          "line": 1001
+        },
+        {
+          "name": "begin",
+          "line": 1008
+        },
+        {
+          "name": "renderRoutes",
+          "line": 1018
+        },
+        {
+          "name": "draw",
+          "line": 1027
+        },
+        {
+          "name": "move",
+          "line": 1034
+        },
+        {
+          "name": "renderActivities",
+          "line": 1051
+        },
+        {
+          "name": "runActivity",
+          "line": 1079
+        },
+        {
+          "name": "dm381InstallMusic",
+          "line": 1112
+        },
+        {
+          "name": "ensurePlayer",
+          "line": 1153
+        },
+        {
+          "name": "show",
+          "line": 1166
+        },
+        {
+          "name": "hide",
+          "line": 1170
+        },
+        {
+          "name": "stopPlayer",
+          "line": 1174
+        },
+        {
+          "name": "dm39InstallArcade",
+          "line": 1189
+        },
+        {
+          "name": "dm39OpenPool",
+          "line": 1198
+        },
+        {
+          "name": "addBall",
+          "line": 1241
+        },
+        {
+          "name": "cue",
+          "line": 1242
+        },
+        {
+          "name": "resetGame",
+          "line": 1243
+        },
+        {
+          "name": "remainingLabels",
+          "line": 1259
+        },
+        {
+          "name": "updateScore",
+          "line": 1262
+        },
+        {
+          "name": "renderBall",
+          "line": 1273
+        },
+        {
+          "name": "draw",
+          "line": 1288
+        },
+        {
+          "name": "isInPocket",
+          "line": 1334
+        },
+        {
+          "name": "initialShot",
+          "line": 1337
+        },
+        {
+          "name": "shotBalls",
+          "line": 1346
+        },
+        {
+          "name": "respotWhite",
+          "line": 1377
+        },
+        {
+          "name": "shotDone",
+          "line": 1385
+        },
+        {
+          "name": "tick",
+          "line": 1415
+        },
+        {
+          "name": "shootBall",
+          "line": 1427
+        },
+        {
+          "name": "pointerPos",
+          "line": 1435
+        },
+        {
+          "name": "setAim",
+          "line": 1439
+        },
+        {
+          "name": "dm40GetSave",
+          "line": 1475
+        },
+        {
+          "name": "dm40Save",
+          "line": 1486
+        },
+        {
+          "name": "dm40Weather",
+          "line": 1491
+        },
+        {
+          "name": "dm40Comfort",
+          "line": 1509
+        },
+        {
+          "name": "dm40Rect",
+          "line": 1516
+        },
+        {
+          "name": "dm40Furniture",
+          "line": 1517
+        },
+        {
+          "name": "dm40RoomDecor",
+          "line": 1537
+        },
+        {
+          "name": "dm40WeatherLayer",
+          "line": 1555
+        },
+        {
+          "name": "dm40EffectsAfterTime",
+          "line": 1577
+        },
+        {
+          "name": "dm40UpdateButtons",
+          "line": 1591
+        },
+        {
+          "name": "dm40ShowWeather",
+          "line": 1599
+        },
+        {
+          "name": "dm40Modal",
+          "line": 1622
+        },
+        {
+          "name": "dm40ShowHouse",
+          "line": 1638
+        },
+        {
+          "name": "stats",
+          "line": 1656
+        },
+        {
+          "name": "notify",
+          "line": 1659
+        },
+        {
+          "name": "drawPreview",
+          "line": 1660
+        },
+        {
+          "name": "redrawThemes",
+          "line": 1684
+        },
+        {
+          "name": "renderCatalogue",
+          "line": 1695
+        },
+        {
+          "name": "renderOwned",
+          "line": 1734
+        },
+        {
+          "name": "activity",
+          "line": 1746
+        },
+        {
+          "name": "dm40Install",
+          "line": 1762
+        },
+        {
+          "name": "dm41SafeText",
+          "line": 1779
+        },
+        {
+          "name": "dm41SetStatus",
+          "line": 1780
+        },
+        {
+          "name": "dm41ReadURL",
+          "line": 1781
+        },
+        {
+          "name": "dm41Modal",
+          "line": 1782
+        },
+        {
+          "name": "dm41Install",
+          "line": 1808
+        },
+        {
+          "name": "dm41Connect",
+          "line": 1813
+        },
+        {
+          "name": "dm41Snapshot",
+          "line": 1873
+        },
+        {
+          "name": "dm41Publish",
+          "line": 1880
+        },
+        {
+          "name": "dm41Disconnect",
+          "line": 1890
+        },
+        {
+          "name": "dm41DrawOther",
+          "line": 1905
+        },
+        {
+          "name": "dm41DrawRoom",
+          "line": 1922
+        },
+        {
+          "name": "dm42Node",
+          "line": 1951
+        },
+        {
+          "name": "dm42Connected",
+          "line": 1952
+        },
+        {
+          "name": "dm42RemoteName",
+          "line": 1953
+        },
+        {
+          "name": "dm42Escape",
+          "line": 1954
+        },
+        {
+          "name": "dm42Remote",
+          "line": 1955
+        },
+        {
+          "name": "dm42Db",
+          "line": 1956
+        },
+        {
+          "name": "dm42UpdateInfo",
+          "line": 1957
+        },
+        {
+          "name": "dm42Time",
+          "line": 1958
+        },
+        {
+          "name": "dm42OnlineStop",
+          "line": 1959
+        },
+        {
+          "name": "dm42OnlineStart",
+          "line": 1960
+        },
+        {
+          "name": "dm42SendMessage",
+          "line": 1977
+        },
+        {
+          "name": "dm42SendInvite",
+          "line": 1984
+        },
+        {
+          "name": "dm42Reply",
+          "line": 1989
+        },
+        {
+          "name": "dm42Install",
+          "line": 1995
+        },
+        {
+          "name": "dm42MakeModal",
+          "line": 2001
+        },
+        {
+          "name": "close",
+          "line": 2009
+        },
+        {
+          "name": "dm42OpenPhone",
+          "line": 2014
+        },
+        {
+          "name": "choose",
+          "line": 2028
+        },
+        {
+          "name": "dm42PhoneRender",
+          "line": 2031
+        },
+        {
+          "name": "dm42DrawRestaurant",
+          "line": 2069
+        },
+        {
+          "name": "dm42DateRefresh",
+          "line": 2089
+        },
+        {
+          "name": "dm42OrderSummary",
+          "line": 2097
+        },
+        {
+          "name": "dm42RenderOrders",
+          "line": 2107
+        },
+        {
+          "name": "dm42OpenRestaurant",
+          "line": 2108
+        },
+        {
+          "name": "dm43Anchor",
+          "line": 2175
+        },
+        {
+          "name": "dm43Spots",
+          "line": 2181
+        },
+        {
+          "name": "dm43Distance",
+          "line": 2182
+        },
+        {
+          "name": "dm43Nearest",
+          "line": 2183
+        },
+        {
+          "name": "dm43Rect",
+          "line": 2184
+        },
+        {
+          "name": "dm43Random",
+          "line": 2185
+        },
+        {
+          "name": "dm43StreetTiles",
+          "line": 2186
+        },
+        {
+          "name": "dm43Crosswalks",
+          "line": 2200
+        },
+        {
+          "name": "dm43DrawStreetVendors",
+          "line": 2220
+        },
+        {
+          "name": "dm43Pedestrians",
+          "line": 2272
+        },
+        {
+          "name": "dm43Traffic",
+          "line": 2288
+        },
+        {
+          "name": "dm43NightBuildings",
+          "line": 2314
+        },
+        {
+          "name": "dm43UrbanLayer",
+          "line": 2325
+        },
+        {
+          "name": "dm43NearbyNotice",
+          "line": 2330
+        },
+        {
+          "name": "dm43Interact",
+          "line": 2336
+        },
+        {
+          "name": "dm43ShowList",
+          "line": 2366
+        },
+        {
+          "name": "dm43Install",
+          "line": 2384
+        },
+        {
+          "name": "dm50Poly",
+          "line": 2428
+        },
+        {
+          "name": "dm50Line",
+          "line": 2432
+        },
+        {
+          "name": "dm50Rect",
+          "line": 2435
+        },
+        {
+          "name": "dm50Seed",
+          "line": 2436
+        },
+        {
+          "name": "dm50Roads",
+          "line": 2437
+        },
+        {
+          "name": "dm50Window",
+          "line": 2484
+        },
+        {
+          "name": "dm50Balcony",
+          "line": 2498
+        },
+        {
+          "name": "dm50Building",
+          "line": 2507
+        },
+        {
+          "name": "dm50Greenery",
+          "line": 2597
+        },
+        {
+          "name": "dm50Hud",
+          "line": 2614
+        },
+        {
+          "name": "dm51LocalIdentity",
+          "line": 2632
+        },
+        {
+          "name": "dm51RemoteIdentity",
+          "line": 2640
+        },
+        {
+          "name": "dm51DrawActor",
+          "line": 2641
+        },
+        {
+          "name": "dm51Install",
+          "line": 2663
+        },
+        {
+          "name": "render",
+          "line": 2669
+        },
+        {
+          "name": "dm51EnhancePhone",
+          "line": 2677
+        },
+        {
+          "name": "dm52DetailRect",
+          "line": 2694
+        },
+        {
+          "name": "dm52Near",
+          "line": 2695
+        },
+        {
+          "name": "dm52PoseFor",
+          "line": 2703
+        },
+        {
+          "name": "dm52DrawActor",
+          "line": 2707
+        },
+        {
+          "name": "dm52DecorateInterior",
+          "line": 2742
+        },
+        {
+          "name": "dm52SyncStart",
+          "line": 2793
+        },
+        {
+          "name": "dm52SyncStop",
+          "line": 2810
+        },
+        {
+          "name": "dm52RefreshScene",
+          "line": 2814
+        },
+        {
+          "name": "dm52Feedback",
+          "line": 2815
+        },
+        {
+          "name": "dm52Request",
+          "line": 2816
+        },
+        {
+          "name": "dm52Respond",
+          "line": 2825
+        },
+        {
+          "name": "dm52PanelRender",
+          "line": 2835
+        },
+        {
+          "name": "dm52Install",
+          "line": 2850
+        },
+        {
+          "name": "dm50DrawMap",
+          "line": 2878
+        },
+        {
+          "name": "dm53ActivePose",
+          "line": 2932
+        },
+        {
+          "name": "dm53SetPose",
+          "line": 2933
+        },
+        {
+          "name": "dm53DrawRoom",
+          "line": 2934
+        },
+        {
+          "name": "dm53Open",
+          "line": 2974
+        },
+        {
+          "name": "dm53Install",
+          "line": 3018
+        },
+        {
+          "name": "dm33drawMap",
+          "line": 3030
+        },
+        {
+          "name": "dm33RoomDetails",
+          "line": 3057
+        },
+        {
+          "name": "dm33EditorBackdrop",
+          "line": 3114
+        },
+        {
+          "name": "dm54Key",
+          "line": 3144
+        },
+        {
+          "name": "dm54Load",
+          "line": 3145
+        },
+        {
+          "name": "dm54Save",
+          "line": 3146
+        },
+        {
+          "name": "dm54Hour",
+          "line": 3147
+        },
+        {
+          "name": "dm54Anchor",
+          "line": 3148
+        },
+        {
+          "name": "dm54PersonPos",
+          "line": 3149
+        },
+        {
+          "name": "dm54DrawWorld",
+          "line": 3156
+        },
+        {
+          "name": "dm54Nearby",
+          "line": 3175
+        },
+        {
+          "name": "dm54AddLog",
+          "line": 3180
+        },
+        {
+          "name": "dm54Dialog",
+          "line": 3181
+        },
+        {
+          "name": "dm54Button",
+          "line": 3189
+        },
+        {
+          "name": "dm54Speak",
+          "line": 3190
+        },
+        {
+          "name": "dm54Shop",
+          "line": 3200
+        },
+        {
+          "name": "dm54Inventory",
+          "line": 3210
+        },
+        {
+          "name": "dm54Journal",
+          "line": 3220
+        },
+        {
+          "name": "dm54Open",
+          "line": 3225
+        },
+        {
+          "name": "dm54Install",
+          "line": 3237
+        },
+        {
+          "name": "dm55Key",
+          "line": 3282
+        },
+        {
+          "name": "dm55Default",
+          "line": 3283
+        },
+        {
+          "name": "dm55Load",
+          "line": 3284
+        },
+        {
+          "name": "dm55Save",
+          "line": 3285
+        },
+        {
+          "name": "dm55RollDay",
+          "line": 3286
+        },
+        {
+          "name": "dm55CoreSave",
+          "line": 3287
+        },
+        {
+          "name": "dm55Note",
+          "line": 3288
+        },
+        {
+          "name": "dm55Record",
+          "line": 3289
+        },
+        {
+          "name": "dm55XP",
+          "line": 3290
+        },
+        {
+          "name": "dm55Level",
+          "line": 3291
+        },
+        {
+          "name": "dm55GainMoney",
+          "line": 3292
+        },
+        {
+          "name": "dm55SpendMoney",
+          "line": 3293
+        },
+        {
+          "name": "dm55Ingredients",
+          "line": 3294
+        },
+        {
+          "name": "dm55ConsumeIngredients",
+          "line": 3298
+        },
+        {
+          "name": "dm55CanWork",
+          "line": 3309
+        },
+        {
+          "name": "dm55Button",
+          "line": 3310
+        },
+        {
+          "name": "dm55Text",
+          "line": 3311
+        },
+        {
+          "name": "dm55Title",
+          "line": 3312
+        },
+        {
+          "name": "dm55Show",
+          "line": 3313
+        },
+        {
+          "name": "rerender",
+          "line": 3325
+        },
+        {
+          "name": "dm55Install",
+          "line": 3387
+        },
+        {
+          "name": "dm56Key",
+          "line": 3425
+        },
+        {
+          "name": "dm56Progress",
+          "line": 3426
+        },
+        {
+          "name": "dm56SaveProgress",
+          "line": 3427
+        },
+        {
+          "name": "dm56ActivityLog",
+          "line": 3428
+        },
+        {
+          "name": "dm56Effect",
+          "line": 3429
+        },
+        {
+          "name": "dm56Say",
+          "line": 3438
+        },
+        {
+          "name": "dm56Act",
+          "line": 3439
+        },
+        {
+          "name": "dm56R",
+          "line": 3464
+        },
+        {
+          "name": "dm56P",
+          "line": 3465
+        },
+        {
+          "name": "dm56Line",
+          "line": 3466
+        },
+        {
+          "name": "dm56Text",
+          "line": 3467
+        },
+        {
+          "name": "dm56Block",
+          "line": 3468
+        },
+        {
+          "name": "dm56Plant",
+          "line": 3474
+        },
+        {
+          "name": "dm56Lamp",
+          "line": 3475
+        },
+        {
+          "name": "dm56Backdrop",
+          "line": 3476
+        },
+        {
+          "name": "dm56Shelf",
+          "line": 3491
+        },
+        {
+          "name": "dm56Market",
+          "line": 3492
+        },
+        {
+          "name": "dm56Library",
+          "line": 3501
+        },
+        {
+          "name": "dm56Gym",
+          "line": 3508
+        },
+        {
+          "name": "dm56Cinema",
+          "line": 3520
+        },
+        {
+          "name": "dm56Draw",
+          "line": 3532
+        },
+        {
+          "name": "dm56Close",
+          "line": 3543
+        },
+        {
+          "name": "dm56OpenVenue",
+          "line": 3544
+        },
+        {
+          "name": "dm56Install",
+          "line": 3563
+        },
+        {
+          "name": "dm57Role",
+          "line": 3582
+        },
+        {
+          "name": "dm57Key",
+          "line": 3583
+        },
+        {
+          "name": "dm57Load",
+          "line": 3584
+        },
+        {
+          "name": "dm57Save",
+          "line": 3585
+        },
+        {
+          "name": "dm57Hour",
+          "line": 3586
+        },
+        {
+          "name": "dm57Phase",
+          "line": 3587
+        },
+        {
+          "name": "dm57W",
+          "line": 3588
+        },
+        {
+          "name": "dm57Schedule",
+          "line": 3589
+        },
+        {
+          "name": "dm57Anchor",
+          "line": 3598
+        },
+        {
+          "name": "dm57Position",
+          "line": 3599
+        },
+        {
+          "name": "dm57RenderPeople",
+          "line": 3612
+        },
+        {
+          "name": "dm57DrawAtmosphere",
+          "line": 3629
+        },
+        {
+          "name": "dm57Friend",
+          "line": 3647
+        },
+        {
+          "name": "dm57Rank",
+          "line": 3648
+        },
+        {
+          "name": "dm57Remember",
+          "line": 3649
+        },
+        {
+          "name": "dm57Friendship",
+          "line": 3650
+        },
+        {
+          "name": "dm57EnhanceTalk",
+          "line": 3658
+        },
+        {
+          "name": "dm57OpenAgenda",
+          "line": 3683
+        },
+        {
+          "name": "dm57Install",
+          "line": 3699
+        },
+        {
+          "name": "dm58Key",
+          "line": 3709
+        },
+        {
+          "name": "dm58Load",
+          "line": 3710
+        },
+        {
+          "name": "dm58Save",
+          "line": 3711
+        },
+        {
+          "name": "dm58Pay",
+          "line": 3712
+        },
+        {
+          "name": "dm58AddMoney",
+          "line": 3713
+        },
+        {
+          "name": "dm58Message",
+          "line": 3714
+        },
+        {
+          "name": "dm58Time",
+          "line": 3715
+        },
+        {
+          "name": "dm58Canvas",
+          "line": 3716
+        },
+        {
+          "name": "dm58Rect",
+          "line": 3717
+        },
+        {
+          "name": "dm58Txt",
+          "line": 3718
+        },
+        {
+          "name": "dm58Frame",
+          "line": 3719
+        },
+        {
+          "name": "dm58Scene",
+          "line": 3720
+        },
+        {
+          "name": "dm58Button",
+          "line": 3731
+        },
+        {
+          "name": "dm58Show",
+          "line": 3732
+        },
+        {
+          "name": "dm58Museum",
+          "line": 3735
+        },
+        {
+          "name": "dm58PhotoOpen",
+          "line": 3741
+        },
+        {
+          "name": "dm58PhotoRead",
+          "line": 3742
+        },
+        {
+          "name": "dm58PhotoWrite",
+          "line": 3743
+        },
+        {
+          "name": "dm58PhotoDelete",
+          "line": 3744
+        },
+        {
+          "name": "dm58Compress",
+          "line": 3745
+        },
+        {
+          "name": "dm58Bar",
+          "line": 3746
+        },
+        {
+          "name": "draw",
+          "line": 3749
+        },
+        {
+          "name": "dm58Tick",
+          "line": 3754
+        },
+        {
+          "name": "dm58Garden",
+          "line": 3759
+        },
+        {
+          "name": "dm58Sites",
+          "line": 3765
+        },
+        {
+          "name": "dm58DrawMapMarkers",
+          "line": 3766
+        },
+        {
+          "name": "dm58Install",
+          "line": 3767
+        },
+        {
+          "name": "dm59DrawGates",
+          "line": 3782
+        },
+        {
+          "name": "dm59Return",
+          "line": 3786
+        },
+        {
+          "name": "dm59Block",
+          "line": 3787
+        },
+        {
+          "name": "dm59Flower",
+          "line": 3798
+        },
+        {
+          "name": "dm59Background",
+          "line": 3799
+        },
+        {
+          "name": "dm59Draw",
+          "line": 3815
+        },
+        {
+          "name": "dm59Open",
+          "line": 3828
+        },
+        {
+          "name": "dm59Enter",
+          "line": 3835
+        },
+        {
+          "name": "dm59TravelGate",
+          "line": 3836
+        },
+        {
+          "name": "dm59Install",
+          "line": 3844
+        },
+        {
+          "name": "dm61Load",
+          "line": 3871
+        },
+        {
+          "name": "dm61Clean",
+          "line": 3872
+        },
+        {
+          "name": "dm61LocalSave",
+          "line": 3878
+        },
+        {
+          "name": "dm61Role",
+          "line": 3879
+        },
+        {
+          "name": "dm61Connected",
+          "line": 3880
+        },
+        {
+          "name": "dm61Ref",
+          "line": 3881
+        },
+        {
+          "name": "dm61Sync",
+          "line": 3882
+        },
+        {
+          "name": "dm61Observe",
+          "line": 3887
+        },
+        {
+          "name": "dm61El",
+          "line": 3900
+        },
+        {
+          "name": "dm61Message",
+          "line": 3901
+        },
+        {
+          "name": "dm61Button",
+          "line": 3902
+        },
+        {
+          "name": "dm61Modal",
+          "line": 3903
+        },
+        {
+          "name": "dm61Render",
+          "line": 3916
+        },
+        {
+          "name": "dm61Walk",
+          "line": 3929
+        },
+        {
+          "name": "dm61PaintRoom",
+          "line": 3930
+        },
+        {
+          "name": "dm61Home",
+          "line": 3985
+        },
+        {
+          "name": "dm61CreateInvite",
+          "line": 4024
+        },
+        {
+          "name": "dm61Answer",
+          "line": 4030
+        },
+        {
+          "name": "dm61Complete",
+          "line": 4035
+        },
+        {
+          "name": "dm61Dates",
+          "line": 4046
+        },
+        {
+          "name": "dm61Album",
+          "line": 4062
+        },
+        {
+          "name": "dm61Install",
+          "line": 4069
+        },
+        {
+          "name": "drawMap",
+          "line": 4506
+        },
+        {
+          "name": "renderInteriorScene",
+          "line": 4506
+        },
+        {
+          "name": "drawEditor23",
+          "line": 4506
+        },
+        {
+          "name": "drawMap",
+          "line": 4512
+        },
+        {
+          "name": "drawCitizens",
+          "line": 4514
+        },
+        {
+          "name": "openPlace",
+          "line": 4516
+        },
+        {
+          "name": "openPlace",
+          "line": 4516
+        },
+        {
+          "name": "triggerRoomAction",
+          "line": 4517
+        },
+        {
+          "name": "triggerRoomAction",
+          "line": 4517
+        },
+        {
+          "name": "openPlace",
+          "line": 4527
+        },
+        {
+          "name": "openPlace",
+          "line": 4527
+        },
+        {
+          "name": "openPlace",
+          "line": 4528
+        },
+        {
+          "name": "openPlace",
+          "line": 4528
+        },
+        {
+          "name": "triggerRoomAction",
+          "line": 4529
+        },
+        {
+          "name": "triggerRoomAction",
+          "line": 4529
+        },
+        {
+          "name": "recalcMood",
+          "line": 4532
+        },
+        {
+          "name": "storageGet",
+          "line": 4576
+        },
+        {
+          "name": "storageSet",
+          "line": 4577
+        },
+        {
+          "name": "show",
+          "line": 4578
+        },
+        {
+          "name": "finish",
+          "line": 4579
+        },
+        {
+          "name": "ready",
+          "line": 4580
+        },
+        {
+          "name": "playFallback",
+          "line": 4581
+        },
+        {
+          "name": "playOriginal",
+          "line": 4582
+        }
+      ],
+      "frames": [
+        {
+          "id": "dm60-letter",
+          "title": "Una carta para Gabi",
+          "allow": "autoplay"
+        },
+        {
+          "id": "dm-frame",
+          "title": "Dos Mundos 4.0 Casa y Clima",
+          "allow": "fullscreen; autoplay; encrypted-media; clipboard-write"
+        }
+      ],
+      "scripts": [
+        {
+          "id": "dm-art-source",
+          "type": "text/plain",
+          "bytes": 416181,
+          "sha256": "a4d0b7cc06cbb055238b591e85a13804117aed85a6ca16d298f402ed23343b41"
+        },
+        {
+          "id": "dm-style-source",
+          "type": "text/plain",
+          "bytes": 58874,
+          "sha256": "e69c27c7bd5aecf25f4f53f7cb58d1f75f0b6c7509203da1dc595df1a48ffe63"
+        },
+        {
+          "bytes": 6318,
+          "sha256": "676f8de86b3a44a392fad22d4fcd9af96571d74af274f0b10e60464e5cf4718f"
+        },
+        {
+          "id": "dm60-controller",
+          "bytes": 4469,
+          "sha256": "fbe68132eb6b6b38922591036e92ac87751f28f257f242d0ffa4a941071af8c2"
+        }
+      ],
+      "storageLiterals": [
+        "dm58-life-",
+        "dos-mundos-40-hogar:",
+        "dos-mundos-54-barrio-",
+        "dos-mundos-55-progreso:",
+        "dos-mundos-56-visitas:",
+        "dos-mundos-57-ciudad-",
+        "dos-mundos-61-duo-v1",
+        "dos-mundos-7e33f",
+        "dos-mundos-7e33f.firebaseapp.com",
+        "dos-mundos-private-museum",
+        "dos-mundos-v41-database-url",
+        "dos-mundos-v51-role",
+        "dos-mundos-v60-prologue-seen-gabi"
+      ],
+      "firebasePaths": [
+        "dosMundos/duo/presence/",
+        "dosMundos/duo/social",
+        "dosMundos/duo/social/gestures",
+        "dosMundos/duo/social/gestures/",
+        "dosMundos/duo/v61"
+      ],
+      "externalOrigins": [
+        "https://dos-mundos-7e33f-default-rtdb.europe-west1.firebasedatabase.app",
+        "https://open.spotify.com",
+        "https://raw.githubusercontent.com",
+        "https://www.disneyplus.com",
+        "https://www.gstatic.com",
+        "https://www.max.com",
+        "https://www.netflix.com"
+      ],
+      "eventListeners": [
+        "click",
+        "input",
+        "keydown",
+        "load",
+        "message",
+        "pointercancel",
+        "pointerdown",
+        "pointerleave",
+        "pointermove",
+        "pointerup",
+        "submit"
+      ],
+      "eventProperties": [
+        "onchange",
+        "onclick",
+        "oncomplete",
+        "onerror",
+        "online",
+        "onload",
+        "onsuccess",
+        "onupgradeneeded"
+      ],
+      "dataImages": 10
+    }
+  ],
+  "assets": [
+    {
+      "file": "assets/sprites/dm51_gabi_down.png",
+      "width": 108,
+      "height": 153,
+      "bytes": 30613,
+      "sha256": "863356b4108de796cc507ebda558d3e9af39c8707b899f759b32332a1940b875"
+    },
+    {
+      "file": "assets/sprites/dm51_gabi_left.png",
+      "width": 104,
+      "height": 155,
+      "bytes": 27348,
+      "sha256": "bd6ec45af4bde6ea6485382cf817c596edc908c5b0ee5967b0d9c638ef17d191"
+    },
+    {
+      "file": "assets/sprites/dm51_gabi_right.png",
+      "width": 101,
+      "height": 154,
+      "bytes": 27157,
+      "sha256": "8dceb625741097478d0e2f2ae21de901ed06471a0acfd8df010bd3d8e6b3d8bb"
+    },
+    {
+      "file": "assets/sprites/dm51_gabi_up.png",
+      "width": 112,
+      "height": 153,
+      "bytes": 27608,
+      "sha256": "d755012986a4c5b1d76c0550ee75afde149b0dc9676c1620a9619b2b7510725b"
+    },
+    {
+      "file": "assets/sprites/dm51_jc_down.png",
+      "width": 96,
+      "height": 152,
+      "bytes": 28113,
+      "sha256": "c08e542ec13a4c8e63bc67202aedce207aa846abca9246fd380bcc554403b38c"
+    },
+    {
+      "file": "assets/sprites/dm51_jc_left.png",
+      "width": 85,
+      "height": 151,
+      "bytes": 21780,
+      "sha256": "32a253aaf0a686861c15df110b71ad01bc87310363af7b4e63a68f56ebcc8691"
+    },
+    {
+      "file": "assets/sprites/dm51_jc_right.png",
+      "width": 91,
+      "height": 152,
+      "bytes": 24493,
+      "sha256": "3e94aefa8c7e840154e8a75847e91c9b2790984881760183419f73ef087fa2d1"
+    },
+    {
+      "file": "assets/sprites/dm51_jc_up.png",
+      "width": 94,
+      "height": 153,
+      "bytes": 23610,
+      "sha256": "495df7d74c902be928bb593bb9bb8656e305247c25362d93cb4899af91edbfa0"
+    }
+  ],
+  "embeddedCharacters": [
+    {
+      "name": "jc_down",
+      "width": 63,
+      "height": 100,
+      "sha256": "0abd76ebcb737d6af7d915074e2cc2f826ca45acaf23e115325efc198e0798af"
+    },
+    {
+      "name": "jc_up",
+      "width": 61,
+      "height": 100,
+      "sha256": "786761042ed2a6dbb3c50c24d2eabe74a601081279bebde4d80c5192d74c20f4"
+    },
+    {
+      "name": "jc_left",
+      "width": 56,
+      "height": 100,
+      "sha256": "7f1074e0eb3e70ff20a5ecd484973b17c0fc690ad2f7a058dd1150210b4610c4"
+    },
+    {
+      "name": "jc_right",
+      "width": 60,
+      "height": 100,
+      "sha256": "56b9433b8f379f857310b96af4d8df5bcdcc2233343ba114ad787c1c43a812ed"
+    },
+    {
+      "name": "gabi_down",
+      "width": 64,
+      "height": 91,
+      "sha256": "8983763c5c24c635588518ffdddd3d7d04785a1ff756d6924c9d7675a922c221"
+    },
+    {
+      "name": "gabi_up",
+      "width": 64,
+      "height": 87,
+      "sha256": "03df52413d056390191da31d269260e6f1a7191ad21943caa58514eb3fdf80d8"
+    },
+    {
+      "name": "gabi_left",
+      "width": 64,
+      "height": 95,
+      "sha256": "3c4990210c1fe557d9d158757ce1038de1e2300f4f71ae5e34e508e6164b634d"
+    },
+    {
+      "name": "gabi_right",
+      "width": 64,
+      "height": 98,
+      "sha256": "4a9c7442066b752165de9aa02e7c753df4bf073343f0522267af14057277cfb8"
+    },
+    {
+      "name": "jc_portrait",
+      "width": 177,
+      "height": 230,
+      "sha256": "08999f62b365aea69ee96d98f1a0ba779717e0fcf64ae524eb00724f4f036d82"
+    },
+    {
+      "name": "gabi_portrait",
+      "width": 178,
+      "height": 230,
+      "sha256": "ded3952b295bf55faa5490966584179730609efd932427b442166523f047fca6"
+    }
+  ]
+}

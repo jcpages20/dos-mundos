@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Dos Mundos · Desarrollo 6.3+</title>
+  <link rel="stylesheet" href="./styles/persistence.css">
+  <script type="module" src="./src/ui/development-launcher.mjs"></script>
+</head>
+<body class="launcher">
+  <nav class="launch-bar" aria-label="Partidas">
+    <span id="backup-status" role="status">Preparando copia local…</span>
+    <a href="./tools/partidas.html">Mis copias</a>
+    <a href="./index.html">Versión actual</a>
+  </nav>
+  <main id="launch-message" class="launch-message">
+    <h1>Dos Mundos · Desarrollo 6.3+</h1>
+    <p id="launch-detail">Guardando una copia de tu progreso antes de abrir el juego.</p>
+    <button id="continue-without-backup" hidden>Jugar sin copia nueva</button>
+  </main>
+  <iframe id="development-game" title="Dos Mundos 6.3" allow="fullscreen; autoplay; encrypted-media; clipboard-write" hidden></iframe>
+</body>
+</html>

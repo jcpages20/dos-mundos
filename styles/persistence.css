@@ -1,0 +1,26 @@
+:root { color-scheme: dark; font: 16px/1.5 system-ui, sans-serif; color: #f9efd7; background: #162d35; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+a { color: #f1d394; text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible, input:focus-visible { outline: 3px solid #e7c581; outline-offset: 3px; }
+button, input { font: inherit; }
+button, .launch-bar a { min-height: 44px; touch-action: manipulation; }
+button { border: 1px solid #edd29c; border-radius: 10px; padding: 10px 16px; margin: 5px 5px 5px 0; background: #f0d49c; color: #26363a; font-weight: 650; cursor: pointer; }
+button:disabled { opacity: .5; cursor: default; }
+button.secondary { background: #2a4853; color: #f9efd7; border-color: #769a9e; }
+[hidden] { display: none !important; }
+.backup-page { max-width: 760px; margin: auto; padding: max(20px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(36px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left)); }
+h1 { font-size: 1.8rem; } h2 { font-size: 1.25rem; }
+.backup-page > section { margin: 20px 0; padding: 16px; border: 1px solid #65878b; background: #203d46; border-radius: 14px; }
+#vault-status { border-left: 4px solid #e7c581; padding: 12px; background: #294952; overflow-wrap: anywhere; }
+input[type=file] { max-width: 100%; padding: 12px 0; }
+.confirmation { display: flex; align-items: center; gap: 10px; margin: 18px 0; min-height: 44px; }
+.confirmation input { width: 22px; height: 22px; flex-shrink: 0; }
+.snapshots { padding: 0; list-style: none; } .snapshots li { border-top: 1px solid #65878b; padding: 12px 0; }
+#preview-keys { padding-left: 20px; overflow-wrap: anywhere; }
+.launcher { height: 100vh; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
+.launch-bar { flex-shrink: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; padding: env(safe-area-inset-top) max(10px, env(safe-area-inset-right)) 0 max(10px, env(safe-area-inset-left)); border-bottom: 1px solid #65878b; font-size: 12px; }
+.launch-bar span { flex: 1 1 160px; }
+.launch-bar a { display: inline-flex; align-items: center; }
+#development-game { flex: 1; width: 100%; min-height: 0; border: 0; }
+.launch-message { max-width: 600px; margin: auto; padding: 24px; }

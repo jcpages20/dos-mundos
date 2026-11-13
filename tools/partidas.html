@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Dos Mundos · Mis copias</title>
+  <link rel="stylesheet" href="../styles/persistence.css">
+  <script type="module" src="../src/ui/backup-page.mjs"></script>
+</head>
+<body>
+  <main class="backup-page">
+    <nav aria-label="Juego"><a href="../desarrollo.html">Volver a Dos Mundos 6.3+</a> · <a href="../index.html">Versión actual</a></nav>
+    <h1>Mis copias</h1>
+    <p>Guarda tu progreso, la decoración y los recuerdos de este navegador. Descarga una copia para conservarla fuera del dispositivo.</p>
+    <p>El chat y los datos en línea de Firebase se conservan en su servidor y no se incluyen aquí. Tus copias y fotos permanecen en tu dispositivo.</p>
+    <p id="vault-status" role="status" aria-live="polite">Leyendo las copias…</p>
+    <section aria-labelledby="export-title">
+      <h2 id="export-title">Guardar una copia</h2>
+      <button id="export-current" disabled>Descargar mi progreso</button>
+    </section>
+    <section aria-labelledby="import-title">
+      <h2 id="import-title">Recuperar progreso</h2>
+      <p>Cierra las otras pestañas del juego antes de recuperar una copia. Se conservará un respaldo del estado actual.</p>
+      <label for="import-file">Elegir copia JSON</label>
+      <input id="import-file" type="file" accept="application/json,.json">
+      <section id="import-preview" hidden aria-labelledby="preview-title">
+        <h3 id="preview-title">Revisar copia</h3>
+        <p id="preview-summary"></p>
+        <p id="preview-origin"></p>
+        <details><summary>Datos locales que se van a recuperar</summary><ul id="preview-keys"></ul></details>
+        <p>Los datos que no aparezcan en la copia se mantienen. Las claves y fotos con el mismo identificador se recuperan de la copia elegida.</p>
+        <label class="confirmation"><input id="closed-games" type="checkbox"> He cerrado las otras pestañas de Dos Mundos.</label>
+        <button id="restore-backup" disabled>Recuperar esta copia</button>
+        <button id="cancel-import" class="secondary">Cancelar</button>
+      </section>
+    </section>
+    <section aria-labelledby="snapshots-title">
+      <h2 id="snapshots-title">Copias en este navegador</h2>
+      <p>Estas copias también se pierden si borras los datos del navegador. No se borran automáticamente.</p>
+      <ul id="snapshot-list" class="snapshots"></ul>
+    </section>
+  </main>
+</body>
+</html>

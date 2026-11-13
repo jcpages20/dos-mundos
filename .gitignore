@@ -1,0 +1,6 @@
+# Private runtime/export data and test output must never go to public Pages.
+dos-mundos-*.json
+*.bundle
+test-artifacts/
+__pycache__/
+.DS_Store
