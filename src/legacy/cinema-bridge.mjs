@@ -1,4 +1,4 @@
-import {cinemaProgramme, drawCinema} from '../venues/cinema.mjs';
+import {cinemaProgramme, drawCinema} from '../venues/cinema.mjs?interiores=2';
 
 // Runs inside the existing closure. Spending, XP, time, saves, actors and
 // streaming links continue to use the original game's functions unchanged.
@@ -16,17 +16,20 @@ export function installLegacyCinemaBridge(render, programmeForDay) {
     const programme = programmeForDay(state.day);
     if (board.dataset.day === String(programme.day)) return;
     board.dataset.day = String(programme.day);
-    button.textContent = 'Cartelera del día ' + programme.day + ' · Tres ideas para ver juntos';
+    button.textContent = 'Cartelera del día ' + programme.day + ' · Netflix, Max y Disney+';
     board.replaceChildren();
     const heading = document.createElement('h3'); heading.textContent = 'Hoy en la cartelera · Día ' + programme.day;
-    const intro = document.createElement('p'); intro.textContent = 'Ideas para buscar en tu plataforma.';
+    const intro = document.createElement('p'); intro.textContent = 'Selección rotativa. Comprueba la disponibilidad en tu plataforma.';
     const films = document.createElement('div'); films.className = 'dm-cinema-films';
     for (const film of programme.films) {
       const card = document.createElement('article'); card.style.setProperty('--film-color', film.color);
       const category = document.createElement('small'); category.textContent = film.label;
       const title = document.createElement('strong'); title.textContent = film.title;
       const note = document.createElement('p'); note.textContent = film.note;
-      card.append(category, title, note); films.append(card);
+      const link = document.createElement('a'); link.href = film.url;
+      link.target = '_blank'; link.rel = 'noopener noreferrer'; link.textContent = 'Abrir ' + film.label;
+      link.setAttribute('aria-label', 'Abrir ' + film.label + '. Película recomendada: «' + film.title + '»');
+      card.append(category, title, note, link); films.append(card);
     }
     board.append(heading, intro, films);
   }
@@ -42,6 +45,24 @@ export function installLegacyCinemaBridge(render, programmeForDay) {
   }
   dm56Act = function(action) {
     if (dm56Scene?.id === 'cinema' && action.id === 'poster') { showProgramme(); return; }
+    if (dm56Scene?.id === 'cinema' && action.id === 'film') {
+      // Keep the renewed room behind the original platform chooser so returning
+      // from streaming cannot reveal the historical room.
+      const room = dm56Scene.overlay;
+      dm33OpenCinema();
+      const chooser = document.getElementById('dm33-cinema-overlay');
+      if (!chooser) return;
+      chooser.style.zIndex = '650000'; chooser.dataset.fromCinema = '';
+      chooser.setAttribute('role', 'dialog'); chooser.setAttribute('aria-label', 'Elegir plataforma');
+      chooser.setAttribute('aria-modal', 'true'); room.inert = true;
+      const restore = () => {room.inert = false; if (room.isConnected) room.querySelector('[data-cinema-action="film"]').focus({preventScroll: true});};
+      chooser.addEventListener('click', () => queueMicrotask(() => {if (!chooser.isConnected) restore();}));
+      chooser.addEventListener('keydown', event => {
+        if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); chooser.remove(); restore(); }
+      });
+      chooser.querySelector('a').focus({preventScroll: true});
+      return;
+    }
     const result = originalAct(action);
     updateProgramme(); // An activity may advance the game into the next day.
     return result;
