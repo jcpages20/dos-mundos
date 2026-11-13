@@ -22,7 +22,17 @@ class InteriorsTests(CinemaTests):
         expect(game.locator('#game')).to_be_visible()
         button='Gimnasio' if venue=='gym' else 'Cafetería'
         game.locator('#places').get_by_role('button',name=button).click()
+        if venue=='gym' and entry=='casa-rpg.html':
+            expect(game.locator('#dm-gym-scene')).to_be_visible()
+            frame=self.page.locator('#dm-frame').element_handle().content_frame()
+            frame.wait_for_function('window.DosMundosGym?.getSnapshot()?.ready',timeout=25000)
+            game.get_by_role('button',name='Menú',exact=True).click()
+            game.get_by_role('button',name='Vista anterior y actividades',exact=True).click()
         expect(game.locator('#dm56-overlay' if venue=='gym' else '#dm37-cafe-modal')).to_be_visible()
+        frame=self.page.locator('#dm-frame').element_handle().content_frame()
+        frame.wait_for_function('''()=>{const base=JSON.parse(localStorage.getItem('dos-mundos-v29'));
+            const life=JSON.parse(localStorage.getItem('dos-mundos-55-progreso:JC%20QA:jc'));
+            return life?.lastDay===base.day&&Number.isFinite(life.decorBaseline)}''')
         return game
 
     def test_gym_preserves_all_training_effects_sessions_and_xp(self):

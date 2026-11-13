@@ -1,0 +1,153 @@
+{
+  "image": "gym-atlas.png",
+  "width": 1536,
+  "height": 1024,
+  "sha256": "394b7b0fad3b4e4f990bdf7e9ef673182fff90e7ffdc1df37ec4a54dda5f6d17",
+  "provenance": "Original gym furniture generated for Dos Mundos, 2026-11-13. Transparent background prepared with image_gen. PNG copied unchanged; metadata only selects sprite source rectangles. No Nintendo assets or user photographs.",
+  "frames": {
+    "treadmill": [
+      50,
+      22,
+      163,
+      225
+    ],
+    "elliptical": [
+      297,
+      12,
+      136,
+      233
+    ],
+    "spin-bike": [
+      523,
+      25,
+      202,
+      217
+    ],
+    "rower": [
+      778,
+      11,
+      206,
+      240
+    ],
+    "squat-rack": [
+      1016,
+      12,
+      241,
+      237
+    ],
+    "weight-bench": [
+      1315,
+      28,
+      194,
+      216
+    ],
+    "cable-machine": [
+      40,
+      268,
+      182,
+      233
+    ],
+    "leg-press": [
+      257,
+      274,
+      220,
+      227
+    ],
+    "dumbbell-rack": [
+      508,
+      323,
+      243,
+      163
+    ],
+    "plate-rack": [
+      810,
+      265,
+      175,
+      238
+    ],
+    "punching-bag": [
+      1052,
+      265,
+      195,
+      236
+    ],
+    "yoga-mats": [
+      1301,
+      299,
+      213,
+      189
+    ],
+    "silks-burgundy": [
+      15,
+      524,
+      227,
+      232
+    ],
+    "silks-lilac": [
+      269,
+      524,
+      229,
+      232
+    ],
+    "crash-mat": [
+      517,
+      579,
+      243,
+      154
+    ],
+    "barre": [
+      775,
+      591,
+      240,
+      141
+    ],
+    "lockers": [
+      1040,
+      526,
+      224,
+      226
+    ],
+    "rest-bench": [
+      1288,
+      599,
+      237,
+      137
+    ],
+    "water": [
+      69,
+      777,
+      125,
+      235
+    ],
+    "mirror": [
+      263,
+      797,
+      226,
+      203
+    ],
+    "reception": [
+      513,
+      792,
+      241,
+      211
+    ],
+    "plant": [
+      784,
+      776,
+      207,
+      236
+    ],
+    "towel-shelf": [
+      1025,
+      775,
+      247,
+      236
+    ],
+    "olive-tree": [
+      1312,
+      775,
+      193,
+      238
+    ]
+  }
+}
