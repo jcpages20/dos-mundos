@@ -69,6 +69,53 @@ class HouseTests(support.BrowserTests):
         expect(game.locator('#dm-house-scene')).to_be_visible()
         self.assertEqual(self.errors, [])
 
+    def test_walking_out_of_front_door_does_not_immediately_eject_on_reentry(self):
+        game, frame, values = self.open_house()
+        self.page.keyboard.down('ArrowDown')
+        expect(game.locator('#world')).to_be_visible()
+        self.page.keyboard.up('ArrowDown')
+        key = 'dos-mundos-casa-rpg-v1:jc:JC%20QA'
+        print('House position after walking out:', self.page.evaluate('key=>JSON.parse(localStorage.getItem(key)).position', key))
+        game.locator('#dm-city-actions > summary').click()
+        game.locator('#dm61-open').click()
+        frame.wait_for_function('window.DosMundosHouse?.getSnapshot()?.ready', timeout=8000)
+        frame.wait_for_timeout(350)
+        expect(game.locator('#dm-house-scene')).to_be_visible()
+        self.assertEqual(frame.evaluate('window.DosMundosLegacy.room'), 'home')
+        self.assertEqual(self.scene(frame)['position'], {'x': 352, 'y': 508})
+        saved = self.page.evaluate('JSON.parse(localStorage.getItem("dos-mundos-v29"))')
+        self.assertEqual(saved['money'], 753)
+        self.assertEqual(saved['inventory'], ['libro'])
+        self.assertEqual(self.page.evaluate('localStorage.getItem("dos-mundos-61-duo-v1")'), values['dos-mundos-61-duo-v1'])
+        self.assertEqual(self.errors, [])
+
+    def test_existing_doorway_saves_recover_for_both_roles_and_all_home_entries(self):
+        for role in ['jc', 'gabi']:
+            game, frame, _ = self.open_house(role)
+            game.locator('.dm-house-primary').click()
+            name = 'JC QA' if role == 'jc' else 'Gabi QA'
+            key = 'dos-mundos-casa-rpg-v1:' + role + ':' + name.replace(' ', '%20')
+            for entry in ['door', 'quick', 'shared']:
+                self.page.evaluate('''key=>localStorage.setItem(key,JSON.stringify({version:1,
+                    position:{x:352,y:532,face:'down'},tvOn:true,lightsOn:false,updated:42}))''', key)
+                if entry == 'door': game.locator('#enter').click()
+                elif entry == 'quick': game.locator('#goHome').click()
+                else:
+                    game.locator('#dm-city-actions > summary').click()
+                    game.locator('#dm61-open').click()
+                frame.wait_for_function('window.DosMundosHouse?.getSnapshot()?.ready', timeout=8000)
+                frame.wait_for_timeout(350)
+                expect(game.locator('#dm-house-scene')).to_be_visible()
+                self.assertEqual(self.scene(frame)['role'], role)
+                self.assertEqual(self.scene(frame)['position'], {'x': 352, 'y': 508})
+                self.assertTrue(self.scene(frame)['tvOn'])
+                game.locator('.dm-house-primary').click()
+                saved = self.page.evaluate('key=>JSON.parse(localStorage.getItem(key))', key)
+                self.assertEqual(saved['position'], {'x':352, 'y':508, 'face':'up'})
+                self.assertTrue(saved['tvOn'])
+                self.assertFalse(saved['lightsOn'])
+        self.assertEqual(self.errors, [])
+
     def test_walk_four_rooms_and_furniture_collision(self):
         game, frame, _ = self.open_house()
         for room, x, y in [('kitchen', 660, 430), ('bathroom', 588, 176), ('bedroom', 242, 184), ('living', 240, 444)]:

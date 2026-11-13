@@ -13,7 +13,7 @@ async function start() {
   }
   const code = extendLegacyBuilder(builder.textContent, {
     stylesURL: new URL('../../styles/house.css', import.meta.url).href,
-    installerURL: new URL('../interiors/install-house.mjs', import.meta.url).href
+    installerURL: new URL('../interiors/install-house.mjs?casa=3', import.meta.url).href
   });
   for (const style of source.head.querySelectorAll('style')) document.head.append(style.cloneNode(true));
   for (const element of [...source.body.children]) {

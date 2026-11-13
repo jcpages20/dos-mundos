@@ -24,7 +24,8 @@ export class HouseScene {
     try {
       const saved = JSON.parse(localStorage.getItem(this.saveKey));
       if (saved?.version === HOUSE_VERSION) {
-        if (canStand(saved.position, HOUSE)) {
+        // A walkable doorway is an exit trigger, never a resume position.
+        if (saved.position && canStand(saved.position, HOUSE) && !contains(saved.position, HOUSE.exit)) {
           this.actor.x = saved.position.x; this.actor.y = saved.position.y;
           if (['up', 'down', 'left', 'right'].includes(saved.position.face)) this.actor.face = saved.position.face;
         }
@@ -297,7 +298,9 @@ export class HouseScene {
   }
 
   save() {
-    const position = this.actor.pose === 'stand' ? {x: this.actor.x, y: this.actor.y, face: this.actor.face} : this.standPoint;
+    const candidate = this.actor.pose === 'stand' ? {x: this.actor.x, y: this.actor.y, face: this.actor.face} : this.standPoint;
+    const position = candidate && canStand(candidate, HOUSE) && !contains(candidate, HOUSE.exit)
+      ? candidate : {...HOUSE.spawn};
     try {
       localStorage.setItem(this.saveKey, JSON.stringify({version: HOUSE_VERSION, position,
         tvOn: this.tvOn, lightsOn: this.lightsOn, updated: Date.now()}));

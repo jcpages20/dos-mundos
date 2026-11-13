@@ -6,6 +6,7 @@ Dos Mundos conserva sus versiones anteriores y añade una primera casa RPG jugab
 - [Abrir la casa RPG de prueba](casa-rpg.html).
 - [Abrir la versión 6.1 anterior](index6.1.html).
 - [Casa RPG: implementación, pruebas y pendientes](docs/CASA_RPG_FASE_2.md).
+- [Corrección de la entrada tras salir caminando de casa](docs/ARREGLO_ENTRADA_CASA.md).
 - [Cine Estrella: mejora visual y cartelera del día](docs/CINE_CARTELERA.md), disponible desde la misma entrada de la casa RPG.
 - [Gimnasio y cafetería renovados, salida a la calle y cartelera por plataformas](docs/INTERIORES_CIUDAD.md).
 
