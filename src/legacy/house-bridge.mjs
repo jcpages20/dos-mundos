@@ -3,6 +3,7 @@ import {gymBridgeSource} from './gym-bridge.mjs';
 import {gymWorldBridgeSource} from './gym-world-bridge.mjs';
 import {venueNavigationSource} from './venue-navigation.mjs';
 import {cafeBridgeSource} from './cafe-bridge.mjs';
+import {cityBridgeSource} from './city-bridge.mjs';
 
 // This function is serialized into the existing game's closure, before boot.
 // It adapts existing actions instead of introducing another economy or save.
@@ -76,21 +77,29 @@ export function extendLegacyBuilder(builder, {stylesURL, installerURL}) {
   const marker = 'frame.srcdoc = game;';
   if (builder.split(marker).length !== 2) throw new Error('El lanzador histórico cambió; se conserva la versión anterior.');
   const boot = 'preview(); buildLists(); loadState();';
-  const bridge = `(${installLegacyHouseBridge.toString()})();\n` + cinemaBridgeSource() + gymBridgeSource() + venueNavigationSource() + cafeBridgeSource() + gymWorldBridgeSource();
+  const bridge = `(${installLegacyHouseBridge.toString()})();\n` + cinemaBridgeSource() + gymBridgeSource() + venueNavigationSource() + cafeBridgeSource() + gymWorldBridgeSource() + cityBridgeSource();
   const cinemaStylesURL = new URL('../../styles/cinema.css', import.meta.url).href;
   const venueStylesURL = new URL('../../styles/venues.css', import.meta.url).href;
   const gymStylesURL = new URL('../../styles/gym.css', import.meta.url).href;
   const gymInstallerURL = new URL('../interiors/install-gym.mjs', import.meta.url).href;
+  const cityStylesURL = new URL('../../styles/city.css', import.meta.url).href;
+  const cityInstallerURL = new URL('../world/install-city.mjs?madrid=5', import.meta.url).href;
   const literal = value => JSON.stringify(value).replace(/</g, '\\u003c');
+  const inputMarker = 'x=(e.clientX-r.left)*VIEW_W/r.width+cam.x,y=(e.clientY-r.top)*VIEW_H/r.height+cam.y;';
+  const responsiveInput = 'x=(e.clientX-r.left)*cv.width/r.width+cam.x,y=(e.clientY-r.top)*cv.height/r.height+cam.y;';
   const extension = `
     if (game.split(${literal(boot)}).length !== 2) throw new Error('No se encontró el arranque compatible.');
+    if (game.split(${literal(inputMarker)}).length !== 2) throw new Error('No se encontró el control táctil compatible.');
+    game = game.replace(${literal(inputMarker)}, ${literal(responsiveInput)});
     game = game.replace(${literal(boot)}, ${literal(bridge)} + ${literal(boot)});
     game = game.replace('</head>', '<link rel="stylesheet" href="' + ${literal(stylesURL)} + '"></head>');
     game = game.replace('</head>', '<link rel="stylesheet" href="' + ${literal(cinemaStylesURL)} + '"></head>');
     game = game.replace('</head>', '<link rel="stylesheet" href="' + ${literal(venueStylesURL)} + '"></head>');
     game = game.replace('</head>', '<link rel="stylesheet" href="' + ${literal(gymStylesURL)} + '"></head>');
+    game = game.replace('</head>', '<link rel="stylesheet" href="' + ${literal(cityStylesURL)} + '"></head>');
     game = game.replace('</body>', '<script type="module" src="' + ${literal(installerURL)} + '"><' + '/script></body>');
     game = game.replace('</body>', '<script type="module" src="' + ${literal(gymInstallerURL)} + '"><' + '/script></body>');
+    game = game.replace('</body>', '<script type="module" src="' + ${literal(cityInstallerURL)} + '"><' + '/script></body>');
     ${marker}
   `;
   return builder.replace(marker, extension);
