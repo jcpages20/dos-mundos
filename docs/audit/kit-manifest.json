@@ -1,0 +1,151 @@
+{
+  "zipSha256": "223c5058d20c5676b0437f1dcba37cde91804c6490ad78fa8e6784b24a3e692f",
+  "files": [
+    {
+      "file": "AGENTS.md",
+      "bytes": 2276,
+      "sha256": "b4518286aa9f8a1ae5597553eae0710f6963ca22580cb054ded31280fcbf3f7c"
+    },
+    {
+      "file": "README.md",
+      "bytes": 1641,
+      "sha256": "f92f43b1dbfb7dd73fb5130680615d75714ca56a1f2570e2978838c785c441b4"
+    },
+    {
+      "file": "assets/concepts/a_detailed_pixel_art_game_concept_sheet_in_the_sty.png",
+      "bytes": 2228702,
+      "sha256": "bdf359d33c7fbad858445de4a47bc4e7d17e5bbb78e47c4aba6045b82210615c"
+    },
+    {
+      "file": "assets/concepts/a_detailed_pixel_art_game_ui_concept_collage_for.png",
+      "bytes": 2300394,
+      "sha256": "9e75365917adbad59df052d5b60e320928cace33318fab4e71a9068f41431f5c"
+    },
+    {
+      "file": "assets/sprites/dm51_gabi_down.png",
+      "bytes": 30613,
+      "sha256": "863356b4108de796cc507ebda558d3e9af39c8707b899f759b32332a1940b875"
+    },
+    {
+      "file": "assets/sprites/dm51_gabi_left.png",
+      "bytes": 27348,
+      "sha256": "bd6ec45af4bde6ea6485382cf817c596edc908c5b0ee5967b0d9c638ef17d191"
+    },
+    {
+      "file": "assets/sprites/dm51_gabi_right.png",
+      "bytes": 27157,
+      "sha256": "8dceb625741097478d0e2f2ae21de901ed06471a0acfd8df010bd3d8e6b3d8bb"
+    },
+    {
+      "file": "assets/sprites/dm51_gabi_up.png",
+      "bytes": 27608,
+      "sha256": "d755012986a4c5b1d76c0550ee75afde149b0dc9676c1620a9619b2b7510725b"
+    },
+    {
+      "file": "assets/sprites/dm51_jc_down.png",
+      "bytes": 28113,
+      "sha256": "c08e542ec13a4c8e63bc67202aedce207aa846abca9246fd380bcc554403b38c"
+    },
+    {
+      "file": "assets/sprites/dm51_jc_left.png",
+      "bytes": 21780,
+      "sha256": "32a253aaf0a686861c15df110b71ad01bc87310363af7b4e63a68f56ebcc8691"
+    },
+    {
+      "file": "assets/sprites/dm51_jc_right.png",
+      "bytes": 24493,
+      "sha256": "3e94aefa8c7e840154e8a75847e91c9b2790984881760183419f73ef087fa2d1"
+    },
+    {
+      "file": "assets/sprites/dm51_jc_up.png",
+      "bytes": 23610,
+      "sha256": "495df7d74c902be928bb593bb9bb8656e305247c25362d93cb4899af91edbfa0"
+    },
+    {
+      "file": "assets/sprites/dm51_preview.png",
+      "bytes": 42209,
+      "sha256": "ce59be39d798f62d67e695f70fcb46f2bf28705a4029cd57f8c8d2fba262ea9e"
+    },
+    {
+      "file": "docs/ESTADO_Y_ARQUITECTURA.md",
+      "bytes": 2328,
+      "sha256": "8bcd89abbb8fb75b37b3edb600b4031ab90fac178180aa23cc4121de7358ea95"
+    },
+    {
+      "file": "docs/PLAN_DE_DESARROLLO.md",
+      "bytes": 2119,
+      "sha256": "404db825e91aa29240497f0b953006637e17d33f1a0844070954c203bd64f6e9"
+    },
+    {
+      "file": "docs/PROMPT_PARA_CODEX.md",
+      "bytes": 1320,
+      "sha256": "bf0065e761e28861f2a92a265a94fb29e5a22c69a0d73d6669251a7d259353dd"
+    },
+    {
+      "file": "docs/PRUEBAS.md",
+      "bytes": 981,
+      "sha256": "396092575d530faa08791b9b4ca52b6f4f729247c4ddcdb4f4e4ff7af61a308f"
+    },
+    {
+      "file": "game/index.html",
+      "bytes": 491488,
+      "sha256": "0e757e440f5bb5593765c70d7a644332c595607d05c53e01894524e4489d4d5a",
+      "identicalToRepository63": true
+    },
+    {
+      "file": "history/Dos-Mundos-4.2-paquete.zip",
+      "bytes": 58557,
+      "sha256": "b872eae579ddad334e3eeb55da507fabd425388cd7e8f8b9307fb7bd2e34e534"
+    },
+    {
+      "file": "history/firebase-reglas-4.2-social.json",
+      "bytes": 2861,
+      "sha256": "3585c67c9da9d162ccd5947777969c9df948f10fd3b2a791e57bd0cc130a304e"
+    },
+    {
+      "file": "history/index5.9.1.html",
+      "bytes": 463646,
+      "sha256": "6a66e1546c680721ceeea02d6147d7e0d3d89cf03c43353fe95dd95da20e92ea",
+      "identicalToRepository": true
+    },
+    {
+      "file": "history/index6.0.1.html",
+      "bytes": 472643,
+      "sha256": "ac65d47811496f818c29f6cab5da8e62bb8ed6a85714b77c4fe77cf13cf3f0a4",
+      "identicalToRepository": true
+    },
+    {
+      "file": "history/index6.1.html",
+      "bytes": 485771,
+      "sha256": "86413466bcb4d383d79926057e51021b06a3bb9e5dbcaf4cfffb302874a7ed32",
+      "identicalToRepository": true
+    },
+    {
+      "file": "history/index6.2.html",
+      "bytes": 489311,
+      "sha256": "8c4eba704294b1a15a93599166ba778859218b8d18280838be99bc7894e00e33",
+      "identicalToRepository": true
+    },
+    {
+      "file": "history/index6.3.html",
+      "bytes": 491488,
+      "sha256": "0e757e440f5bb5593765c70d7a644332c595607d05c53e01894524e4489d4d5a",
+      "identicalToRepository": true
+    },
+    {
+      "file": "references/screenshots/IMG_5444.jpeg",
+      "bytes": 221066,
+      "sha256": "a5ac7a5957aa6c0ccbf94f7d65ab1c3fd90ec1ff17100217c59f5221f697b118"
+    },
+    {
+      "file": "references/screenshots/IMG_5445.jpeg",
+      "bytes": 279549,
+      "sha256": "abc9ce5551d5b026cb5d6ba455c25a5a10ce0d21c53fef8ab4dc5b4cd795895f"
+    },
+    {
+      "file": "references/screenshots/IMG_5446.jpeg",
+      "bytes": 261818,
+      "sha256": "67d88df50baa9f81a3b05e758a3d47ceee54f372463900d33808d4720d421009"
+    }
+  ]
+}
