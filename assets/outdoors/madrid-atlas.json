@@ -1,0 +1,155 @@
+{
+  "image": "madrid-atlas.png",
+  "width": 1536,
+  "height": 1024,
+  "sha256": "a66d95affcd02b1d4491d08f8691dab3dc438d3d2973e8a3c93494ab4c148f28",
+  "frames": {
+    "glass-pavilion": [
+      14,
+      6,
+      242,
+      248
+    ],
+    "park-gate": [
+      256,
+      66,
+      256,
+      190
+    ],
+    "chestnut": [
+      512,
+      9,
+      254,
+      241
+    ],
+    "cypress": [
+      856,
+      6,
+      81,
+      248
+    ],
+    "rose-arbor": [
+      1025,
+      35,
+      255,
+      210
+    ],
+    "colonnade": [
+      1280,
+      49,
+      254,
+      207
+    ],
+    "green-bench": [
+      16,
+      341,
+      240,
+      143
+    ],
+    "lamp": [
+      362,
+      256,
+      62,
+      250
+    ],
+    "drinking-fountain": [
+      546,
+      272,
+      222,
+      240
+    ],
+    "rowboat": [
+      768,
+      341,
+      242,
+      127
+    ],
+    "flower-urn": [
+      1051,
+      282,
+      193,
+      214
+    ],
+    "gazebo": [
+      1292,
+      256,
+      227,
+      241
+    ],
+    "red-arcade": [
+      8,
+      523,
+      242,
+      240
+    ],
+    "ochre-arcade": [
+      272,
+      528,
+      235,
+      235
+    ],
+    "clock-tower": [
+      527,
+      512,
+      232,
+      252
+    ],
+    "fountain": [
+      776,
+      554,
+      242,
+      210
+    ],
+    "terrace": [
+      1045,
+      524,
+      201,
+      240
+    ],
+    "equestrian-statue": [
+      1308,
+      513,
+      184,
+      250
+    ],
+    "tapas-kiosk": [
+      22,
+      769,
+      217,
+      245
+    ],
+    "news-kiosk": [
+      280,
+      768,
+      218,
+      244
+    ],
+    "planter": [
+      526,
+      822,
+      236,
+      180
+    ],
+    "tile-sign": [
+      825,
+      775,
+      141,
+      241
+    ],
+    "pigeons": [
+      1036,
+      853,
+      216,
+      102
+    ],
+    "guitar-stool": [
+      1295,
+      776,
+      219,
+      241
+    ]
+  },
+  "version": 1,
+  "license": "Original artwork generated for Dos Mundos. No third-party game sprites.",
+  "source": "Original transparent atlas generated for this release; PNG retained byte-for-byte."
+}
