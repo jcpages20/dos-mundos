@@ -1,3 +1,5 @@
+import {cinemaBridgeSource} from './cinema-bridge.mjs';
+
 // This function is serialized into the existing game's closure, before boot.
 // It adapts existing actions instead of introducing another economy or save.
 export function installLegacyHouseBridge() {
@@ -70,12 +72,14 @@ export function extendLegacyBuilder(builder, {stylesURL, installerURL}) {
   const marker = 'frame.srcdoc = game;';
   if (builder.split(marker).length !== 2) throw new Error('El lanzador histórico cambió; se conserva la versión anterior.');
   const boot = 'preview(); buildLists(); loadState();';
-  const bridge = `(${installLegacyHouseBridge.toString()})();\n`;
+  const bridge = `(${installLegacyHouseBridge.toString()})();\n` + cinemaBridgeSource();
+  const cinemaStylesURL = new URL('../../styles/cinema.css', import.meta.url).href;
   const literal = value => JSON.stringify(value).replace(/</g, '\\u003c');
   const extension = `
     if (game.split(${literal(boot)}).length !== 2) throw new Error('No se encontró el arranque compatible.');
     game = game.replace(${literal(boot)}, ${literal(bridge)} + ${literal(boot)});
     game = game.replace('</head>', '<link rel="stylesheet" href="' + ${literal(stylesURL)} + '"></head>');
+    game = game.replace('</head>', '<link rel="stylesheet" href="' + ${literal(cinemaStylesURL)} + '"></head>');
     game = game.replace('</body>', '<script type="module" src="' + ${literal(installerURL)} + '"><' + '/script></body>');
     ${marker}
   `;

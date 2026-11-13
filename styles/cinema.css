@@ -1,0 +1,35 @@
+/* All rules belong to the cinema; the house and other venues keep their styles. */
+#dm56-overlay[data-cinema] {background: radial-gradient(ellipse at top, #372133f5, #090d1afc);}
+#dm56-overlay[data-cinema] .dm56-shell {background: #1d1c2c; border-color: #ae8465; box-shadow: 0 18px 90px #000c;}
+#dm56-overlay[data-cinema] .dm56-head {background: #2b2131; border-color: #b18a6438;}
+#dm56-overlay[data-cinema] .dm56-brand small {color: #d8b88c; letter-spacing: .16em;}
+#dm56-overlay[data-cinema] .dm56-head h2 {color: #f5dbb0 !important;}
+#dm56-overlay[data-cinema] .dm56-head p {color: #c4b4bf !important;}
+#dm56-overlay[data-cinema] .dm56-exit {width: 44px; height: 44px; background: #483144 !important; border-color: #ac806c !important;}
+#dm56-overlay[data-cinema] .dm56-scene {background: #171523;}
+#dm56-overlay[data-cinema] .dm56-helper {position: static; border: 0; border-radius: 0; background: #171523; text-align: center; padding: 7px 8px; color: #b9a9b7; font-size: 10px;}
+#dm56-overlay[data-cinema] .dm56-stats {color: #c4b09b; line-height: 1.6;}
+#dm56-overlay[data-cinema] .dm56-message {background: #2b2438; border-color: #9f7c6844; color: #e3cfae !important;}
+#dm56-overlay[data-cinema] .dm56-action {background: #433047 !important; border-color: #8d626c !important; border-bottom-color: #171422 !important; min-height: 74px;}
+#dm56-overlay[data-cinema] .dm56-action small {color: #cebdc6 !important;}
+#dm56-overlay[data-cinema] .dm56-action:active {background: #624155 !important;}
+#dm56-overlay[data-cinema] .dm56-original {min-height: 44px; margin-top: 8px;}
+#dm56-overlay[data-cinema] button:focus-visible {outline: 2px solid #f1ca8a; outline-offset: 3px;}
+#dm56-overlay[data-cinema] .dm-cinema-today {display: block; width: 100%; min-height: 48px; padding: 10px 13px; margin: 0 0 12px; background: #3a2c3d !important; border: 1px solid #b18a64 !important; border-radius: 9px; color: #f7d9a9 !important; font: 700 12px/1.45 system-ui; text-align: left;}
+#dm56-overlay[data-cinema] .dm-cinema-today::after {content: ' ›'; color: #e8b88b;}
+#dm56-overlay[data-cinema] .dm-cinema-programme {margin: 0 0 14px;}
+#dm56-overlay[data-cinema] .dm-cinema-programme[hidden] {display: none;}
+#dm56-overlay[data-cinema] .dm-cinema-programme h3 {font: 800 15px/1.35 system-ui; color: #f1d4ad; margin: 0 0 5px;}
+#dm56-overlay[data-cinema] .dm-cinema-programme p {font: 12px/1.5 system-ui; color: #bdb1c1; margin: 0 0 10px;}
+#dm56-overlay[data-cinema] .dm-cinema-films {display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px;}
+#dm56-overlay[data-cinema] .dm-cinema-films article {min-width: 0; padding: 10px; background: #292436; border: 1px solid #716071; border-top: 3px solid var(--film-color); border-radius: 7px;}
+#dm56-overlay[data-cinema] .dm-cinema-films small {display: block; color: var(--film-color); font: 700 10px system-ui; margin-bottom: 7px;}
+#dm56-overlay[data-cinema] .dm-cinema-films strong {display: block; color: #f2ddc5; font: 750 12px/1.4 system-ui; overflow-wrap: anywhere;}
+#dm56-overlay[data-cinema] .dm-cinema-films article p {font-size: 11px; margin: 7px 0 0;}
+@media (max-width: 500px) {
+  #dm56-overlay[data-cinema] .dm-cinema-films {grid-template-columns: 1fr;}
+  #dm56-overlay[data-cinema] .dm-cinema-films article {padding: 9px 11px;}
+  #dm56-overlay[data-cinema] .dm-cinema-films small {margin-bottom: 3px;}
+  #dm56-overlay[data-cinema] .dm-cinema-films article p {margin-top: 3px;}
+}
+@media (prefers-reduced-motion: reduce) {#dm56-overlay[data-cinema] * {scroll-behavior: auto;}}
