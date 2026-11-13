@@ -4,7 +4,9 @@ export function installLegacyCityBridge() {
   const historicalDraw = dm50DrawMap;
   const historicalDistrict = dm59Background;
   const historicalCamera = viewOffset;
-  let renderer = null, enabled = true, failed = false;
+  let renderer = null, enabled = true, failed = false,farmArt=null;
+  const landmarks=()=>window.DosMundosFarmLegacy?.landmarks||[];
+  const destinations=()=>[...mapPlaces,...landmarks()];
   let viewport={width:VIEW_W,height:VIEW_H},requested={...viewport};
   const copyPlace = p => ({id:p.id,name:p.name,x:p.x,y:p.y,w:p.w,h:p.h});
   const publish = () => window.dispatchEvent(new CustomEvent('dos-mundos:city-state'));
@@ -28,12 +30,12 @@ export function installLegacyCityBridge() {
     if (!state) return null;
     return {
       width:WORLD_W,height:WORLD_H,viewWidth:viewport.width,viewHeight:viewport.height,
-      street:!indoor && tab === 'world' && !dm59Scene,
+      street:!indoor && tab === 'world' && !dm59Scene && !document.getElementById('dm58-overlay'),
       room:indoor,tab,role:dm51LocalIdentity(),name:state.name,
       x:state.x,y:state.y,face:streetFacing26,moving:!!walkRAF,
       day:state.day,time:state.time,money:state.money,
       city:state.city,district:state.district,weather:{...dm40Weather(state.day,state.time)},
-      camera:viewOffset(),places:mapPlaces.map(copyPlace),
+      camera:viewOffset(),places:mapPlaces.map(copyPlace),landmarks:landmarks().map(copyPlace),
       route:route.map(p=>({x:p.x,y:p.y})),
       people:DM54_PEOPLE.map((p,i)=>({id:p.id,name:p.name,...dm57Position(p,i)})),
       citizens:citizenPlans.map(p=>({id:p.id,name:p.name,look:{...p.look},...citizenLocation(p),
@@ -83,26 +85,29 @@ export function installLegacyCityBridge() {
     snapshot,
     get ready() { return !!renderer && !failed; },
     get enabled() { return enabled; },
-    install(candidate) { renderer=candidate;failed=false;drawMap();publish(); },
+    install(candidate) { renderer=candidate;renderer.setFarmAssets?.(farmArt);failed=false;drawMap();publish(); },
+    installFarmArt(art) { farmArt=art;renderer?.setFarmAssets?.(art);drawMap(); },
     setEnabled(value) { enabled=!!value;configureViewport(requested.width,requested.height);drawMap();publish(); },
     configureViewport,
     drawOverview(g) { if(renderer && !failed) renderer.overview(g,snapshot(),hooks); },
-    entrances() { return mapPlaces.map(p=>({...copyPlace(p),entrance:routeToEntrance(p)})); },
+    entrances() { return destinations().map(p=>({...copyPlace(p),entrance:routeToEntrance(p)})); },
     planTo(id) {
       if(!state)return null;
-      const place=mapPlaces.find(p=>p.id===id);if(!place)return null;
+      const place=destinations().find(p=>p.id===id);if(!place)return null;
       const entrance=routeToEntrance(place);
       return {entrance,path:routeTo(entrance.x,entrance.y)};
     },
     walkTo(id) {
       if(!state||indoor||tab!=='world'||dm59Scene)return false;
-      const p=mapPlaces.find(p=>p.id===id);if(!p)return false;
+      const p=destinations().find(p=>p.id===id);if(!p)return false;
       const entrance=routeToEntrance(p);walkToward(entrance.x,entrance.y,p.id);return true;
     },
     walk(x,y) { if(!state||indoor||tab!=='world'||dm59Scene)return false;walkToward(x,y);return true; },
     move(dx,dy) { if(state&&!indoor&&tab==='world'&&!dm59Scene)move(dx,dy); },
     nearby() {
       if(!state||indoor||tab!=='world')return null;
+      const landmark=landmarks().find(p=>{const q=routeToEntrance(p);return Math.hypot(state.x-q.x,state.y-q.y)<38;});
+      if(landmark)return {kind:'place',id:landmark.id,name:landmark.name,label:'Entrar en '+landmark.name};
       const p=currentNearby();
       if(p)return {kind:'place',id:p.id,name:p.name,label:'Entrar en '+p.name};
       const s=dm43Nearest();

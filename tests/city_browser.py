@@ -58,7 +58,7 @@ class CityTests(support.BrowserTests):
         for _ in range(2):
             game.get_by_role('button',name='Plano del barrio',exact=True).click()
             expect(game.locator('#dm-city-plan')).to_be_visible()
-            self.assertEqual(game.locator('.dm-city-destinations button').count(),12)
+            self.assertEqual(game.locator('.dm-city-destinations button').count(),14)
             self.page.keyboard.press('Tab');self.page.keyboard.press('Escape')
             game.get_by_role('button',name='Pasear',exact=True).click()
             self.page.keyboard.press('Escape')
@@ -191,8 +191,12 @@ class CityTests(support.BrowserTests):
             game.locator('.dm59-barrio').get_by_role('button',name=zone,exact=False).click()
             expect(game.locator('#dm59-overlay')).to_be_visible()
             game.locator('.dm59-sites').get_by_role('button',name=site,exact=False).click()
-            expect(game.locator('#dm58-overlay')).to_be_visible()
-            game.locator('#dm58-overlay').get_by_role('button',name='Cerrar',exact=True).click()
+            if site=='Huerto Comunitario':
+                expect(game.locator('#dm-farm-scene')).to_be_visible()
+                game.locator('#dm-farm-scene').get_by_role('button',name='Calle',exact=True).click()
+            else:
+                expect(game.locator('#dm58-overlay')).to_be_visible()
+                game.locator('#dm58-overlay').get_by_role('button',name='Cerrar',exact=True).click()
         self.assertEqual(self.errors,[])
 
     def test_native_day_night_and_rain_keep_working_without_changing_progress(self):

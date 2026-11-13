@@ -1,4 +1,4 @@
-import {CITY,streetProps,SPOT_SPRITES,createTraffic,stepTraffic,greenAxis} from './city-layout.mjs';
+import {CITY,streetProps,SPOT_SPRITES,createTraffic,stepTraffic,greenAxis} from './city-layout.mjs?huerto=6';
 
 const ink='#344d4c',cream='#f4e4c4';
 const random=(x,y)=>{const n=Math.sin(x*12.9898+y*78.233)*43758.5453;return n-Math.floor(n);};
@@ -7,6 +7,7 @@ const canvas=(w,h)=>{const c=document.createElement('canvas');c.width=w;c.height
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 
 export class CityRenderer {
+  setFarmAssets(art){this.farmArt=art;}
   constructor(){
     this.atlases=new Map();this.props=streetProps();this.cars=createTraffic();this.last=0;
     this.motion=new Map();this.reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -102,7 +103,10 @@ export class CityRenderer {
   facade(g,p,s){
     const x=p.x+p.w/2,y=p.y+p.h+3,w=p.w+16,h=p.h+44;
     rect(g,p.x+3,p.y+4,p.w+16,p.h+9,'#394b4033');
-    this.sprite(g,'buildings',p.id,x,y,h,w);
+    if(['museum','garden'].includes(p.id)&&this.farmArt){
+      const sheet=this.farmArt.environment,frame=sheet.frames[p.id==='museum'?'museum':'greenhouse'];
+      g.drawImage(sheet.image,...frame,Math.round(x-w/2),Math.round(y-h),w,h);
+    }else this.sprite(g,'buildings',p.id==='museum'?'library':p.id==='garden'?'market':p.id,x,y,h,w);
     // The sign is a game label; the painted doorway remains completely visible.
     if(distance({x,y},s)<235){
       const name=p.id==='gym'?'CLUB ATLAS':p.id==='cafe'?'CAFÉ LUNA':p.id==='cinema'?'CINE ESTRELLA':p.name.toLocaleUpperCase('es');
@@ -172,11 +176,11 @@ export class CityRenderer {
     }
   }
   renderWorld(g,s,hooks,now,overview=false){
-    g.imageSmoothingEnabled=false;g.drawImage(this.ground(s.places),0,0);
+    g.imageSmoothingEnabled=false;g.drawImage(this.ground([...s.places,...(s.landmarks||[])]),0,0);
     // A subtle dotted route uses the actual native navigation result.
     if(!overview&&s.moving){for(let i=2;i<s.route.length;i+=2){const p=s.route[i];rect(g,p.x-1,p.y-1,3,3,'#faf0cc99');}}
     const items=[];
-    for(const p of s.places){if(!['park','plaza'].includes(p.id))items.push({y:p.y+p.h+3,draw:()=>this.facade(g,p,s)});}
+    for(const p of [...s.places,...(s.landmarks||[])]){if(!['park','plaza'].includes(p.id))items.push({y:p.y+p.h+3,draw:()=>this.facade(g,p,s)});}
     for(let i=0;i<4;i++){
       const p={x:61+i*272,y:831,w:174,h:75,id:i%2?'apartments-slate':'apartments-terracotta'};
       items.push({y:906,draw:()=>{rect(g,p.x+7,842,178,70,'#34473a22');this.sprite(g,'buildings',p.id,p.x+87,909,105,188);}});
@@ -213,7 +217,7 @@ export class CityRenderer {
         const halo=g.createRadialGradient(x,y,2,x,y,45);halo.addColorStop(0,'#ffd08a66');halo.addColorStop(1,'#ffd08a00');
         g.fillStyle=halo;g.fillRect(x-45,y-45,90,90);rect(g,x-1,y-2,3,3,'#ffe8b3');
       }
-      for(const p of s.places.filter(p=>!['park','plaza'].includes(p.id))){
+      for(const p of [...s.places,...(s.landmarks||[])].filter(p=>!['park','plaza'].includes(p.id))){
         const x=p.x+p.w/2-s.camera.x,y=p.y+p.h-25-s.camera.y;
         const halo=g.createRadialGradient(x,y,2,x,y,33);halo.addColorStop(0,'#ffd69c35');halo.addColorStop(1,'#ffd69c00');
         g.fillStyle=halo;g.fillRect(x-33,y-33,66,66);
@@ -245,7 +249,7 @@ export class CityRenderer {
     if(!s)return;g.save();g.clearRect(0,0,CITY.width,CITY.height);
     this.renderWorld(g,s,hooks,performance.now(),true);
     g.fillStyle='#f7e5b9';g.strokeStyle='#3a5556';g.lineWidth=3;g.beginPath();g.arc(s.x,s.y+13,9,0,7);g.fill();g.stroke();
-    for(const p of s.places){
+    for(const p of [...s.places,...(s.landmarks||[])]){
       const x=p.x+p.w/2,y=p.y+p.h+21;g.font='bold 14px system-ui';const w=g.measureText(p.name).width+18;
       rect(g,x-w/2,y-10,w,22,ink);g.fillStyle=cream;g.textAlign='center';g.fillText(p.name,x,y+6);
     }
@@ -267,7 +271,10 @@ export class CityRenderer {
     }
     const sprites={museum:'library',gallery:'work',atelier:'shop',garden:'market',greenhouse:'clinic',bar:'cinema',stage:'gym',food:'cafe'};
     for(const d of doors){
-      this.sprite(g,'buildings',sprites[d.id]||'home',d.x+d.w/2,d.y+d.h,d.h+42,d.w+10);
+      if(this.farmArt&&['museum','garden'].includes(d.id)){
+        const a=this.farmArt.environment,f=a.frames[d.id==='museum'?'museum':'greenhouse'];
+        g.drawImage(a.image,...f,d.x-5,d.y-42,d.w+10,d.h+42);
+      }else this.sprite(g,'buildings',sprites[d.id]||'home',d.x+d.w/2,d.y+d.h,d.h+42,d.w+10);
       g.font='bold 12px system-ui';const w=g.measureText(d.name).width+18;
       rect(g,d.x+d.w/2-w/2,d.y+d.h+11,w,21,ink);g.fillStyle=cream;g.textAlign='center';g.fillText(d.name,d.x+d.w/2,d.y+d.h+26);
     }

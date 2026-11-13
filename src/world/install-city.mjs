@@ -1,4 +1,4 @@
-import {CityRenderer} from './city-renderer.mjs';
+import {CityRenderer} from './city-renderer.mjs?huerto=6';
 
 const api=window.DosMundosCityLegacy;
 const map=document.getElementById('map');
@@ -60,7 +60,7 @@ function openPlan(){
   const head=make('header','dm-city-plan-head'),title=make('h2','','Tu barrio, a un paseo');title.id='dm-city-plan-title';
   const close=button('Cerrar',closePlan,'Cerrar plano del barrio');head.append(title,close);
   const intro=make('p','','Elige un lugar para caminar hasta su entrada. El punto dorado indica dónde estás.');
-  const c=make('canvas');c.width=1180;c.height=922;c.setAttribute('aria-label','Plano de Madrid con los doce destinos y tu posición');
+  const c=make('canvas');c.width=api.snapshot().width;c.height=api.snapshot().height;c.setAttribute('aria-label','Plano de Madrid con sus destinos, museo, huerto y tu posición');
   api.drawOverview(c.getContext('2d'));
   const list=make('nav','dm-city-destinations');list.setAttribute('aria-label','Destinos del barrio');
   for(const p of api.entrances())list.append(button(p.name,()=>goTo(p.id),'Caminar hasta '+p.name));

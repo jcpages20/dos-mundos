@@ -1,12 +1,12 @@
 // These are decorative anchors, never new native collision boxes or save data.
 // Keep doorway approaches and existing hotspot centres visibly free.
-export const CITY = Object.freeze({width:1180,height:922,roadsX:[256,528,800,1072],roadsY:[236,504,772]});
+export const CITY = Object.freeze({width:1180,height:1180,roadsX:[256,528,800,1072],roadsY:[236,504,772,1100]});
 
 export function streetProps() {
   const props=[];
   const add=(sprite,x,y,h,extra={})=>props.push({sprite,x,y,h,...extra});
-  for(let row=0;row<3;row++)for(let col=0;col<4;col++){
-    const x=col*272,y=row*268;
+  for(let row=0;row<4;row++)for(let col=0;col<4;col++){
+    const x=col*272,y=row===3?878:row*268;
     add((row+col)%3===1?'jacaranda':'plane-tree',x+43,y+169,66);
     add('lamp',x+222,y+206,48,{light:true});
     add('flower-planter',x+87,y+211,16);
