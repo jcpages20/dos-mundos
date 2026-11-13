@@ -25,6 +25,12 @@ class CinemaTests(support.BrowserTests):
         expect(game.locator('#game')).to_be_visible()
         game.locator('#places').get_by_role('button', name='🎬 Cine', exact=True).click()
         expect(game.locator('#dm56-overlay')).to_be_visible()
+        # The original game's 1.8s initializer writes daily progress on its own.
+        # Wait for that boot work before comparing a free action's raw saves.
+        frame = self.page.locator('#dm-frame').element_handle().content_frame()
+        frame.wait_for_function('''()=>{const base=JSON.parse(localStorage.getItem('dos-mundos-v29'));
+            const life=JSON.parse(localStorage.getItem('dos-mundos-55-progreso:JC%20QA:jc'));
+            return life?.lastDay===base.day&&Number.isFinite(life.decorBaseline)}''')
         return game
 
     def progress(self):

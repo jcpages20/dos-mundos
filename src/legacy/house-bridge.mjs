@@ -1,5 +1,6 @@
 import {cinemaBridgeSource} from './cinema-bridge.mjs?interiores=2';
 import {gymBridgeSource} from './gym-bridge.mjs';
+import {gymWorldBridgeSource} from './gym-world-bridge.mjs';
 import {venueNavigationSource} from './venue-navigation.mjs';
 import {cafeBridgeSource} from './cafe-bridge.mjs';
 
@@ -75,9 +76,11 @@ export function extendLegacyBuilder(builder, {stylesURL, installerURL}) {
   const marker = 'frame.srcdoc = game;';
   if (builder.split(marker).length !== 2) throw new Error('El lanzador histórico cambió; se conserva la versión anterior.');
   const boot = 'preview(); buildLists(); loadState();';
-  const bridge = `(${installLegacyHouseBridge.toString()})();\n` + cinemaBridgeSource() + gymBridgeSource() + venueNavigationSource() + cafeBridgeSource();
+  const bridge = `(${installLegacyHouseBridge.toString()})();\n` + cinemaBridgeSource() + gymBridgeSource() + venueNavigationSource() + cafeBridgeSource() + gymWorldBridgeSource();
   const cinemaStylesURL = new URL('../../styles/cinema.css', import.meta.url).href;
   const venueStylesURL = new URL('../../styles/venues.css', import.meta.url).href;
+  const gymStylesURL = new URL('../../styles/gym.css', import.meta.url).href;
+  const gymInstallerURL = new URL('../interiors/install-gym.mjs', import.meta.url).href;
   const literal = value => JSON.stringify(value).replace(/</g, '\\u003c');
   const extension = `
     if (game.split(${literal(boot)}).length !== 2) throw new Error('No se encontró el arranque compatible.');
@@ -85,7 +88,9 @@ export function extendLegacyBuilder(builder, {stylesURL, installerURL}) {
     game = game.replace('</head>', '<link rel="stylesheet" href="' + ${literal(stylesURL)} + '"></head>');
     game = game.replace('</head>', '<link rel="stylesheet" href="' + ${literal(cinemaStylesURL)} + '"></head>');
     game = game.replace('</head>', '<link rel="stylesheet" href="' + ${literal(venueStylesURL)} + '"></head>');
+    game = game.replace('</head>', '<link rel="stylesheet" href="' + ${literal(gymStylesURL)} + '"></head>');
     game = game.replace('</body>', '<script type="module" src="' + ${literal(installerURL)} + '"><' + '/script></body>');
+    game = game.replace('</body>', '<script type="module" src="' + ${literal(gymInstallerURL)} + '"><' + '/script></body>');
     ${marker}
   `;
   return builder.replace(marker, extension);
