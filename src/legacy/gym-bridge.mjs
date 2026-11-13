@@ -7,7 +7,7 @@ export function installLegacyGymBridge(render) {
     if(dm56Scene?.id!=='gym')return;
     const panel=dm56Scene.overlay.querySelector('.dm-gym-progress');if(!panel)return;
     const count=dm56Progress().fitness;
-    panel.textContent=count+' sesiones · Nivel físico '+(1+Math.floor(count/4))+' · Energía '+Math.round(state.energy)+'/100';
+    panel.textContent=count+(count===1?' sesión':' sesiones')+' · Nivel físico '+(1+Math.floor(count/4))+' · Energía '+Math.round(state.energy)+'/100';
   }
   dm56Act=function(action){const result=originalAct(action);refresh();return result;};
   dm56OpenVenue=function(id){
