@@ -2,7 +2,9 @@
 
 En `casa-rpg.html`, entrar en **Cine** desde Madrid abre la sala renovada: butacas de terciopelo con sombras, pasillo iluminado, cortinas, máquina de palomitas, carteles y una pantalla con un paisaje nocturno original. El dibujo se realiza en el canvas existente de 512×320, sin imágenes protegidas, servicios externos ni descargas de arte adicionales.
 
-**Mirar la cartelera**, su símbolo en el escenario o el botón superior muestran tres sugerencias: aventura, comedia y emociones. Cambian con el **día del juego**, con una rotación de cinco días, y se mantienen al salir y volver. Si una actividad cruza medianoche, la cartelera se actualiza. Son ideas para buscar en la plataforma del jugador; no se anuncia disponibilidad ni se reproducen películas dentro del juego.
+**Mirar la cartelera**, su símbolo en el escenario o el botón superior muestran tres sugerencias: una de Netflix, una de Max y una de Disney+. Cambian con el **día del juego**, con una selección preparada de cinco películas por plataforma, y se mantienen al salir y volver. Si una actividad cruza medianoche, la cartelera se actualiza. Cada ficha incluye el enlace de su plataforma. No se consulta su catálogo en tiempo real; la disponibilidad se comprueba al abrir la plataforma.
+
+La entrega siguiente corrige la salida: **Calle** y Escape devuelven directamente a la ciudad. Tras cerrar el selector de streaming se recupera la sala nueva. El interior clásico queda en su botón explícito. Ver [interiores de la ciudad](INTERIORES_CIUDAD.md) para las pruebas actuales y las mejoras de gimnasio y cafetería.
 
 ## Compatibilidad
 

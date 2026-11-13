@@ -4,31 +4,31 @@ export function cinemaProgramme(day) {
   const number = Number(day);
   const currentDay = Number.isFinite(number) ? Math.max(1, Math.floor(number)) : 1;
   const groups = [
-    {label: 'Una aventura', color: '#86bdcd', films: [
-      ['La vida secreta de Walter Mitty', 'Un viaje para atreverse a dar el primer paso.'],
-      ['Up', 'Una casa, muchos globos y un viaje inesperado.'],
-      ['El viaje de Chihiro', 'Un mundo extraño que invita a mirar con otros ojos.'],
-      ['Interstellar', 'Un viaje por el espacio y por lo que nos une.'],
-      ['El castillo ambulante', 'Magia y un hogar que nunca se queda quieto.']
+    {label: 'Netflix', url: 'https://www.netflix.com/browse', color: '#ed9b9e', films: [
+      ['Klaus', 'Una amistad que cambia el invierno de todo un pueblo.'],
+      ['Enola Holmes', 'Una detective encuentra su propio camino.'],
+      ['Nimona', 'Una aventura sobre la amistad y las apariencias.'],
+      ['El monstruo marino', 'Una gran travesía y un encuentro inesperado.'],
+      ['Los hermanos Willoughby', 'Una familia peculiar se lanza a una nueva aventura.']
     ]},
-    {label: 'Para sonreír', color: '#edbf7a', films: [
-      ['Paddington 2', 'Pequeños gestos que hacen mejor un barrio.'],
-      ['Ratatouille', 'Una cocina, un sueño y muchas ganas de aprender.'],
-      ['Los Mitchell contra las máquinas', 'Una familia encuentra su propio ritmo.'],
-      ['Escuela de rock', 'Una clase con mucho más que aprender que música.'],
-      ['Fantastic Mr. Fox', 'Un plan disparatado entre amigos y familia.']
+    {label: 'Max', url: 'https://www.max.com/es/es', color: '#b6a7ee', films: [
+      ['Dune', 'Un viaje a un mundo de arena, secretos y grandes decisiones.'],
+      ['Barbie', 'Una aventura colorida para hacerse nuevas preguntas.'],
+      ['Harry Potter y la piedra filosofal', 'Amistad y magia al otro lado de una estación.'],
+      ['El gigante de hierro', 'Una amistad enorme en un pequeño pueblo.'],
+      ['Wonka', 'Chocolate, imaginación y un sueño por compartir.']
     ]},
-    {label: 'Para sentir', color: '#dc9ba9', films: [
-      ['Amélie', 'El encanto de los detalles de todos los días.'],
+    {label: 'Disney+', url: 'https://www.disneyplus.com/es-es', color: '#86c8d9', films: [
       ['Coco', 'Música, recuerdos y las personas que llevamos dentro.'],
-      ['La La Land', 'Dos sueños que se encuentran en la misma ciudad.'],
-      ['WALL·E', 'Una pequeña compañía en un universo enorme.'],
-      ['Del revés', 'Un viaje por las emociones que compartimos.']
+      ['Ratatouille', 'Una cocina, un sueño y muchas ganas de aprender.'],
+      ['Encanto', 'Una casa llena de historias y una familia por descubrir.'],
+      ['Up', 'Una casa, muchos globos y un viaje inesperado.'],
+      ['WALL·E', 'Una pequeña compañía en un universo enorme.']
     ]}
   ];
   return {day: currentDay, films: groups.map(group => {
     const [title, note] = group.films[(currentDay - 1) % group.films.length];
-    return {label: group.label, color: group.color, title, note};
+    return {label: group.label, color: group.color, title, note, url: group.url};
   })};
 }
 
