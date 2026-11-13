@@ -11,6 +11,7 @@ Dos Mundos conserva sus versiones anteriores y añade una primera casa RPG jugab
 - [Paseos por Madrid: exteriores, vecinos, tráfico y plano del barrio](docs/MADRID_EXTERIORES.md).
 - [Cómo utilizar el paseo y el plano desde el iPhone](docs/PASEO_IPHONE.md).
 - [Huerto RPG: cultivo, ampliación de parcelas y museo conectado a Madrid](docs/HUERTO_RPG.md).
+- [El Retiro y Plaza Mayor: paseos, bancos, terrazas y vecinos](docs/PARQUE_PLAZA_MADRID.md).
 - [Cine Estrella: mejora visual y cartelera del día](docs/CINE_CARTELERA.md), disponible desde la misma entrada de la casa RPG.
 - [Gimnasio y cafetería renovados, salida a la calle y cartelera por plataformas](docs/INTERIORES_CIUDAD.md).
 

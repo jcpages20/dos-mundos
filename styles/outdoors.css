@@ -1,0 +1,27 @@
+.dm-outdoor-scene,.dm-outdoor-scene *{box-sizing:border-box}
+body.dm-outdoor-active{overflow:hidden;overscroll-behavior:none}
+.dm-outdoor-scene{--dark:#294738;--panel:#34533f;--edge:#9ca47b;position:fixed;inset:0;z-index:8500;height:100vh;height:100dvh;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto auto auto;color:#f4e6c3;background:var(--dark);font:13px/1.4 system-ui}
+.dm-outdoor-scene[data-place=plaza]{--dark:#4e3935;--panel:#66473e;--edge:#bc9776}
+.dm-outdoor-scene[hidden]{display:none!important}
+.dm-outdoor-header{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px;padding:max(10px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) 10px max(14px,env(safe-area-inset-left));border-bottom:2px solid #c2a271;background:var(--panel)}
+.dm-outdoor-name{min-width:0}.dm-outdoor-name small{font-size:8px;letter-spacing:.14em;color:#dec494}.dm-outdoor-name h1{margin:1px 0!important;font:700 25px/1.12 Georgia,serif!important;color:#f5e5bd!important}
+.dm-outdoor-tools{display:flex;gap:5px}.dm-outdoor-stats{grid-column:1/-1;margin:0!important;font-size:10px;color:#e1d6b6}
+.dm-outdoor-scene button,.dm-outdoor-return{min-height:44px;min-width:44px;margin:0;padding:10px 12px;border:1px solid #e3c38e;border-radius:10px;background:linear-gradient(#f2dba4,#d7b77e);color:#3f352b;box-shadow:0 3px 0 #8a6f48;font:700 12px/1.2 system-ui;cursor:pointer;touch-action:manipulation}
+.dm-outdoor-scene button:disabled{opacity:.6;cursor:default}.dm-outdoor-scene button:focus-visible,.dm-outdoor-scene canvas:focus-visible{outline:3px solid #ffe3a1;outline-offset:2px}
+.dm-outdoor-stage{position:relative;min-width:0;min-height:0;overflow:hidden;background:var(--dark)}
+#dm-outdoor-canvas{display:block;width:100%;height:100%;image-rendering:pixelated;touch-action:none}
+.dm-outdoor-routes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:7px 12px;background:var(--panel);border-top:1px solid #b8a06e}
+.dm-outdoor-routes button{min-width:44px;padding:8px 5px;font-size:11px}
+.dm-outdoor-message{margin:0!important;padding:7px 14px;min-height:31px;border-top:1px solid var(--edge);color:#eee0be;font-size:11px;background:var(--panel)}
+.dm-outdoor-controls{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));background:var(--dark)}
+.dm-outdoor-pad{display:grid;grid-template-columns:repeat(3,44px);grid-template-rows:repeat(2,44px);gap:5px;flex-shrink:0}.dm-outdoor-pad button{padding:0;font-size:18px;user-select:none;-webkit-user-select:none}
+.dm-outdoor-pad [data-direction=up]{grid-column:2;grid-row:1}.dm-outdoor-pad [data-direction=left]{grid-column:1;grid-row:2}.dm-outdoor-pad [data-direction=down]{grid-column:2;grid-row:2}.dm-outdoor-pad [data-direction=right]{grid-column:3;grid-row:2}
+.dm-outdoor-context{display:grid;gap:5px;min-width:0;width:300px;max-width:55%;text-align:center}.dm-outdoor-context strong{font-size:12px;color:#f1dbaa}.dm-outdoor-context span{font-size:10px;color:#ded6b8}.dm-outdoor-context .dm-outdoor-primary{min-height:48px}
+.dm-outdoor-menu{position:absolute;z-index:5;top:10px;right:10px;bottom:10px;display:grid;gap:10px;align-content:start;overflow:auto;width:min(390px,calc(100% - 20px));padding:17px;border:2px solid #bda676;border-radius:14px;background:var(--dark);box-shadow:0 15px 60px #192921bb;overscroll-behavior:contain}
+.dm-outdoor-menu h2{margin:0!important;font:700 24px/1.1 Georgia,serif!important;color:#f2dfb7!important}.dm-outdoor-menu p{margin:2px 0;color:#dfd6b8;font-size:12px}.dm-outdoor-menu button{width:100%}
+.dm-outdoor-menu #relationshipBox{margin:0;max-width:100%;background:var(--panel);color:#f5e5bf}.dm-outdoor-menu .relationChoices{display:grid;grid-template-columns:1fr;gap:8px}.dm-outdoor-menu .relationBox button{margin-top:7px;white-space:normal}.dm-outdoor-menu .relationBox .muted{color:#ded3b9}
+.dm-outdoor-return{position:fixed;top:max(8px,env(safe-area-inset-top));left:8px;right:8px;z-index:300005;text-align:center}
+body.dm-outdoor-active #dm-city-actions,body.dm-outdoor-active #dm51-identity,body.dm-outdoor-active #dm33Badge,body.dm-outdoor-active #dm50-label,body.dm-outdoor-active #dm43-explore-wrap,body.dm-outdoor-active #dm-gym-return{visibility:hidden!important}
+@media(min-width:900px){.dm-outdoor-header{padding:14px 24px}.dm-outdoor-stats{font-size:12px}.dm-outdoor-controls{padding:12px 24px 18px}.dm-outdoor-context{width:360px;max-width:360px}}
+@media(max-width:400px){.dm-outdoor-header{gap:5px;padding-right:10px;padding-left:10px}.dm-outdoor-name h1{font-size:22px!important}.dm-outdoor-tools button{padding:9px 8px;font-size:11px}.dm-outdoor-context{max-width:54%}.dm-outdoor-context span{font-size:9px}.dm-outdoor-primary{font-size:11px!important}}
+@media(max-height:500px){.dm-outdoor-header{padding-top:4px;padding-bottom:4px}.dm-outdoor-name h1{font-size:20px!important}.dm-outdoor-stats{font-size:9px}.dm-outdoor-routes{padding:4px 12px}.dm-outdoor-controls{padding-top:5px;padding-bottom:5px}.dm-outdoor-pad{grid-template-columns:repeat(4,44px);grid-template-rows:44px}.dm-outdoor-pad [data-direction]{grid-row:1;grid-column:auto}.dm-outdoor-context{grid-template-columns:1fr auto;width:520px;max-width:65%}.dm-outdoor-context strong,.dm-outdoor-context span{grid-column:1/-1}.dm-outdoor-message{min-height:24px;padding:4px 12px}}
