@@ -47,7 +47,7 @@ export function installLegacyLifeBridge(){
   dm56Effect=observe(dm56Effect,c=>classify(c.label,indoor));
   relationshipChoice=observe(relationshipChoice,()=>({kind:'social'}));
   // Adapt the modular scenes before their installers capture these frozen APIs.
-  const adapters={DosMundosLegacy:{read:'reading',rest:'rest'},DosMundosGymLegacy:{weights:'strength',cardio:'cardio',stretch:'mobility',silks:'aerial',rest:'rest'},DosMundosOutdoorLegacy:{walk:'park',stroll:'park',sport:'sport',rest:'rest',music:'music',talk:'social',social:'social',listen:'music'},DosMundosFarmLegacy:{water:'garden',fertilize:'garden',harvest:'garden'}};
+  const adapters={DosMundosLegacy:{read:'reading',rest:'rest'},DosMundosGymLegacy:{weights:'strength',cardio:'cardio',stretch:'mobility',silks:'aerial',rest:'rest'},DosMundosGymChallengeLegacy:{weights:'strength',cardio:'cardio',stretch:'mobility',silks:'aerial'},DosMundosOutdoorLegacy:{walk:'park',stroll:'park',sport:'sport',rest:'rest',music:'music',talk:'social',social:'social',listen:'music'},DosMundosFarmLegacy:{water:'garden',fertilize:'garden',harvest:'garden'}};
   for(const [key,types] of Object.entries(adapters)){
     const api=window[key];if(!api)continue;const descriptors=Object.getOwnPropertyDescriptors(api);
     descriptors.act={...descriptors.act,value:observe(api.act,type=>types[type]?{kind:types[type],label:{reading:'Leer',strength:'Entrenar fuerza',cardio:'Hacer cardio',mobility:'Estirar',aerial:'Telas aéreas',park:'Pasear por el parque',sport:'Deporte en el parque',rest:'Descansar',music:'Escuchar música',social:'Conversar',garden:'Cuidar el huerto'}[types[type]]}:null)};

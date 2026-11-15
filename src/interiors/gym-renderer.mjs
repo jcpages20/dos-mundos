@@ -97,14 +97,17 @@ export class GymRenderer{
   }
   actor(g,actor,training,now){
     if(!training){drawOriginalActor(g,actor,now);return;}
+    if(training.challenge)now=training.challenge.elapsed*1000;
     const elapsed=now-training.started;
     const object=training.object;
     if(training.type==='silks'){
-      const lift=Math.sin(Math.min(1,elapsed/1000)*Math.PI/2)*43;
+      const challenge=training.challenge,phase=challenge?.phase;
+      const lift=challenge?phase==='preview'?24:phase==='sequence'?28+challenge.index*5:43:Math.sin(Math.min(1,elapsed/1000)*Math.PI/2)*43;
       g.fillStyle='#3d304733';g.beginPath();g.ellipse(actor.x,object.y+object.h-12,17,5,0,0,Math.PI*2);g.fill();
       g.strokeStyle=object.id==='silks-burgundy'?'#79364e':'#9476ac';g.lineWidth=4;
       g.beginPath();g.moveTo(object.x+object.w*.5,object.y+15);g.lineTo(actor.x+2,actor.y-lift-27);g.stroke();
-      g.save();g.translate(actor.x,actor.y-lift);g.rotate(this.reduced?-.6:-.6+Math.sin(elapsed/900)*.11);
+      const angle=challenge?phase==='balance'?-.6+challenge.balance*.8:phase==='figure'||phase==='done'?-1.3+Math.sin(challenge.phaseTime*1.3)*.14:-.35-challenge.index*.16:this.reduced?-.6:-.6+Math.sin(elapsed/900)*.11;
+      g.save();g.translate(actor.x,actor.y-lift);g.rotate(angle);
       drawOriginalActor(g,{...actor,x:0,y:0,face:'right',pose:'stand',moving:false},now);
       g.strokeStyle=object.id==='silks-burgundy'?'#b35b78':'#b69acb';g.lineWidth=4;g.beginPath();g.moveTo(-12,-25);g.lineTo(12,-20);g.stroke();g.restore();
     }else if(training.type==='stretch'){
@@ -115,7 +118,7 @@ export class GymRenderer{
       const bob=!this.reduced&&seated?Math.sin(elapsed/420)*1.2:0;
       drawOriginalActor(g,{...actor,y:actor.y+bob,pose:seated?'sit':'stand',moving:training.type==='cardio'&&!seated},this.reduced?0:now);
       if(training.type==='weights'){
-        const lift=this.reduced?0:Math.sin(elapsed/240)*4,x=actor.x,y=actor.y-28+lift;
+        const lift=training.challenge?-training.challenge.power*19:this.reduced?0:Math.sin(elapsed/240)*4,x=actor.x,y=actor.y-28+lift;
         if(object.id==='cables'){
           g.strokeStyle='#bfc5af';g.lineWidth=1;g.beginPath();g.moveTo(object.x+13,object.y+28);g.lineTo(x-15,y+7);g.moveTo(object.x+object.w-13,object.y+28);g.lineTo(x+15,y+7);g.stroke();
           g.fillStyle='#253c43';g.fillRect(x-18,y+5,6,4);g.fillRect(x+12,y+5,6,4);

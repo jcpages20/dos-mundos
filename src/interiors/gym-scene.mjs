@@ -1,5 +1,6 @@
 import {GYM,gymContains,gymZoneAt} from './gym-map.mjs';
-import {GymRenderer} from './gym-renderer.mjs';
+import {GymRenderer} from './gym-renderer.mjs?retos=9';
+import {GymChallengeUI} from '../gym-games/challenge-ui.mjs';
 import {canStand,clearSegment,distance,findPath,moveSafely,nearestApproach} from '../engine/navigation.mjs';
 
 const actions={weights:'Entrenar fuerza',cardio:'Hacer cardio',stretch:'Estirar y recuperar',silks:'Practicar telas',
@@ -31,7 +32,7 @@ export class GymScene{
     const buttons=node('div','dm-gym-head-actions');
     this.plan=this.button('Plano',()=>{if(!this.ready)return;this.renderer.overview=!this.renderer.overview;this.plan.setAttribute('aria-pressed',String(this.renderer.overview));this.plan.textContent=this.renderer.overview?'Seguir':'Plano';});
     this.plan.setAttribute('aria-pressed','false');
-    buttons.append(this.plan,this.button('Menú',()=>this.openMenu()),this.button('Calle',()=>this.api.exit(),'dm-gym-exit'));
+    buttons.append(this.plan,this.button('Menú',()=>this.challenges?.open?this.challenges.pause():this.openMenu()),this.button('Calle',()=>this.api.exit(),'dm-gym-exit'));
     header.append(identity,buttons);this.stats=node('p','dm-gym-stats');header.append(this.stats);
     const stage=node('div','dm-gym-stage');this.canvas=node('canvas');this.canvas.id='dm-gym-canvas';this.canvas.tabIndex=0;
     this.canvas.setAttribute('aria-label','Gimnasio: toca el suelo para caminar o una máquina para acercarte');stage.append(this.canvas);
@@ -50,9 +51,10 @@ export class GymScene{
     }
     const context=node('div','dm-gym-context');this.objectLabel=node('strong','','Bienvenidos a Atlas');
     this.primary=this.button('Preparando…',()=>this.primaryAction(),'dm-gym-primary');this.primary.disabled=true;
-    context.append(this.objectLabel,this.primary);footer.append(pad,context);
+    this.playButton=this.button('Jugar reto',()=>this.startChallengeRoute(this.target?.action),'dm-gym-play');this.playButton.hidden=true;
+    context.append(this.objectLabel,this.primary,this.playButton);footer.append(pad,context);
     this.root.append(header,stage,routes,this.message,footer);document.body.append(this.root);document.body.classList.add('dm-gym-active');
-    this.api.pause();this.renderer=new GymRenderer(this.canvas);
+    this.api.pause();this.renderer=new GymRenderer(this.canvas);this.challenges=new GymChallengeUI(this,window.DosMundosGymChallengeLegacy);
     this.renderer.camera={x:Math.max(0,this.actor.x-this.canvas.width/2),y:Math.max(0,this.actor.y-this.canvas.height*.6)};
     this.canvas.addEventListener('pointerdown',event=>this.tap(event),{signal:this.abort.signal});
     document.addEventListener('keydown',event=>this.keyEvent(event,true),{capture:true,signal:this.abort.signal});
@@ -82,16 +84,16 @@ export class GymScene{
     this.path=path;this.feedback(message);
   }
   tap(event){
-    if(!this.ready||this.menu)return;event.preventDefault();const point=this.renderer.worldPoint(event);if(!point)return;
+    if(!this.ready||this.menu||this.challenges?.open)return;event.preventDefault();const point=this.renderer.worldPoint(event);if(!point)return;
     const object=[...GYM.objects].reverse().find(object=>gymContains(point,object));
     if(object)this.approach(object);else this.walkTo(point);
   }
-  approach(object,perform=false){
+  approach(object,perform=false,after=null){
     if(!this.ready)return;this.stopTraining();this.held.clear();
     const option=nearestApproach(this.actor,object,GYM);
     if(!option){this.feedback('Acércate por el pasillo para llegar a '+object.name.toLowerCase()+'.');return;}
     this.target=object;this.path=option.path;
-    this.pending=()=>{this.actor.face=option.point.face||'up';this.target=object;this.feedback(object.description);if(perform)this.primaryAction();};
+    this.pending=()=>{this.actor.face=option.point.face||'up';this.target=object;this.feedback(object.description);if(after)after();else if(perform)this.primaryAction();};
     this.feedback('Acercándote a '+object.name.toLowerCase()+'…');
   }
   primaryAction(){
@@ -112,7 +114,7 @@ export class GymScene{
     this.workoutProgress.setAttribute('aria-label','Animación de '+object.name);this.save();
   }
   keyEvent(event,pressed){
-    if(this.disposed||/INPUT|TEXTAREA|SELECT/.test(event.target.tagName))return;
+    if(this.disposed||this.challenges?.open||/INPUT|TEXTAREA|SELECT/.test(event.target.tagName))return;
     if(pressed&&event.key==='Escape'){
       event.preventDefault();event.stopImmediatePropagation();if(this.menu)this.closeMenu();else if(this.training)this.stopTraining();else this.api.exit();return;
     }
@@ -135,12 +137,13 @@ export class GymScene{
   update(dt,now){
     if(this.disposed)return;
     if(!this.api.open){this.api.exit();return;}
+    this.challenges?.update(dt,now);
     if(this.training){
       this.workoutProgress.value=Math.min(1,(now-this.training.started)/this.training.duration);
       if(now-this.training.started>this.training.duration){const text=this.training.message;this.stopTraining();this.feedback(text);}
     }
     const before={x:this.actor.x,y:this.actor.y};
-    if(!this.menu&&!this.training){
+    if(!this.menu&&!this.training&&!this.challenges?.open){
       let dx=Number(this.held.has('right'))-Number(this.held.has('left')),dy=Number(this.held.has('down'))-Number(this.held.has('up'));
       if(dx||dy){
         const size=Math.hypot(dx,dy);dx/=size;dy/=size;
@@ -156,7 +159,7 @@ export class GymScene{
       if(gymContains(this.actor,GYM.exit)){this.api.exit();return;}
     }
     this.actor.moving=!this.training&&distance(before,this.actor)>.05;
-    if(!this.path.length&&!this.training){
+    if(!this.path.length&&!this.training&&!this.challenges?.open){
       const nearest=GYM.objects.flatMap(object=>object.approaches.map(point=>({object,gap:distance(this.actor,point)}))).filter(option=>option.gap<40).sort((a,b)=>a.gap-b.gap)[0];
       this.target=nearest?.object||null;
     }
@@ -167,7 +170,8 @@ export class GymScene{
     this.objectLabel.textContent=this.training?this.training.object.name:this.target?.name||'Pasillo libre';
     this.primary.textContent=this.training?'Seguir caminando':this.target?actions[this.target.action]:distance(this.actor,GYM.spawn)<60?'Salir a la calle':'Explorar el club';
     this.primary.disabled=!this.training&&!this.target&&distance(this.actor,GYM.spawn)>=60;
-    this.renderer.draw(this.actor,state,this.target,this.training,now);
+    this.playButton.hidden=!!this.training||!['weights','cardio','silks','stretch'].includes(this.target?.action);
+    this.renderer.draw(this.actor,state,this.target,this.training||this.challenges?.visual(),now);
   }
   closeMenu(){this.menu?.remove();this.menu=null;this.canvas?.focus({preventScroll:true});}
   openMenu(progressOnly=false){
@@ -177,6 +181,9 @@ export class GymScene{
     const card=node('section','dm-gym-progress-card');card.append(node('strong','',state.sessions+(state.sessions===1?' sesión de entrenamiento':' sesiones de entrenamiento')),
       node('p','','Fitness · '+state.fitnessXP+' XP'),node('p','','Telas aéreas · '+state.aerialXP+' XP · Nivel '+(1+Math.floor(state.aerialXP/54))));
     this.menu.append(card);
+    this.menu.append(node('h3','','Entrenamientos jugables'));
+    for(const [label,type] of [['Reto de fuerza','weights'],['Reto de cardio','cardio'],['Reto de telas','silks'],['Reto de movilidad','stretch']])this.menu.append(this.button(label,()=>this.startChallengeRoute(type)));
+    this.menu.append(this.button('Mis marcas y códigos',()=>{this.closeMenu();this.challenges.records();}));
     if(!progressOnly){
       this.menu.append(node('h3','','Elige tu próxima sesión'));
       for(const [label,id] of [['Fuerza · 60 min','dumbbells'],['Cardio · 35 min','treadmill-1'],['Estirar · 20 min','floor-mat'],['Telas aéreas · 45 min','silks-burgundy']]){
@@ -187,13 +194,21 @@ export class GymScene{
     this.root.append(this.menu);close.focus({preventScroll:true});
   }
   save(){
-    const candidate=this.training?this.returnPoint:this.actor;
+    const candidate=this.challengeReturnPoint||(this.training?this.returnPoint:this.actor);
     const position=candidate&&canStand(candidate,GYM)&&!gymContains(candidate,GYM.exit)?{x:candidate.x,y:candidate.y,face:candidate.face}:{...GYM.spawn};
     try{localStorage.setItem(this.key,JSON.stringify({version:1,position,updated:Date.now()}));}catch{this.feedback('El navegador no ha podido guardar la posición del gimnasio.');}
   }
   destroy(){
-    if(this.disposed)return;this.disposed=true;this.save();cancelAnimationFrame(this.frame);this.abort.abort();this.renderer?.destroy();this.root?.remove();document.body.classList.remove('dm-gym-active');
+    if(this.disposed)return;this.disposed=true;this.save();this.challenges?.destroy();cancelAnimationFrame(this.frame);this.abort.abort();this.renderer?.destroy();this.root?.remove();document.body.classList.remove('dm-gym-active');
   }
   snapshot(){return{ready:this.ready,role:this.actor.role,position:{x:this.actor.x,y:this.actor.y},face:this.actor.face,zone:gymZoneAt(this.actor).id,
-    pose:this.actor.pose,moving:this.actor.moving,walking:this.path.length>0,target:this.target?.id||null,training:this.training?.type||null,origin:this.origin};}
+    pose:this.actor.pose,moving:this.actor.moving,walking:this.path.length>0,target:this.target?.id||null,training:this.training?.type||null,challenge:this.challenges?.snapshot()||null,origin:this.origin};}
+  startChallengeRoute(type,spec=null){
+    if(!this.ready||!['weights','cardio','silks','stretch'].includes(type))return;this.closeMenu();this.challenges.close();this.stopTraining();
+    const id={weights:'dumbbells',cardio:'treadmill-1',silks:'silks-burgundy',stretch:'floor-mat'}[type];
+    const object=this.target?.action===type?this.target:GYM.objects.find(o=>o.id===id);this.approach(object,false,()=>this.challenges.openBrief(object,spec));
+  }
+  resumeChallenge(ticket){const object=GYM.objects.find(o=>o.id===({weights:'dumbbells',cardio:'treadmill-1',silks:'silks-burgundy',stretch:'floor-mat'}[ticket.type]));this.challenges.close();this.approach(object,false,()=>this.challenges.resume(ticket,object));}
+  placeForChallenge(object){this.challengeReturnPoint={x:this.actor.x,y:this.actor.y,face:this.actor.face};if(object?.exercise)Object.assign(this.actor,object.exercise);this.actor.pose=object.action;this.actor.moving=false;}
+  restoreAfterChallenge(){if(this.challengeReturnPoint){Object.assign(this.actor,this.challengeReturnPoint,{pose:'stand',moving:false});this.challengeReturnPoint=null;}this.held.clear();}
 }
