@@ -78,7 +78,7 @@ class GymGamesTests(GymTests):
     def test_same_code_routes_to_its_equipment_and_mobile_controls_fit(self):
         game,frame,_=self.setup_game();code=game.get_by_role('textbox',name='Código de reto',exact=True);code.fill('ATLAS-T-S-000B15');game.get_by_role('button',name='Jugar este código',exact=True).click();expect(game.locator('#dm-gym-challenge h2')).to_contain_text('telas',timeout=18000);self.start(game,frame)
         self.assertEqual(self.challenge(frame)['code'],'ATLAS-T-S-000B15')
-        for w,h in [(390,844),(375,667),(844,390),(1440,1100)]:
+        for w,h in [(390,844),(375,667),(375,480),(844,390),(1440,1100)]:
             self.page.set_viewport_size({'width':w,'height':h});frame.wait_for_timeout(100);self.assertFalse(frame.evaluate('document.documentElement.scrollWidth>innerWidth'))
             for b in game.locator('#dm-gym-challenge button').all():
                 if b.is_visible():box=b.bounding_box();self.assertGreaterEqual(box['height'],44);self.assertGreaterEqual(box['width'],44);self.assertLessEqual(box['x']+box['width'],w+.5)
