@@ -28,7 +28,7 @@ export function installLegacyLifeBridge(){
   function finish(before,label,hint){
     if(applying||!before||!state)return;const after=snapshot();if(after.role!==before.role||after.name!==before.name||after.clock<=before.clock)return;
     let info=hint||classify(label,before.room);
-    if(after.meals>before.meals){const recipe=DM55_RECIPES.find(p=>String(label).includes(p.label));info={kind:'cook',recipe:recipe?.id||'',xpTarget:'cooking'};}
+    if(after.meals>before.meals){const recipe=DM55_RECIPES.find(p=>p.id===hint?.recipe||String(hint?.label||label).includes(p.label));info={kind:'cook',recipe:recipe?.id||'',xpTarget:'cooking'};}
     if(!info)return;
     const event={...info,label:String(label||info.kind).slice(0,110),room:before.room,clock:after.clock,day:after.day,time:after.time,energy:after.energy,at:Date.now(),role:before.role,name:before.name};
     window.dispatchEvent(new CustomEvent('dos-mundos:life-activity',{detail:event}));
@@ -47,14 +47,14 @@ export function installLegacyLifeBridge(){
   dm56Effect=observe(dm56Effect,c=>classify(c.label,indoor));
   relationshipChoice=observe(relationshipChoice,()=>({kind:'social'}));
   // Adapt the modular scenes before their installers capture these frozen APIs.
-  const adapters={DosMundosLegacy:{read:'reading',rest:'rest'},DosMundosGymLegacy:{weights:'strength',cardio:'cardio',stretch:'mobility',silks:'aerial',rest:'rest'},DosMundosGymChallengeLegacy:{weights:'strength',cardio:'cardio',stretch:'mobility',silks:'aerial'},DosMundosOutdoorLegacy:{walk:'park',stroll:'park',sport:'sport',rest:'rest',music:'music',talk:'social',social:'social',listen:'music'},DosMundosFarmLegacy:{water:'garden',fertilize:'garden',harvest:'garden'}};
+  const adapters={DosMundosLegacy:{read:'reading',rest:'rest'},DosMundosGymLegacy:{weights:'strength',cardio:'cardio',stretch:'mobility',silks:'aerial',rest:'rest'},DosMundosGymChallengeLegacy:{weights:'strength',cardio:'cardio',stretch:'mobility',silks:'aerial'},DosMundosKitchenLegacy:{omelet:'cook',pasta:'cook',chickenrice:'cook'},DosMundosOutdoorLegacy:{walk:'park',stroll:'park',sport:'sport',rest:'rest',music:'music',talk:'social',social:'social',listen:'music'},DosMundosFarmLegacy:{water:'garden',fertilize:'garden',harvest:'garden'}};
   for(const [key,types] of Object.entries(adapters)){
     const api=window[key];if(!api)continue;const descriptors=Object.getOwnPropertyDescriptors(api);
-    descriptors.act={...descriptors.act,value:observe(api.act,type=>types[type]?{kind:types[type],label:{reading:'Leer',strength:'Entrenar fuerza',cardio:'Hacer cardio',mobility:'Estirar',aerial:'Telas aéreas',park:'Pasear por el parque',sport:'Deporte en el parque',rest:'Descansar',music:'Escuchar música',social:'Conversar',garden:'Cuidar el huerto'}[types[type]]}:null)};
+    descriptors.act={...descriptors.act,value:observe(api.act,type=>types[type]?{kind:types[type],recipe:types[type]==='cook'?type:undefined,label:types[type]==='cook'?DM55_RECIPES.find(r=>r.id===type)?.label:{reading:'Leer',strength:'Entrenar fuerza',cardio:'Hacer cardio',mobility:'Estirar',aerial:'Telas aéreas',park:'Pasear por el parque',sport:'Deporte en el parque',rest:'Descansar',music:'Escuchar música',social:'Conversar',garden:'Cuidar el huerto'}[types[type]]}:null)};
     window[key]=Object.freeze(Object.defineProperties({},descriptors));
   }
   document.addEventListener('click',event=>{
-    if(applying||gesture||!state)return;const button=event.target.closest?.('button');if(!button||button.closest('#dm-life-modal'))return;
+    if(applying||gesture||depth>0||!state)return;const button=event.target.closest?.('button');if(!button||button.closest('#dm-life-modal'))return;
     const item={before:snapshot(),label:button.textContent,hint:null,event};gesture=item;
     // Trusted browser events can run microtasks between capture and onclick.
     // Finish at bubble (or the next task if a legacy listener stops propagation).

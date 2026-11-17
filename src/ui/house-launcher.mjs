@@ -1,5 +1,5 @@
 import {createSnapshot} from '../persistence/save-vault.mjs';
-import {extendLegacyBuilder} from '../legacy/house-bridge.mjs?rutinas=10';
+import {extendLegacyBuilder} from '../legacy/house-bridge.mjs?cocina=11';
 
 async function start() {
   const response = await fetch(new URL('../../index6.3.html', import.meta.url));
@@ -13,7 +13,7 @@ async function start() {
   }
   const code = extendLegacyBuilder(builder.textContent, {
     stylesURL: new URL('../../styles/house.css', import.meta.url).href,
-    installerURL: new URL('../interiors/install-house.mjs?casa=3', import.meta.url).href
+    installerURL: new URL('../interiors/install-house.mjs?cocina=11', import.meta.url).href
   });
   for (const style of source.head.querySelectorAll('style')) document.head.append(style.cloneNode(true));
   for (const element of [...source.body.children]) {

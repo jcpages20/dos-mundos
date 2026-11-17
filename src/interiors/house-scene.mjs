@@ -1,6 +1,7 @@
 import {HOUSE, HOUSE_VERSION, contains, roomAt} from './house-map.mjs';
 import {canStand, clearSegment, distance, findPath, moveSafely, nearestApproach} from '../engine/navigation.mjs';
 import {HouseRenderer} from './house-renderer.mjs';
+import {KitchenScene} from '../kitchen/kitchen-scene.mjs?cocina=11';
 
 const labels = {sit: 'Sentarse', 'sit-chair': 'Sentarse', sleep: 'Dormir', shower: 'Ducharse',
   read: 'Leer', cook: 'Ver recetas', pantry: 'Ver despensa', eat: 'Comer · 8 €',
@@ -76,12 +77,14 @@ export class HouseScene {
     const context = node('div', 'dm-house-context');
     this.objectLabel = node('strong', '', 'Entrada');
     this.primary = this.button('Salir a Madrid', () => this.primaryAction(), 'dm-house-primary');
-    context.append(this.objectLabel, this.primary);
+    this.cookButton=this.button('Cocinar jugando',()=>this.startCookingRoute(),'dm-house-cook');this.cookButton.hidden=true;
+    context.append(this.objectLabel, this.primary,this.cookButton);
     controls.append(pad, context);
     this.root.append(header, stage, this.message, controls);
     document.getElementById('interior').append(this.root);
     document.body.classList.add('dm-house-active');
     this.renderer = new HouseRenderer(this.canvas);
+    this.cooking=new KitchenScene(this,window.DosMundosKitchenLegacy);
     this.renderer.camera = {x: Math.max(0, this.actor.x - this.canvas.width / 2),
       y: Math.max(0, this.actor.y - this.canvas.height / 2)};
     this.canvas.addEventListener('pointerdown', event => this.tap(event), {signal: this.abort.signal});
@@ -157,7 +160,7 @@ export class HouseScene {
     else this.feedback('Ese lugar está bloqueado. Prueba tocando el suelo libre.');
   }
 
-  approach(object) {
+  approach(object,after=null) {
     this.stand(); this.held.clear();
     const option = nearestApproach(this.actor, object, HOUSE);
     if (!option) { this.feedback('No hay una zona libre para acercarse a ese objeto.'); return; }
@@ -165,11 +168,13 @@ export class HouseScene {
     this.pendingAction = () => {
       this.actor.face = option.point.face || 'up'; this.target = object;
       this.feedback(object.description || object.name);
+      if(after)after();
     };
     this.feedback('Acercándote a ' + object.name.toLowerCase() + '…');
   }
 
   update(dt, now) {
+    if(this.cooking?.open){this.cooking.update(dt,now);return;}
     if (this.paused) return;
     const before = {x: this.actor.x, y: this.actor.y};
     const blocked = this.modalOpen();
@@ -204,6 +209,7 @@ export class HouseScene {
     if (this.actor.pose === 'stand' && contains(this.actor, HOUSE.exit)) { this.api.exit(); return; }
     const state = this.api.snapshot();
     if (!state) return;
+    this.cookButton.hidden=this.actor.pose!=='stand'||this.target?.action!=='cook';
     const nearest = HOUSE.objects.flatMap(object => object.approaches.map(point => ({object, gap: distance(this.actor, point)})))
       .filter(option => option.gap < 35).sort((a, b) => a.gap - b.gap)[0];
     if (!this.path.length && this.actor.pose === 'stand') this.target = nearest?.object || null;
@@ -279,6 +285,7 @@ export class HouseScene {
       ['Mi casa y decoración', 'decor'], ['Citas y recuerdos', 'duo'], ['Móvil y chat', 'phone'],
       ['Música y radio', 'radio'], ['Elegir película', 'cinema'], ['Vida propia', 'life'], ['Conectar', 'online']
     ];
+    this.menu.append(this.button('Cocinar jugando · 3 platos',()=>{close();this.startCookingRoute();}));
     for (const [label, action] of actions) this.menu.append(this.button(label, () => { close(); this.api.menu(action); }));
     this.menu.append(this.button('Actividades de la casa anterior', () => { close(); this.showLegacy(); }));
     this.menu.append(this.button('Salir a Madrid', () => { close(); this.api.exit(); }));
@@ -297,6 +304,13 @@ export class HouseScene {
     document.body.append(this.returnButton);
   }
 
+  startCookingRoute(recipe='omelet'){
+    if(!this.ready)return;this.menu?.remove();this.menu=null;document.getElementById('dm55-overlay')?.remove();
+    if(this.paused){this.paused=false;this.root.hidden=false;this.returnButton?.remove();this.api.stopOldAnimation();document.body.classList.add('dm-house-active');this.renderer.resize();}
+    this.startWalking();const object=this.target?.action==='cook'?this.target:HOUSE.objects.find(o=>o.id==='stove');
+    this.approach(object,()=>this.cooking.show(recipe));
+  }
+
   save() {
     const candidate = this.actor.pose === 'stand' ? {x: this.actor.x, y: this.actor.y, face: this.actor.face} : this.standPoint;
     const position = candidate && canStand(candidate, HOUSE) && !contains(candidate, HOUSE.exit)
@@ -308,6 +322,7 @@ export class HouseScene {
   }
 
   destroy() {
+    this.cooking?.close();
     this.save(); cancelAnimationFrame(this.frame); this.abort.abort();
     this.renderer?.destroy(); this.root?.remove(); this.returnButton?.remove();
     document.body.classList.remove('dm-house-active');
@@ -316,6 +331,6 @@ export class HouseScene {
   snapshot() {
     return {ready: !!this.ready, role: this.actor.role, position: {x: this.actor.x, y: this.actor.y},
       room: roomAt(this.actor).id, pose: this.actor.pose, face: this.actor.face, moving: this.actor.moving,
-      walking: this.path.length > 0, target: this.target?.id || null, tvOn: this.tvOn, origin: this.origin};
+      walking: this.path.length > 0, target: this.target?.id || null, tvOn: this.tvOn,cooking:this.cooking?.snapshot()||null, origin: this.origin};
   }
 }
