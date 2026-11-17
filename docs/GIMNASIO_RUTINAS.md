@@ -55,7 +55,9 @@ El guardado de recompensa incluye la progresión y el armario en la transacción
 
 ## Comprobación y publicación
 
-Las pruebas locales y la verificación pública se registran al terminar en el PR. Se usan perfiles desechables; no se entra en cuentas ni se modifican partidas reales. Queda pendiente la ergonomía en Safari/iPhone físico y la comprobación en los dos teléfonos reales. El gimnasio sigue siendo una escena local; la presencia y el chat anteriores se conservan.
+Han pasado 126 casos distintos: once nuevos de navegador, once de retos clásicos, 44 regresiones relacionadas y 60 pruebas Node. Se juegan las cuatro modalidades con controles reales; se comprueban dos rutinas de Gabi para desbloquear Vela/Mariposa, equipar y recargar, cuota y reintento, ensayo avanzado, marca clásica conservada, recuperación del riesgo elegido, separación por personaje, datos futuros, códigos y tamaños 375/390/844/1440 px. Una prueba usa eventos táctiles reales del navegador para mantener, soltar y pausar durante un toque. La pantalla de resultado clásica se muestra al terminar el último movimiento para que Enter permita guardar de inmediato.
+
+Las regresiones incluyen copias y restauración del museo, carta/estrella, gimnasio anterior, casa y reentrada, Madrid, cine/plataformas, huerto, parque/plaza, personalidad, planes, chat y radio. La comprobación pública después de Pages se registra en el PR. Se usan perfiles desechables; no se entra en cuentas ni se modifican partidas reales. Queda pendiente la ergonomía en Safari/iPhone físico y la comprobación en los dos teléfonos reales. El gimnasio sigue siendo una escena local; la presencia y el chat anteriores se conservan.
 
 La rama es `feature/gym-rutinas-figuras`, desde `c66c166fa0fcb75338c355035623f9fbf810a266`. Antes de editar se crearon la copia completa `dos-mundos-antes-gym-rutinas-c66c166.bundle` y la rama remota `backup/main-pre-gym-rutinas-c66c166`. GitHub Pages publica main; las importaciones modificadas usan `?rutinas=10` para renovar caché sin dependencias nuevas.
 
