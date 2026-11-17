@@ -1,4 +1,4 @@
-import {HouseScene} from './house-scene.mjs?casa=3';
+import {HouseScene} from './house-scene.mjs?cocina=11';
 import {installCityActions} from '../ui/city-actions.mjs';
 
 const api = window.DosMundosLegacy;
@@ -34,6 +34,14 @@ document.addEventListener('click', event => {
   document.getElementById('goHome')?.click();
 }, true);
 window.DosMundosHouse = Object.freeze({getSnapshot: () => scene?.snapshot() || null});
+window.DosMundosKitchen=Object.freeze({getSnapshot:()=>scene?.cooking?.snapshot()||null,open:recipe=>scene?.startCookingRoute(recipe)});
+// Keep all five quick recipes, adding one entry into the playable kitchen.
+new MutationObserver(records=>{
+  if(!records.some(r=>r.target.classList?.contains('dm55-area')||[...r.addedNodes].some(n=>n.id==='dm55-overlay')))return;
+  const area=document.querySelector('#dm55-overlay .dm55-area');
+  if(api.room!=='home'||!scene?.ready||!area||!area.querySelector('h3')?.textContent.includes('Recetario')||area.querySelector('.dm-kitchen-native-entry'))return;
+  const button=document.createElement('button');button.type='button';button.className='dm55-button dm-kitchen-native-entry';button.textContent='Cocinar jugando · 3 platos';button.onclick=()=>scene.startCookingRoute();area.prepend(button);
+}).observe(document.body,{childList:true,subtree:true});
 if (api.room === 'home') enter();
 const badge = document.getElementById('dm33Badge');
 if (badge) badge.textContent = 'DOS MUNDOS · NUESTRA CASA';

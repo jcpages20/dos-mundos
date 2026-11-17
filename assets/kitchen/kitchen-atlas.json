@@ -1,0 +1,107 @@
+{
+  "version": 1,
+  "image": "kitchen-atlas.png",
+  "width": 1254,
+  "height": 1254,
+  "chroma": "magenta",
+  "sha256": "2949cc2a800e202da9bd1d167454bace484faf0997801abde4f1c77baae8a885",
+  "frames": {
+    "board": [
+      0,
+      0,
+      314,
+      314
+    ],
+    "knife": [
+      314,
+      0,
+      313,
+      314
+    ],
+    "bowl": [
+      627,
+      0,
+      313,
+      314
+    ],
+    "pan": [
+      940,
+      0,
+      314,
+      314
+    ],
+    "pot": [
+      0,
+      314,
+      314,
+      313
+    ],
+    "colander": [
+      314,
+      314,
+      313,
+      313
+    ],
+    "omelet": [
+      627,
+      314,
+      313,
+      313
+    ],
+    "pasta": [
+      940,
+      314,
+      314,
+      313
+    ],
+    "chickenrice": [
+      0,
+      627,
+      314,
+      313
+    ],
+    "tomato": [
+      314,
+      627,
+      313,
+      313
+    ],
+    "pepper": [
+      627,
+      627,
+      313,
+      313
+    ],
+    "chicken": [
+      940,
+      627,
+      314,
+      313
+    ],
+    "rice": [
+      0,
+      940,
+      314,
+      314
+    ],
+    "eggs": [
+      314,
+      940,
+      313,
+      314
+    ],
+    "cheese": [
+      627,
+      940,
+      313,
+      314
+    ],
+    "spoon": [
+      940,
+      940,
+      314,
+      314
+    ]
+  },
+  "provenance": "Original artwork generated for Dos Mundos; source PNG copied without edits. Runtime chroma key and sprite framing."
+}
