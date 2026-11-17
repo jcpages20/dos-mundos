@@ -7,7 +7,7 @@ import {cityBridgeSource} from './city-bridge.mjs?huerto=6';
 import {farmBridgeSource} from './farm-bridge.mjs';
 import {outdoorBridgeSource} from './outdoor-bridge.mjs';
 import {lifeBridgeSource} from './life-bridge.mjs?retos=9';
-import {gymChallengeBridgeSource} from './gym-challenge-bridge.mjs';
+import {gymChallengeBridgeSource} from './gym-challenge-bridge.mjs?rutinas=10';
 
 // This function is serialized into the existing game's closure, before boot.
 // It adapts existing actions instead of introducing another economy or save.
@@ -85,7 +85,7 @@ export function extendLegacyBuilder(builder, {stylesURL, installerURL}) {
   const cinemaStylesURL = new URL('../../styles/cinema.css', import.meta.url).href;
   const venueStylesURL = new URL('../../styles/venues.css', import.meta.url).href;
   const gymStylesURL = new URL('../../styles/gym.css', import.meta.url).href;
-  const gymInstallerURL = new URL('../interiors/install-gym.mjs?retos=9', import.meta.url).href;
+  const gymInstallerURL = new URL('../interiors/install-gym.mjs?rutinas=10', import.meta.url).href;
   const cityStylesURL = new URL('../../styles/city.css', import.meta.url).href;
   const cityInstallerURL = new URL('../world/install-city.mjs?huerto=6', import.meta.url).href;
   const farmInstallerURL = new URL('../farm/install-farm.mjs', import.meta.url).href;
@@ -94,7 +94,7 @@ export function extendLegacyBuilder(builder, {stylesURL, installerURL}) {
   const outdoorInstallerURL = new URL('../outdoors/install-outdoors.mjs', import.meta.url).href;
   const lifeStylesURL = new URL('../../styles/life.css', import.meta.url).href;
   const lifeInstallerURL = new URL('../life/install-life.mjs', import.meta.url).href;
-  const gymGamesStylesURL = new URL('../../styles/gym-games.css', import.meta.url).href;
+  const gymGamesStylesURL = new URL('../../styles/gym-games.css?rutinas=10', import.meta.url).href;
   const worldMarker = 'const WORLD_W=1180,WORLD_H=922, VIEW_W=512,VIEW_H=448;';
   const expandedWorld = 'const WORLD_W=1180,WORLD_H=1180, VIEW_W=512,VIEW_H=448;';
   const literal = value => JSON.stringify(value).replace(/</g, '\\u003c');

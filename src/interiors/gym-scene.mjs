@@ -1,6 +1,6 @@
 import {GYM,gymContains,gymZoneAt} from './gym-map.mjs';
-import {GymRenderer} from './gym-renderer.mjs?retos=9';
-import {GymChallengeUI} from '../gym-games/challenge-ui.mjs';
+import {GymRenderer} from './gym-renderer.mjs?rutinas=10';
+import {GymChallengeUI} from '../gym-games/challenge-ui.mjs?rutinas=10';
 import {canStand,clearSegment,distance,findPath,moveSafely,nearestApproach} from '../engine/navigation.mjs';
 
 const actions={weights:'Entrenar fuerza',cardio:'Hacer cardio',stretch:'Estirar y recuperar',silks:'Practicar telas',
@@ -55,6 +55,7 @@ export class GymScene{
     context.append(this.objectLabel,this.primary,this.playButton);footer.append(pad,context);
     this.root.append(header,stage,routes,this.message,footer);document.body.append(this.root);document.body.classList.add('dm-gym-active');
     this.api.pause();this.renderer=new GymRenderer(this.canvas);this.challenges=new GymChallengeUI(this,window.DosMundosGymChallengeLegacy);
+    this.accessory=window.DosMundosGymChallengeLegacy.snapshot().journey.equipped;
     this.renderer.camera={x:Math.max(0,this.actor.x-this.canvas.width/2),y:Math.max(0,this.actor.y-this.canvas.height*.6)};
     this.canvas.addEventListener('pointerdown',event=>this.tap(event),{signal:this.abort.signal});
     document.addEventListener('keydown',event=>this.keyEvent(event,true),{capture:true,signal:this.abort.signal});
@@ -171,7 +172,7 @@ export class GymScene{
     this.primary.textContent=this.training?'Seguir caminando':this.target?actions[this.target.action]:distance(this.actor,GYM.spawn)<60?'Salir a la calle':'Explorar el club';
     this.primary.disabled=!this.training&&!this.target&&distance(this.actor,GYM.spawn)>=60;
     this.playButton.hidden=!!this.training||!['weights','cardio','silks','stretch'].includes(this.target?.action);
-    this.renderer.draw(this.actor,state,this.target,this.training||this.challenges?.visual(),now);
+    this.renderer.accessory=this.accessory;this.renderer.draw(this.actor,state,this.target,this.training||this.challenges?.visual(),now);
   }
   closeMenu(){this.menu?.remove();this.menu=null;this.canvas?.focus({preventScroll:true});}
   openMenu(progressOnly=false){
@@ -184,6 +185,7 @@ export class GymScene{
     this.menu.append(node('h3','','Entrenamientos jugables'));
     for(const [label,type] of [['Reto de fuerza','weights'],['Reto de cardio','cardio'],['Reto de telas','silks'],['Reto de movilidad','stretch']])this.menu.append(this.button(label,()=>this.startChallengeRoute(type)));
     this.menu.append(this.button('Mis marcas y códigos',()=>{this.closeMenu();this.challenges.records();}));
+    this.menu.append(this.button('Mis rutinas y accesorios',()=>{this.closeMenu();this.challenges.wardrobe();}));
     if(!progressOnly){
       this.menu.append(node('h3','','Elige tu próxima sesión'));
       for(const [label,id] of [['Fuerza · 60 min','dumbbells'],['Cardio · 35 min','treadmill-1'],['Estirar · 20 min','floor-mat'],['Telas aéreas · 45 min','silks-burgundy']]){
@@ -202,7 +204,7 @@ export class GymScene{
     if(this.disposed)return;this.disposed=true;this.save();this.challenges?.destroy();cancelAnimationFrame(this.frame);this.abort.abort();this.renderer?.destroy();this.root?.remove();document.body.classList.remove('dm-gym-active');
   }
   snapshot(){return{ready:this.ready,role:this.actor.role,position:{x:this.actor.x,y:this.actor.y},face:this.actor.face,zone:gymZoneAt(this.actor).id,
-    pose:this.actor.pose,moving:this.actor.moving,walking:this.path.length>0,target:this.target?.id||null,training:this.training?.type||null,challenge:this.challenges?.snapshot()||null,origin:this.origin};}
+    pose:this.actor.pose,moving:this.actor.moving,walking:this.path.length>0,target:this.target?.id||null,training:this.training?.type||null,accessory:this.accessory||'none',challenge:this.challenges?.snapshot()||null,origin:this.origin};}
   startChallengeRoute(type,spec=null){
     if(!this.ready||!['weights','cardio','silks','stretch'].includes(type))return;this.closeMenu();this.challenges.close();this.stopTraining();
     const id={weights:'dumbbells',cardio:'treadmill-1',silks:'silks-burgundy',stretch:'floor-mat'}[type];

@@ -1,5 +1,7 @@
 # Club Atlas: entrenamientos que se juegan
 
+Actualización: [rutinas de 45 segundos, figuras y accesorios](GIMNASIO_RUTINAS.md), entrada `casa-rpg.html?rutinas=10`. Las pruebas descritas aquí permanecen disponibles seleccionando «Reto clásico».
+
 Entrada actualizada: `casa-rpg.html?retos=9`. Gabi con carta y estrella: `casa-rpg.html?gabi=1&retos=9`. Entrar en Gimnasio → Menú → Reto de fuerza, cardio, telas o movilidad. El personaje camina hasta el material y allí se abre la explicación. También aparece «Jugar reto» al acercarse a una máquina adecuada. Las sesiones rápidas anteriores conservan sus botones y efectos.
 
 ## Cuatro controles diferentes

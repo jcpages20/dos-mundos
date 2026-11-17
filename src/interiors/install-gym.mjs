@@ -1,4 +1,4 @@
-import {GymScene} from './gym-scene.mjs?retos=9';
+import {GymScene} from './gym-scene.mjs?rutinas=10';
 
 const api=window.DosMundosGymLegacy;
 let scene=null;

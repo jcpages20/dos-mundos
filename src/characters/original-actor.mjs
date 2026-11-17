@@ -1,4 +1,5 @@
 const images = new Map();
+export const originalActorImage = (role, face = 'down') => images.get(role + '-' + face) || images.get(role + '-down');
 export async function loadOriginalActors() {
   await Promise.all(['jc', 'gabi'].flatMap(role => ['down', 'up', 'left', 'right'].map(async face => {
     const image = new Image();
