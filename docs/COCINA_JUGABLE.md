@@ -61,3 +61,5 @@ Las regresiones incluyen las doce de casa, personalidad y planes, copias y resta
 Rama `feature/cocina-tres-platos`, desde `07b10ff70e26c5953c101413c10298f30211a859`. Antes de modificar se guardaron la copia completa `dos-mundos-antes-cocina-07b10ff.bundle` y la rama remota `backup/main-pre-cocina-07b10ff`. Pages publica main; la entrada y los módulos modificados de cocina usan `?cocina=11` para renovar cachés.
 
 Rollback: revertir la fusión de esta entrega sin borrar claves o restablecer Firebase. El cliente anterior ignora la preparación nueva y mantiene los platos, ingredientes y XP ya confirmados. Para retomar una preparación pendiente hace falta volver a esta entrega; también se puede dejar conservada en su clave. El escape room continúa en pausa y no forma parte de la cocina.
+
+Capturas con perfiles de prueba: [recetario](cocina-jugable/recetario-iphone.png), [corte táctil](cocina-jugable/corte-tactil-iphone.png), [salsa al fuego](cocina-jugable/pasta-fuego-iphone.png) y [plato de Gabi](cocina-jugable/pollo-gabi-iphone.png).
