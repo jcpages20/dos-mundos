@@ -14,6 +14,7 @@ Dos Mundos conserva sus versiones anteriores y añade una primera casa RPG jugab
 - [El Retiro y Plaza Mayor: paseos, bancos, terrazas y vecinos](docs/PARQUE_PLAZA_MADRID.md).
 - [Vida y planes: personalidad, ánimo temporal y proyectos compartidos](docs/VIDA_Y_PLANES.md).
 - [Atlas jugable: retos de fuerza, cardio, telas y movilidad](docs/GIMNASIO_RETOS.md).
+- [Atlas: rutinas de 45 segundos, decisiones de riesgo, figuras y accesorios](docs/GIMNASIO_RUTINAS.md).
 - [Cine Estrella: mejora visual y cartelera del día](docs/CINE_CARTELERA.md), disponible desde la misma entrada de la casa RPG.
 - [Gimnasio y cafetería renovados, salida a la calle y cartelera por plataformas](docs/INTERIORES_CIUDAD.md).
 

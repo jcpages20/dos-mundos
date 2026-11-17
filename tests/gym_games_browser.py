@@ -15,6 +15,7 @@ class GymGamesTests(GymTests):
         return game,frame,values
     def open_challenge(self,game,frame,type):
         game.get_by_role('button',name='Menú',exact=True).click();game.get_by_role('button',name={'weights':'Reto de fuerza','cardio':'Reto de cardio','silks':'Reto de telas','stretch':'Reto de movilidad'}[type],exact=True).click();expect(game.locator('#dm-gym-challenge')).to_be_visible(timeout=20000)
+        if game.get_by_role('combobox',name='Formato del entrenamiento',exact=True).count():game.get_by_role('combobox',name='Formato del entrenamiento',exact=True).select_option('classic')
     def challenge(self,frame):return frame.evaluate('window.DosMundosGym.getSnapshot().challenge')
     def start(self,game,frame):game.get_by_role('button',name='Empezar reto',exact=True).click();frame.wait_for_function('window.DosMundosGym.getSnapshot().challenge?.model')
     def strength(self,frame):

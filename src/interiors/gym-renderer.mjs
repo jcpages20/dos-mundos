@@ -1,5 +1,6 @@
 import {GYM} from './gym-map.mjs';
-import {drawOriginalActor,loadOriginalActors} from '../characters/original-actor.mjs';
+import {drawOriginalActor,loadOriginalActors} from '../characters/original-actor.mjs?rutinas=10';
+import {drawOriginalExercise,drawSportsAccessory,exercisePose} from '../characters/exercise-actor.mjs?rutinas=10';
 
 const noise=(x,y)=>{const n=Math.sin(x*17.1+y*37.2)*43758.54;return n-Math.floor(n);};
 
@@ -95,8 +96,12 @@ export class GymRenderer{
       g.fillRect(object.x+object.w*.5+Math.floor(Math.sin(now/1400)*2),object.y+object.h*.3,1,object.h*.4);
     }
   }
+  equippedActor(g,actor,now){
+    drawOriginalActor(g,actor,now);g.save();g.translate(actor.x,actor.y);drawSportsAccessory(g,this.accessory);g.restore();
+  }
   actor(g,actor,training,now){
-    if(!training){drawOriginalActor(g,actor,now);return;}
+    if(!training){this.equippedActor(g,actor,now);return;}
+    if(training.challenge?.version===2){this.routineActor(g,actor,training);return;}
     if(training.challenge)now=training.challenge.elapsed*1000;
     const elapsed=now-training.started;
     const object=training.object;
@@ -108,15 +113,15 @@ export class GymRenderer{
       g.beginPath();g.moveTo(object.x+object.w*.5,object.y+15);g.lineTo(actor.x+2,actor.y-lift-27);g.stroke();
       const angle=challenge?phase==='balance'?-.6+challenge.balance*.8:phase==='figure'||phase==='done'?-1.3+Math.sin(challenge.phaseTime*1.3)*.14:-.35-challenge.index*.16:this.reduced?-.6:-.6+Math.sin(elapsed/900)*.11;
       g.save();g.translate(actor.x,actor.y-lift);g.rotate(angle);
-      drawOriginalActor(g,{...actor,x:0,y:0,face:'right',pose:'stand',moving:false},now);
+      this.equippedActor(g,{...actor,x:0,y:0,face:'right',pose:'stand',moving:false},now);
       g.strokeStyle=object.id==='silks-burgundy'?'#b35b78':'#b69acb';g.lineWidth=4;g.beginPath();g.moveTo(-12,-25);g.lineTo(12,-20);g.stroke();g.restore();
     }else if(training.type==='stretch'){
       g.save();g.translate(actor.x,actor.y);g.rotate(-Math.PI/2+(this.reduced?0:Math.sin(elapsed/1000)*.025));
-      drawOriginalActor(g,{...actor,x:0,y:0,pose:'stand',moving:false},now);g.restore();
+      this.equippedActor(g,{...actor,x:0,y:0,pose:'stand',moving:false},now);g.restore();
     }else{
       const seated=training.type==='rest'||['bike','rower','legpress','bench'].includes(object.id);
       const bob=!this.reduced&&seated?Math.sin(elapsed/420)*1.2:0;
-      drawOriginalActor(g,{...actor,y:actor.y+bob,pose:seated?'sit':'stand',moving:training.type==='cardio'&&!seated},this.reduced?0:now);
+      this.equippedActor(g,{...actor,y:actor.y+bob,pose:seated?'sit':'stand',moving:training.type==='cardio'&&!seated},this.reduced?0:now);
       if(training.type==='weights'){
         const lift=training.challenge?-training.challenge.power*19:this.reduced?0:Math.sin(elapsed/240)*4,x=actor.x,y=actor.y-28+lift;
         if(object.id==='cables'){
@@ -132,15 +137,39 @@ export class GymRenderer{
       }
     }
   }
+  routineActor(g,actor,training){
+    const s=training.challenge,pose=exercisePose(s),object=training.object;
+    pose.equipment=object.id;
+    const person={...actor,y:actor.y-(s.type==='silks'?pose.height*68:0)};
+    g.fillStyle='#253b3838';g.beginPath();g.ellipse(actor.x,actor.y,16,4,0,0,Math.PI*2);g.fill();
+    if(s.type==='silks'){
+      const color=object.id==='silks-burgundy'?'#88455f':'#a085b5';
+      g.strokeStyle=color;g.lineWidth=4;g.beginPath();
+      for(const dx of [-7,7]){g.moveTo(object.x+object.w*.5+dx*.25,object.y+15);g.lineTo(person.x+dx,person.y-43);g.lineTo(person.x+dx*1.8,actor.y+13);}g.stroke();
+    }
+    drawOriginalExercise(g,person,pose,this.accessory);
+    if(s.type==='weights'){
+      const x=person.x,y=person.y-28-pose.lift*19;
+      if(object.id==='cables'){g.strokeStyle='#c3c9b3';g.lineWidth=1;g.beginPath();g.moveTo(object.x+13,object.y+28);g.lineTo(x-18,y);g.moveTo(object.x+object.w-13,object.y+28);g.lineTo(x+18,y);g.stroke();}
+      else if(object.id==='dumbbells'||object.id==='bench'){
+        for(const dx of [-18,18]){g.fillStyle='#c9c9af';g.fillRect(x+dx-4,y,8,2);g.fillStyle='#293e47';g.fillRect(x+dx-7,y-4,4,10);g.fillRect(x+dx+3,y-4,4,10);}
+      }else if(object.id!=='legpress'){g.fillStyle='#d3cfb6';g.fillRect(x-23,y,46,3);g.fillStyle='#293e47';for(const dx of [-25,-21,18,22])g.fillRect(x+dx,y-5,4,13);}
+    }
+  }
+  previewAccessory(canvas,role,id){
+    const g=canvas.getContext('2d');g.fillStyle='#284843';g.fillRect(0,0,canvas.width,canvas.height);g.save();g.translate(50,86);g.scale(1.4,1.4);
+    drawOriginalExercise(g,{role,x:0,y:0},{type:'weights',lift:.15,lean:0,stride:0,figure:null},id);g.restore();
+  }
   draw(actor,state,target,training,now){
     if(!this.atlas)return;
     const g=this.g,canvas=this.canvas;g.setTransform(1,0,0,1,0,0);g.fillStyle='#243e40';g.fillRect(0,0,canvas.width,canvas.height);
     if(this.overview){const scale=Math.min(canvas.width/GYM.width,canvas.height/GYM.height);this.transform={x:(canvas.width-GYM.width*scale)/2,y:(canvas.height-GYM.height*scale)/2,scale};}
     else{
-      const targetX=Math.max(0,Math.min(GYM.width-canvas.width,actor.x-canvas.width/2));
-      const targetY=Math.max(0,Math.min(GYM.height-canvas.height,actor.y-canvas.height*.6));
+      const zoom=training?.challenge?.version===2?1.65:1;
+      const targetX=Math.max(0,Math.min(GYM.width-canvas.width/zoom,actor.x-canvas.width/(2*zoom)));
+      const targetY=Math.max(0,Math.min(GYM.height-canvas.height/zoom,actor.y-canvas.height*.62/zoom-(training?.type==='silks'?25:0)));
       this.camera.x+=(targetX-this.camera.x)*.16;this.camera.y+=(targetY-this.camera.y)*.16;
-      this.transform={x:-Math.round(this.camera.x),y:-Math.round(this.camera.y),scale:1};
+      this.transform={x:-Math.round(this.camera.x)*zoom,y:-Math.round(this.camera.y)*zoom,scale:zoom};
     }
     const t=this.transform;g.save();g.translate(t.x,t.y);g.scale(t.scale,t.scale);g.drawImage(this.ground,0,0);this.walls(g);
     for(const box of GYM.windows)this.window(g,box,state,now);
