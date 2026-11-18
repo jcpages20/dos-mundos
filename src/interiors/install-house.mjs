@@ -1,4 +1,4 @@
-import {HouseScene} from './house-scene.mjs?gestos=13';
+import {HouseScene} from './house-scene.mjs?gestos=13.1';
 import {installCityActions} from '../ui/city-actions.mjs';
 
 const api = window.DosMundosLegacy;

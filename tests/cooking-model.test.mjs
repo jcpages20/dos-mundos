@@ -79,3 +79,10 @@ test('plating picks the visible edge of food and accepts the rim while rejecting
 test('a canceled drag or a contact that did not pick food cannot add a portion',()=>{
  const g=new CookingGame('omelet');g.start();for(let i=0;i<3;i++)finishStep(g);g.begin(.2,.53);g.move(.5,.67);g.cancelGesture();g.end(.5,.67);assert.deepEqual(g.state.plated,[]);assert.match(g.state.feedback,/vuelve arriba/);g.begin(.95,.1);g.end(.5,.67);assert.deepEqual(g.state.plated,[]);
 });
+test('exactly three full turns finish despite floating point roundoff at different sampling rates',()=>{
+ for(const samples of [6,12,36,48])for(const direction of [-1,1]){
+  const g=new CookingGame('chickenrice');g.start();finishStep(g);g.begin(.63,.6);
+  for(let i=1;i<=samples*3;i++){const a=direction*i/samples*Math.PI*2;g.move(.5+Math.cos(a)*.13,.6+Math.sin(a)*.1);if(i===samples*2)assert.equal(g.state.phase,'playing');}
+  g.end(.63,.6);assert.equal(g.state.phase,'stepDone',samples+':'+direction);assert.ok(g.state.turns>=3);
+ }
+});
