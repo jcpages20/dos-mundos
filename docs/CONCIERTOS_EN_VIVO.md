@@ -44,7 +44,9 @@ en cuenta el espacio ocupado por el nuevo reproductor.
 
 Se probó también el SDK y reproductor **reales**, sin cuenta, en Chromium con
 formato móvil: Spotify informó `playing`, con progreso 5.022 s y 10.223 s en una
-muestra disponible de 15.608 s de «Champagne». Esta es evidencia del reproductor,
+muestra disponible de 15.608 s de «Champagne». En una segunda ejecución también
+se comprobaron pausa, reanudación y cambio a «Bottle», con progreso 1.006 s y
+5.303 s sobre una muestra de 22.590 s. Esta es evidencia del reproductor,
 distinta de las pruebas simuladas. El contenedor exterior conserva permisos de
 autoplay y medios cifrados. No se ha probado en un iPhone físico ni con Spotify
 Premium. Spotify decide si ofrece muestra o canción completa; la animación no
