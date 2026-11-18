@@ -1,6 +1,6 @@
 # Nuestra cocina: primera entrega de tres platos
 
-Entrada actual: `casa-rpg.html?rendimiento=12`. Para Gabi con su carta y estrella: `casa-rpg.html?gabi=1&rendimiento=12`. La [corrección de pausas y rendimiento](COCINA_RENDIMIENTO.md) conserva esta entrega y sus guardados.
+Entrada actual: `casa-rpg.html?gestos=13`. Para Gabi con su carta y estrella: `casa-rpg.html?gabi=1&gestos=13`. Se mantienen la [corrección de pausas y rendimiento](COCINA_RENDIMIENTO.md) y las [mejoras de control táctil](COCINA_CONTROLES.md), con los mismos guardados.
 
 En casa → Menú → «Cocinar jugando · 3 platos». El personaje camina hasta los fogones. También aparece «Cocinar jugando» al acercarse a los fogones o a la encimera y se añade una entrada desde el recetario habitual. La estación abre dentro del mismo juego y vuelve a la misma cocina al salir. La casa conserva muebles, tamaños, colisiones y actividades. El recetario rápido mantiene sus cinco recetas anteriores.
 
@@ -12,7 +12,7 @@ En casa → Menú → «Cocinar jugando · 3 platos». El personaje camina hasta
 | Pasta con tomate | Cortar tomate; hervir y escurrir; remover salsa al fuego; servir pasta, salsa y queso | 1 pasta, 1 tomate, 1 queso; 35 min, 18 XP, alimentación +34 y energía +10 antes del decaimiento |
 | Pollo con arroz | Trocear pollo; lavar el arroz; saltear; montar arroz, pollo y verduras | 1 pollo, 1 arroz, 1 verdura; 45 min, 23 XP, alimentación +42 y energía +14 antes del decaimiento |
 
-Se corta deslizando por las marcas de la tabla. Los trozos se separan y el cuchillo sigue el dedo. Los huevos se tocan antes de batir. Mezclar, lavar y remover usan círculos alrededor del cuenco o sartén; tocar o agitar en línea recta no completa círculos. El fuego tiene un control de potencia: necesita calentarse, cocina durante un tiempo y una temperatura excesiva baja la calidad y deja marcas en la comida. La tortilla requiere una vuelta hacia arriba; la pasta, llevar la olla al colador. Los ingredientes del emplatado se arrastran hasta el plato.
+Se corta deslizando sobre una franja de ayuda alrededor de cada marca, hacia abajo o arriba. Se admiten trazos más cortos y algo desviados; el cuchillo se ajusta a la guía cercana y los trozos se separan al levantar el dedo. Los huevos se tocan antes de batir. Mezclar, lavar y remover reconocen círculos pequeños u ovalados en ambos sentidos; tocar o agitar en línea recta no completa círculos. El fuego tiene un control de potencia: necesita calentarse, cocina durante un tiempo y una temperatura excesiva baja la calidad y deja marcas en la comida. La tortilla requiere una vuelta hacia arriba; la pasta, llevar la olla al colador. Los ingredientes del emplatado se cogen con un margen alrededor de su imagen, se elevan para verse sobre el dedo y se sueltan sobre el plato iluminado. Si se sueltan fuera o se cancela el contacto, vuelven a su posición.
 
 Cada gesto tiene un botón alternativo con un nombre concreto. También se puede usar teclado: Espacio/Enter para la acción, flechas en orden para remover y flechas/Home/End en el control de fuego. Se interceptan las teclas de movimiento mientras la estación está abierta para no mover al personaje del interior anterior.
 
