@@ -1,6 +1,6 @@
 # Nuestra cocina: primera entrega de tres platos
 
-Entrada: `casa-rpg.html?cocina=11`. Para Gabi con su carta y estrella: `casa-rpg.html?gabi=1&cocina=11`.
+Entrada actual: `casa-rpg.html?rendimiento=12`. Para Gabi con su carta y estrella: `casa-rpg.html?gabi=1&rendimiento=12`. La [corrección de pausas y rendimiento](COCINA_RENDIMIENTO.md) conserva esta entrega y sus guardados.
 
 En casa → Menú → «Cocinar jugando · 3 platos». El personaje camina hasta los fogones. También aparece «Cocinar jugando» al acercarse a los fogones o a la encimera y se añade una entrada desde el recetario habitual. La estación abre dentro del mismo juego y vuelve a la misma cocina al salir. La casa conserva muebles, tamaños, colisiones y actividades. El recetario rápido mantiene sus cinco recetas anteriores.
 
@@ -36,7 +36,7 @@ La llamada de servicio se observa después de su transacción local. Conserva pe
 
 Nueva clave aditiva: `dos-mundos-cocina-jugable-v1:<rol>:<nombre codificado>`, con preparación activa, recibo, mejores marcas e historial. No se migran, renombran ni borran claves anteriores. Se conservan datos desconocidos compatibles y se rechazan versiones futuras sin reiniciarlas. El baúl ya incluye el prefijo `dos-mundos-`.
 
-Se guarda la preparación después de los gestos, los cambios de paso y periódicamente. Cambiar de aplicación, pausar o recargar detiene el fuego y elimina el contacto táctil pendiente. Al volver se recupera en pausa. Descartar una preparación incompleta no descuenta alimentos. La posición de la casa permanece en el pasillo de aproximación, sin modificar las coordenadas de Madrid.
+Se guarda la preparación después de los gestos, los cambios de paso y periódicamente mientras se cocina. Las escrituras idénticas se omiten. Cambiar de aplicación, pausar o recargar detiene el fuego y elimina el contacto táctil pendiente. Al volver se recupera en pausa. Perder el foco con la página visible o girar el móvil solo cancela el gesto pendiente y permite seguir cocinando sin abrir la pausa. Descartar una preparación incompleta no descuenta alimentos. La posición de la casa permanece en el pasillo de aproximación, sin modificar las coordenadas de Madrid.
 
 El adaptador reutiliza el botón/callback de `DM55_RECIPES` y sus funciones `dm55ConsumeIngredients`, `advance`, `dm55XP` y guardado; no copia la fórmula nutricional. Antes captura estado, despensa, inventario de Barrio Vivo, registros y cachés. Si una escritura falla, los restaura antes de emitir una actividad a Vida y planes. El recibo impide consumir o recompensar dos veces al repetir el guardado.
 
