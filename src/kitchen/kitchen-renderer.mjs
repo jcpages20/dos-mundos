@@ -1,19 +1,27 @@
 import {DISHES,cutLine,servingSource,WORK_CENTER,clamp} from './recipes.mjs';
 import {drawOriginalActor,loadOriginalActors} from '../characters/original-actor.mjs?cocina=11';
 
-export class KitchenRenderer {
-  constructor(canvas,houseRenderer){this.canvas=canvas;this.g=canvas.getContext('2d');this.house=houseRenderer;canvas.width=480;canvas.height=480;this.reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;this.resizeObserver=new ResizeObserver(()=>this.resize());this.resizeObserver.observe(canvas.parentElement);this.resize();}
-  resize(){const b=this.canvas.parentElement.getBoundingClientRect(),size=Math.max(1,Math.min(b.width,b.height));this.canvas.style.width=size+'px';this.canvas.style.height=size+'px';}
-  destroy(){this.resizeObserver.disconnect();}
-  async load(){
-    const r=await fetch(new URL('../../assets/kitchen/kitchen-atlas.json',import.meta.url));if(!r.ok)throw new Error('No se encuentra el material de cocina.');this.atlas=await r.json();
-    const image=new Image();image.src=new URL('../../assets/kitchen/'+this.atlas.image,import.meta.url).href;await Promise.all([image.decode(),loadOriginalActors()]);
-    if(image.width!==this.atlas.width||image.height!==this.atlas.height)throw new Error('El material de cocina está incompleto.');
+let sharedAssets;
+function loadAssets(){
+  if(!sharedAssets)sharedAssets=(async()=>{
+    const r=await fetch(new URL('../../assets/kitchen/kitchen-atlas.json',import.meta.url));if(!r.ok)throw new Error('No se encuentra el material de cocina.');const atlas=await r.json();
+    const image=new Image();image.src=new URL('../../assets/kitchen/'+atlas.image,import.meta.url).href;await Promise.all([image.decode(),loadOriginalActors()]);
+    if(image.width!==atlas.width||image.height!==atlas.height)throw new Error('El material de cocina está incompleto.');
     // Chroma key is applied once at load, as in a handheld sprite pipeline.
     // The generated source PNG is kept byte-for-byte with its manifest.
-    const sheet=document.createElement('canvas');sheet.width=image.width;sheet.height=image.height;const g=sheet.getContext('2d',{willReadFrequently:true});g.drawImage(image,0,0);
-    if(this.atlas.chroma==='magenta'){const data=g.getImageData(0,0,sheet.width,sheet.height);for(let i=0;i<data.data.length;i+=4){const r=data.data[i],green=data.data[i+1],b=data.data[i+2];if(r>80&&b>80&&green<Math.min(r,b)*.55)data.data[i+3]=0;}g.putImageData(data,0,0);}
-    this.image=sheet;this.background=this.makeBackground();
+    const sheet=document.createElement('canvas');sheet.width=image.width;sheet.height=image.height;const g=sheet.getContext('2d');g.drawImage(image,0,0);
+    if(atlas.chroma==='magenta'){const data=g.getImageData(0,0,sheet.width,sheet.height);for(let i=0;i<data.data.length;i+=4){const r=data.data[i],green=data.data[i+1],b=data.data[i+2];if(r>80&&b>80&&green<Math.min(r,b)*.55)data.data[i+3]=0;}g.putImageData(data,0,0);}
+    return {atlas,image:sheet};
+  })().catch(error=>{sharedAssets=null;throw error;});
+  return sharedAssets;
+}
+
+export class KitchenRenderer {
+  constructor(canvas,houseRenderer,onResize){this.canvas=canvas;this.g=canvas.getContext('2d');this.house=houseRenderer;this.onResize=onResize;canvas.width=480;canvas.height=480;this.reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;this.resizeObserver=new ResizeObserver(()=>this.resize());this.resizeObserver.observe(canvas.parentElement);this.resize();}
+  resize(){const b=this.canvas.parentElement.getBoundingClientRect(),size=Math.max(1,Math.min(b.width,b.height));if(this.size!=null&&Math.abs(this.size-size)<.5)return;this.size=size;this.canvas.style.width=size+'px';this.canvas.style.height=size+'px';this.onResize?.();}
+  destroy(){this.resizeObserver.disconnect();}
+  async load(){
+    const assets=await loadAssets();this.atlas=assets.atlas;this.image=assets.image;this.background=this.makeBackground();
   }
   sprite(g,key,x,y,w,h,sub=null){const f=this.atlas?.frames[key];if(!f||!this.image)return;let [sx,sy,sw,sh]=f;if(sub){sx+=sub[0]*sw;sy+=sub[1]*sh;sw*=sub[2];sh*=sub[3];}g.imageSmoothingEnabled=false;g.drawImage(this.image,sx,sy,sw,sh,x,y,w,h);}
   makeBackground(){
@@ -100,6 +108,6 @@ export class KitchenRenderer {
       }
     }
   }
-  point(e){const b=this.canvas.getBoundingClientRect();return {x:(e.clientX-b.left)/b.width,y:(e.clientY-b.top)/b.height};}
+  point(e,bounds){const b=bounds||this.canvas.getBoundingClientRect();return {x:(e.clientX-b.left)/b.width,y:(e.clientY-b.top)/b.height};}
   charred(g,x,y,amount=1){g.fillStyle='#654632';for(let i=0;i<Math.ceil(10*amount);i++)g.fillRect(x+Math.cos(i*2.4)*51,y+Math.sin(i*2.4)*38,5+i%4,3+i%3);}
 }

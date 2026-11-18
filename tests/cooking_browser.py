@@ -106,5 +106,69 @@ class CookingTests(HouseTests):
     def test_missing_art_falls_back_to_original_recipes_without_touching_progress(self):
         self.context.route('**/assets/kitchen/kitchen-atlas.png',lambda r:r.abort());self.tool();game,frame,_=self.open_house();before=frame.evaluate('window.DosMundosLegacy.snapshot()');game.get_by_role('button',name='Menú',exact=True).click();game.get_by_role('button',name='Cocinar jugando · 3 platos',exact=True).click();expect(game.get_by_role('button',name='Abrir recetario rápido',exact=True)).to_be_visible(timeout=25000);game.get_by_role('button',name='Abrir recetario rápido',exact=True).click();expect(game.locator('#dm55-overlay')).to_contain_text('Recetario');self.assertEqual(frame.evaluate('window.DosMundosLegacy.snapshot()'),before);self.assertEqual(self.errors,[])
 
+    def test_visible_blur_rotation_and_browser_resizes_do_not_pause_cooking(self):
+        game,frame=self.open_cooking();before=self.native(frame);game.get_by_role('button',name='Empezar receta',exact=True).click()
+        for i,(w,h) in enumerate([(390,844),(844,390),(375,667),(390,760),(390,844)]):
+            self.page.set_viewport_size({'width':w,'height':h});frame.wait_for_timeout(100)
+            frame.evaluate('''()=>{if(document.hidden)throw Error('Expected a visible page');for(let i=0;i<4;i++){window.dispatchEvent(new Event('blur'));window.dispatchEvent(new Event('orientationchange'));window.dispatchEvent(new Event('focus'));}}''')
+            self.assertFalse(self.kitchen(frame)['paused']);expect(game.locator('.ck-paused')).to_have_count(0)
+            x=.34+i*.07;self.drag(game,(x,.35),(x,.85),True);self.assertEqual(self.kitchen(frame)['model']['cuts'],list(range(i+1)))
+        self.assertEqual(self.kitchen(frame)['phase'],'stepDone');self.assertEqual(self.native(frame),before);self.page.screenshot(path=str(support.ARTIFACTS/'cocina-sin-pausas-al-girar.png'));self.assertEqual(self.errors,[])
+
+    def test_real_background_and_pagehide_pause_heat_but_visible_focus_does_not(self):
+        game,frame=self.open_cooking();game.get_by_role('button',name='Empezar receta',exact=True).click()
+        for _ in range(5):game.get_by_role('button',name='Cortar siguiente marca',exact=True).click()
+        game.get_by_role('button',name='Siguiente paso',exact=True).click()
+        for _ in range(2):game.get_by_role('button',name='Cascar un huevo',exact=True).click()
+        for _ in range(12):game.get_by_role('button',name='Batir ¼ de vuelta',exact=True).click()
+        game.get_by_role('button',name='Siguiente paso',exact=True).click();self.heat(game)
+        frame.wait_for_function('window.DosMundosKitchen.getSnapshot().model.cooked>=1',timeout=6000)
+        # Emulate the Page Visibility signal of switching apps, not a blur from
+        # browser chrome. Chromium headless keeps its test tabs visible.
+        frame.evaluate('''()=>{Object.defineProperty(document,'hidden',{configurable:true,value:true});document.dispatchEvent(new Event('visibilitychange'));window.dispatchEvent(new Event('blur'));}''')
+        paused=self.kitchen(frame)['model'];self.assertTrue(paused['paused']);expect(game.locator('.ck-paused')).to_have_count(1);frame.wait_for_timeout(1200);self.assertEqual(self.kitchen(frame)['model'],paused)
+        frame.evaluate('''()=>{delete document.hidden;document.dispatchEvent(new Event('visibilitychange'));window.dispatchEvent(new Event('orientationchange'));window.dispatchEvent(new Event('focus'));}''');self.assertTrue(self.kitchen(frame)['paused'])
+        game.get_by_role('button',name='Continuar cocinando',exact=True).click()
+        for _ in range(5):frame.evaluate("window.dispatchEvent(new Event('blur'))")
+        frame.wait_for_function('window.DosMundosKitchen.getSnapshot().model.cooked>'+str(paused['cooked']+.3),timeout=3000);self.assertFalse(self.kitchen(frame)['paused'])
+        frame.evaluate("window.dispatchEvent(new Event('pagehide'))");self.assertTrue(self.kitchen(frame)['paused']);expect(game.locator('.ck-paused')).to_have_count(1);self.page.screenshot(path=str(support.ARTIFACTS/'cocina-pausa-intencionada.png'));self.assertEqual(self.errors,[])
+
+    def test_interrupted_touch_cancels_without_a_cut_and_move_avoids_layout_reads(self):
+        game,frame=self.open_cooking();game.get_by_role('button',name='Empezar receta',exact=True).click();a=self.point(game,.34,.35);b=self.point(game,.34,.85);cdp=self.context.new_cdp_session(self.page)
+        for event in ('blur','orientationchange'):
+            cdp.send('Input.dispatchTouchEvent',{'type':'touchStart','touchPoints':[{**a,'id':0}]});frame.evaluate('type=>window.dispatchEvent(new Event(type))',event)
+            cdp.send('Input.dispatchTouchEvent',{'type':'touchMove','touchPoints':[{**b,'id':0}]});cdp.send('Input.dispatchTouchEvent',{'type':'touchEnd','touchPoints':[]});self.assertEqual(self.kitchen(frame)['model']['cuts'],[]);self.assertEqual(self.kitchen(frame)['model']['errors'],0);self.assertFalse(self.kitchen(frame)['paused'])
+        frame.evaluate('''()=>{window.qaRectReads=0;const get=HTMLCanvasElement.prototype.getBoundingClientRect;window.qaRestoreRect=()=>HTMLCanvasElement.prototype.getBoundingClientRect=get;HTMLCanvasElement.prototype.getBoundingClientRect=function(){if(this.id==='dm-kitchen-canvas')window.qaRectReads++;return get.call(this)}}''')
+        cdp.send('Input.dispatchTouchEvent',{'type':'touchStart','touchPoints':[{**a,'id':0}]})
+        for i in range(1,61):cdp.send('Input.dispatchTouchEvent',{'type':'touchMove','touchPoints':[{'x':a['x'],'y':a['y']+(b['y']-a['y'])*i/60,'id':0}]})
+        cdp.send('Input.dispatchTouchEvent',{'type':'touchEnd','touchPoints':[]});cdp.detach();reads=frame.evaluate('()=>{qaRestoreRect();return qaRectReads}');self.assertLessEqual(reads,3);self.assertEqual(self.kitchen(frame)['model']['cuts'],[0]);self.assertEqual(self.errors,[])
+
+    def test_idle_and_paused_kitchen_stop_repainting_dom_churn_and_repeat_saves(self):
+        game,frame=self.open_cooking();game.get_by_role('button',name='Empezar receta',exact=True).click();frame.wait_for_timeout(200)
+        metrics=frame.evaluate('''async base=>{
+            const {KitchenRenderer}=await import(base+'src/kitchen/kitchen-renderer.mjs?rendimiento=12');
+            let draws=0,mutations=0,writes=0;const draw=KitchenRenderer.prototype.draw,put=Storage.prototype.setItem;
+            KitchenRenderer.prototype.draw=function(...args){draws++;return draw.apply(this,args)};
+            Storage.prototype.setItem=function(k,v){if(k.startsWith('dos-mundos-cocina-jugable-v1:'))writes++;return put.call(this,k,v)};
+            const ob=new MutationObserver(r=>mutations+=r.length);ob.observe(document.querySelector('.ck-panel'),{childList:true,subtree:true,attributes:true});
+            try{
+                await new Promise(r=>setTimeout(r,2200));const playing={draws,mutations,writes};
+                window.dispatchEvent(new Event('blur'));const blurPaused=window.DosMundosKitchen.getSnapshot().paused;
+                [...document.querySelectorAll('.ck-header button')].find(b=>b.textContent==='Pausa').click();await new Promise(r=>setTimeout(r,100));
+                draws=0;mutations=0;writes=0;await new Promise(r=>setTimeout(r,2200));return {playing,paused:{draws,mutations,writes},blurPaused};
+            }finally{ob.disconnect();KitchenRenderer.prototype.draw=draw;Storage.prototype.setItem=put;}
+        }''',self.base)
+        print('KITCHEN_PERFORMANCE',json.dumps(metrics),flush=True)
+        self.assertFalse(metrics['blurPaused']);self.assertLessEqual(metrics['playing']['draws'],1);self.assertLess(metrics['playing']['mutations'],12);self.assertLessEqual(metrics['playing']['writes'],3);self.assertEqual(metrics['paused'],{'draws':0,'mutations':0,'writes':0});self.assertEqual(self.errors,[])
+
+    def test_atlas_can_retry_after_failure_and_is_reused_when_reopening(self):
+        requested=[]
+        def image(route):
+            requested.append(route.request.url)
+            if len(requested)==1:route.abort()
+            else:route.fallback()
+        self.context.route('**/assets/kitchen/kitchen-atlas.png',image);self.tool();game,frame,_=self.open_house();game.get_by_role('button',name='Menú',exact=True).click();game.get_by_role('button',name='Cocinar jugando · 3 platos',exact=True).click();expect(game.get_by_role('button',name='Abrir recetario rápido',exact=True)).to_be_visible(timeout=25000);game.get_by_role('button',name='Volver a casa',exact=True).click()
+        self.enter_cooking(game,frame);self.assertEqual(len(requested),2);before=self.native(frame);game.get_by_role('button',name='Salir',exact=True).click();self.enter_cooking(game,frame);self.assertEqual(len(requested),2);self.assertEqual(self.native(frame),before);self.assertEqual(self.errors,[])
+
 if __name__=='__main__':
     names=sys.argv[1:];suite=unittest.TestSuite(CookingTests(n) for n in CookingTests.__dict__ if n.startswith('test_') and (not names or n in names));r=unittest.TextTestRunner(verbosity=2).run(suite);raise SystemExit(not r.wasSuccessful())
