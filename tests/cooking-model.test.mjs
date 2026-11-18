@@ -46,3 +46,36 @@ test('pause and restored saves keep steps, heat and timer but never resume a hel
 test('accessible controls complete the same tasks and cannot advance an unfinished step',()=>{
  const g=new CookingGame('omelet');g.start();assert.equal(g.next(),false);for(let i=0;i<5;i++)g.cut();g.next();g.crack();g.crack();for(let i=0;i<12;i++)g.stirQuarter();g.next();g.setHeat(.55);advance(g,11);g.flip();advance(g,3);g.next();for(let i=0;i<3;i++)g.plate(i);g.next();assert.equal(g.result().effort,true);assert.ok(g.result().score>950);
 });
+test('shorter cuts allow finger drift in either vertical direction but still need a real stroke',()=>{
+ const g=new CookingGame('omelet');g.start();
+ for(let i=0;i<5;i++){const x=cutLine(g.step,i)+.085,up=i%2;g.begin(x,up?.71:.46);g.end(x+.035,up?.46:.71);assert.equal(g.state.cuts.length,i+1);}
+ assert.equal(g.state.phase,'stepDone');assert.ok(g.grade()>.7);
+});
+test('assisted cuts reject taps, sideways movement and strokes outside the board or target',()=>{
+ const g=new CookingGame('pasta');g.start();
+ for(const [a,b] of [[[.34,.6],[.34,.6]],[[.3,.6],[.6,.6]],[[.95,.4],[.95,.8]],[[.34,.01],[.34,.25]],[[.34,.53],[.34,.62]]]){g.begin(...a);g.end(...b);}
+ assert.deepEqual(g.state.cuts,[]);assert.equal(g.state.phase,'playing');
+});
+test('small oval stirring works clockwise and counterclockwise even with sparse samples',()=>{
+ for(const direction of [-1,1]){
+  const g=new CookingGame('chickenrice');g.start();finishStep(g);g.begin(.595,.6);
+  for(let i=1;i<=20;i++){const a=i/6*Math.PI*2*direction;g.move(.5+Math.cos(a)*.095,.6+Math.sin(a)*.065);}
+  g.end(.595,.6);assert.equal(g.state.phase,'stepDone');assert.ok(g.state.turns>=3);
+ }
+});
+test('stirring jitter cannot accumulate turns and a slight reversal does not erase progress',()=>{
+ const g=new CookingGame('chickenrice');g.start();finishStep(g);g.begin(.7,.6);
+ for(let i=0;i<400;i++){const a=(i%2?.15:0);g.move(.5+Math.cos(a)*.2,.6+Math.sin(a)*.2);}assert.ok(g.state.turns<.03);
+ for(let i=1;i<=24;i++){const a=i/24*Math.PI*2;g.move(.5+Math.cos(a)*.2,.6+Math.sin(a)*.2);}const turns=g.state.turns;g.move(.5+Math.cos(-.1)*.2,.6+Math.sin(-.1)*.2);assert.equal(g.state.turns,turns);
+});
+test('stirring can continue with a different direction after lifting or restoring a preparation',()=>{
+ const g=new CookingGame('chickenrice');g.start();finishStep(g);circles(g,1);const raw=g.snapshot(),r=CookingGame.restore(raw);r.resume();r.begin(.72,.6);
+ for(let i=1;i<=110;i++){const a=-i/48*Math.PI*2;r.move(.5+Math.cos(a)*.22,.6+Math.sin(a)*.22);}r.end(.72,.6);assert.equal(r.state.phase,'stepDone');assert.equal(r.state.version,1);
+});
+test('plating picks the visible edge of food and accepts the rim while rejecting outside drops',()=>{
+ const g=new CookingGame('omelet');g.start();for(let i=0;i<3;i++)finishStep(g);g.begin(.2,.53);assert.equal(g.pointer.drag,0);g.end(.77,.68);assert.deepEqual(g.state.plated,[0]);
+ g.begin(.5,.53);assert.equal(g.pointer.drag,1);g.end(.95,.95);assert.deepEqual(g.state.plated,[0]);g.begin(.5,.53);g.end(.5,.88);assert.deepEqual(g.state.plated,[0,1]);
+});
+test('a canceled drag or a contact that did not pick food cannot add a portion',()=>{
+ const g=new CookingGame('omelet');g.start();for(let i=0;i<3;i++)finishStep(g);g.begin(.2,.53);g.move(.5,.67);g.cancelGesture();g.end(.5,.67);assert.deepEqual(g.state.plated,[]);assert.match(g.state.feedback,/vuelve arriba/);g.begin(.95,.1);g.end(.5,.67);assert.deepEqual(g.state.plated,[]);
+});

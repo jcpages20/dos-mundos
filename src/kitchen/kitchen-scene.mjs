@@ -1,6 +1,6 @@
-import {DISHES,FOOD_NAMES,clamp} from './recipes.mjs';
-import {CookingGame} from './cooking-model.mjs?cocina=11';
-import {KitchenRenderer} from './kitchen-renderer.mjs?rendimiento=12';
+import {DISHES,FOOD_NAMES,clamp} from './recipes.mjs?gestos=13';
+import {CookingGame} from './cooking-model.mjs?gestos=13';
+import {KitchenRenderer} from './kitchen-renderer.mjs?gestos=13';
 const el=(tag,cls='',text='')=>{const n=document.createElement(tag);n.className=cls;if(text)n.textContent=text;return n;};
 const set=(node,key,value)=>{if(node[key]!==value)node[key]=value;};
 
@@ -17,7 +17,7 @@ export class KitchenScene {
     this.renderer=new KitchenRenderer(this.canvas,this.house.renderer,()=>this.cancelGesture());this.panel.append(el('p','','Preparando la tabla, los utensilios y la despensa…'));
     const signal=this.abort.signal;
     this.canvas.addEventListener('pointerdown',e=>{if(!this.game?.active()||this.pointerId!=null||!e.isPrimary)return;e.preventDefault();this.canvas.focus({preventScroll:true});this.pointerId=e.pointerId;this.pointerBounds=this.canvas.getBoundingClientRect();this.canvas.setPointerCapture(e.pointerId);const p=this.renderer.point(e,this.pointerBounds);this.game.begin(p.x,p.y);this.changed();},{signal});
-    this.canvas.addEventListener('pointermove',e=>{if(e.pointerId!==this.pointerId||!this.game?.pointer)return;e.preventDefault();const p=this.renderer.point(e,this.pointerBounds);this.game.move(p.x,p.y);this.changed(false);},{signal});
+    this.canvas.addEventListener('pointermove',e=>{if(e.pointerId!==this.pointerId||!this.game?.pointer)return;e.preventDefault();for(const sample of e.getCoalescedEvents?.()||[]){const p=this.renderer.point(sample,this.pointerBounds);this.game.move(p.x,p.y);}const p=this.renderer.point(e,this.pointerBounds);this.game.move(p.x,p.y);this.changed(false);},{signal});
     this.canvas.addEventListener('pointerup',e=>{if(e.pointerId!==this.pointerId)return;e.preventDefault();if(this.game?.pointer){const p=this.renderer.point(e,this.pointerBounds);this.game.end(p.x,p.y);}this.cancelGesture();this.changed();this.persist();},{signal});
     for(const type of ['pointercancel','lostpointercapture'])this.canvas.addEventListener(type,e=>{if(e.pointerId===this.pointerId){this.cancelGesture();this.persist();}},{signal});
     // Mobile browser controls can blur or rotate a visible page. Only a real
@@ -75,12 +75,15 @@ export class KitchenScene {
     if(step.kind==='cut')action='Cortar siguiente marca';else if(step.kind==='mix')action=s.eggs<2?'Cascar un huevo':'Batir ¼ de vuelta';else if(step.kind==='plate')action='Colocar siguiente alimento';else if(step.flip){action=s.flipped?'Tortilla volteada':'Dar la vuelta';disabled=s.flipped||s.cooked<7;}else if(step.drain){action='Escurrir la pasta';disabled=s.cooked<step.seconds;}else action=step.kind==='wash'?'Lavar ¼ de vuelta':'Remover ¼ de vuelta';
     set(this.action,'disabled',disabled);set(this.action,'textContent',action);
     let hint=s.feedback;
+    if(!hint&&step.kind==='cut')hint=s.cuts.length+' de '+step.cuts+' cortes · Desliza y levanta el dedo.';
+    if(!hint&&step.turns&&!(step.kind==='mix'&&s.eggs<2))hint=Math.min(step.turns,Math.floor(s.turns*4)/4)+' de '+step.turns+' vueltas · En cualquier sentido.'+(step.seconds?' Fuego medio: 55%.':'');
+    if(!hint&&step.kind==='plate')hint=s.plated.length+' de 3 ingredientes · Coge arriba y suelta en el plato.';
     if(!hint&&step.seconds)hint=s.cooked>=step.seconds?(step.flip&&!s.flipped?'Desliza hacia arriba para dar la vuelta.':step.drain&&!s.drained?'Lleva la olla hasta el colador.':step.turns&&s.turns<step.turns?'Falta remover la preparación.':''):'Fuego medio recomendado: 55%.';
     this.message(hint||'');
   }
   message(text){if(this.notice)set(this.notice,'textContent',text);}
   cancelGesture(){
-    const id=this.pointerId;this.pointerId=null;this.pointerBounds=null;if(this.game)this.game.pointer=null;this.paintDirty=true;
+    const id=this.pointerId;this.pointerId=null;this.pointerBounds=null;this.game?.cancelGesture();this.paintDirty=true;
     if(id!=null&&this.canvas?.hasPointerCapture(id))this.canvas.releasePointerCapture(id);
   }
   key(e){
