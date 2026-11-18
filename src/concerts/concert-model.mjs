@@ -1,4 +1,4 @@
-import {ARTISTS} from './catalogue.mjs';
+import {ARTISTS} from './catalogue.mjs?conciertos=17';
 export const ROTATION_MS=3*24*60*60*1000;
 export const ANCHOR=Date.UTC(2026,0,1);
 export const editionAt=now=>Math.floor(((Number.isFinite(now)?now:Date.now())-ANCHOR)/ROTATION_MS);

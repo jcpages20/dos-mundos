@@ -92,8 +92,8 @@ export function extendLegacyBuilder(builder, {stylesURL, installerURL}) {
   const farmInstallerURL = new URL('../farm/install-farm.mjs', import.meta.url).href;
   const farmStylesURL = new URL('../../styles/farm.css', import.meta.url).href;
   const outdoorStylesURL = new URL('../../styles/outdoors.css?conciertos=16', import.meta.url).href;
-  const concertStylesURL = new URL('../../styles/concerts.css', import.meta.url).href;
-  const outdoorInstallerURL = new URL('../outdoors/install-outdoors.mjs?conciertos=16', import.meta.url).href;
+  const concertStylesURL = new URL('../../styles/concerts.css?conciertos=17', import.meta.url).href;
+  const outdoorInstallerURL = new URL('../outdoors/install-outdoors.mjs?conciertos=17', import.meta.url).href;
   const lifeStylesURL = new URL('../../styles/life.css', import.meta.url).href;
   const lifeInstallerURL = new URL('../life/install-life.mjs', import.meta.url).href;
   const gymGamesStylesURL = new URL('../../styles/gym-games.css?rutinas=10', import.meta.url).href;

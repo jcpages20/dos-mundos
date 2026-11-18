@@ -1,6 +1,6 @@
-import {SOURCES,trackURL} from './catalogue.mjs';
-import {programme,ConcertStore} from './concert-model.mjs';
-import {loadConcertAssets} from './concert-assets.mjs';
+import {SOURCES,trackURL} from './catalogue.mjs?conciertos=17';
+import {programme,ConcertStore} from './concert-model.mjs?conciertos=17';
+import {loadConcertAssets} from './concert-assets.mjs?conciertos=17';
 export const element=(tag,css='',text='')=>{const e=document.createElement(tag);e.className=css;if(text)e.textContent=text;return e;};
 export function link(text,url){const a=element('a','',text);a.href=url;a.target='_blank';a.rel='noopener noreferrer';return a;}
 export function populateBillboard(menu,pick,bill=programme()){
