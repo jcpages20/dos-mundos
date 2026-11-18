@@ -1,6 +1,6 @@
 # Nuestra cocina: primera entrega de tres platos
 
-Entrada actual: `casa-rpg.html?gestos=13`. Para Gabi con su carta y estrella: `casa-rpg.html?gabi=1&gestos=13`. Se mantienen la [corrección de pausas y rendimiento](COCINA_RENDIMIENTO.md) y las [mejoras de control táctil](COCINA_CONTROLES.md), con los mismos guardados.
+Entrada actual: `casa-rpg.html?gestos=13.1`. Para Gabi con su carta y estrella: `casa-rpg.html?gabi=1&gestos=13.1`. Se mantienen la [corrección de pausas y rendimiento](COCINA_RENDIMIENTO.md) y las [mejoras de control táctil](COCINA_CONTROLES.md), con los mismos guardados.
 
 En casa → Menú → «Cocinar jugando · 3 platos». El personaje camina hasta los fogones. También aparece «Cocinar jugando» al acercarse a los fogones o a la encimera y se añade una entrada desde el recetario habitual. La estación abre dentro del mismo juego y vuelve a la misma cocina al salir. La casa conserva muebles, tamaños, colisiones y actividades. El recetario rápido mantiene sus cinco recetas anteriores.
 

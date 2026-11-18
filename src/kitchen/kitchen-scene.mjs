@@ -1,5 +1,5 @@
 import {DISHES,FOOD_NAMES,clamp} from './recipes.mjs?gestos=13';
-import {CookingGame} from './cooking-model.mjs?gestos=13';
+import {CookingGame} from './cooking-model.mjs?gestos=13.1';
 import {KitchenRenderer} from './kitchen-renderer.mjs?gestos=13';
 const el=(tag,cls='',text='')=>{const n=document.createElement(tag);n.className=cls;if(text)n.textContent=text;return n;};
 const set=(node,key,value)=>{if(node[key]!==value)node[key]=value;};

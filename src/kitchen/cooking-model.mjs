@@ -94,9 +94,10 @@ export class CookingGame {
   }
   check(){
     if(!this.active())return;const s=this.state,step=this.step;
-    let done=step.kind==='cut'?s.cuts.length===step.cuts:step.kind==='mix'?s.eggs===2&&s.turns>=step.turns:step.kind==='wash'?s.turns>=step.turns:step.kind==='plate'?s.plated.length===3:
-      s.cooked>=step.seconds&&(!step.turns||s.turns>=step.turns)&&(!step.flip||s.flipped)&&(!step.drain||s.drained);
-    if(done){s.phase='stepDone';s.feedback='Paso terminado.';this.pointer=null;}
+    const turnsDone=!step.turns||s.turns+1e-6>=step.turns;
+    let done=step.kind==='cut'?s.cuts.length===step.cuts:step.kind==='mix'?s.eggs===2&&turnsDone:step.kind==='wash'?turnsDone:step.kind==='plate'?s.plated.length===3:
+      s.cooked>=step.seconds&&turnsDone&&(!step.flip||s.flipped)&&(!step.drain||s.drained);
+    if(done){if(step.turns&&s.turns<step.turns)s.turns=step.turns;s.phase='stepDone';s.feedback='Paso terminado.';this.pointer=null;}
   }
   grade(){
     const s=this.state,step=this.step;
