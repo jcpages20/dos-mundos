@@ -33,8 +33,8 @@ casa, carta/estrella de Gabi, cocina, cine y actividades anteriores se ejecutan
 con perfiles desechables y un contrato simulado del reproductor.
 
 Resultado local: 13 pruebas de conciertos y 5 de compatibilidad superadas. Las
-dos nuevas pruebas fallan con la cartelera anterior y pasan con la corrección;
-se verificó también sintaxis, diff y la integridad del HTML histórico.
+dos nuevas pruebas cubren el recorte de la cartelera y la entrada mediante un
+toque; se verificó también sintaxis, diff y la integridad del HTML histórico.
 
 ![Cartelera recortada antes de la corrección](images/cartelera-recortada-390x844.png)
 ![Entrada visible en iPhone compacto](images/cartelera-entrada-375x667.png)
