@@ -1,0 +1,114 @@
+{
+  "version": 1,
+  "image": "concert-atlas.png",
+  "width": 1536,
+  "height": 1024,
+  "sha256": "21dbd283edb2719bca76fba6279f2464f5ba8598eb81382d392fb1a0dd027728",
+  "license": "Original artwork generated for Dos Mundos; no game resources, logos or photographs copied.",
+  "frames": {
+    "strokes": [
+      0,
+      0,
+      512,
+      256
+    ],
+    "chemical": [
+      512,
+      0,
+      512,
+      256
+    ],
+    "alice": [
+      1024,
+      0,
+      512,
+      256
+    ],
+    "fontaines": [
+      0,
+      256,
+      512,
+      256
+    ],
+    "massive": [
+      512,
+      256,
+      512,
+      256
+    ],
+    "remi": [
+      1024,
+      256,
+      512,
+      256
+    ],
+    "speakers": [
+      0,
+      512,
+      512,
+      256
+    ],
+    "lights": [
+      512,
+      512,
+      512,
+      256
+    ],
+    "stage": [
+      1024,
+      512,
+      512,
+      256
+    ],
+    "programme": [
+      0,
+      768,
+      512,
+      256
+    ],
+    "audience": [
+      512,
+      768,
+      512,
+      256
+    ],
+    "details": [
+      1024,
+      768,
+      512,
+      256
+    ]
+  },
+  "shared": {
+    "image": "shared-atlas.png",
+    "width": 1254,
+    "height": 1254,
+    "sha256": "ca3de74ff39c10356b39c137f0ddcab34969ffd2c95e498708b1e30b50de32d6",
+    "frames": {
+      "nsqk": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "judeline": [
+        627,
+        0,
+        627,
+        627
+      ],
+      "paco": [
+        0,
+        627,
+        627,
+        627
+      ],
+      "stall": [
+        627,
+        627,
+        627,
+        627
+      ]
+    }
+  }
+}

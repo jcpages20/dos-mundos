@@ -1,4 +1,5 @@
-import {OutdoorScene} from './outdoor-scene.mjs';
+import {OutdoorScene} from './outdoor-scene.mjs?conciertos=16';
+import {mountConcertAlbum} from '../concerts/concert-ui.mjs';
 const api=window.DosMundosOutdoorLegacy;let scene=null;
 function leave(){scene?.destroy();scene=null;}
 async function enter(){
@@ -8,4 +9,5 @@ async function enter(){
 window.addEventListener('dos-mundos:outdoors',event=>{if(event.detail.type==='enter')enter();else if(event.detail.type==='leave')leave();});
 window.addEventListener('pagehide',()=>scene?.save());
 window.DosMundosOutdoors=Object.freeze({getSnapshot:()=>scene?.snapshot()||null});
+window.DosMundosConcerts=Object.freeze({getSnapshot:()=>scene?.concert?.snapshot()||null,mountAlbum:parent=>mountConcertAlbum(parent,api?.snapshot())});
 if(api?.open)enter();

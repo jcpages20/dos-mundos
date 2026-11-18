@@ -62,7 +62,7 @@ export function installLegacyLifeBridge(){
   },true);
   window.addEventListener('click',event=>{if(gesture?.event===event){const item=gesture;gesture=null;finish(item.before,item.label,item.hint);}});
   const oldPhone=dm42OpenPhone;dm42OpenPhone=function(){const result=oldPhone();window.dispatchEvent(new CustomEvent('dos-mundos:life-phone'));return result;};
-  const oldAlbum=dm61Album;dm61Album=function(content){oldAlbum(content);window.DosMundosLife?.mountAlbum(content);};
+  const oldAlbum=dm61Album;dm61Album=function(content){oldAlbum(content);window.DosMundosLife?.mountAlbum(content);window.DosMundosConcerts?.mountAlbum(content);};
   window.DosMundosLifeLegacy=Object.freeze({
     snapshot,
     pause(){cancelWalk();},

@@ -70,7 +70,7 @@ export class OutdoorRenderer{
     const sitting=map.objects.find(o=>o.seats?.some(s=>Math.hypot(s.x-actor.x,s.y-actor.y)<4));
     items.push({y:sitting?sitting.depth+1:actor.y,draw:()=>drawOriginalActor(g,{...actor,moving:actor.moving&&!this.reduced},now)});
     if(data.peer&&Number.isFinite(data.peer.roomX)&&Number.isFinite(data.peer.roomY)){
-      const p=decodePosition(data.peer,map),seat=distanceToSeat(p,map);if(p.x>=0&&p.x<=map.width&&p.y>=0&&p.y<=map.height){
+      const inConcert=map.id==='park'&&/^Concierto · /.test(data.peer.place||''),p=inConcert?{x:actor.role==='jc'?238:214,y:737}:decodePosition(data.peer,map),seat=distanceToSeat(p,map);if(p.x>=0&&p.x<=map.width&&p.y>=0&&p.y<=map.height){
         const owner=seat?.distance<10?seat.object:null;items.push({y:owner?owner.depth+2:p.y,draw:()=>drawOriginalActor(g,{...p,role:actor.role==='jc'?'gabi':'jc',face:['up','down','left','right'].includes(data.peer.face)?data.peer.face:'down',pose:owner?'sit':'stand',moving:false},now)});}
     }
     // Small living details; these are ambient birds, never substitute players.
