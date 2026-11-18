@@ -1,4 +1,4 @@
-import {DISHES,clamp,cutLine,servingSource,WORK_CENTER} from './recipes.mjs';
+import {DISHES,clamp,cutLine,WORK_CENTER,CUT_ASSIST,pickServing,inServingTarget} from './recipes.mjs?gestos=13';
 const clone=v=>JSON.parse(JSON.stringify(v));
 const TAU=Math.PI*2;
 export class CookingGame {
@@ -28,6 +28,7 @@ export class CookingGame {
   start(){if(this.state.phase==='ready')this.state.phase='playing';}
   pause(){this.state.paused=true;this.pointer=null;}
   resume(){this.state.paused=false;this.pointer=null;}
+  cancelGesture(){const held=this.pointer?.drag!=null;this.pointer=null;if(held&&this.active())this.state.feedback='El ingrediente vuelve arriba. Puedes cogerlo otra vez.';}
   resetStep(){
     const s=this.state;
     Object.assign(s,{phase:'playing',stepTime:0,errors:0,cuts:[],eggs:0,turns:0,heat:0,temperature:0,cooked:0,goodHeat:0,overheat:0,flipped:false,flipAt:0,flipGrade:0,drained:false,plated:[],precision:[],feedback:''});this.pointer=null;
@@ -43,7 +44,7 @@ export class CookingGame {
   setHeat(value){if(!this.active()||!this.step.seconds)return;const n=Number(value);if(!Number.isFinite(n))return;this.state.heat=clamp(n);this.state.inputs++;}
   cut(index=this.state.cuts.length,error=0){
     const s=this.state;if(!this.active()||this.step.kind!=='cut'||index!==s.cuts.length)return;
-    s.inputs++;s.cuts.push(index);s.precision.push(clamp(1-error/.12));this.check();
+    s.inputs++;s.cuts.push(index);s.precision.push(clamp(1-error/.12));s.feedback='Corte '+s.cuts.length+' de '+this.step.cuts+'. Levanta el dedo para el siguiente.';this.check();
   }
   crack(){const s=this.state;if(!this.active()||this.step.kind!=='mix'||s.eggs>=2)return;s.inputs++;s.eggs++;this.check();}
   stirQuarter(){if(!this.active()||!this.step.turns||this.step.kind==='mix'&&this.state.eggs<2)return;this.state.turns+=.25;this.state.inputs++;this.check();}
@@ -52,8 +53,9 @@ export class CookingGame {
   plate(index,error=0){const s=this.state;if(!this.active()||this.step.kind!=='plate'||!Number.isInteger(index)||index<0||index>2||s.plated.includes(index))return;s.inputs++;s.plated.push(index);s.precision.push(clamp(1-error/.5,.6,1));this.check();}
   begin(x,y){
     if(!this.active()||!Number.isFinite(x)||!Number.isFinite(y))return;
-    this.pointer={x,y,lastX:x,lastY:y,angle:null,drag:null};
-    if(this.step.kind==='plate')this.pointer.drag=[0,1,2].find(i=>!this.state.plated.includes(i)&&Math.hypot(x-servingSource(i).x,y-servingSource(i).y)<.15)??null;
+    this.pointer={x,y,lastX:x,lastY:y,angle:null,arc:0,peakArc:0,drag:null};
+    if(this.step.kind==='plate'){this.pointer.drag=pickServing(x,y,this.state.plated);this.state.feedback=this.pointer.drag===null?'Coge uno de los ingredientes de arriba.':'Lo tienes. Llévalo al plato iluminado y suelta.';}
+    else this.state.feedback='';
     this.move(x,y);
   }
   move(x,y){
@@ -61,25 +63,28 @@ export class CookingGame {
     const p=this.pointer;p.lastX=clamp(x);p.lastY=clamp(y);
     if(this.step.turns&&!(this.step.kind==='mix'&&this.state.eggs<2)){
       const dx=x-WORK_CENTER.x,dy=y-WORK_CENTER.y,r=Math.hypot(dx,dy);
-      if(r<.09||r>.35){p.angle=null;return;}
+      if(r<.045||r>.42){p.angle=null;return;}
       const angle=Math.atan2(dy,dx);
       if(p.angle!==null){let delta=angle-p.angle;while(delta>Math.PI)delta-=TAU;while(delta<-Math.PI)delta+=TAU;
-        if(Math.abs(delta)<.8){this.state.turns=clamp(this.state.turns+delta/TAU,0,100);if(delta>.025)this.state.inputs++;this.check();}}
+        // Credit the furthest net rotation of this contact, in either direction.
+        // Back-and-forth jitter never adds repeated credit or erases earned turns.
+        if(Math.abs(delta)<1.7){p.arc+=delta;const peak=Math.max(p.peakArc,Math.abs(p.arc));this.state.turns=clamp(this.state.turns+(peak-p.peakArc)/TAU,0,100);p.peakArc=peak;if(Math.abs(delta)>.025)this.state.inputs++;this.check();}}
       p.angle=angle;
     }
   }
   end(x,y){
-    const p=this.pointer;this.pointer=null;if(!p||!this.active()||!Number.isFinite(x)||!Number.isFinite(y))return;
+    const p=this.pointer;if(p)this.move(x,y);this.pointer=null;if(!p||!this.active()||!Number.isFinite(x)||!Number.isFinite(y))return;
     const s=this.state,kind=this.step.kind;
     if(kind==='cut'){
       const line=cutLine(this.step,s.cuts.length),error=Math.abs((x+p.x)/2-line);
-      if(Math.abs(y-p.y)>.25&&Math.abs(x-p.x)<.12&&Math.min(y,p.y)<.5&&Math.max(y,p.y)>.72&&error<.09)this.cut(s.cuts.length,error);
-      else{s.errors++;s.feedback='Sigue la siguiente marca con un trazo largo.';}
+      const overlap=Math.min(CUT_ASSIST.bottom,Math.max(y,p.y))-Math.max(CUT_ASSIST.top,Math.min(y,p.y));
+      if(overlap>=CUT_ASSIST.travel&&Math.abs(y-p.y)>Math.abs(x-p.x)*1.5&&Math.abs(x-p.x)<.20&&error<CUT_ASSIST.radius)this.cut(s.cuts.length,Math.max(0,error-.045)*.45);
+      else{s.errors++;s.feedback='Desliza un poco más sobre la franja clara, hacia abajo o arriba.';}
     }else if(kind==='mix'&&s.eggs<2&&Math.hypot(x-p.x,y-p.y)<.08){
       const eggX=s.eggs===0?.32:.68;if(Math.hypot(x-eggX,y-.54)<.18)this.crack();
     }else if(this.step.flip&&p.y-y>.2&&Math.abs(p.x-x)<.3)this.flip();
     else if(this.step.drain&&p.x<.7&&x>.75&&y>.35&&y<.88)this.drain();
-    else if(kind==='plate'&&p.drag!==null){const error=Math.hypot(x-.5,y-.67);if(error<.26)this.plate(p.drag,error);else s.feedback='Suelta el alimento dentro del plato.';}
+    else if(kind==='plate'&&p.drag!==null){const error=Math.hypot(x-.5,y-.67);if(inServingTarget(x,y)){this.plate(p.drag,Math.max(0,error-.12)*.5);if(s.phase==='playing')s.feedback='¡Al plato! Coge el siguiente ingrediente.';}else s.feedback='Casi: suelta en la zona clara del plato. El ingrediente vuelve arriba.';}
   }
   update(dt){
     const s=this.state;if(!this.active())return;dt=clamp(Number(dt)||0,0,.1);s.elapsed+=dt;s.stepTime+=dt;
