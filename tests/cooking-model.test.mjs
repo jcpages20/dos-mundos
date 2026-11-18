@@ -86,3 +86,31 @@ test('exactly three full turns finish despite floating point roundoff at differe
   g.end(.63,.6);assert.equal(g.state.phase,'stepDone',samples+':'+direction);assert.ok(g.state.turns>=3);
  }
 });
+function tap(g,x,y){g.begin(x,y);g.end(x,y);}
+function easyStep(g){
+ const step=g.step;
+ if(step.kind==='cut')for(let i=0;i<step.cuts;i++)tap(g,.5,.58);
+ else if(step.kind==='mix'||step.kind==='wash'){if(step.kind==='mix'){tap(g,.32,.54);tap(g,.68,.54);}g.begin(.5,.6);advance(g,3.1);g.end(.5,.6);}
+ else if(step.kind==='plate')for(let i=0;i<3;i++){tap(g,.2+i*.3,.38);tap(g,.5,.70);}
+ else{g.setHeat(.55);if(step.turns){g.begin(.5,.6);advance(g,2.1);g.end(.5,.6);}advance(g,11);if(step.flip)tap(g,.5,.6);advance(g,3);if(step.drain)tap(g,.87,.65);}
+ assert.equal(g.state.phase,'stepDone',step.kind);g.next();
+}
+test('easy controls finish all three meals by tapping, holding and choosing portions',()=>{
+ for(const recipe of Object.keys(DISHES)){const g=new CookingGame(recipe);g.easy=true;g.start();for(let i=0;i<4;i++)easyStep(g);assert.equal(g.result().effort,true);assert.ok(g.result().score>950);assert.equal(g.state.version,1);}
+});
+test('easy taps cut once per contact and still reject contacts outside the food',()=>{
+ const g=new CookingGame('omelet');g.easy=true;g.start();tap(g,.95,.1);assert.equal(g.state.cuts.length,0);tap(g,.5,.58);assert.deepEqual(g.state.cuts,[0]);advance(g,2);assert.deepEqual(g.state.cuts,[0]);g.begin(.5,.58);g.cancelGesture();g.end(.5,.58);assert.deepEqual(g.state.cuts,[0]);
+});
+test('holding to stir needs eggs and a held contact inside the bowl, and pauses safely',()=>{
+ const g=new CookingGame('omelet');g.easy=true;g.start();easyStep(g);g.begin(.5,.6);advance(g,4);g.end(.5,.6);assert.equal(g.state.turns,0);tap(g,.32,.54);tap(g,.68,.54);advance(g,4);assert.equal(g.state.turns,0);g.begin(.95,.1);advance(g,2);assert.equal(g.state.turns,0);g.end(.95,.1);g.begin(.5,.6);advance(g,.8);const before=g.state.turns;g.pause();advance(g,5);assert.equal(g.state.turns,before);g.resume();g.begin(.5,.6);advance(g,2.4);assert.equal(g.state.phase,'stepDone');
+});
+test('easy plating selects first, requires a second valid tap and never places a portion twice',()=>{
+ const g=new CookingGame('omelet');g.easy=true;g.start();for(let i=0;i<3;i++)easyStep(g);tap(g,.2,.38);assert.equal(g.selectedPortion,0);assert.deepEqual(g.state.plated,[]);tap(g,.95,.95);assert.deepEqual(g.state.plated,[]);tap(g,.5,.70);assert.deepEqual(g.state.plated,[0]);assert.equal(g.selectedPortion,null);tap(g,.5,.70);assert.deepEqual(g.state.plated,[0]);
+});
+test('easy flip and colander still require the native cooking readiness',()=>{
+ const g=new CookingGame('omelet');g.easy=true;g.start();easyStep(g);easyStep(g);tap(g,.5,.6);assert.equal(g.state.flipped,false);assert.equal(g.state.errors,0);g.setHeat(.55);advance(g,14);tap(g,.5,.6);assert.equal(g.state.phase,'stepDone');
+ const p=new CookingGame('pasta');p.easy=true;p.start();easyStep(p);tap(p,.87,.65);assert.equal(p.state.drained,false);p.setHeat(.55);advance(p,14);tap(p,.87,.65);assert.equal(p.state.phase,'stepDone');
+});
+test('easy mode and selected portion do not add fields to saved version one preparations',()=>{
+ const g=new CookingGame('omelet');g.easy=true;g.start();for(let i=0;i<3;i++)easyStep(g);tap(g,.2,.38);const raw=g.snapshot();assert.equal('easy' in raw,false);assert.equal('selectedPortion' in raw,false);const r=CookingGame.restore(raw);assert.equal(r.state.paused,true);assert.equal(r.selectedPortion,null);assert.deepEqual(r.state.plated,[]);r.easy=true;r.resume();tap(r,.2,.38);tap(r,.5,.70);assert.deepEqual(r.state.plated,[0]);
+});

@@ -1,7 +1,7 @@
 import {HOUSE, HOUSE_VERSION, contains, roomAt} from './house-map.mjs';
 import {canStand, clearSegment, distance, findPath, moveSafely, nearestApproach} from '../engine/navigation.mjs';
 import {HouseRenderer} from './house-renderer.mjs';
-import {KitchenScene} from '../kitchen/kitchen-scene.mjs?gestos=13.1';
+import {KitchenScene} from '../kitchen/kitchen-scene.mjs?cocina=14';
 
 const labels = {sit: 'Sentarse', 'sit-chair': 'Sentarse', sleep: 'Dormir', shower: 'Ducharse',
   read: 'Leer', cook: 'Ver recetas', pantry: 'Ver despensa', eat: 'Comer · 8 €',

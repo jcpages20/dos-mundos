@@ -1,4 +1,4 @@
-import {DISHES,cutLine,servingSource,WORK_CENTER,clamp,CUT_ASSIST,SERVING_TARGET,PORTION_NAMES,inServingTarget} from './recipes.mjs?gestos=13';
+import {DISHES,cutLine,servingSource,WORK_CENTER,clamp,CUT_ASSIST,SERVING_TARGET,PORTION_NAMES,inServingTarget} from './recipes.mjs?cocina=14';
 import {drawOriginalActor,loadOriginalActors} from '../characters/original-actor.mjs?cocina=11';
 
 let sharedAssets;
@@ -67,14 +67,14 @@ export class KitchenRenderer {
       // Cut seams and a growing pile are drawn in the scene, not baked into a concept image.
       for(let i=0;i<step.cuts;i++){const x=cutLine(step,i)*480;g.strokeStyle=i<s.cuts.length?'#714c35':i===s.cuts.length?'#f4e5b8':'#e1c9a4';g.lineWidth=i===s.cuts.length?3:1;g.setLineDash(i<s.cuts.length?[]:[5,5]);g.beginPath();g.moveTo(x,173);g.lineTo(x,405);g.stroke();}g.setLineDash([]);
       if(s.cuts.length)this.foodPieces(g,step.food==='chicken'?'chicken':step.food==='tomato'?'sauce':'pepper',113,401,s.cuts.length*2,0);
-      if(p){const guide=cutLine(step,s.cuts.length),x=Math.abs(p.lastX-guide)<CUT_ASSIST.radius?guide:p.lastX;g.save();g.translate(x*480,p.lastY*480-16);g.rotate(-.55);this.sprite(g,'knife',-45,-68,90,90);g.restore();}else this.sprite(g,'knife',350,190,98,117);
+      if(p){const guide=cutLine(step,s.cuts.length),x=game.easy||Math.abs(p.lastX-guide)<CUT_ASSIST.radius?guide:p.lastX;g.save();g.translate(x*480,p.lastY*480-16);g.rotate(-.55);this.sprite(g,'knife',-45,-68,90,90);g.restore();}else this.sprite(g,'knife',350,190,98,117);
     }else if(kind==='mix'||kind==='wash'){
       this.sprite(g,kind==='wash'?'rice':'bowl',111,162,260,264);
       if(kind==='mix'&&s.eggs<2){for(let i=s.eggs;i<2;i++)this.sprite(g,'eggs',(i===0?.32:.68)*480-43,202,86,124,[i===0?0:.5,0,.5,1]);}
       else{
         g.fillStyle=kind==='wash'?'#bdd3cfbb':'#e9bd55';g.beginPath();g.ellipse(240,287,78,62,0,0,Math.PI*2);g.fill();
         if(kind==='wash')this.foodPieces(g,'rice',239,283,30);else{g.fillStyle='#f7d779';g.beginPath();g.ellipse(220,274,22,17,0,0,Math.PI*2);g.fill();}
-        const a=s.turns*Math.PI*2,spoonX=p?p.lastX*480:240+Math.cos(a)*48,spoonY=p?p.lastY*480:287+Math.sin(a)*44;
+        const a=s.turns*Math.PI*2,spoonX=p&&!game.easy?p.lastX*480:240+Math.cos(a)*48,spoonY=p&&!game.easy?p.lastY*480:287+Math.sin(a)*44;
         g.save();g.translate(spoonX,spoonY);g.rotate(a*.2);this.sprite(g,'spoon',-20,-15,92,134);g.restore();
         this.stirGuide(g,s,step,p);
       }
@@ -90,19 +90,19 @@ export class KitchenRenderer {
       else if(kind==='sauce'){g.fillStyle='#ab4934';g.beginPath();g.ellipse(234,288,76,62,0,0,Math.PI*2);g.fill();this.foodPieces(g,'sauce',231,286,18);}
       else this.foodPieces(g,'chicken',229,286,9,cooked);
       if(s.overheat>2&&kind!=='boil')this.charred(g,235,288,Math.min(1,s.overheat/8));
-      if(step.turns){const a=s.turns*Math.PI*2;g.save();g.translate(p?p.lastX*480:236+Math.cos(a)*41,p?p.lastY*480:285+Math.sin(a)*36);g.rotate(.4);this.sprite(g,'spoon',-22,-7,88,129);g.restore();this.stirGuide(g,s,step,p);}
+      if(step.turns){const a=s.turns*Math.PI*2;g.save();g.translate(p&&!game.easy?p.lastX*480:236+Math.cos(a)*41,p&&!game.easy?p.lastY*480:285+Math.sin(a)*36);g.rotate(.4);this.sprite(g,'spoon',-22,-7,88,129);g.restore();this.stirGuide(g,s,step,p);}
       if(s.temperature>.4&&!this.reduced){g.strokeStyle='#f1e4c677';g.lineWidth=2;for(let i=0;i<3;i++){const drift=Math.sin(s.elapsed*2+i)*5;g.beginPath();g.moveTo(199+i*34,208);g.lineTo(195+i*34+drift,189);g.lineTo(200+i*34,174);g.stroke();}}
     }else if(kind==='plate'){
       this.plate(g,240,325,135);
       if(s.plated.length===3)this.sprite(g,DISHES[s.recipe].plate,85,170,310,304);
       else{
-        const holding=p?.drag!=null,inside=holding&&inServingTarget(p.lastX,p.lastY),target=SERVING_TARGET;
+        const selected=game.easy?game.selectedPortion:null,holding=p?.drag!=null||selected!=null,inside=p?.drag!=null&&inServingTarget(p.lastX,p.lastY),target=SERVING_TARGET;
         g.fillStyle=inside?'#c8df9670':'#f3e4c224';g.beginPath();g.ellipse(target.x*480,target.y*480,target.rx*480,target.ry*480,0,0,Math.PI*2);g.fill();g.strokeStyle=inside?'#e6f5ba':'#f3e4c2';g.lineWidth=inside?5:2;g.setLineDash(holding?[]:[6,6]);g.stroke();g.setLineDash([]);
-        this.caption(g,inside?'Suelta aquí':holding?'Llévalo al plato':'Coge un ingrediente',240,444);
+        this.caption(g,inside?'Suelta aquí':selected!=null?'Toca el plato':holding?'Llévalo al plato':game.easy?'Toca un ingrediente':'Coge un ingrediente',240,444);
         for(const i of s.plated)this.foodPieces(g,step.items[i],217+i*18,321,16,1);
         for(let i=0;i<3;i++)if(!s.plated.includes(i)){
           const source=servingSource(i),held=p?.drag===i,pos=held?{x:p.lastX,y:p.lastY-.085}:source,key=step.items[i];
-          g.strokeStyle=held?'#f7edc577':'#f3e4c2';g.lineWidth=2;g.setLineDash(held?[4,5]:[]);g.beginPath();g.ellipse(source.x*480,(source.y+.035)*480,69,63,0,0,Math.PI*2);g.stroke();g.setLineDash([]);this.caption(g,PORTION_NAMES[key],source.x*480,263);
+          g.strokeStyle=selected===i?'#d8eab1':held?'#f7edc577':'#f3e4c2';g.lineWidth=selected===i?5:2;g.setLineDash(held?[4,5]:[]);g.beginPath();g.ellipse(source.x*480,(source.y+.035)*480,69,63,0,0,Math.PI*2);g.stroke();g.setLineDash([]);this.caption(g,PORTION_NAMES[key],source.x*480,263);
           if(['chicken','pasta','omelet'].includes(key))this.foodPieces(g,key,pos.x*480,pos.y*480+18,key==='chicken'?4:10,1);
           else if(['rice','pepper','cheese'].includes(key))this.sprite(g,key,pos.x*480-45,pos.y*480-30,90,90);
           else if(key==='herbs')this.foodPieces(g,'pepper',pos.x*480,pos.y*480+20,8);

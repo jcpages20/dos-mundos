@@ -1,4 +1,4 @@
-import {DISHES,clamp,cutLine,WORK_CENTER,CUT_ASSIST,pickServing,inServingTarget} from './recipes.mjs?gestos=13';
+import {DISHES,clamp,cutLine,WORK_CENTER,CUT_ASSIST,pickServing,inServingTarget} from './recipes.mjs?cocina=14';
 const clone=v=>JSON.parse(JSON.stringify(v));
 const TAU=Math.PI*2;
 export class CookingGame {
@@ -7,7 +7,7 @@ export class CookingGame {
     this.state={version:1,recipe,phase:'ready',step:0,elapsed:0,stepTime:0,paused:false,completed:[],score:0,
       inputs:0,errors:0,cuts:[],eggs:0,turns:0,heat:0,temperature:0,cooked:0,goodHeat:0,overheat:0,
       flipped:false,flipAt:0,flipGrade:0,drained:false,plated:[],precision:[],feedback:''};
-    this.pointer=null;
+    this.pointer=null;this.easy=false;this.selectedPortion=null;
   }
   get dish(){return DISHES[this.state.recipe];}
   get step(){return this.dish.steps[this.state.step];}
@@ -31,7 +31,7 @@ export class CookingGame {
   cancelGesture(){const held=this.pointer?.drag!=null;this.pointer=null;if(held&&this.active())this.state.feedback='El ingrediente vuelve arriba. Puedes cogerlo otra vez.';}
   resetStep(){
     const s=this.state;
-    Object.assign(s,{phase:'playing',stepTime:0,errors:0,cuts:[],eggs:0,turns:0,heat:0,temperature:0,cooked:0,goodHeat:0,overheat:0,flipped:false,flipAt:0,flipGrade:0,drained:false,plated:[],precision:[],feedback:''});this.pointer=null;
+    Object.assign(s,{phase:'playing',stepTime:0,errors:0,cuts:[],eggs:0,turns:0,heat:0,temperature:0,cooked:0,goodHeat:0,overheat:0,flipped:false,flipAt:0,flipGrade:0,drained:false,plated:[],precision:[],feedback:''});this.pointer=null;this.selectedPortion=null;
   }
   retry(){if(!this.state.paused&&['playing','stepDone'].includes(this.state.phase))this.resetStep();}
   next(){
@@ -50,7 +50,7 @@ export class CookingGame {
   stirQuarter(){if(!this.active()||!this.step.turns||this.step.kind==='mix'&&this.state.eggs<2)return;this.state.turns+=.25;this.state.inputs++;this.check();}
   flip(){const s=this.state;if(!this.active()||!this.step.flip||s.flipped)return;s.inputs++;if(s.cooked<7){s.errors++;s.feedback='Todavía necesita cuajar un poco.';return;}s.flipped=true;s.flipAt=s.elapsed;s.flipGrade=clamp(1-Math.abs(s.cooked-10)/14,.45,1);s.feedback='Tortilla volteada.';this.check();}
   drain(){const s=this.state;if(!this.active()||!this.step.drain||s.drained)return;s.inputs++;if(s.cooked<this.step.seconds){s.feedback='Espera a que la pasta esté cocida.';return;}s.drained=true;s.feedback='Pasta escurrida.';this.check();}
-  plate(index,error=0){const s=this.state;if(!this.active()||this.step.kind!=='plate'||!Number.isInteger(index)||index<0||index>2||s.plated.includes(index))return;s.inputs++;s.plated.push(index);s.precision.push(clamp(1-error/.5,.6,1));this.check();}
+  plate(index,error=0){const s=this.state;if(!this.active()||this.step.kind!=='plate'||!Number.isInteger(index)||index<0||index>2||s.plated.includes(index))return;s.inputs++;s.plated.push(index);s.precision.push(clamp(1-error/.5,.6,1));if(this.selectedPortion===index)this.selectedPortion=null;this.check();}
   begin(x,y){
     if(!this.active()||!Number.isFinite(x)||!Number.isFinite(y))return;
     this.pointer={x,y,lastX:x,lastY:y,angle:null,arc:0,peakArc:0,drag:null};
@@ -61,7 +61,7 @@ export class CookingGame {
   move(x,y){
     if(!this.pointer||!this.active()||!Number.isFinite(x)||!Number.isFinite(y))return;
     const p=this.pointer;p.lastX=clamp(x);p.lastY=clamp(y);
-    if(this.step.turns&&!(this.step.kind==='mix'&&this.state.eggs<2)){
+    if(!this.easy&&this.step.turns&&!(this.step.kind==='mix'&&this.state.eggs<2)){
       const dx=x-WORK_CENTER.x,dy=y-WORK_CENTER.y,r=Math.hypot(dx,dy);
       if(r<.045||r>.42){p.angle=null;return;}
       const angle=Math.atan2(dy,dx);
@@ -75,19 +75,24 @@ export class CookingGame {
   end(x,y){
     const p=this.pointer;if(p)this.move(x,y);this.pointer=null;if(!p||!this.active()||!Number.isFinite(x)||!Number.isFinite(y))return;
     const s=this.state,kind=this.step.kind;
+    const tap=Math.hypot(x-p.x,y-p.y)<.10;
     if(kind==='cut'){
       const line=cutLine(this.step,s.cuts.length),error=Math.abs((x+p.x)/2-line);
       const overlap=Math.min(CUT_ASSIST.bottom,Math.max(y,p.y))-Math.max(CUT_ASSIST.top,Math.min(y,p.y));
-      if(overlap>=CUT_ASSIST.travel&&Math.abs(y-p.y)>Math.abs(x-p.x)*1.5&&Math.abs(x-p.x)<.20&&error<CUT_ASSIST.radius)this.cut(s.cuts.length,Math.max(0,error-.045)*.45);
+      if(this.easy&&tap&&x>.22&&x<.82&&y>.32&&y<.90)this.cut(s.cuts.length,0);
+      else if(overlap>=CUT_ASSIST.travel&&Math.abs(y-p.y)>Math.abs(x-p.x)*1.5&&Math.abs(x-p.x)<.20&&error<CUT_ASSIST.radius)this.cut(s.cuts.length,Math.max(0,error-.045)*.45);
       else{s.errors++;s.feedback='Desliza un poco más sobre la franja clara, hacia abajo o arriba.';}
     }else if(kind==='mix'&&s.eggs<2&&Math.hypot(x-p.x,y-p.y)<.08){
       const eggX=s.eggs===0?.32:.68;if(Math.hypot(x-eggX,y-.54)<.18)this.crack();
-    }else if(this.step.flip&&p.y-y>.2&&Math.abs(p.x-x)<.3)this.flip();
-    else if(this.step.drain&&p.x<.7&&x>.75&&y>.35&&y<.88)this.drain();
+    }else if(this.step.flip&&(p.y-y>.2&&Math.abs(p.x-x)<.3||this.easy&&tap&&Math.hypot(x-.5,y-.6)<.34)){if(this.easy&&s.cooked<7)s.feedback='Todavía está cuajando. Tócala cuando esté lista.';else this.flip();}
+    else if(this.step.drain&&(p.x<.7&&x>.75&&y>.35&&y<.88||this.easy&&tap&&x>.72&&y>.35&&y<.9))this.drain();
+    else if(kind==='plate'&&this.easy&&tap&&p.drag!==null){this.selectedPortion=p.drag;s.feedback='Ingrediente elegido. Ahora toca el centro del plato.';}
+    else if(kind==='plate'&&this.easy&&tap&&p.drag===null&&this.selectedPortion!==null&&inServingTarget(x,y)){this.plate(this.selectedPortion,0);this.selectedPortion=null;if(s.phase==='playing')s.feedback='¡Al plato! Toca el siguiente ingrediente.';}
     else if(kind==='plate'&&p.drag!==null){const error=Math.hypot(x-.5,y-.67);if(inServingTarget(x,y)){this.plate(p.drag,Math.max(0,error-.12)*.5);if(s.phase==='playing')s.feedback='¡Al plato! Coge el siguiente ingrediente.';}else s.feedback='Casi: suelta en la zona clara del plato. El ingrediente vuelve arriba.';}
   }
   update(dt){
     const s=this.state;if(!this.active())return;dt=clamp(Number(dt)||0,0,.1);s.elapsed+=dt;s.stepTime+=dt;
+    if(this.easy&&this.pointer&&this.step.turns&&!(this.step.kind==='mix'&&s.eggs<2)&&Math.hypot(this.pointer.lastX-WORK_CENTER.x,this.pointer.lastY-WORK_CENTER.y)<.36){const before=Math.floor(s.turns*4);s.turns=clamp(s.turns+dt,0,this.step.turns);s.inputs+=Math.floor(s.turns*4)-before;if(!this.step.seconds)this.check();}
     if(this.step.seconds){s.temperature=clamp(s.temperature+(s.heat-s.temperature)*Math.min(1,dt*1.1));
       if(s.temperature>=.32){s.cooked+=dt;if(s.temperature<=.73)s.goodHeat+=dt;else s.overheat+=dt;}
       this.check();}

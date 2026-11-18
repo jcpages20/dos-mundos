@@ -6,15 +6,16 @@ import browser_smoke as support
 from playwright.sync_api import expect
 
 class CookingTests(HouseTests):
-    def open_cooking(self,recipe='omelet',role='jc',pantry=None,practice=False):
+    def open_cooking(self,recipe='omelet',role='jc',pantry=None,practice=False,easy=False):
         self.tool();name='Gabi%20QA:gabi' if role=='gabi' else 'JC%20QA:jc'
         value={'pantry':pantry if pantry is not None else {'egg':8,'veg':8,'pasta':8,'tomato':8,'cheese':8,'rice':8,'chicken':8},'skills':{'cooking':0},'xp':0,'totalMeals':0,'lastDay':2,'decorBaseline':1,'daily':{'jobs':0,'bought':0,'cooked':0,'decorated':0,'claimed':[]}}
         self.page.evaluate('([k,v])=>localStorage.setItem(k,JSON.stringify(v))',['dos-mundos-55-progreso:'+name,value]);game,frame,_=self.open_house(role)
-        self.enter_cooking(game,frame);game.locator('[data-dish="'+recipe+'"]').click()
+        self.enter_cooking(game,frame,easy);game.locator('[data-dish="'+recipe+'"]').click()
         if practice:game.get_by_label('Ensayo gratis',exact=False).check()
         return game,frame
-    def enter_cooking(self,game,frame):
+    def enter_cooking(self,game,frame,easy=False):
         game.get_by_role('button',name='Menú',exact=True).click();game.get_by_role('button',name='Cocinar jugando · 3 platos',exact=True).click();expect(game.locator('#dm-kitchen-scene')).to_be_visible(timeout=15000);frame.wait_for_function('window.DosMundosKitchen.getSnapshot()?.ready',timeout=22000)
+        if frame.evaluate('window.DosMundosKitchen.getSnapshot().controls')!=('easy' if easy else 'gestures'):game.get_by_role('button',name='Control fácil',exact=True).click()
     def kitchen(self,frame):return frame.evaluate('window.DosMundosKitchen.getSnapshot()')
     def records(self,frame):return frame.evaluate('window.DosMundosKitchenLegacy.snapshot()')
     def native(self,frame):return frame.evaluate('''()=>{const s=window.DosMundosKitchenLegacy.snapshot(),base=JSON.parse(localStorage.getItem('dos-mundos-v29'));return {base,life:JSON.parse(localStorage.getItem('dos-mundos-55-progreso:'+encodeURIComponent(s.name)+':'+s.role)),barrio:JSON.parse(localStorage.getItem('dos-mundos-54-barrio-'+s.role)||'null'),duo:localStorage.getItem('dos-mundos-61-duo-v1')}}''')
@@ -146,7 +147,7 @@ class CookingTests(HouseTests):
     def test_idle_and_paused_kitchen_stop_repainting_dom_churn_and_repeat_saves(self):
         game,frame=self.open_cooking();game.get_by_role('button',name='Empezar receta',exact=True).click();frame.wait_for_timeout(200)
         metrics=frame.evaluate('''async base=>{
-            const {KitchenRenderer}=await import(base+'src/kitchen/kitchen-renderer.mjs?gestos=13');
+            const {KitchenRenderer}=await import(base+'src/kitchen/kitchen-renderer.mjs?cocina=14');
             let draws=0,mutations=0,writes=0;const draw=KitchenRenderer.prototype.draw,put=Storage.prototype.setItem;
             KitchenRenderer.prototype.draw=function(...args){draws++;return draw.apply(this,args)};
             Storage.prototype.setItem=function(k,v){if(k.startsWith('dos-mundos-cocina-jugable-v1:'))writes++;return put.call(this,k,v)};
@@ -187,6 +188,60 @@ class CookingTests(HouseTests):
         self.drag(game,(.2,.53),(.95,.95),True);self.assertEqual(self.kitchen(frame)['model']['plated'],[]);expect(game.locator('.ck-notice')).to_contain_text('vuelve arriba')
         for i,target in enumerate([(.77,.68),(.5,.88),(.23,.68)]):self.drag(game,(.2+i*.3,.53),target,True);self.assertEqual(self.kitchen(frame)['model']['plated'],list(range(i+1)))
         self.assertEqual(self.kitchen(frame)['phase'],'stepDone');self.assertEqual(self.native(frame),before);game.get_by_role('button',name='Ver mi plato',exact=True).click();game.get_by_role('button',name='Servir y comer',exact=True).click();self.assertEqual(self.native(frame)['life']['skills']['cooking'],14);self.assertEqual(self.native(frame)['life']['totalMeals'],1);self.assertEqual(self.errors,[])
+
+    def play_easy(self,game,frame,capture=False):
+        self.assertEqual(self.kitchen(frame)['controls'],'easy');game.get_by_role('button',name='Empezar receta',exact=True).click();frame.wait_for_timeout(100);original=game.locator('#dm-kitchen-canvas').bounding_box();recipe=self.kitchen(frame)['recipe'];cdp=self.context.new_cdp_session(self.page)
+        def fixed():
+            box=game.locator('#dm-kitchen-canvas').bounding_box()
+            for k in ('x','y','width','height'):self.assertAlmostEqual(box[k],original[k],delta=.6,msg=f'{recipe}: canvas moved at {k}')
+        def tap(x,y):self.page.touchscreen.tap(**self.point(game,x,y));fixed()
+        def hold(seconds):
+            p=self.point(game,.5,.6);cdp.send('Input.dispatchTouchEvent',{'type':'touchStart','touchPoints':[{**p,'id':0}]});frame.wait_for_timeout(seconds*1000);fixed();cdp.send('Input.dispatchTouchEvent',{'type':'touchEnd','touchPoints':[]});fixed()
+        for index in range(4):
+            fixed();state=self.kitchen(frame)['model'];self.assertEqual(state['step'],index);kind={'omelet':['cut','mix','pan','plate'],'pasta':['cut','boil','sauce','plate'],'chickenrice':['cut','wash','saute','plate']}[recipe][index]
+            if kind=='cut':
+                for _ in range(6 if recipe=='chickenrice' else 5):tap(.5,.58)
+            elif kind in ('mix','wash'):
+                if kind=='mix':tap(.32,.54);tap(.68,.54)
+                hold(3.3)
+            elif kind in ('pan','boil','sauce','saute'):
+                self.assertAlmostEqual(self.kitchen(frame)['model']['heat'],.55,delta=.001)
+                if kind in ('sauce','saute'):hold(2.3)
+                if kind=='pan':frame.wait_for_function('window.DosMundosKitchen.getSnapshot().model.cooked>=9.8',timeout=18000);tap(.5,.6)
+                frame.wait_for_function('window.DosMundosKitchen.getSnapshot().model.cooked>='+('10' if kind=='sauce' else '12'),timeout=18000);fixed()
+                if kind=='boil':tap(.87,.65)
+            else:
+                for i in range(3):
+                    tap(.2+i*.3,.38);self.assertEqual(self.kitchen(frame)['selectedPortion'],i);tap(.5,.70)
+            frame.wait_for_function('window.DosMundosKitchen.getSnapshot().phase==="stepDone"',timeout=5000);fixed()
+            if capture:self.page.screenshot(path=str(support.ARTIFACTS/f'cocina-estable-{recipe}-paso-{index+1}.png'))
+            game.get_by_role('button',name='Ver mi plato' if index==3 else 'Siguiente paso',exact=True).click()
+        cdp.detach();return self.kitchen(frame)['result']
+
+    def test_easy_tortilla_uses_taps_holds_and_a_fixed_board_for_all_four_steps(self):
+        self.page.set_viewport_size({'width':375,'height':667});game,frame=self.open_cooking(easy=True);before=self.native(frame);self.play_easy(game,frame,True);self.assertEqual(self.native(frame),before);game.get_by_role('button',name='Servir y comer',exact=True).click();after=self.native(frame);self.assertEqual(after['life']['skills']['cooking'],14);self.assertEqual(after['life']['totalMeals'],1);self.assertEqual(after['life']['pantry']['egg'],6);self.assertEqual(self.errors,[])
+
+    def test_easy_pasta_holds_sauce_and_taps_colander_without_dragging(self):
+        game,frame=self.open_cooking('pasta',easy=True);self.play_easy(game,frame);game.get_by_role('button',name='Servir y comer',exact=True).click();after=self.native(frame);self.assertEqual(after['life']['skills']['cooking'],18);self.assertEqual(after['life']['totalMeals'],1);self.assertEqual(after['life']['pantry']['pasta'],7);self.assertEqual(self.errors,[])
+
+    def test_easy_gabi_rice_washing_and_saute_keep_board_fixed(self):
+        game,frame=self.open_cooking('chickenrice','gabi',easy=True);self.play_easy(game,frame);game.get_by_role('button',name='Servir y comer',exact=True).click();after=self.native(frame);self.assertEqual(after['life']['skills']['cooking'],23);self.assertEqual(after['life']['totalMeals'],1);self.assertEqual(after['life']['pantry']['rice'],7);self.assertEqual(self.errors,[])
+
+    def test_kitchen_locks_both_documents_and_restores_styles_and_scroll_on_exit(self):
+        self.tool();game,frame,_=self.open_house();before=frame.evaluate("()=>({child:document.body.style.cssText,html:document.documentElement.style.cssText,parent:parent.document.body.style.cssText,parentHtml:parent.document.documentElement.style.cssText,x:scrollX,y:scrollY})");self.enter_cooking(game,frame,True)
+        locked=frame.evaluate("()=>({child:getComputedStyle(document.body).position,parent:getComputedStyle(parent.document.body).position,overflow:getComputedStyle(document.documentElement).overflow})");self.assertEqual(locked,{'child':'fixed','parent':'fixed','overflow':'hidden'});game.get_by_role('button',name='Salir',exact=True).click();after=frame.evaluate("()=>({child:document.body.style.cssText,html:document.documentElement.style.cssText,parent:parent.document.body.style.cssText,parentHtml:parent.document.documentElement.style.cssText,x:scrollX,y:scrollY})");self.assertEqual(after,before);self.assertEqual(self.errors,[])
+
+    def test_height_only_resize_during_hold_does_not_move_board_or_cancel_contact(self):
+        self.page.set_viewport_size({'width':375,'height':667});game,frame=self.open_cooking('chickenrice',easy=True);game.get_by_role('button',name='Empezar receta',exact=True).click()
+        for _ in range(6):self.page.touchscreen.tap(**self.point(game,.5,.58))
+        game.get_by_role('button',name='Siguiente paso',exact=True).click();frame.wait_for_timeout(100);box=game.locator('#dm-kitchen-canvas').bounding_box();p=self.point(game,.5,.6);cdp=self.context.new_cdp_session(self.page);cdp.send('Input.dispatchTouchEvent',{'type':'touchStart','touchPoints':[{**p,'id':0}]});frame.wait_for_timeout(400);self.page.set_viewport_size({'width':375,'height':627});frame.wait_for_timeout(500);after=game.locator('#dm-kitchen-canvas').bounding_box()
+        for k in ('x','y','width','height'):self.assertAlmostEqual(box[k],after[k],delta=.6)
+        frame.wait_for_function('window.DosMundosKitchen.getSnapshot().phase==="stepDone"',timeout=5000);cdp.send('Input.dispatchTouchEvent',{'type':'touchEnd','touchPoints':[]});cdp.detach();self.assertFalse(self.kitchen(frame)['paused']);self.assertEqual(self.errors,[])
+
+    def test_reloading_only_game_frame_releases_host_scroll_lock(self):
+        self.tool();game,frame,_=self.open_house();before=self.page.evaluate('document.body.style.cssText');self.enter_cooking(game,frame,True);self.assertEqual(self.page.evaluate('getComputedStyle(document.body).position'),'fixed')
+        with frame.expect_navigation(wait_until='domcontentloaded'):frame.evaluate('location.reload()')
+        self.assertEqual(self.page.evaluate('document.body.style.cssText'),before);self.assertEqual(self.errors,[])
 
 if __name__=='__main__':
     names=sys.argv[1:];suite=unittest.TestSuite(CookingTests(n) for n in CookingTests.__dict__ if n.startswith('test_') and (not names or n in names));r=unittest.TextTestRunner(verbosity=2).run(suite);raise SystemExit(not r.wasSuccessful())
