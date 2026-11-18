@@ -1,6 +1,15 @@
 import {DISHES,clamp,cutLine,WORK_CENTER,CUT_ASSIST,pickServing,inServingTarget} from './recipes.mjs?cocina=14';
 const clone=v=>JSON.parse(JSON.stringify(v));
 const TAU=Math.PI*2;
+const inFood=(x,y)=>x>.22&&x<.82&&y>.32&&y<.90;
+function foodTravel(x0,y0,x1,y1){
+  const dx=x1-x0,dy=y1-y0;let start=0,end=1;
+  for(const [origin,delta,min,max] of [[x0,dx,.22,.82],[y0,dy,.32,.90]]){
+    if(Math.abs(delta)<1e-10){if(origin<min||origin>max)return 0;continue;}
+    const a=(min-origin)/delta,b=(max-origin)/delta;start=Math.max(start,Math.min(a,b));end=Math.min(end,Math.max(a,b));if(end<=start)return 0;
+  }
+  return Math.hypot(dx,dy)*(end-start);
+}
 export class CookingGame {
   constructor(recipe){
     if(!DISHES[recipe])throw new Error('Este plato todavía no está disponible.');
@@ -53,34 +62,40 @@ export class CookingGame {
   plate(index,error=0){const s=this.state;if(!this.active()||this.step.kind!=='plate'||!Number.isInteger(index)||index<0||index>2||s.plated.includes(index))return;s.inputs++;s.plated.push(index);s.precision.push(clamp(1-error/.5,.6,1));if(this.selectedPortion===index)this.selectedPortion=null;this.check();}
   begin(x,y){
     if(!this.active()||!Number.isFinite(x)||!Number.isFinite(y))return;
-    this.pointer={x,y,lastX:x,lastY:y,angle:null,arc:0,peakArc:0,drag:null};
+    this.pointer={x,y,lastX:x,lastY:y,rawX:x,rawY:y,angle:null,arc:0,peakArc:0,drag:null,cutIndex:this.state.cuts.length,cutTravel:0,actionDone:false,stirMoved:false};
     if(this.step.kind==='plate'){this.pointer.drag=pickServing(x,y,this.state.plated);this.state.feedback=this.pointer.drag===null?'Coge uno de los ingredientes de arriba.':'Lo tienes. Llévalo al plato iluminado y suelta.';}
     else this.state.feedback='';
     this.move(x,y);
   }
   move(x,y){
     if(!this.pointer||!this.active()||!Number.isFinite(x)||!Number.isFinite(y))return;
-    const p=this.pointer;p.lastX=clamp(x);p.lastY=clamp(y);
-    if(!this.easy&&this.step.turns&&!(this.step.kind==='mix'&&this.state.eggs<2)){
+    const p=this.pointer,previousX=p.rawX,previousY=p.rawY;p.rawX=x;p.rawY=y;p.lastX=clamp(x);p.lastY=clamp(y);
+    if(this.step.kind==='cut'){
+      if(p.actionDone)return;
+      const error=Math.abs((x+p.x)/2-cutLine(this.step,p.cutIndex)),overlap=Math.min(CUT_ASSIST.bottom,Math.max(y,p.y))-Math.max(CUT_ASSIST.top,Math.min(y,p.y));
+      p.cutTravel+=foodTravel(previousX,previousY,x,y);
+      const ready=this.easy?p.cutTravel>=.08:overlap>=CUT_ASSIST.travel&&Math.abs(y-p.y)>Math.abs(x-p.x)*1.5&&Math.abs(x-p.x)<.20&&error<CUT_ASSIST.radius;
+      if(ready){p.actionDone=true;this.cut(p.cutIndex,this.easy?0:Math.max(0,error-.045)*.45);}return;
+    }
+    if(!p.actionDone&&this.step.flip&&p.y-y>.2&&Math.abs(p.x-x)<.3){p.actionDone=true;if(this.easy&&this.state.cooked<7)this.state.feedback='Todavía está cuajando. Tócala cuando esté lista.';else this.flip();return;}
+    if(!p.actionDone&&this.step.drain&&p.x<.7&&x>.75&&y>.35&&y<.88){p.actionDone=true;this.drain();return;}
+    if(this.step.turns&&!(this.step.kind==='mix'&&this.state.eggs<2)){
       const dx=x-WORK_CENTER.x,dy=y-WORK_CENTER.y,r=Math.hypot(dx,dy);
       if(r<.045||r>.42){p.angle=null;return;}
       const angle=Math.atan2(dy,dx);
       if(p.angle!==null){let delta=angle-p.angle;while(delta>Math.PI)delta-=TAU;while(delta<-Math.PI)delta+=TAU;
         // Credit the furthest net rotation of this contact, in either direction.
         // Back-and-forth jitter never adds repeated credit or erases earned turns.
-        if(Math.abs(delta)<1.7){p.arc+=delta;const peak=Math.max(p.peakArc,Math.abs(p.arc));this.state.turns=clamp(this.state.turns+(peak-p.peakArc)/TAU,0,100);p.peakArc=peak;if(Math.abs(delta)>.025)this.state.inputs++;this.check();}}
+        if(Math.abs(delta)<1.7){p.arc+=delta;const peak=Math.max(p.peakArc,Math.abs(p.arc)),gain=(peak-p.peakArc)/TAU,before=Math.floor(this.state.turns*4);this.state.turns=clamp(this.state.turns+gain,0,this.easy?this.step.turns:100);p.peakArc=peak;if(this.easy){this.state.inputs+=Math.floor(this.state.turns*4)-before;if(gain>1e-9)p.stirMoved=true;}else if(Math.abs(delta)>.025)this.state.inputs++;this.check();}}
       p.angle=angle;
     }
   }
   end(x,y){
-    const p=this.pointer;if(p)this.move(x,y);this.pointer=null;if(!p||!this.active()||!Number.isFinite(x)||!Number.isFinite(y))return;
+    const p=this.pointer;if(p)this.move(x,y);this.pointer=null;if(!p||!this.active()||p.actionDone||!Number.isFinite(x)||!Number.isFinite(y))return;
     const s=this.state,kind=this.step.kind;
     const tap=Math.hypot(x-p.x,y-p.y)<.10;
     if(kind==='cut'){
-      const line=cutLine(this.step,s.cuts.length),error=Math.abs((x+p.x)/2-line);
-      const overlap=Math.min(CUT_ASSIST.bottom,Math.max(y,p.y))-Math.max(CUT_ASSIST.top,Math.min(y,p.y));
-      if(this.easy&&tap&&x>.22&&x<.82&&y>.32&&y<.90)this.cut(s.cuts.length,0);
-      else if(overlap>=CUT_ASSIST.travel&&Math.abs(y-p.y)>Math.abs(x-p.x)*1.5&&Math.abs(x-p.x)<.20&&error<CUT_ASSIST.radius)this.cut(s.cuts.length,Math.max(0,error-.045)*.45);
+      if(this.easy&&tap&&inFood(x,y))this.cut(s.cuts.length,0);
       else{s.errors++;s.feedback='Desliza un poco más sobre la franja clara, hacia abajo o arriba.';}
     }else if(kind==='mix'&&s.eggs<2&&Math.hypot(x-p.x,y-p.y)<.08){
       const eggX=s.eggs===0?.32:.68;if(Math.hypot(x-eggX,y-.54)<.18)this.crack();
@@ -92,7 +107,8 @@ export class CookingGame {
   }
   update(dt){
     const s=this.state;if(!this.active())return;dt=clamp(Number(dt)||0,0,.1);s.elapsed+=dt;s.stepTime+=dt;
-    if(this.easy&&this.pointer&&this.step.turns&&!(this.step.kind==='mix'&&s.eggs<2)&&Math.hypot(this.pointer.lastX-WORK_CENTER.x,this.pointer.lastY-WORK_CENTER.y)<.36){const before=Math.floor(s.turns*4);s.turns=clamp(s.turns+dt,0,this.step.turns);s.inputs+=Math.floor(s.turns*4)-before;if(!this.step.seconds)this.check();}
+    const moved=this.pointer?.stirMoved;if(this.pointer)this.pointer.stirMoved=false;
+    if(this.easy&&!moved&&this.pointer&&this.step.turns&&!(this.step.kind==='mix'&&s.eggs<2)&&Math.hypot(this.pointer.lastX-WORK_CENTER.x,this.pointer.lastY-WORK_CENTER.y)<.36){const before=Math.floor(s.turns*4);s.turns=clamp(s.turns+dt,0,this.step.turns);s.inputs+=Math.floor(s.turns*4)-before;if(!this.step.seconds)this.check();}
     if(this.step.seconds){s.temperature=clamp(s.temperature+(s.heat-s.temperature)*Math.min(1,dt*1.1));
       if(s.temperature>=.32){s.cooked+=dt;if(s.temperature<=.73)s.goodHeat+=dt;else s.overheat+=dt;}
       this.check();}

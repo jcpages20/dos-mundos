@@ -41,7 +41,7 @@ class CookingTests(HouseTests):
     def heat(self,game,n=55):
         slider=game.get_by_role('slider',name='Potencia del fuego',exact=True);slider.focus();self.page.keyboard.press('Home')
         for _ in range(n):self.page.keyboard.press('ArrowRight')
-    def play(self,game,frame,touch=False,capture=False):
+    def play(self,game,frame,touch=False,capture=False,motion=False):
         game.get_by_role('button',name='Empezar receta',exact=True).click();frame.wait_for_function('window.DosMundosKitchen.getSnapshot()?.model')
         recipe=self.kitchen(frame)['recipe']
         for index in range(4):
@@ -50,7 +50,7 @@ class CookingTests(HouseTests):
             if kind=='cut':
                 cuts=6 if recipe=='chickenrice' else 5
                 for i in range(cuts):
-                    x=(.3+i*.065) if cuts==6 else .34+i*.07;self.drag(game,(x,.35),(x,.85),touch)
+                    x=(.3+i*.065) if cuts==6 else .34+i*.07;self.drag(game,(.52,.40) if motion else (x,.35),(.52,.82) if motion else (x,.85),touch)
                     if capture and i==1:self.page.screenshot(path=str(support.ARTIFACTS/('cocina-'+recipe+'-corte.png')))
             elif kind in ('mix','wash'):
                 if kind=='mix':
@@ -147,7 +147,7 @@ class CookingTests(HouseTests):
     def test_idle_and_paused_kitchen_stop_repainting_dom_churn_and_repeat_saves(self):
         game,frame=self.open_cooking();game.get_by_role('button',name='Empezar receta',exact=True).click();frame.wait_for_timeout(200)
         metrics=frame.evaluate('''async base=>{
-            const {KitchenRenderer}=await import(base+'src/kitchen/kitchen-renderer.mjs?cocina=14');
+            const {KitchenRenderer}=await import(base+'src/kitchen/kitchen-renderer.mjs?cocina=15');
             let draws=0,mutations=0,writes=0;const draw=KitchenRenderer.prototype.draw,put=Storage.prototype.setItem;
             KitchenRenderer.prototype.draw=function(...args){draws++;return draw.apply(this,args)};
             Storage.prototype.setItem=function(k,v){if(k.startsWith('dos-mundos-cocina-jugable-v1:'))writes++;return put.call(this,k,v)};
@@ -242,6 +242,44 @@ class CookingTests(HouseTests):
         self.tool();game,frame,_=self.open_house();before=self.page.evaluate('document.body.style.cssText');self.enter_cooking(game,frame,True);self.assertEqual(self.page.evaluate('getComputedStyle(document.body).position'),'fixed')
         with frame.expect_navigation(wait_until='domcontentloaded'):frame.evaluate('location.reload()')
         self.assertEqual(self.page.evaluate('document.body.style.cssText'),before);self.assertEqual(self.errors,[])
+
+    def test_easy_centered_swipe_counts_while_finger_is_down_and_survives_capture_loss(self):
+        self.page.set_viewport_size({'width':375,'height':667});game,frame=self.open_cooking(easy=True);before=self.native(frame);game.get_by_role('button',name='Empezar receta',exact=True).click();frame.wait_for_timeout(100);box=game.locator('#dm-kitchen-canvas').bounding_box();a=self.point(game,.52,.40);b=self.point(game,.52,.82);cdp=self.context.new_cdp_session(self.page)
+        frame.evaluate("document.querySelector('#dm-kitchen-canvas').addEventListener('pointerdown',e=>window.qaPointerId=e.pointerId,{once:true})")
+        cdp.send('Input.dispatchTouchEvent',{'type':'touchStart','touchPoints':[{**a,'id':0}]})
+        for i in range(1,9):cdp.send('Input.dispatchTouchEvent',{'type':'touchMove','touchPoints':[{'x':a['x'],'y':a['y']+(b['y']-a['y'])*i/8,'id':0}]})
+        self.assertEqual(self.kitchen(frame)['model']['cuts'],[0]);self.assertEqual(self.records(frame)['active']['model']['cuts'],[0]);self.page.screenshot(path=str(support.ARTIFACTS/'cocina-movimiento-corte-antes-soltar.png'))
+        frame.evaluate("document.querySelector('#dm-kitchen-canvas').releasePointerCapture(window.qaPointerId)")
+        p=self.point(game,.52,1.06);cdp.send('Input.dispatchTouchEvent',{'type':'touchMove','touchPoints':[{**p,'id':0}]});cdp.send('Input.dispatchTouchEvent',{'type':'touchEnd','touchPoints':[]});cdp.detach();self.assertEqual(self.kitchen(frame)['model']['cuts'],[0]);self.drag(game,(.52,.40),(.52,.82),True);self.assertEqual(self.kitchen(frame)['model']['cuts'],[0,1])
+        after=game.locator('#dm-kitchen-canvas').bounding_box()
+        for k in ('x','y','width','height'):self.assertAlmostEqual(box[k],after[k],delta=.6)
+        self.assertEqual(self.native(frame),before);self.assertEqual(self.errors,[])
+
+    def test_easy_circles_are_recognized_before_lifting_instead_of_only_timed_holds(self):
+        game,frame=self.open_cooking('chickenrice',easy=True);game.get_by_role('button',name='Empezar receta',exact=True).click()
+        for _ in range(6):self.page.touchscreen.tap(**self.point(game,.5,.58))
+        game.get_by_role('button',name='Siguiente paso',exact=True).click();frame.wait_for_timeout(100);box=game.locator('#dm-kitchen-canvas').bounding_box();cdp=self.context.new_cdp_session(self.page)
+        for direction in [-1,1]:
+            start={'x':box['x']+.72*box['width'],'y':box['y']+.6*box['height']};cdp.send('Input.dispatchTouchEvent',{'type':'touchStart','touchPoints':[{**start,'id':0}]})
+            for i in range(1,61):
+                angle=i/18*math.pi*2*direction;p={'x':box['x']+(.5+math.cos(angle)*.22)*box['width'],'y':box['y']+(.6+math.sin(angle)*.22)*box['height']};cdp.send('Input.dispatchTouchEvent',{'type':'touchMove','touchPoints':[{**p,'id':0}]})
+                if i==18:self.assertGreater(self.kitchen(frame)['model']['turns'],.95)
+            self.assertEqual(self.kitchen(frame)['phase'],'stepDone');self.page.screenshot(path=str(support.ARTIFACTS/'cocina-movimiento-circulos-antes-soltar.png'));cdp.send('Input.dispatchTouchEvent',{'type':'touchEnd','touchPoints':[]})
+            if direction==-1:game.get_by_role('button',name='Repetir paso',exact=True).click()
+        cdp.detach();self.assertEqual(self.errors,[])
+
+    def test_easy_tortilla_can_be_finished_with_centered_swipes_circles_and_drags(self):
+        game,frame=self.open_cooking(easy=True);before=self.native(frame);drag=self.drag
+        def release_capture_while_plating(*args,**kwargs):
+            if self.kitchen(frame)['model']['step']==3:frame.evaluate("document.querySelector('#dm-kitchen-canvas').addEventListener('pointermove',e=>{const c=e.currentTarget;if(c.hasPointerCapture(e.pointerId))c.releasePointerCapture(e.pointerId)},{once:true})")
+            return drag(*args,**kwargs)
+        self.drag=release_capture_while_plating;self.play(game,frame,True,motion=True);self.assertEqual(self.native(frame),before);game.get_by_role('button',name='Servir y comer',exact=True).click();self.assertEqual(self.native(frame)['life']['skills']['cooking'],14);self.assertEqual(self.native(frame)['life']['totalMeals'],1);self.assertEqual(self.errors,[])
+
+    def test_easy_pasta_movements_keep_original_draining_sauce_and_recipe_reward(self):
+        game,frame=self.open_cooking('pasta',easy=True);self.play(game,frame,True,motion=True);game.get_by_role('button',name='Servir y comer',exact=True).click();self.assertEqual(self.native(frame)['life']['skills']['cooking'],18);self.assertEqual(self.native(frame)['life']['totalMeals'],1);self.assertEqual(self.errors,[])
+
+    def test_easy_gabi_recipe_recognizes_movement_in_washing_and_saute(self):
+        game,frame=self.open_cooking('chickenrice','gabi',easy=True);self.play(game,frame,True,motion=True);game.get_by_role('button',name='Servir y comer',exact=True).click();self.assertEqual(self.native(frame)['life']['skills']['cooking'],23);self.assertEqual(self.native(frame)['life']['totalMeals'],1);self.assertEqual(self.errors,[])
 
 if __name__=='__main__':
     names=sys.argv[1:];suite=unittest.TestSuite(CookingTests(n) for n in CookingTests.__dict__ if n.startswith('test_') and (not names or n in names));r=unittest.TextTestRunner(verbosity=2).run(suite);raise SystemExit(not r.wasSuccessful())

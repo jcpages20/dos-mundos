@@ -114,3 +114,36 @@ test('easy flip and colander still require the native cooking readiness',()=>{
 test('easy mode and selected portion do not add fields to saved version one preparations',()=>{
  const g=new CookingGame('omelet');g.easy=true;g.start();for(let i=0;i<3;i++)easyStep(g);tap(g,.2,.38);const raw=g.snapshot();assert.equal('easy' in raw,false);assert.equal('selectedPortion' in raw,false);const r=CookingGame.restore(raw);assert.equal(r.state.paused,true);assert.equal(r.selectedPortion,null);assert.deepEqual(r.state.plated,[]);r.easy=true;r.resume();tap(r,.2,.38);tap(r,.5,.70);assert.deepEqual(r.state.plated,[0]);
 });
+test('an easy centered swipe cuts before release and cannot count twice in the same contact',()=>{
+ const g=new CookingGame('omelet');g.easy=true;g.start();g.begin(.52,.40);g.move(.52,.82);assert.deepEqual(g.state.cuts,[0]);assert.equal(g.pointer.cutIndex,0);
+ for(let i=0;i<30;i++)g.move(.52,i%2?.40:.82);assert.deepEqual(g.state.cuts,[0]);g.end(.52,.82);assert.deepEqual(g.state.cuts,[0]);
+ for(let i=1;i<5;i++){g.begin(.52,.40);g.move(.52,.82);g.end(.52,.82);assert.equal(g.state.cuts.length,i+1);}assert.equal(g.state.phase,'stepDone');
+});
+test('easy cutting accepts horizontal, diagonal and sparse crossings through food but not motion outside',()=>{
+ for(const [start,end] of [[[.3,.55],[.7,.55]],[[.3,.4],[.7,.8]],[[.52,.1],[.52,.98]]]){
+  const g=new CookingGame('pasta');g.easy=true;g.start();g.begin(...start);g.move(...end);assert.deepEqual(g.state.cuts,[0]);g.end(...end);assert.deepEqual(g.state.cuts,[0]);
+ }
+ const g=new CookingGame('pasta');g.easy=true;g.start();g.begin(.05,.15);g.move(.95,.15);assert.deepEqual(g.state.cuts,[]);g.cancelGesture();g.end(.95,.15);assert.deepEqual(g.state.cuts,[]);
+});
+test('gesture cuts also react before release while keeping the guide precision requirement',()=>{
+ const g=new CookingGame('omelet');g.start();g.begin(.34,.35);g.move(.34,.85);assert.deepEqual(g.state.cuts,[0]);g.cancelGesture();assert.deepEqual(g.state.cuts,[0]);
+ g.begin(.95,.35);g.move(.95,.85);assert.deepEqual(g.state.cuts,[0]);g.cancelGesture();
+});
+test('easy circles advance immediately in either direction without requiring a timed hold',()=>{
+ for(const direction of [-1,1]){const g=new CookingGame('chickenrice');g.easy=true;g.start();easyStep(g);g.begin(.72,.6);
+  for(let i=1;i<=48;i++){const a=i/48*Math.PI*2*direction;g.move(.5+Math.cos(a)*.22,.6+Math.sin(a)*.22);}assert.ok(g.state.turns>.99);assert.equal(g.state.elapsed,0);
+  for(let i=49;i<=150;i++){const a=i/48*Math.PI*2*direction;g.move(.5+Math.cos(a)*.22,.6+Math.sin(a)*.22);}assert.equal(g.state.phase,'stepDone');}
+});
+test('easy moving and holding do not double-credit a stirring frame or stall when motion stops',()=>{
+ const g=new CookingGame('chickenrice');g.easy=true;g.start();easyStep(g);g.begin(.72,.6);
+ for(let i=1;i<=48;i++){const a=i/48*Math.PI*2;g.move(.5+Math.cos(a)*.22,.6+Math.sin(a)*.22);g.update(1/48);}assert.ok(Math.abs(g.state.turns-1)<.01);
+ const before=g.state.turns;advance(g,.5);assert.ok(g.state.turns>before+.45);g.pause();const paused=g.snapshot();advance(g,3);assert.deepEqual(g.snapshot(),paused);
+});
+test('flipping and draining react during a valid motion and do not repeat on release',()=>{
+ const g=new CookingGame('omelet');g.start();finishStep(g);finishStep(g);g.setHeat(.55);advance(g,11);g.begin(.5,.8);g.move(.5,.4);assert.equal(g.state.flipped,true);const inputs=g.state.inputs;g.move(.5,.3);g.end(.5,.3);assert.equal(g.state.inputs,inputs);
+ const p=new CookingGame('pasta');p.start();finishStep(p);p.setHeat(.55);advance(p,14);p.begin(.5,.6);p.move(.86,.65);assert.equal(p.state.drained,true);const count=p.state.inputs;p.end(.86,.65);assert.equal(p.state.inputs,count);
+});
+test('recognition still requires cooking readiness and never saves contact tracking fields',()=>{
+ const g=new CookingGame('omelet');g.easy=true;g.start();easyStep(g);easyStep(g);g.begin(.5,.8);g.move(.5,.4);assert.equal(g.state.flipped,false);g.end(.5,.4);assert.equal(g.state.flipped,false);
+ const raw=g.snapshot();for(const key of ['actionDone','cutTravel','rawX','stirMoved','pointer'])assert.equal(key in raw,false);const restored=CookingGame.restore(raw);assert.equal(restored.pointer,null);assert.equal(restored.state.paused,true);
+});

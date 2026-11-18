@@ -65,9 +65,10 @@ export class KitchenRenderer {
       for(let i=0;i<edges.length-1;i++){const separated=i<s.cuts.length,dx=separated?-(s.cuts.length-i)*3:0,dy=separated?4+i*2:0;g.save();g.beginPath();g.rect(edges[i]+dx,174+dy,edges[i+1]-edges[i]-1,222);g.clip();this.sprite(g,step.food,137+dx,176+dy,215,218);g.restore();}
       if(s.phase==='playing'){const x=cutLine(step,s.cuts.length)*480;g.fillStyle='#f4e5b82d';g.fillRect(x-CUT_ASSIST.radius*480,170,CUT_ASSIST.radius*960,238);g.strokeStyle='#fff0c5';g.lineWidth=4;g.beginPath();g.moveTo(x,184);g.lineTo(x,386);g.moveTo(x-10,373);g.lineTo(x,386);g.lineTo(x+10,373);g.stroke();}
       // Cut seams and a growing pile are drawn in the scene, not baked into a concept image.
-      for(let i=0;i<step.cuts;i++){const x=cutLine(step,i)*480;g.strokeStyle=i<s.cuts.length?'#714c35':i===s.cuts.length?'#f4e5b8':'#e1c9a4';g.lineWidth=i===s.cuts.length?3:1;g.setLineDash(i<s.cuts.length?[]:[5,5]);g.beginPath();g.moveTo(x,173);g.lineTo(x,405);g.stroke();}g.setLineDash([]);
+      for(let i=0;i<step.cuts;i++){const x=cutLine(step,i)*480,justCut=p?.actionDone&&i===p.cutIndex;g.strokeStyle=justCut?'#fff4cf':i<s.cuts.length?'#714c35':i===s.cuts.length?'#f4e5b8':'#e1c9a4';g.lineWidth=justCut?5:i===s.cuts.length?3:1;g.setLineDash(i<s.cuts.length?[]:[5,5]);g.beginPath();g.moveTo(x,173);g.lineTo(x,405);g.stroke();}g.setLineDash([]);
       if(s.cuts.length)this.foodPieces(g,step.food==='chicken'?'chicken':step.food==='tomato'?'sauce':'pepper',113,401,s.cuts.length*2,0);
-      if(p){const guide=cutLine(step,s.cuts.length),x=game.easy||Math.abs(p.lastX-guide)<CUT_ASSIST.radius?guide:p.lastX;g.save();g.translate(x*480,p.lastY*480-16);g.rotate(-.55);this.sprite(g,'knife',-45,-68,90,90);g.restore();}else this.sprite(g,'knife',350,190,98,117);
+      if(p){const guide=cutLine(step,p.cutIndex),x=game.easy||Math.abs(p.lastX-guide)<CUT_ASSIST.radius?guide:p.lastX;g.save();g.translate(x*480,p.lastY*480-16);g.rotate(-.55);this.sprite(g,'knife',-45,-68,90,90);g.restore();}else this.sprite(g,'knife',350,190,98,117);
+      if(p?.actionDone)this.caption(g,'¡Corte! '+s.cuts.length+' / '+step.cuts,240,464);
     }else if(kind==='mix'||kind==='wash'){
       this.sprite(g,kind==='wash'?'rice':'bowl',111,162,260,264);
       if(kind==='mix'&&s.eggs<2){for(let i=s.eggs;i<2;i++)this.sprite(g,'eggs',(i===0?.32:.68)*480-43,202,86,124,[i===0?0:.5,0,.5,1]);}
