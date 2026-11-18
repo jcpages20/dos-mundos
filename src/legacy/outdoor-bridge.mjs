@@ -1,9 +1,9 @@
 export function installLegacyOutdoorBridge(){
   const valid=id=>id==='park'||id==='plaza',emit=type=>window.dispatchEvent(new CustomEvent('dos-mundos:outdoors',{detail:{type,id:indoor}}));
   const originalOpen=openPlace,originalClose=closeInterior,originalTabs=tabs,originalPresence=dm41Snapshot;
-  let active=null,modern=false,previousInert=false;
+  let active=null,modern=false,previousInert=false,concertPlace=null;
   function restore(){const el=document.getElementById('interior');if(el)el.inert=previousInert;}
-  function leave(){if(!active)return;emit('leave');restore();active=null;modern=false;}
+  function leave(){if(!active)return;emit('leave');restore();active=null;modern=false;concertPlace=null;}
   openPlace=function(id){
     const same=active===id;if(!same)leave();originalOpen(id);
     if(valid(indoor)&&tab==='world'){
@@ -13,7 +13,7 @@ export function installLegacyOutdoorBridge(){
   };
   closeInterior=function(){leave();originalClose();};
   tabs=function(id){if(id!=='world')leave();originalTabs(id);if(id==='world'&&valid(indoor)&&!active){active=indoor;modern=true;previousInert=!!document.getElementById('interior')?.inert;emit('enter');}};
-  dm41Snapshot=function(){const value=originalPresence();if(value&&modern&&valid(indoor))value.face=roomFacing26;return value;};
+  dm41Snapshot=function(){const value=originalPresence();if(value&&modern&&valid(indoor)){value.face=roomFacing26;if(indoor==='park'&&concertPlace)value.place=concertPlace;}return value;};
   const clock=()=>state.day*1440+state.time;
   window.DosMundosOutdoorLegacy=Object.freeze({
     get open(){return !!state&&valid(indoor)&&tab==='world';},get room(){return indoor;},get modern(){return modern;},
@@ -23,12 +23,12 @@ export function installLegacyOutdoorBridge(){
       return {name:state.name,role:dm51LocalIdentity(),room:indoor,day:state.day,time:state.time,money:state.money,
         energy:state.energy,fun:state.fun,social:state.social,x:state.x,y:state.y,weather:{...dm40Weather(state.day,state.time)},
         people:(meta?.npcs||[]).map((p,i)=>({index:i,name:p.name,role:p.role,line:p.line})),
-        peer:peer&&peer.room===indoor?{name:peer.name,roomX:peer.roomX,roomY:peer.roomY,face:peer.face,updated:peer.updated}:null};
+        peer:peer&&peer.online===true&&peer.room===indoor?{name:peer.name,room:peer.room,online:peer.online,place:peer.place,roomX:peer.roomX,roomY:peer.roomY,face:peer.face,updated:peer.updated}:null};
     },
     pause(){if(!valid(indoor))return;modern=true;stopRoomAnimation();const el=document.getElementById('interior');if(el)el.inert=true;},
-    resume(){modern=false;restore();roomX=260;roomY=270;roomFacing26='down';if(valid(indoor))startRoomAnimation();},
+    resume(){modern=false;concertPlace=null;restore();roomX=260;roomY=270;roomFacing26='down';if(valid(indoor))startRoomAnimation();},
     exit(){closeInterior();},
-    position(p){if(!modern||!valid(indoor))return;roomX=p.roomX;roomY=p.roomY;roomFacing26=['up','down','left','right'].includes(p.face)?p.face:'down';},
+    position(p){if(!modern||!valid(indoor))return;roomX=p.roomX;roomY=p.roomY;roomFacing26=['up','down','left','right'].includes(p.face)?p.face:'down';concertPlace=indoor==='park'&&/^Concierto · -?\d+ · [a-z0-9-]{1,32} · (stand|dance|clap|encore)$/.test(p.place||'')?p.place:null;},
     actions(){
       const ids=indoor==='park'?['walk','sport']:['music','talk'];
       const detailed=detailedActivities[indoor]?.[0];

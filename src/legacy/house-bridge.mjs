@@ -5,8 +5,8 @@ import {venueNavigationSource} from './venue-navigation.mjs';
 import {cafeBridgeSource} from './cafe-bridge.mjs';
 import {cityBridgeSource} from './city-bridge.mjs?huerto=6';
 import {farmBridgeSource} from './farm-bridge.mjs';
-import {outdoorBridgeSource} from './outdoor-bridge.mjs';
-import {lifeBridgeSource} from './life-bridge.mjs?cocina=11';
+import {outdoorBridgeSource} from './outdoor-bridge.mjs?conciertos=16';
+import {lifeBridgeSource} from './life-bridge.mjs?conciertos=16';
 import {gymChallengeBridgeSource} from './gym-challenge-bridge.mjs?rutinas=10';
 import {kitchenBridgeSource} from './kitchen-bridge.mjs?cocina=11';
 
@@ -91,8 +91,9 @@ export function extendLegacyBuilder(builder, {stylesURL, installerURL}) {
   const cityInstallerURL = new URL('../world/install-city.mjs?huerto=6', import.meta.url).href;
   const farmInstallerURL = new URL('../farm/install-farm.mjs', import.meta.url).href;
   const farmStylesURL = new URL('../../styles/farm.css', import.meta.url).href;
-  const outdoorStylesURL = new URL('../../styles/outdoors.css', import.meta.url).href;
-  const outdoorInstallerURL = new URL('../outdoors/install-outdoors.mjs', import.meta.url).href;
+  const outdoorStylesURL = new URL('../../styles/outdoors.css?conciertos=16', import.meta.url).href;
+  const concertStylesURL = new URL('../../styles/concerts.css', import.meta.url).href;
+  const outdoorInstallerURL = new URL('../outdoors/install-outdoors.mjs?conciertos=16', import.meta.url).href;
   const lifeStylesURL = new URL('../../styles/life.css', import.meta.url).href;
   const lifeInstallerURL = new URL('../life/install-life.mjs', import.meta.url).href;
   const gymGamesStylesURL = new URL('../../styles/gym-games.css?rutinas=10', import.meta.url).href;
@@ -116,6 +117,7 @@ export function extendLegacyBuilder(builder, {stylesURL, installerURL}) {
     game = game.replace('</head>', '<link rel="stylesheet" href="' + ${literal(cityStylesURL)} + '"></head>');
     game = game.replace('</head>', '<link rel="stylesheet" href="' + ${literal(farmStylesURL)} + '"></head>');
     game = game.replace('</head>', '<link rel="stylesheet" href="' + ${literal(outdoorStylesURL)} + '"></head>');
+    game = game.replace('</head>', '<link rel="stylesheet" href="' + ${literal(concertStylesURL)} + '"></head>');
     game = game.replace('</head>', '<link rel="stylesheet" href="' + ${literal(lifeStylesURL)} + '"></head>');
     game = game.replace('</head>', '<link rel="stylesheet" href="' + ${literal(gymGamesStylesURL)} + '"></head>');
     game = game.replace('</head>', '<link rel="stylesheet" href="' + ${literal(kitchenStylesURL)} + '"></head>');

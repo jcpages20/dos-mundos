@@ -1,5 +1,7 @@
 import {MAPS,contains,encodePosition} from './outdoor-maps.mjs';
-import {OutdoorRenderer} from './outdoor-renderer.mjs';
+import {OutdoorRenderer} from './outdoor-renderer.mjs?conciertos=16';
+import {ConcertView} from '../concerts/concert-view.mjs';
+import {populateBillboard} from '../concerts/concert-ui.mjs';
 import {canStand,clearSegment,distance,findPath,moveSafely,nearestApproach} from '../engine/navigation.mjs';
 const el=(tag,css='',text='')=>{const e=document.createElement(tag);e.className=css;if(text)e.textContent=text;return e;};
 export class OutdoorScene{
@@ -21,6 +23,7 @@ export class OutdoorScene{
     const ids=map.id==='park'?['palace','lake','exercise','lake-bench']:['clock','fountain','music','terrace-west'];
     const labels=map.id==='park'?['Cristal','Estanque','Deporte','Bancos']:['Reloj','Fuente','Música','Terraza'];
     ids.forEach((id,i)=>{const b=this.button(labels[i],()=>this.approach(map.targets.find(o=>o.id===id)));b.setAttribute('aria-label','Ir a '+labels[i]);routes.append(b);});
+    if(map.id==='park'){const b=this.button('Conciertos',()=>this.billboard());b.setAttribute('aria-label','Ver conciertos del Retiro');routes.append(b);routes.classList.add('dm-outdoor-routes-concerts');}
     this.message=el('p','dm-outdoor-message','Preparando los paseos y los rincones de Madrid…');this.message.setAttribute('role','status');
     const footer=el('footer','dm-outdoor-controls'),pad=el('nav','dm-outdoor-pad');pad.setAttribute('aria-label','Caminar');
     for(const [direction,glyph] of [['up','▲'],['left','◀'],['down','▼'],['right','▶']]){
@@ -67,7 +70,7 @@ export class OutdoorScene{
   perform(action){
     if(this.menu)return;const t=this.target;if(!t)return;
     if(action==='exit'){this.api.exit();return;}if(action==='person'){this.talk(t.person);return;}
-    if(action==='look'){this.feedback(t.description);return;}
+    if(action==='look'){if(t.id==='bandstand')this.billboard();else this.feedback(t.description);return;}
     if(this.actor.pose==='sit')return;
     const result=this.api.act(action);this.data=this.api.snapshot();this.feedback(result.message);
     if(result.ok&&t.seats){this.returnPoint={x:this.actor.x,y:this.actor.y,face:this.actor.face};Object.assign(this.actor,t.seats[this.actor.role==='gabi'?1:0],{pose:'sit',moving:false});}
@@ -75,6 +78,7 @@ export class OutdoorScene{
   }
   update(dt,now){
     if(this.disposed||this.paused)return;if(!this.api.open||this.api.room!==this.map.id){this.destroy();return;}
+    if(this.concert){if(!this.synced||now-this.synced>300){this.data=this.api.snapshot();this.synced=now;}this.concert.update(dt,now,this.data);return;}
     if(this.talking&&document.getElementById('relationshipBox')?.classList.contains('hidden'))this.closeMenu();
     const before={...this.actor};if(!this.menu&&this.actor.pose==='stand'){
       let dx=Number(this.held.has('right'))-Number(this.held.has('left')),dy=Number(this.held.has('down'))-Number(this.held.has('up'));
@@ -101,10 +105,10 @@ export class OutdoorScene{
   syncContext(){
     const t=this.target;this.context.textContent=t?.name||this.map.subtitle;
     const item=this.api.actions().find(a=>a.id===t?.action);this.detail.textContent=this.actor.pose==='sit'?'Un rato para disfrutar de Madrid':item?item.minutes+' min'+(item.xp?' · +'+item.xp+' XP':''):'Toca para caminar · flechas para moverte';
-    this.primary.textContent=this.actor.pose==='sit'?'Levantarse':t?({look:'Mirar de cerca',person:'Hablar con '+t.person?.name,exit:'Salir a Madrid'}[t.action]||item?.title||'Explorar'):'Actividades';this.primary.disabled=!this.ready;
+    this.primary.textContent=this.actor.pose==='sit'?'Levantarse':t?.id==='bandstand'?'Ver cartelera':t?({look:'Mirar de cerca',person:'Hablar con '+t.person?.name,exit:'Salir a Madrid'}[t.action]||item?.title||'Explorar'):'Actividades';this.primary.disabled=!this.ready;
   }
   keyEvent(e,on){
-    if(this.disposed||this.paused||/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)||!this.root.contains(e.target))return;
+    if(this.disposed||this.paused||this.concert||/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)||!this.root.contains(e.target))return;
     const dir={ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right',w:'up',a:'left',s:'down',d:'right'}[e.key];
     if(dir){e.preventDefault();e.stopImmediatePropagation();if(this.menu||!this.ready)return;if(on){this.path=[];this.pending=null;this.stand();this.held.add(dir);}else this.held.delete(dir);}
     else if(on&&e.key==='Escape'){e.preventDefault();e.stopImmediatePropagation();if(this.menu)this.closeMenu();else if(this.actor.pose==='sit')this.stand();else this.api.exit();}
@@ -132,10 +136,19 @@ export class OutdoorScene{
     this.button('Teléfono y chat',()=>this.nativeMenu('phone')),this.button('Planes juntos',()=>this.nativeMenu('duo')),
     this.button('Radio',()=>this.nativeMenu('radio')),this.button('Conexión online',()=>this.nativeMenu('online')),
     this.button('Actividades anteriores',()=>this.showClassic()),this.button('Salir a Madrid',()=>this.api.exit()));}
+  billboard(){if(!this.ready||this.map.id!=='park'||this.concert)return;const menu=this.openMenu('Conciertos en el quiosco');populateBillboard(menu,(artist,bill)=>{
+    this.closeMenu();const target=this.map.targets.find(o=>o.id==='bandstand');this.approach(target);if(!this.pending)return;
+    const arrived=this.pending;this.pending=()=>{arrived();this.startConcert(artist,bill);};
+  });menu.append(this.button('Mirar el quiosco',()=>{this.closeMenu();this.feedback(this.map.targets.find(o=>o.id==='bandstand').description);}));}
+  async startConcert(artist,bill){
+    if(this.disposed||this.concert||!this.ready)return;this.cancelWalk();this.actor.moving=false;const view=new ConcertView(this,artist,bill);this.concert=view;
+    try{await view.mount();}catch(error){if(this.concert!==view)return;this.closeConcert();this.feedback(error.message);}
+  }
+  closeConcert(){this.concert?.destroy();this.concert=null;this.api.position({...encodePosition(this.actor,this.map),face:this.actor.face});if(!this.disposed){this.renderer.resize();this.canvas.focus({preventScroll:true});this.feedback('De vuelta junto al quiosco. Puedes seguir paseando o ver otro concierto.');}}
   showClassic(){this.closeMenu();this.cancelWalk();this.stand();this.paused=true;this.root.hidden=true;this.api.resume();document.body.classList.remove('dm-outdoor-active');
     this.returnButton=this.button('Volver a '+this.map.title,()=>{this.returnButton.remove();this.paused=false;this.root.hidden=false;this.api.pause();document.body.classList.add('dm-outdoor-active');this.renderer.resize();this.data=this.api.snapshot();this.canvas.focus({preventScroll:true});},'dm-outdoor-return');document.body.append(this.returnButton);}
   save(){const point=this.returnPoint||this.actor;const p=canStand(point,this.map)&&!contains(point,this.map.exit)?{x:point.x,y:point.y,face:point.face}:this.map.spawn;
     try{localStorage.setItem(this.key,JSON.stringify({version:1,position:p}));}catch{/* Native progress is independent and preserved. */}}
-  destroy(){if(this.disposed)return;this.disposed=true;this.save();this.closeMenu();cancelAnimationFrame(this.frame);this.abort.abort();this.renderer?.destroy();this.root?.remove();this.returnButton?.remove();document.body.classList.remove('dm-outdoor-active');}
+  destroy(){if(this.disposed)return;this.disposed=true;this.concert?.destroy();this.concert=null;this.save();this.closeMenu();cancelAnimationFrame(this.frame);this.abort.abort();this.renderer?.destroy();this.root?.remove();this.returnButton?.remove();document.body.classList.remove('dm-outdoor-active');}
   snapshot(){return {ready:this.ready,room:this.map.id,role:this.actor.role,position:{x:this.actor.x,y:this.actor.y},face:this.actor.face,pose:this.actor.pose,walking:!!this.path.length,target:this.target?.id||null,paused:!!this.paused,people:this.data.people,peer:this.data.peer,overview:!!this.renderer?.overview};}
 }

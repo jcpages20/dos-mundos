@@ -12,6 +12,7 @@ body.dm-outdoor-active{overflow:hidden;overscroll-behavior:none}
 #dm-outdoor-canvas{display:block;width:100%;height:100%;image-rendering:pixelated;touch-action:none}
 .dm-outdoor-routes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:7px 12px;background:var(--panel);border-top:1px solid #b8a06e}
 .dm-outdoor-routes button{min-width:44px;padding:8px 5px;font-size:11px}
+.dm-outdoor-routes-concerts{grid-template-columns:repeat(5,minmax(0,1fr))}.dm-outdoor-routes-concerts button{font-size:10px}
 .dm-outdoor-message{margin:0!important;padding:7px 14px;min-height:31px;border-top:1px solid var(--edge);color:#eee0be;font-size:11px;background:var(--panel)}
 .dm-outdoor-controls{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));background:var(--dark)}
 .dm-outdoor-pad{display:grid;grid-template-columns:repeat(3,44px);grid-template-rows:repeat(2,44px);gap:5px;flex-shrink:0}.dm-outdoor-pad button{padding:0;font-size:18px;user-select:none;-webkit-user-select:none}
