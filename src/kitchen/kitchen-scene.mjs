@@ -1,6 +1,6 @@
 import {DISHES,FOOD_NAMES,clamp} from './recipes.mjs?cocina=14';
-import {CookingGame} from './cooking-model.mjs?cocina=14';
-import {KitchenRenderer} from './kitchen-renderer.mjs?cocina=14';
+import {CookingGame} from './cooking-model.mjs?cocina=15';
+import {KitchenRenderer} from './kitchen-renderer.mjs?cocina=15';
 import {KitchenViewport} from './kitchen-viewport.mjs?cocina=14';
 const el=(tag,cls='',text='')=>{const n=document.createElement(tag);n.className=cls;if(text)n.textContent=text;return n;};
 const set=(node,key,value)=>{if(node[key]!==value)node[key]=value;};
@@ -19,10 +19,10 @@ export class KitchenScene {
     this.renderer=new KitchenRenderer(this.canvas,this.house.renderer,()=>this.cancelGesture());this.panel.append(el('p','','Preparando la tabla, los utensilios y la despensa…'));
     const signal=this.abort.signal;
     stage.addEventListener('touchmove',e=>e.preventDefault(),{passive:false,signal});this.canvas.addEventListener('contextmenu',e=>e.preventDefault(),{signal});
-    this.canvas.addEventListener('pointerdown',e=>{if(!this.game?.active()||this.pointerId!=null||!e.isPrimary)return;e.preventDefault();this.viewport.beginGesture();this.pointerId=e.pointerId;this.pointerBounds=this.canvas.getBoundingClientRect();this.canvas.setPointerCapture(e.pointerId);const p=this.renderer.point(e,this.pointerBounds);this.game.begin(p.x,p.y);this.changed();},{signal});
-    this.canvas.addEventListener('pointermove',e=>{if(e.pointerId!==this.pointerId||!this.game?.pointer)return;e.preventDefault();for(const sample of e.getCoalescedEvents?.()||[]){const p=this.renderer.point(sample,this.pointerBounds);this.game.move(p.x,p.y);}const p=this.renderer.point(e,this.pointerBounds);this.game.move(p.x,p.y);this.changed(false);},{signal});
-    this.canvas.addEventListener('pointerup',e=>{if(e.pointerId!==this.pointerId)return;e.preventDefault();if(this.game?.pointer){const p=this.renderer.point(e,this.pointerBounds);this.game.end(p.x,p.y);}this.cancelGesture();this.changed();this.persist();},{signal});
-    for(const type of ['pointercancel','lostpointercapture'])this.canvas.addEventListener(type,e=>{if(e.pointerId===this.pointerId){this.cancelGesture();this.persist();}},{signal});
+    this.canvas.addEventListener('pointerdown',e=>{if(!this.game?.active()||!e.isPrimary)return;if(this.pointerId!=null){if(e.pointerId===this.pointerId)return;this.cancelGesture();}e.preventDefault();this.viewport.beginGesture();this.pointerId=e.pointerId;this.pointerBounds=this.canvas.getBoundingClientRect();this.canvas.setPointerCapture(e.pointerId);const p=this.renderer.point(e,this.pointerBounds);this.game.begin(p.x,p.y);this.changed();},{signal});
+    window.addEventListener('pointermove',e=>this.movePointer(e),{capture:true,signal});
+    window.addEventListener('pointerup',e=>{if(e.pointerId!==this.pointerId)return;e.preventDefault();if(this.game?.pointer){const p=this.renderer.point(e,this.pointerBounds);this.game.end(p.x,p.y);}this.cancelGesture();this.changed();this.persist();},{capture:true,signal});
+    window.addEventListener('pointercancel',e=>{if(e.pointerId===this.pointerId){this.cancelGesture();this.persist();}},{capture:true,signal});
     // Mobile browser controls can blur or rotate a visible page. Only a real
     // background transition (or the player's pause button) freezes the recipe.
     window.addEventListener('keydown',e=>this.key(e),{capture:true,signal});window.addEventListener('blur',()=>{this.cancelGesture();if(document.hidden)this.pause();},{signal});window.addEventListener('orientationchange',()=>this.cancelGesture(),{signal});window.addEventListener('pagehide',e=>{this.pause();if(e.persisted===false)this.viewport?.destroy();},{signal});window.addEventListener('pageshow',()=>{if(this.root&&this.viewport?.destroyed)this.viewport=new KitchenViewport(this.root,()=>this.cancelGesture());},{signal});document.addEventListener('visibilitychange',()=>{if(document.hidden)this.pause();},{signal});
@@ -46,6 +46,11 @@ export class KitchenScene {
     const actions=el('div','ck-actions');actions.append(this.button('Empezar receta',()=>this.start()),this.button('Despensa',()=>this.pantry()),this.button('Recetario rápido',()=>{this.close();this.house.api.menu('recipes');}));this.panel.append(gallery,this.detail,practice,actions);this.notice=el('p','ck-notice');this.notice.setAttribute('role','status');this.panel.append(this.notice);this.selection(data);
   }
   selection(data){for(const b of this.cards)b.setAttribute('aria-pressed',String(b.dataset.dish===this.selected));const d=DISHES[this.selected],r=data.recipes.find(r=>r.id===this.selected);this.detail.textContent=Object.entries(d.needs).map(([k,n])=>FOOD_NAMES[k]+' ×'+n).join(' · ')+' · '+d.minutes+' min del mundo · '+d.xp+' XP'+(r?.missing.length?' · Faltan ingredientes':'');}
+  movePointer(e){
+    if(e.pointerId!==this.pointerId||!this.game?.pointer)return;e.preventDefault();const s=this.game.state,cuts=s.cuts.length,flipped=s.flipped,drained=s.drained,phase=s.phase;
+    for(const sample of e.getCoalescedEvents?.()||[]){const p=this.renderer.point(sample,this.pointerBounds);this.game.move(p.x,p.y);}const p=this.renderer.point(e,this.pointerBounds);this.game.move(p.x,p.y);this.changed(false);
+    if(s.cuts.length!==cuts||s.flipped!==flipped||s.drained!==drained||s.phase!==phase)this.persist();
+  }
   setMode(easy){this.cancelGesture();this.easy=easy;this.root.dataset.controls=easy?'easy':'gestures';this.mode.textContent=easy?'Fácil':'Gestos';this.mode.setAttribute('aria-pressed',String(easy));this.mode.title=easy?'Control fácil activo. Cambiar a gestos.':'Gestos activos. Cambiar a control fácil.';if(this.game){this.game.easy=easy;this.game.selectedPortion=null;this.signature='';this.changed();}}
   focusKeyboard(){if(matchMedia('(pointer: fine)').matches)this.canvas.focus({preventScroll:true});}
   primeHeat(){if(this.easy&&this.game.active()&&this.game.step.seconds)this.game.setHeat(.55);}
@@ -60,7 +65,7 @@ export class KitchenScene {
     this.heatBox=el('label','ck-heat');this.heatText=el('span');this.heat=el('input');this.heat.type='range';this.heat.min=0;this.heat.max=100;this.heat.value=0;this.heat.setAttribute('aria-label','Potencia del fuego');this.heat.addEventListener('input',()=>{this.game.setHeat(Number(this.heat.value)/100);this.changed();});this.heatBox.append(this.heatText,this.heat);
     const slot=el('div','ck-heat-slot');this.controlHint=el('p','ck-control-hint');slot.append(this.heatBox,this.controlHint);
     const actions=el('div','ck-actions');this.action=this.button('',()=>this.accessibleAction());this.next=this.button('Siguiente paso',()=>this.nextStep());this.retry=this.button('Repetir paso',()=>{this.cancelGesture();this.quarter=0;this.game.retry();this.primeHeat();this.changed();this.persist();});actions.append(this.action,this.next,this.retry);
-    this.notice=el('p','ck-notice');this.notice.setAttribute('role','status');this.panel.append(row,this.tip,this.progress,slot,actions,this.notice);this.changed();this.focusKeyboard();
+    this.notice=el('p','ck-notice');this.notice.setAttribute('role','status');this.panel.append(row,this.tip,this.progress,slot,actions,this.notice);this.changed();this.renderer.resize();this.focusKeyboard();
   }
   accessibleAction(){
     if(!this.game||this.game.state.paused)return;if(this.game.state.phase==='stepDone'){this.nextStep();return;}const s=this.game.state,step=this.game.step;
@@ -74,7 +79,7 @@ export class KitchenScene {
     if(s.phase==='done'){this.showResult();return;}
     const signature=s.step+':'+s.phase;
     if(!immediate&&signature===this.signature&&now-this.lastHUD<100)return;this.lastHUD=now;
-    if(signature!==this.signature){this.signature=signature;this.stepLabel.textContent='Paso '+(s.step+1)+'/4 · '+step.name;this.tip.textContent=this.easy?({cut:'Toca la comida una vez por corte.',mix:'Toca los huevos y después mantén el dedo sobre el cuenco.',wash:'Mantén el dedo sobre el agua para lavar el arroz.',plate:'Toca un ingrediente y después el centro del plato.',pan:'Fuego medio: 55%. Toca la tortilla cuando esté cuajada.',boil:'Fuego medio: 55%. Toca el colador al estar lista.',sauce:'Mantén el dedo sobre la sartén para remover.',saute:'Mantén el dedo sobre la sartén para remover.'})[step.kind]:step.tip;this.next.textContent=s.step===3?'Ver mi plato':'Siguiente paso';}
+    if(signature!==this.signature){this.signature=signature;this.stepLabel.textContent='Paso '+(s.step+1)+'/4 · '+step.name;this.tip.textContent=this.easy?({cut:'Desliza sobre la comida o tócala para cortar.',mix:'Toca los huevos. Después remueve o mantén el dedo en el cuenco.',wash:'Haz círculos en el agua o mantén el dedo para lavar el arroz.',plate:'Toca un ingrediente y después el centro del plato.',pan:'Fuego medio: 55%. Toca la tortilla cuando esté cuajada.',boil:'Fuego medio: 55%. Toca el colador al estar lista.',sauce:'Remueve haciendo círculos o mantén el dedo sobre la sartén.',saute:'Remueve haciendo círculos o mantén el dedo sobre la sartén.'})[step.kind]:step.tip;this.next.textContent=s.step===3?'Ver mi plato':'Siguiente paso';}
     set(this.timer,'textContent',Math.floor(s.elapsed)+' s');set(this.next,'hidden',!done);set(this.action,'hidden',done);set(this.heatBox,'hidden',!step.seconds||done);set(this.retry,'hidden',!done&&s.stepTime<1);
     set(this.controlHint,'hidden',!!step.seconds&&!done);set(this.controlHint,'textContent',done?'Paso terminado. Continúa cuando quieras.':this.easy?'Control fácil · También puedes usar los botones.':'Control con gestos · También puedes usar los botones.');
     const progress=step.kind==='cut'?s.cuts.length/step.cuts:step.kind==='mix'?s.eggs<2?s.eggs/5:.4+clamp(s.turns/step.turns)*.6:step.kind==='wash'?clamp(s.turns/step.turns):step.kind==='plate'?s.plated.length/3:clamp(s.cooked/step.seconds);
@@ -83,8 +88,8 @@ export class KitchenScene {
     if(step.kind==='cut')action='Cortar siguiente marca';else if(step.kind==='mix')action=s.eggs<2?'Cascar un huevo':'Batir ¼ de vuelta';else if(step.kind==='plate')action='Colocar siguiente alimento';else if(step.flip){action=s.flipped?'Tortilla volteada':'Dar la vuelta';disabled=s.flipped||s.cooked<7;}else if(step.drain){action='Escurrir la pasta';disabled=s.cooked<step.seconds;}else action=step.kind==='wash'?'Lavar ¼ de vuelta':'Remover ¼ de vuelta';
     set(this.action,'disabled',disabled);set(this.action,'textContent',action);
     let hint=s.feedback;
-    if(!hint&&step.kind==='cut')hint=s.cuts.length+' de '+step.cuts+' cortes · '+(this.easy?'Toca la comida.':'Desliza y levanta el dedo.');
-    if(!hint&&step.turns&&!(step.kind==='mix'&&s.eggs<2))hint=Math.min(step.turns,Math.floor(s.turns*4)/4)+' de '+step.turns+' vueltas · '+(this.easy?'Mantén pulsado.':'En cualquier sentido.')+(step.seconds?' Fuego medio: 55%.':'');
+    if(!hint&&step.kind==='cut')hint=s.cuts.length+' de '+step.cuts+' cortes · '+(this.easy?'Desliza o toca la comida.':'Desliza y levanta el dedo.');
+    if(!hint&&step.turns&&!(step.kind==='mix'&&s.eggs<2))hint=Math.min(step.turns,Math.floor(s.turns*4)/4)+' de '+step.turns+' vueltas · '+(this.easy?'Remueve o mantén pulsado.':'En cualquier sentido.')+(step.seconds?' Fuego medio: 55%.':'');
     if(!hint&&step.kind==='plate')hint=s.plated.length+' de 3 ingredientes · '+(this.easy?'Toca ingrediente y después plato.':'Coge arriba y suelta en el plato.');
     if(!hint&&step.seconds)hint=s.cooked>=step.seconds?(step.flip&&!s.flipped?'Desliza hacia arriba para dar la vuelta.':step.drain&&!s.drained?'Lleva la olla hasta el colador.':step.turns&&s.turns<step.turns?'Falta remover la preparación.':''):'Fuego medio recomendado: 55%.';
     this.message(hint||'');
