@@ -6,13 +6,13 @@ export function link(text,url){const a=element('a','',text);a.href=url;a.target=
 export function populateBillboard(menu,pick,bill=programme()){
   menu.classList.add('dm-concert-billboard');
   const date=new Intl.DateTimeFormat('es-ES',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit',timeZone:'Europe/Madrid'}).format(bill.endsAt);
-  menu.append(element('p','dm-concert-kicker','LAS NOCHES DEL RETIRO'),element('p','','Conciertos imaginarios de vuestros artistas, entre los árboles de Madrid. Entrada libre. Elige uno y camina hasta el quiosco.'),element('p','dm-concert-renews','Nueva cartelera: '+date+' · hora de Madrid'));
+  menu.append(element('p','dm-concert-kicker','LAS NOCHES DEL RETIRO'),element('p','','Elige un artista y pulsa Entrar al concierto. Tu personaje caminará hasta el quiosco para ver la actuación dentro del juego. Entrada libre.'),element('p','dm-concert-renews','Nueva cartelera: '+date+' · hora de Madrid'));
   for(const artist of bill.artists){
     const card=element('article','dm-concert-card');card.dataset.artist=artist.id;card.style.setProperty('--concert-color',artist.color);
     const preview=element('canvas','dm-concert-preview');preview.width=512;preview.height=256;preview.setAttribute('aria-label','Diseño de '+artist.name);
     loadConcertAssets().then(art=>{if(!preview.isConnected)return;const sheet=art.shared.frames[artist.art]?art.shared:art,g=preview.getContext('2d'),f=sheet.frames[artist.art],w=Math.min(512,256*f[2]/f[3]),h=w*f[3]/f[2];g.imageSmoothingEnabled=false;g.drawImage(sheet.image,...f,(512-w)/2,256-h,w,h);}).catch(()=>{preview.hidden=true;});
-    const button=element('button','','Ver a '+artist.name);button.type='button';button.addEventListener('click',()=>pick(artist,bill));
-    card.append(preview,element('small','',artist.tastes.map(r=>r==='shared'?'De vuestra lista compartida':'De la radio de Gabi').join(' · ')),element('h3','',artist.name),element('p','',artist.style),element('p','',artist.detail),button,link('Escuchar '+artist.tracks[0].title+' en Spotify ↗',trackURL(artist.tracks[0])));menu.append(card);
+    const button=element('button','dm-concert-enter','Entrar al concierto');button.type='button';button.setAttribute('aria-label','Entrar al concierto de '+artist.name);button.addEventListener('click',()=>pick(artist,bill));
+    card.append(element('h3','',artist.name),element('small','',artist.tastes.map(r=>r==='shared'?'De vuestra lista compartida':'De la radio de Gabi').join(' · ')),button,preview,element('p','',artist.style),element('p','',artist.detail),link('Escuchar '+artist.tracks[0].title+' en Spotify ↗',trackURL(artist.tracks[0])));menu.append(card);
   }
   const lists=element('details','dm-concert-sources');lists.append(element('summary','','Nuestras listas'));
   for(const [role,source] of Object.entries(SOURCES)){
