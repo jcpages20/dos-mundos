@@ -1,32 +1,35 @@
 import {DISHES,FOOD_NAMES,clamp} from './recipes.mjs';
 import {CookingGame} from './cooking-model.mjs?cocina=11';
-import {KitchenRenderer} from './kitchen-renderer.mjs?cocina=11';
+import {KitchenRenderer} from './kitchen-renderer.mjs?rendimiento=12';
 const el=(tag,cls='',text='')=>{const n=document.createElement(tag);n.className=cls;if(text)n.textContent=text;return n;};
+const set=(node,key,value)=>{if(node[key]!==value)node[key]=value;};
 
 export class KitchenScene {
   constructor(house,api){this.house=house;this.api=api;}
   get open(){return !!this.root;}
   button(label,fn){const b=el('button','',label);b.type='button';b.addEventListener('click',fn);return b;}
   async show(recipe='omelet'){
-    if(this.open)return;this.role=this.api.role;this.selected=DISHES[recipe]?recipe:'omelet';this.abort=new AbortController();
+    if(this.open)return;this.role=this.api.role;this.selected=DISHES[recipe]?recipe:'omelet';this.abort=new AbortController();this.paintDirty=true;this.lastDraw=-Infinity;this.lastHUD=-Infinity;this.savedModel=null;
     this.root=el('section','dm-kitchen-scene');this.root.id='dm-kitchen-scene';this.root.setAttribute('role','dialog');this.root.setAttribute('aria-modal','true');this.root.setAttribute('aria-label','Nuestra cocina: tres platos para preparar');
     const header=el('header','ck-header'),name=el('div');name.append(el('small','','DOS MUNDOS · EN CASA'));this.title=el('h1','','Nuestra cocina');name.append(this.title);header.append(name,this.button('Pausa',()=>this.pause()),this.button('Salir',()=>this.close()));
     const stage=el('div','ck-stage');this.canvas=el('canvas');this.canvas.id='dm-kitchen-canvas';this.canvas.tabIndex=0;this.canvas.setAttribute('aria-label','Mesa de cocina: corta, remueve y mueve los alimentos con el dedo');stage.append(this.canvas);
     this.panel=el('div','ck-panel');this.root.append(header,stage,this.panel);document.body.append(this.root);document.body.classList.add('dm-kitchen-active');
-    this.renderer=new KitchenRenderer(this.canvas,this.house.renderer);this.panel.append(el('p','','Preparando la tabla, los utensilios y la despensa…'));
+    this.renderer=new KitchenRenderer(this.canvas,this.house.renderer,()=>this.cancelGesture());this.panel.append(el('p','','Preparando la tabla, los utensilios y la despensa…'));
     const signal=this.abort.signal;
-    this.canvas.addEventListener('pointerdown',e=>{if(!this.game?.active())return;e.preventDefault();this.canvas.focus({preventScroll:true});this.canvas.setPointerCapture(e.pointerId);const p=this.renderer.point(e);this.game.begin(p.x,p.y);},{signal});
-    this.canvas.addEventListener('pointermove',e=>{if(!this.game?.pointer)return;e.preventDefault();const p=this.renderer.point(e);this.game.move(p.x,p.y);this.changed();},{signal});
-    this.canvas.addEventListener('pointerup',e=>{if(!this.game?.pointer)return;e.preventDefault();const p=this.renderer.point(e);this.game.end(p.x,p.y);this.changed();this.persist();},{signal});
-    for(const type of ['pointercancel','lostpointercapture'])this.canvas.addEventListener(type,()=>{if(this.game)this.game.pointer=null;},{signal});
-    window.addEventListener('keydown',e=>this.key(e),{capture:true,signal});window.addEventListener('blur',()=>this.pause(),{signal});window.addEventListener('orientationchange',()=>this.pause(),{signal});window.addEventListener('pagehide',()=>this.pause(),{signal});document.addEventListener('visibilitychange',()=>{if(document.hidden)this.pause();},{signal});
+    this.canvas.addEventListener('pointerdown',e=>{if(!this.game?.active()||this.pointerId!=null||!e.isPrimary)return;e.preventDefault();this.canvas.focus({preventScroll:true});this.pointerId=e.pointerId;this.pointerBounds=this.canvas.getBoundingClientRect();this.canvas.setPointerCapture(e.pointerId);const p=this.renderer.point(e,this.pointerBounds);this.game.begin(p.x,p.y);this.changed();},{signal});
+    this.canvas.addEventListener('pointermove',e=>{if(e.pointerId!==this.pointerId||!this.game?.pointer)return;e.preventDefault();const p=this.renderer.point(e,this.pointerBounds);this.game.move(p.x,p.y);this.changed(false);},{signal});
+    this.canvas.addEventListener('pointerup',e=>{if(e.pointerId!==this.pointerId)return;e.preventDefault();if(this.game?.pointer){const p=this.renderer.point(e,this.pointerBounds);this.game.end(p.x,p.y);}this.cancelGesture();this.changed();this.persist();},{signal});
+    for(const type of ['pointercancel','lostpointercapture'])this.canvas.addEventListener(type,e=>{if(e.pointerId===this.pointerId){this.cancelGesture();this.persist();}},{signal});
+    // Mobile browser controls can blur or rotate a visible page. Only a real
+    // background transition (or the player's pause button) freezes the recipe.
+    window.addEventListener('keydown',e=>this.key(e),{capture:true,signal});window.addEventListener('blur',()=>{this.cancelGesture();if(document.hidden)this.pause();},{signal});window.addEventListener('orientationchange',()=>this.cancelGesture(),{signal});window.addEventListener('pagehide',()=>this.pause(),{signal});document.addEventListener('visibilitychange',()=>{if(document.hidden)this.pause();},{signal});
     const root=this.root;let timeout;
     try{await Promise.race([this.renderer.load(),new Promise((_,reject)=>{timeout=setTimeout(()=>reject(new Error('La cocina está tardando demasiado en cargar.')),20000);})]);if(this.root!==root)return;this.ready=true;this.catalog();}
     catch(error){if(this.root!==root)return;this.panel.replaceChildren(el('p','',error.message),this.button('Abrir recetario rápido',()=>{this.close();this.house.api.menu('recipes');}),this.button('Volver a casa',()=>this.close()));}
     finally{clearTimeout(timeout);}
   }
   catalog(){
-    this.game=null;this.ticket=null;this.applied=false;this.resultShown=false;this.signature='';this.title.textContent='Nuestra cocina';this.root.dataset.view='catalog';this.panel.replaceChildren();
+    this.cancelGesture();this.game=null;this.ticket=null;this.applied=false;this.resultShown=false;this.savedModel=null;this.signature='';this.title.textContent='Nuestra cocina';this.root.dataset.view='catalog';this.panel.replaceChildren();
     const data=this.api.snapshot();
     if(!data.ok){this.panel.append(el('p','',data.message),this.button('Volver a casa',()=>this.close()));return;}
     if(data.active&&data.active.status!=='served'){
@@ -46,10 +49,10 @@ export class KitchenScene {
     catch(error){this.game=null;this.panel.replaceChildren(el('p','',error.message),this.button('Descartar preparación',()=>{const r=this.api.abandon(ticket.id);if(r.ok)this.catalog();}));}
   }
   buildLive(){
-    this.title.textContent=DISHES[this.selected].name;this.root.dataset.view='playing';this.panel.replaceChildren();this.signature='';
+    this.title.textContent=DISHES[this.selected].name;this.root.dataset.view='playing';this.panel.replaceChildren();this.signature='';this.quarter=0;
     const row=el('div','ck-step-head');this.stepLabel=el('strong');this.timer=el('span');row.append(this.stepLabel,this.timer);this.tip=el('p','ck-tip');this.progress=el('progress');this.progress.max=1;this.progress.setAttribute('aria-label','Progreso del paso de cocina');
     this.heatBox=el('label','ck-heat');this.heatText=el('span');this.heat=el('input');this.heat.type='range';this.heat.min=0;this.heat.max=100;this.heat.value=0;this.heat.setAttribute('aria-label','Potencia del fuego');this.heat.addEventListener('input',()=>{this.game.setHeat(Number(this.heat.value)/100);this.changed();});this.heatBox.append(this.heatText,this.heat);
-    const actions=el('div','ck-actions');this.action=this.button('',()=>this.accessibleAction());this.next=this.button('Siguiente paso',()=>this.nextStep());this.retry=this.button('Repetir paso',()=>{this.quarter=0;this.game.retry();this.changed();this.persist();});actions.append(this.action,this.next,this.retry);
+    const actions=el('div','ck-actions');this.action=this.button('',()=>this.accessibleAction());this.next=this.button('Siguiente paso',()=>this.nextStep());this.retry=this.button('Repetir paso',()=>{this.cancelGesture();this.quarter=0;this.game.retry();this.changed();this.persist();});actions.append(this.action,this.next,this.retry);
     this.notice=el('p','ck-notice');this.notice.setAttribute('role','status');this.panel.append(row,this.tip,this.progress,this.heatBox,actions,this.notice);this.changed();this.canvas.focus({preventScroll:true});
   }
   accessibleAction(){
@@ -57,52 +60,65 @@ export class KitchenScene {
     if(step.kind==='cut')this.game.cut();else if(step.kind==='mix'&&s.eggs<2)this.game.crack();else if(step.kind==='plate')this.game.plate([0,1,2].find(i=>!s.plated.includes(i)));else if(step.flip)this.game.flip();else if(step.drain)this.game.drain();else if(step.turns)this.game.stirQuarter();
     this.changed();this.persist();
   }
-  nextStep(){if(this.game?.next()){this.quarter=0;this.persist();if(this.game.state.phase==='done')this.showResult();else this.changed();}}
-  changed(){
+  nextStep(){if(this.game?.next()){this.cancelGesture();this.quarter=0;this.persist();if(this.game.state.phase==='done')this.showResult();else this.changed();}}
+  changed(immediate=true){this.paintDirty=true;this.refreshHUD(performance.now(),immediate);}
+  refreshHUD(now,immediate=false){
     if(!this.game||this.resultShown)return;const s=this.game.state,step=this.game.step,done=s.phase==='stepDone';
     if(s.phase==='done'){this.showResult();return;}
     const signature=s.step+':'+s.phase;
+    if(!immediate&&signature===this.signature&&now-this.lastHUD<100)return;this.lastHUD=now;
     if(signature!==this.signature){this.signature=signature;this.stepLabel.textContent='Paso '+(s.step+1)+'/4 · '+step.name;this.tip.textContent=step.tip;this.next.textContent=s.step===3?'Ver mi plato':'Siguiente paso';}
-    this.timer.textContent=Math.floor(s.elapsed)+' s';this.next.hidden=!done;this.action.hidden=done;this.heatBox.hidden=!step.seconds||done;this.retry.hidden=done?false:s.stepTime<1;
-    this.progress.value=step.kind==='cut'?s.cuts.length/step.cuts:step.kind==='mix'?s.eggs<2?s.eggs/5:.4+clamp(s.turns/step.turns)*.6:step.kind==='wash'?clamp(s.turns/step.turns):step.kind==='plate'?s.plated.length/3:clamp(s.cooked/step.seconds);
-    this.heat.value=Math.round(s.heat*100);this.heatText.textContent='Fuego '+Math.round(s.heat*100)+'% · '+(s.temperature>.73?'demasiado alto':s.temperature>=.32?'cocinando':'calentando');
-    this.action.disabled=false;
-    if(step.kind==='cut')this.action.textContent='Cortar siguiente marca';else if(step.kind==='mix')this.action.textContent=s.eggs<2?'Cascar un huevo':'Batir ¼ de vuelta';else if(step.kind==='plate')this.action.textContent='Colocar siguiente alimento';else if(step.flip){this.action.textContent=s.flipped?'Tortilla volteada':'Dar la vuelta';this.action.disabled=s.flipped||s.cooked<7;}else if(step.drain){this.action.textContent='Escurrir la pasta';this.action.disabled=s.cooked<step.seconds;}else this.action.textContent=step.kind==='wash'?'Lavar ¼ de vuelta':'Remover ¼ de vuelta';
+    set(this.timer,'textContent',Math.floor(s.elapsed)+' s');set(this.next,'hidden',!done);set(this.action,'hidden',done);set(this.heatBox,'hidden',!step.seconds||done);set(this.retry,'hidden',!done&&s.stepTime<1);
+    const progress=step.kind==='cut'?s.cuts.length/step.cuts:step.kind==='mix'?s.eggs<2?s.eggs/5:.4+clamp(s.turns/step.turns)*.6:step.kind==='wash'?clamp(s.turns/step.turns):step.kind==='plate'?s.plated.length/3:clamp(s.cooked/step.seconds);
+    set(this.progress,'value',Math.round(progress*1000)/1000);set(this.heat,'value',String(Math.round(s.heat*100)));set(this.heatText,'textContent','Fuego '+Math.round(s.heat*100)+'% · '+(s.temperature>.73?'demasiado alto':s.temperature>=.32?'cocinando':'calentando'));
+    let action,disabled=false;
+    if(step.kind==='cut')action='Cortar siguiente marca';else if(step.kind==='mix')action=s.eggs<2?'Cascar un huevo':'Batir ¼ de vuelta';else if(step.kind==='plate')action='Colocar siguiente alimento';else if(step.flip){action=s.flipped?'Tortilla volteada':'Dar la vuelta';disabled=s.flipped||s.cooked<7;}else if(step.drain){action='Escurrir la pasta';disabled=s.cooked<step.seconds;}else action=step.kind==='wash'?'Lavar ¼ de vuelta':'Remover ¼ de vuelta';
+    set(this.action,'disabled',disabled);set(this.action,'textContent',action);
     let hint=s.feedback;
     if(!hint&&step.seconds)hint=s.cooked>=step.seconds?(step.flip&&!s.flipped?'Desliza hacia arriba para dar la vuelta.':step.drain&&!s.drained?'Lleva la olla hasta el colador.':step.turns&&s.turns<step.turns?'Falta remover la preparación.':''):'Fuego medio recomendado: 55%.';
     this.message(hint||'');
   }
-  message(text){if(this.notice)this.notice.textContent=text;}
+  message(text){if(this.notice)set(this.notice,'textContent',text);}
+  cancelGesture(){
+    const id=this.pointerId;this.pointerId=null;this.pointerBounds=null;if(this.game)this.game.pointer=null;this.paintDirty=true;
+    if(id!=null&&this.canvas?.hasPointerCapture(id))this.canvas.releasePointerCapture(id);
+  }
   key(e){
     if(!this.open||document.getElementById('dm-life-modal'))return;
     if(e.target===this.heat&&['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].includes(e.key)){
-      e.preventDefault();e.stopImmediatePropagation();const s=this.game.state,next=e.key==='Home'?0:e.key==='End'?1:s.heat+(['ArrowRight','ArrowUp'].includes(e.key)?.01:-.01);this.game.setHeat(next);this.changed();this.persist();return;
+      e.preventDefault();e.stopImmediatePropagation();const s=this.game.state,next=e.key==='Home'?0:e.key==='End'?1:s.heat+(['ArrowRight','ArrowUp'].includes(e.key)?.01:-.01);this.game.setHeat(next);this.changed();return;
     }
     if(/INPUT|SELECT|TEXTAREA/.test(e.target.tagName))return;
     if(e.key==='Escape'){e.preventDefault();e.stopImmediatePropagation();if(this.game&&!this.resultShown)this.pause();else this.close();return;}
     if(e.key.startsWith('Arrow')||['w','a','s','d'].includes(e.key)){
       e.preventDefault();e.stopImmediatePropagation();
-      if(this.game?.active()&&this.game.step.turns&&e.key.startsWith('Arrow')&&!e.repeat){const order=['ArrowRight','ArrowDown','ArrowLeft','ArrowUp'];if(order[(this.quarter||0)%4]===e.key){this.quarter=(this.quarter||0)+1;this.game.stirQuarter();this.changed();this.persist();}}return;
+      if(this.game?.active()&&this.game.step.turns&&e.key.startsWith('Arrow')&&!e.repeat){const order=['ArrowRight','ArrowDown','ArrowLeft','ArrowUp'];if(order[(this.quarter||0)%4]===e.key){this.quarter=(this.quarter||0)+1;this.game.stirQuarter();this.changed();}}return;
     }
     if(!this.game||this.game.state.paused||this.resultShown||e.target.closest('button'))return;
     if([' ','Enter'].includes(e.key)){e.preventDefault();e.stopImmediatePropagation();if(!e.repeat)this.accessibleAction();}
   }
   pause(){
-    if(!this.game||this.resultShown)return;this.game.pause();this.persist();if(this.pauseBox)return;
-    this.pauseBox=el('section','ck-paused');this.pauseBox.setAttribute('aria-label','Cocina en pausa');this.pauseBox.append(el('h2','','La cocina está en pausa'),el('p','','Los ingredientes siguen en tu despensa. El fuego y los segundos están detenidos.'),this.button('Continuar cocinando',()=>{this.game.resume();this.pauseBox.remove();this.pauseBox=null;this.canvas.focus({preventScroll:true});}),this.button('Salir y conservar la preparación',()=>this.close()));this.root.append(this.pauseBox);
+    if(!this.game||this.resultShown)return;this.cancelGesture();this.game.pause();this.changed();this.persist();if(this.pauseBox)return;
+    this.pauseBox=el('section','ck-paused');this.pauseBox.setAttribute('aria-label','Cocina en pausa');this.pauseBox.append(el('h2','','La cocina está en pausa'),el('p','','Los ingredientes siguen en tu despensa. El fuego y los segundos están detenidos.'),this.button('Continuar cocinando',()=>{this.game.resume();this.pauseBox.remove();this.pauseBox=null;this.changed();this.persist();this.canvas.focus({preventScroll:true});}),this.button('Salir y conservar la preparación',()=>this.close()));this.root.append(this.pauseBox);
   }
   pantry(){if(this.game)this.pause();this.close();this.house.api.menu('pantry');}
   showResult(){
-    if(this.resultShown)return;this.resultShown=true;this.persist();this.root.dataset.view='result';const r=this.game.result();this.panel.replaceChildren(el('h2','',r.quality+' · '+r.score+'/1000'),el('p','',DISHES[this.selected].name+' · Cuatro pasos completados.'));
+    if(this.resultShown)return;this.cancelGesture();this.resultShown=true;this.persist();this.root.dataset.view='result';const r=this.game.result();this.panel.replaceChildren(el('h2','',r.quality+' · '+r.score+'/1000'),el('p','',DISHES[this.selected].name+' · Cuatro pasos completados.'));
     const serve=this.button(this.practice?'Guardar ensayo':'Servir y comer',()=>{this.persist();const response=this.api.act(this.selected,this.ticket.id,r);this.message(response.message);if(response.ok){this.applied=true;serve.disabled=true;serve.textContent=this.practice?'Ensayo guardado':'Plato servido';}});serve.disabled=!r.effort;
     this.panel.append(serve,el('small','',this.practice?'El ensayo no consume ingredientes ni alimenta al personaje.':'Servir consume los ingredientes y aplica una vez tu receta habitual: '+DISHES[this.selected].minutes+' min del mundo y '+DISHES[this.selected].xp+' XP de cocina.'),this.button('Elegir otra receta',()=>{if(!this.applied){const response=this.api.abandon(this.ticket.id);if(!response.ok){this.message(response.message);return;}}this.catalog();}),this.button('Despensa',()=>this.pantry()),this.button('Volver a casa',()=>this.close()));this.notice=el('p','ck-notice');this.notice.setAttribute('role','status');this.panel.append(this.notice);serve.focus({preventScroll:true});
   }
   update(dt,now){
     if(!this.open)return;if(!this.api.open||this.role!==this.api.role){this.close();return;}if(!this.ready)return;
-    if(this.game&&!this.resultShown){this.game.update(dt);this.changed();if(now-(this.lastSaved||0)>1000){this.persist();this.lastSaved=now;}}
-    this.renderer.draw(this.game,this.role,this.house.api.snapshot()?.time);
+    if(this.game?.active()&&!this.resultShown){this.game.update(dt);this.refreshHUD(now);if(!this.game.active()){this.paintDirty=true;this.persist();}else if(now-this.lastSaved>1000)this.persist();}
+    // Keep sampling gestures and simulation at the house frame rate. Painting
+    // needs at most 30 fps, and static/paused scenes need no repeated redraws.
+    const animated=this.game?.active()&&this.game.step.seconds;
+    if((this.paintDirty||animated)&&now-this.lastDraw>=1000/30){this.renderer.draw(this.game,this.role,this.house.api.snapshot()?.time);this.lastDraw=now;this.paintDirty=false;}
   }
-  persist(){if(!this.game||!this.ticket||this.applied)return;const r=this.api.saveRun(this.ticket.id,this.game.snapshot());if(!r.ok)this.message(r.message);}
-  close(){if(!this.root)return;if(this.game){this.game.pause();this.persist();}this.abort.abort();this.renderer?.destroy();this.root.remove();this.root=null;this.pauseBox=null;this.ready=false;this.game=null;this.ticket=null;this.renderer=null;this.applied=false;this.resultShown=false;document.body.classList.remove('dm-kitchen-active');this.house.canvas?.focus({preventScroll:true});}
+  persist(){
+    if(!this.game||!this.ticket||this.applied)return;this.lastSaved=performance.now();const model=this.game.snapshot(),signature=this.ticket.id+':'+JSON.stringify(model);if(signature===this.savedModel)return;
+    const r=this.api.saveRun(this.ticket.id,model);if(r.ok)this.savedModel=signature;else this.message(r.message);
+  }
+  close(){if(!this.root)return;this.cancelGesture();if(this.game){this.game.pause();this.persist();}this.abort.abort();this.renderer?.destroy();this.root.remove();this.root=null;this.pauseBox=null;this.ready=false;this.game=null;this.ticket=null;this.renderer=null;this.applied=false;this.resultShown=false;document.body.classList.remove('dm-kitchen-active');this.house.canvas?.focus({preventScroll:true});}
   snapshot(){return this.open?{ready:!!this.ready,role:this.role,recipe:this.selected,phase:this.game?.state.phase||'catalog',paused:!!this.game?.state.paused,model:this.game?.snapshot()||null,result:this.game?.result()||null,applied:!!this.applied}:null;}
 }
