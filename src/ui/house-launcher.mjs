@@ -1,5 +1,5 @@
 import {createSnapshot} from '../persistence/save-vault.mjs';
-import {extendLegacyBuilder} from '../legacy/house-bridge.mjs?mascota=19';
+import {extendLegacyBuilder} from '../legacy/house-bridge.mjs?mascota=20';
 
 async function start() {
   const response = await fetch(new URL('../../index6.3.html', import.meta.url));

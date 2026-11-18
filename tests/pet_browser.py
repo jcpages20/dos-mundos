@@ -81,6 +81,14 @@ class PetTests(HouseTests):
         self.applied(frame)
         for key in ['x','y','width','height']:self.assertAlmostEqual(box[key],game.locator('#dm-pet-canvas').bounding_box()[key],delta=.6)
         cdp.send('Input.dispatchTouchEvent',{'type':'touchEnd','touchPoints':[]});cdp.detach();game.get_by_role('button',name='Volver a casa',exact=True).click();after=frame.evaluate('()=>({child:document.body.style.cssText,parent:parent.document.body.style.cssText,html:document.documentElement.style.cssText})');self.assertEqual(before_styles,after);self.assertEqual(self.errors,[])
+    def test_house_pet_bar_fits_viewport_and_long_names_without_clipped_buttons(self):
+        game,frame,_=self.adopt(name='Un nombre bastante largo')
+        for width,height in [(390,844),(375,667),(320,568),(844,390)]:
+            self.page.set_viewport_size({'width':width,'height':height});self.page.wait_for_timeout(100)
+            layout=game.locator('.dm-house-pet-bar').evaluate('''r=>({width:r.getBoundingClientRect().width,buttons:[...r.querySelectorAll('button:not([hidden])')].map(b=>{const p=b.getBoundingClientRect();return {text:b.textContent,x:p.x,y:p.y,w:p.width,h:p.height,hit:r.ownerDocument.elementFromPoint(p.x+p.width/2,p.y+p.height/2)?.closest('button')===b}})})''')
+            self.assertLessEqual(layout['width'],width)
+            for b in layout['buttons']:self.assertGreaterEqual(b['h'],44);self.assertGreaterEqual(b['x'],0);self.assertLessEqual(b['x']+b['w'],width+.1);self.assertTrue(b['hit'],b)
+        self.assertEqual(self.errors,[])
 
 if __name__=='__main__':
     names=[n for n in PetTests.__dict__ if n.startswith('test_')]
