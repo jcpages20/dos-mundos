@@ -1,4 +1,4 @@
-import {HouseScene} from './house-scene.mjs?cocina=15';
+import {HouseScene} from './house-scene.mjs?mascota=19';
 import {installCityActions} from '../ui/city-actions.mjs';
 
 const api = window.DosMundosLegacy;
@@ -35,6 +35,7 @@ document.addEventListener('click', event => {
 }, true);
 window.DosMundosHouse = Object.freeze({getSnapshot: () => scene?.snapshot() || null});
 window.DosMundosKitchen=Object.freeze({getSnapshot:()=>scene?.cooking?.snapshot()||null,open:recipe=>scene?.startCookingRoute(recipe)});
+window.DosMundosPets=Object.freeze({getSnapshot:()=>scene?.pet?.snapshot()||null,open:()=>scene?.pet?.route()});
 // Keep all five quick recipes, adding one entry into the playable kitchen.
 new MutationObserver(records=>{
   if(!records.some(r=>r.target.classList?.contains('dm55-area')||[...r.addedNodes].some(n=>n.id==='dm55-overlay')))return;

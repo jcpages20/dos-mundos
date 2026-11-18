@@ -98,6 +98,7 @@ export function extendLegacyBuilder(builder, {stylesURL, installerURL}) {
   const lifeInstallerURL = new URL('../life/install-life.mjs', import.meta.url).href;
   const gymGamesStylesURL = new URL('../../styles/gym-games.css?rutinas=10', import.meta.url).href;
   const kitchenStylesURL = new URL('../../styles/kitchen.css?cocina=14', import.meta.url).href;
+  const petStylesURL = new URL('../../styles/pets.css?mascota=19', import.meta.url).href;
   const worldMarker = 'const WORLD_W=1180,WORLD_H=922, VIEW_W=512,VIEW_H=448;';
   const expandedWorld = 'const WORLD_W=1180,WORLD_H=1180, VIEW_W=512,VIEW_H=448;';
   const literal = value => JSON.stringify(value).replace(/</g, '\\u003c');
@@ -121,6 +122,7 @@ export function extendLegacyBuilder(builder, {stylesURL, installerURL}) {
     game = game.replace('</head>', '<link rel="stylesheet" href="' + ${literal(lifeStylesURL)} + '"></head>');
     game = game.replace('</head>', '<link rel="stylesheet" href="' + ${literal(gymGamesStylesURL)} + '"></head>');
     game = game.replace('</head>', '<link rel="stylesheet" href="' + ${literal(kitchenStylesURL)} + '"></head>');
+    game = game.replace('</head>', '<link rel="stylesheet" href="' + ${literal(petStylesURL)} + '"></head>');
     game = game.replace('</body>', '<script type="module" src="' + ${literal(installerURL)} + '"><' + '/script></body>');
     game = game.replace('</body>', '<script type="module" src="' + ${literal(gymInstallerURL)} + '"><' + '/script></body>');
     game = game.replace('</body>', '<script type="module" src="' + ${literal(cityInstallerURL)} + '"><' + '/script></body>');

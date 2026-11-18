@@ -102,7 +102,7 @@ export class HouseRenderer {
     g.fillStyle = '#98704c44'; g.fillRect(box.x + 1, box.y - 8, 1, box.h + 1);
   }
 
-  draw(actor, state, now, focused, tvOn, lightsOn) {
+  draw(actor, state, now, focused, tvOn, lightsOn,extras=[]) {
     const {g, canvas} = this;
     g.imageSmoothingEnabled = false;
     g.fillStyle = '#203330'; g.fillRect(0, 0, canvas.width, canvas.height);
@@ -151,6 +151,7 @@ export class HouseRenderer {
           bed.x, bed.y + bed.h * .51, bed.w, bed.h * .49);
       }
     }});
+    queue.push(...extras);
     queue.sort((a, b) => a.depth - b.depth).forEach(item => item.render());
     if (focused && actor.pose === 'stand') {
       const point = focused.approaches[0];

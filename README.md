@@ -16,6 +16,7 @@ Dos Mundos conserva sus versiones anteriores y añade una primera casa RPG jugab
 - [Atlas jugable: retos de fuerza, cardio, telas y movilidad](docs/GIMNASIO_RETOS.md).
 - [Atlas: rutinas de 45 segundos, decisiones de riesgo, figuras y accesorios](docs/GIMNASIO_RUTINAS.md).
 - [Nuestra cocina: tres platos con cortes, batido, fuego y emplatado](docs/COCINA_JUGABLE.md).
+- [Un podenco en casa: adopción, cuidados táctiles, pelota y aprendizaje](docs/PODENCO_TACTIL.md).
 - [Cine Estrella: mejora visual y cartelera del día](docs/CINE_CARTELERA.md), disponible desde la misma entrada de la casa RPG.
 - [Gimnasio y cafetería renovados, salida a la calle y cartelera por plataformas](docs/INTERIORES_CIUDAD.md).
 

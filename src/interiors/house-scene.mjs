@@ -1,11 +1,12 @@
 import {HOUSE, HOUSE_VERSION, contains, roomAt} from './house-map.mjs';
 import {canStand, clearSegment, distance, findPath, moveSafely, nearestApproach} from '../engine/navigation.mjs';
-import {HouseRenderer} from './house-renderer.mjs';
+import {HouseRenderer} from './house-renderer.mjs?mascota=19';
 import {KitchenScene} from '../kitchen/kitchen-scene.mjs?cocina=15';
+import {HousePet} from '../pets/house-pet.mjs';
 
 const labels = {sit: 'Sentarse', 'sit-chair': 'Sentarse', sleep: 'Dormir', shower: 'Ducharse',
   read: 'Leer', cook: 'Ver recetas', pantry: 'Ver despensa', eat: 'Comer · 8 €',
-  tv: 'Encender televisión', lamp: 'Cambiar luz', wardrobe: 'Ropa y aspecto', look: 'Examinar'};
+  tv: 'Encender televisión', lamp: 'Cambiar luz', wardrobe: 'Ropa y aspecto', look: 'Examinar',pet:'Cuidar al podenco'};
 
 function node(tag, className, text) {
   const element = document.createElement(tag);
@@ -85,6 +86,7 @@ export class HouseScene {
     document.body.classList.add('dm-house-active');
     this.renderer = new HouseRenderer(this.canvas);
     this.cooking=new KitchenScene(this,window.DosMundosKitchenLegacy);
+    this.pet=new HousePet(this);
     this.renderer.camera = {x: Math.max(0, this.actor.x - this.canvas.width / 2),
       y: Math.max(0, this.actor.y - this.canvas.height / 2)};
     this.canvas.addEventListener('pointerdown', event => this.tap(event), {signal: this.abort.signal});
@@ -150,6 +152,7 @@ export class HouseScene {
     event.preventDefault();
     const point = this.renderer.worldPoint(event);
     if (!point) return;
+    if(this.pet.hit(point)){this.pet.route();return;}
     const object = [...HOUSE.objects].reverse().find(object => contains(point, object));
     if (object) {
       this.approach(object); return;
@@ -175,6 +178,7 @@ export class HouseScene {
 
   update(dt, now) {
     if(this.cooking?.open){this.cooking.update(dt,now);return;}
+    if(this.pet?.ui.open){this.pet.update(dt,now);return;}
     if (this.paused) return;
     const before = {x: this.actor.x, y: this.actor.y};
     const blocked = this.modalOpen();
@@ -228,13 +232,15 @@ export class HouseScene {
       this.objectLabel.textContent = nearExit ? 'Entrada' : 'Nuestra casa';
       this.primary.textContent = nearExit ? 'Salir a Madrid' : 'Acércate a un mueble'; this.primary.disabled = !nearExit;
     }
-    this.renderer.draw(this.actor, state, now, this.target, this.tvOn, this.lightsOn);
+    this.pet?.update(dt,now);
+    this.renderer.draw(this.actor, state, now, this.target, this.tvOn, this.lightsOn,this.pet?.layers(now));
   }
 
   primaryAction() {
     if (this.modalOpen() || !this.ready) return;
     if (this.actor.pose !== 'stand') { this.stand(); this.save(); return; }
     const object = this.target;
+    if(object?.action==='pet'){this.pet.route();return;}
     if (!object) {
       if (distance(this.actor, {x: 360, y: 520}) < 44) this.api.exit();
       return;
@@ -286,6 +292,7 @@ export class HouseScene {
       ['Música y radio', 'radio'], ['Elegir película', 'cinema'], ['Vida propia', 'life'], ['Conectar', 'online']
     ];
     this.menu.append(this.button('Cocinar jugando · 3 platos',()=>{close();this.startCookingRoute();}));
+    this.menu.append(this.button('Nuestro podenco · cuidados y juegos',()=>{close();this.pet.route();}));
     for (const [label, action] of actions) this.menu.append(this.button(label, () => { close(); this.api.menu(action); }));
     this.menu.append(this.button('Actividades de la casa anterior', () => { close(); this.showLegacy(); }));
     this.menu.append(this.button('Salir a Madrid', () => { close(); this.api.exit(); }));
@@ -322,6 +329,7 @@ export class HouseScene {
   }
 
   destroy() {
+    this.pet?.destroy();
     this.cooking?.close();
     this.save(); cancelAnimationFrame(this.frame); this.abort.abort();
     this.renderer?.destroy(); this.root?.remove(); this.returnButton?.remove();
@@ -331,6 +339,6 @@ export class HouseScene {
   snapshot() {
     return {ready: !!this.ready, role: this.actor.role, position: {x: this.actor.x, y: this.actor.y},
       room: roomAt(this.actor).id, pose: this.actor.pose, face: this.actor.face, moving: this.actor.moving,
-      walking: this.path.length > 0, target: this.target?.id || null, tvOn: this.tvOn,cooking:this.cooking?.snapshot()||null, origin: this.origin};
+      walking: this.path.length > 0, target: this.target?.id || null, tvOn: this.tvOn,cooking:this.cooking?.snapshot()||null,pet:this.pet?.snapshot()||null, origin: this.origin};
   }
 }
