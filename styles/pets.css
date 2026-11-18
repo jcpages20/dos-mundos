@@ -1,4 +1,4 @@
-.dm-house-has-pet { grid-template-rows: auto auto minmax(0,1fr) auto auto; }
+.dm-house-has-pet { grid-template-columns:minmax(0,1fr); grid-template-rows: auto auto minmax(0,1fr) auto auto; }
 .dm-house-pet-bar { display:flex; align-items:center; gap:7px; padding:5px max(10px,env(safe-area-inset-right)) 7px max(12px,env(safe-area-inset-left)); border-bottom:1px solid #a88a5a; background:#334c43; }
 .dm-house-pet-bar > span { flex:1; min-width:0; font-size:11px; color:#ece0c3; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .dm-house-pet-bar button { min-height:44px; max-width:62%; font-size:12px; padding:8px 11px; }

@@ -1,11 +1,20 @@
 # Un podenco en casa · primera entrega táctil
 
-Desde `casa-rpg.html?mascota=19`, entrar en casa y pulsar **Conocer al podenco**.
+Desde `casa-rpg.html?mascota=20`, entrar en casa y pulsar **Conocer al podenco**.
 Se puede ver al cachorro y salir sin adoptar ni escribir ningún dato. Adoptarlo
 es gratis, permite elegir su nombre y lo deja físicamente en su rincón del salón.
 Después, **Cuidar a …**, tocarlo en el escenario o el menú de casa abren sus
 cuidados. Si está lejos, el personaje camina primero a su lado. **Llamar** hace
 que el cachorro se acerque por un camino libre.
+
+El ajuste móvil posterior fija la columna de la casa al ancho visible: antes su
+mínimo intrínseco llegaba a 408 px y recortaba el extremo derecho en móviles de
+390 px. `grid-template-columns: minmax(0,1fr)` evita el recorte. La entrada,
+constructor de adaptadores y CSS de mascota usan ahora caché `mascota=20`; los
+módulos de lógica mantienen la versión 19. Se comprueban ancho real, nombres de
+24 caracteres y todos los botones de la barra en los cuatro tamaños móviles.
+No se cambia el mapa ni ningún dato guardado. Base del ajuste: `0daf1ff`; rollback:
+revertir únicamente este ajuste de CSS/caché, conservando la mascota.
 
 ## Comportamiento y gráficos
 
