@@ -1,5 +1,10 @@
 # Las noches del Retiro
 
+Actualización del inicio y la música: [Conciertos en vivo](CONCIERTOS_EN_VIVO.md).
+La versión actual mantiene el reproductor visible y ofrece «Empezar concierto»;
+el comportamiento de carga y controles descrito en la entrega inicial se amplía
+en ese documento.
+
 La cartelera del quiosco abre una escena de concierto dentro del paseo por el
 parque. Elegir un grupo hace caminar al personaje hasta el quiosco; volver deja
 al mismo personaje junto a su entrada. Calle conserva la salida habitual a Madrid.
