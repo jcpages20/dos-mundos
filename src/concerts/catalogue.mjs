@@ -1,5 +1,6 @@
 // Verified public playlist metadata, read 2026-11-18. The artwork is an original
 // stylised tribute; these are fictional in-game gigs, not real concert dates.
+import {SETLISTS} from './setlists.mjs';
 export const SOURCES=Object.freeze({
   gabi:{name:'las que tengo pegadas',url:'https://open.spotify.com/playlist/6ODNatWurCvWr89xneT5ss',status:'verified'},
   shared:{name:'dedmiau + JC',url:'https://open.spotify.com/playlist/37i9dQZF1EJukqVtoE18Md',status:'screenshots'}
@@ -23,7 +24,7 @@ export const ARTISTS=Object.freeze([
     tracks:[{title:'Heavenly',uri:'spotify:track:5Bng1Bwy7PFQys6qByKmdT'}]},
   {id:'paco',name:'CA7RIEL & Paco Amoroso',tastes:['shared'],art:'paco',style:'El Retiro se mueve',detail:'Dos voces, guitarra, ropa de colores y focos naranja y turquesa.',color:'#f0a16d',light:'#77c6c1',bpm:118,
     tracks:[{title:'Sexy Magic (from GTAVI: The Album)',credit:'con PinkPantheress, Fred again.. y Etienne de Crécy',uri:'spotify:track:62hqNk13CuFLOpCw1cPMAF'}]}
-]);
+].map(artist=>({...artist,tracks:SETLISTS[artist.id]||artist.tracks})));
 export const artistById=id=>ARTISTS.find(a=>a.id===id)||null;
 export const trackURL=track=>/^spotify:track:[a-zA-Z0-9]{22}$/.test(track?.uri||'')?'https://open.spotify.com/track/'+track.uri.split(':')[2]:null;
 export const embedURL=track=>trackURL(track)?trackURL(track).replace('/track/','/embed/track/')+'?utm_source=generator&theme=0':null;

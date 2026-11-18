@@ -15,3 +15,10 @@ devuelve 404 en página pública, oEmbed y embed. Sus artistas y canciones proce
 de las capturas «dedmiau + JC» compartidas por el usuario; sus URI se verificaron
 en las páginas públicas de Spotify de Nsqk, Judeline y CA7RIEL & Paco Amoroso.
 No se atribuyen las canciones de la lista conjunta a ninguno de los dos.
+
+Actualización de animaciones: `bands-motion-a.png`, `bands-motion-b.png` y
+`animation-atlas.json` contienen tres poses por grupo (27 en total), generadas
+a partir de los diseños originales. PNG conservados byte por byte; el manifiesto
+describe las dimensiones reales y separaciones de cada fila. No se modifican los
+sprites de JC o Gabi. El repertorio ampliado se verificó en las páginas públicas
+de Spotify de cada artista; sólo se almacenan metadatos e identificadores.

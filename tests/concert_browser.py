@@ -5,8 +5,11 @@ import unittest
 from city_browser import CityTests
 from playwright.sync_api import expect
 import browser_smoke as support
+import spotify_fixture
 
 class ConcertTests(CityTests):
+    def setUp(self):
+        super().setUp();spotify_fixture.install(self.context)
     def open_park(self,role='jc'):
         game,frame,values=self.open_city(role)
         game.locator('#places').get_by_role('button',name='Parque',exact=False).click()
@@ -42,10 +45,20 @@ class ConcertTests(CityTests):
         game.get_by_role('button',name='Guardar mi recuerdo',exact=True).click();game.get_by_role('button',name='Recuerdo guardado',exact=True).click();self.assertEqual(len(self.concert(frame)['memories']),1);self.assertEqual(self.progress(),before)
         game.get_by_role('button',name='Volver al parque',exact=True).click();game.get_by_role('button',name='Calle',exact=True).click();frame.evaluate('window.DosMundosLifeLegacy.album()');expect(game.locator('.dm-concert-album')).to_be_visible();self.assertEqual(self.page.evaluate('localStorage.getItem("dos-mundos-61-duo-v1")'),values['dos-mundos-61-duo-v1'])
         self.page.reload();game=self.page.frame_locator('#dm-frame');frame=self.page.locator('#dm-frame').element_handle().content_frame();frame.wait_for_function('!!window.DosMundosConcerts',timeout=22000);frame.evaluate('window.DosMundosLifeLegacy.album()');self.assertEqual(game.locator('.dm-concert-memory').count(),1);self.assertEqual(self.errors,[])
-    def test_spotify_loads_only_after_user_action_and_is_removed_on_close(self):
-        game,frame,_=self.open_park();self.enter_concert(game,frame);self.assertEqual(self.remote,[])
-        game.get_by_role('button',name='Escuchar canción',exact=True).click();expect(game.locator('.dm-concert-player iframe')).to_have_count(1);url=game.locator('.dm-concert-player iframe').get_attribute('src');self.assertTrue(url.startswith('https://open.spotify.com/embed/track/'))
-        self.assertGreaterEqual(game.locator('.dm-concert-player a').count(),1);game.get_by_role('button',name='Cerrar música',exact=True).click();expect(game.locator('.dm-concert-player iframe')).to_have_count(0);self.assertIsNotNone(self.concert(frame));self.page.keyboard.press('Escape');self.assertIsNone(self.concert(frame));self.assertEqual(self.errors,[])
+    def test_starting_show_controls_real_player_state_and_persistent_visible_controls(self):
+        game,frame,_=self.open_park();self.enter_concert(game,frame);frame.wait_for_function('window.DosMundosConcerts.getSnapshot().performance.audio==="ready"');self.assertEqual(self.remote,[])
+        expect(game.locator('.dm-concert-dock iframe')).to_have_count(1);game.get_by_role('button',name='Empezar concierto',exact=True).click();self.assertEqual(self.concert(frame)['performance']['phase'],'intro');frame.wait_for_function('window.DosMundosConcerts.getSnapshot().performance.phase==="live"');self.assertGreater(self.concert(frame)['performance']['position'],0)
+        game.get_by_role('button',name='Canciones',exact=True).click();self.assertEqual(game.locator('.dm-concert-player button').count(),4);game.get_by_role('button',name='Volver al concierto',exact=True).click();expect(game.locator('.dm-concert-dock iframe')).to_have_count(1);self.assertEqual(self.concert(frame)['performance']['audio'],'playing')
+        game.get_by_role('button',name='Pausar música',exact=True).click();self.assertEqual(self.concert(frame)['performance']['phase'],'paused');game.get_by_role('button',name='Continuar concierto',exact=True).click();frame.wait_for_function('window.DosMundosConcerts.getSnapshot().performance.phase==="live"');self.page.keyboard.press('Escape');self.assertIsNone(self.concert(frame));self.assertTrue(frame.evaluate('window.__qaSpotifyControllers.at(-1).destroyed'));self.assertEqual(self.errors,[])
+    def test_blocked_playback_is_never_claimed_as_sound_and_next_song_keeps_progress_safe(self):
+        game,frame,_=self.open_park();self.enter_concert(game,frame);frame.wait_for_function('window.DosMundosConcerts.getSnapshot().performance.audio==="ready"');frame.evaluate('window.__qaSpotifyBlocked=true');game.get_by_role('button',name='Empezar concierto',exact=True).click();frame.wait_for_function('window.DosMundosConcerts.getSnapshot().performance.phase==="show"');self.assertNotEqual(self.concert(frame)['performance']['audio'],'playing');self.assertEqual(self.concert(frame)['performance']['position'],0);expect(game.locator('.dm-concert-audio-status')).to_contain_text('▶')
+        frame.evaluate('window.__qaSpotifyBlocked=false');game.get_by_role('button',name='Activar música',exact=True).click();frame.wait_for_function('window.DosMundosConcerts.getSnapshot().performance.audio==="playing"');before=self.progress();game.get_by_role('button',name='Pedir otra',exact=True).click();self.assertEqual(self.concert(frame)['track'],1);self.assertEqual(self.progress(),before);self.assertEqual(self.errors,[])
+    def test_articulated_frames_and_crowd_change_after_start_and_manual_player_events_are_observed(self):
+        game,frame,_=self.open_park();self.enter_concert(game,frame);frame.wait_for_function('window.DosMundosConcerts.getSnapshot().animation.loaded&&window.__qaSpotifyControllers?.length');frame.evaluate('window.__qaSpotifyControllers.at(-1).play()');frame.wait_for_function('window.DosMundosConcerts.getSnapshot().performance.phase==="live"');frames=set()
+        for _ in range(10):frames.add(self.concert(frame)['animation']['frame']);frame.wait_for_timeout(120)
+        self.assertEqual(frames,{0,1,2});frame.evaluate('window.__qaSpotifyControllers.at(-1).testUpdate({isPaused:true})');self.assertEqual(self.concert(frame)['performance']['phase'],'paused');self.assertEqual(self.errors,[])
+    def test_blocked_spotify_script_keeps_direct_player_and_show_usable(self):
+        self.context.route('https://open.spotify.com/embed/iframe-api/v1',lambda route:route.abort());game,frame,_=self.open_park();self.enter_concert(game,frame);frame.wait_for_function('window.DosMundosConcerts.getSnapshot().performance.audio==="manual"');expect(game.locator('.dm-concert-dock iframe')).to_have_count(1);game.get_by_role('button',name='Empezar concierto',exact=True).click();frame.wait_for_function('window.DosMundosConcerts.getSnapshot().performance.phase==="show"');self.assertNotEqual(self.concert(frame)['performance']['audio'],'playing');game.get_by_role('button',name='Volver al parque',exact=True).click();expect(game.locator('.dm-concert-dock iframe')).to_have_count(0);self.assertEqual(self.errors,[])
     def test_mobile_layout_focus_reduced_motion_and_original_scenes_remain_available(self):
         self.page.emulate_media(reduced_motion='reduce');game,frame,_=self.open_park();self.enter_concert(game,frame)
         for w,h in [(390,844),(375,667),(844,390),(1280,900)]:
