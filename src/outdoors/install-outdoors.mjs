@@ -1,5 +1,5 @@
-import {OutdoorScene} from './outdoor-scene.mjs?conciertos=17';
-import {mountConcertAlbum} from '../concerts/concert-ui.mjs?conciertos=17';
+import {OutdoorScene} from './outdoor-scene.mjs?conciertos=18';
+import {mountConcertAlbum} from '../concerts/concert-ui.mjs?conciertos=18';
 const api=window.DosMundosOutdoorLegacy;let scene=null;
 function leave(){scene?.destroy();scene=null;}
 async function enter(){

@@ -1,5 +1,7 @@
 # Las noches del Retiro
 
+Corrección de la entrada en móvil: [Botón para entrar al concierto](CONCIERTOS_ENTRADA.md).
+
 Actualización del inicio y la música: [Conciertos en vivo](CONCIERTOS_EN_VIVO.md).
 La versión actual mantiene el reproductor visible y ofrece «Empezar concierto»;
 el comportamiento de carga y controles descrito en la entrega inicial se amplía

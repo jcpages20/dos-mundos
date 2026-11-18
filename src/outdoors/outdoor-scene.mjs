@@ -1,7 +1,7 @@
 import {MAPS,contains,encodePosition} from './outdoor-maps.mjs';
 import {OutdoorRenderer} from './outdoor-renderer.mjs?conciertos=16';
 import {ConcertView} from '../concerts/concert-view.mjs?conciertos=17';
-import {populateBillboard} from '../concerts/concert-ui.mjs?conciertos=17';
+import {populateBillboard} from '../concerts/concert-ui.mjs?conciertos=18';
 import {canStand,clearSegment,distance,findPath,moveSafely,nearestApproach} from '../engine/navigation.mjs';
 const el=(tag,css='',text='')=>{const e=document.createElement(tag);e.className=css;if(text)e.textContent=text;return e;};
 export class OutdoorScene{

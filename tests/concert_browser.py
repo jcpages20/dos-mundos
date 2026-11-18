@@ -23,6 +23,24 @@ class ConcertTests(CityTests):
         return artist
     def concert(self,frame):return frame.evaluate('window.DosMundosConcerts.getSnapshot()')
     def progress(self):return self.page.evaluate('localStorage.getItem("dos-mundos-v29")')
+    def test_billboard_cards_keep_entry_buttons_unclipped_and_outer_sheet_scrolls_on_mobile(self):
+        game,frame,_=self.open_park();game.get_by_role('button',name='Ver conciertos del Retiro',exact=True).click()
+        for w,h in [(375,667),(390,844),(320,568),(844,390)]:
+            self.page.set_viewport_size({'width':w,'height':h});frame.wait_for_timeout(100)
+            layout=game.locator('.dm-concert-billboard').evaluate('''menu=>({scrollHeight:menu.scrollHeight,height:menu.clientHeight,cards:[...menu.querySelectorAll('.dm-concert-card')].map(card=>{const r=card.getBoundingClientRect(),button=card.querySelector('.dm-concert-enter'),b=button.getBoundingClientRect();return {top:b.top-r.top,bottom:r.bottom-b.bottom,width:b.width,height:b.height,internalScroll:card.scrollTop,label:button.textContent};})})''')
+            self.assertGreater(layout['scrollHeight'],layout['height'])
+            for c in layout['cards']:
+                self.assertGreaterEqual(c['top'],0);self.assertGreaterEqual(c['bottom'],0);self.assertGreaterEqual(c['height'],54);self.assertGreaterEqual(c['width'],44);self.assertEqual(c['internalScroll'],0);self.assertEqual(c['label'],'Entrar al concierto')
+            self.page.screenshot(path=str(support.ARTIFACTS/f'cartelera-entrada-{w}x{h}.png'))
+        self.assertEqual(self.errors,[])
+    def test_real_touch_on_visible_entry_stays_in_game_and_reaches_performance(self):
+        self.page.set_viewport_size({'width':375,'height':667});game,frame,_=self.open_park();before=self.progress();game.get_by_role('button',name='Ver conciertos del Retiro',exact=True).click();menu=game.locator('.dm-concert-billboard');button=menu.locator('.dm-concert-enter').first
+        # Scroll only the outer sheet, as a finger can. Locator.click would also
+        # scroll an overflow:hidden card and conceal the original regression.
+        menu.evaluate('m=>{const b=m.querySelector(".dm-concert-enter");m.scrollTop+=b.getBoundingClientRect().top-m.getBoundingClientRect().top-30}')
+        box=button.bounding_box();center={'x':box['x']+box['width']/2,'y':box['y']+box['height']/2}
+        self.assertTrue(frame.evaluate('p=>!!document.elementFromPoint(p.x,p.y)?.closest(".dm-concert-enter")',center));self.page.touchscreen.tap(center['x'],center['y']);frame.wait_for_function('window.DosMundosConcerts.getSnapshot()?.ready',timeout=22000)
+        self.assertEqual(len(self.context.pages),1);self.assertEqual(self.progress(),before);game.get_by_role('button',name='Empezar concierto',exact=True).click();frame.wait_for_function('window.DosMundosConcerts.getSnapshot().performance.phase==="live"');self.assertEqual(self.errors,[])
     def test_physical_entry_original_roles_free_actions_and_return_to_same_park(self):
         for role in ['jc','gabi']:
             game,frame,values=self.open_park(role);before=self.progress();artist=self.enter_concert(game,frame)
